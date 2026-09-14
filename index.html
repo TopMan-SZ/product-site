@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品方案中心</title>
+<style>
+:root{
+  --bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--border:#30363d;
+  --text:#e6edf3;--muted:#8b949e;--cool:#58a6ff;--cool-bg:rgba(88,166,255,.14);
+  --warm:#ff7a3d;--warm-bg:rgba(255,122,61,.14);--ok:#3fb950;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px}
+.app{display:grid;grid-template-columns:300px 1fr;height:100vh;overflow:hidden}
+/* sidebar */
+.side{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.brand{padding:22px 20px 18px;border-bottom:1px solid var(--border)}
+.brand h1{font-size:17px;font-weight:600;display:flex;align-items:center;gap:9px}
+.brand h1 .dot{width:9px;height:9px;border-radius:50%;background:var(--warm);box-shadow:0 0 10px var(--warm)}
+.brand p{color:var(--muted);font-size:12px;margin-top:6px}
+.nav{padding:12px;flex:1}
+.nav .cap{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;padding:8px 8px 6px}
+.item{display:flex;gap:11px;align-items:flex-start;padding:11px 12px;border-radius:9px;cursor:pointer;
+  border:1px solid transparent;transition:background .12s,border-color .12s;margin-bottom:5px}
+.item:hover{background:var(--panel2)}
+.item.active{background:var(--cool-bg);border-color:rgba(88,166,255,.35)}
+.item.active .ic{color:var(--cool)}
+.item .ic{width:20px;height:20px;flex:0 0 20px;color:var(--muted);margin-top:1px}
+.item .txt{flex:1;min-width:0}
+.item .t{font-size:13.5px;font-weight:550;line-height:1.35}
+.item .d{font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:3px}
+.item .tag{font-size:10px;padding:1px 6px;border-radius:20px;margin-top:5px;display:inline-block}
+.tag.cool{background:var(--cool-bg);color:var(--cool)}
+.tag.warm{background:var(--warm-bg);color:var(--warm)}
+.lockfoot{padding:12px 16px;border-top:1px solid var(--border)}
+.lockfoot button{background:none;border:1px solid var(--border);color:var(--muted);width:100%;
+  padding:8px;border-radius:8px;cursor:pointer;font-size:12px}
+.lockfoot button:hover{color:var(--text);border-color:var(--muted)}
+/* main */
+.main{display:flex;flex-direction:column;background:var(--bg)}
+.topbar{display:flex;align-items:center;gap:12px;padding:0 18px;height:52px;border-bottom:1px solid var(--border);flex:0 0 auto}
+.topbar .cur{font-size:14px;font-weight:600}
+.topbar .ext{margin-left:auto}
+.topbar a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);text-decoration:none}
+.topbar a:hover{color:var(--text)}
+.frame{flex:1;border:none;width:100%;background:#fff}
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);gap:14px}
+.empty svg{width:46px;height:46px;opacity:.4}
+.empty .k{font-size:13px}
+@media(max-width:760px){.app{grid-template-columns:1fr}.side{position:fixed;left:0;top:0;bottom:0;z-index:20;transform:translateX(-100%);transition:transform .2s;width:280px}
+body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
+.menu{display:none;width:34px;height:34px;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--muted)}
+.menu svg{width:18px;height:18px}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <h1><span class="dot"></span>产品方案中心</h1>
+      <p>Product &amp; Research Hub</p>
+    </div>
+    <nav class="nav">
+      <div class="cap">产品方案 · 5</div>
+      <div class="item" data-slug="satisfaction">
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg></span>
+  <div class="txt"><div class="t">满意度调查系统重构方案</div>
+  <div class="d">HIS 联动 · 微信模板消息/短信兜底 · 二级医院联动 的重构原型与文档</div>
+  <span class="tag warm">HTML</span></div>
+</div><div class="item" data-slug="pet-medical">
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="11" width="3" height="6"/><rect x="11" y="7" width="3" height="10"/><rect x="16" y="4" width="3" height="13"/></svg></span>
+  <div class="txt"><div class="t">宠物医疗行业调研报告</div>
+  <div class="d">宠物经济 7013 亿、医疗占 28% 的深度数据调研（图表可交互）</div>
+  <span class="tag cool">HTML</span></div>
+</div><div class="item" data-slug="good-review">
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="14" x2="15" y2="14"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
+  <div class="txt"><div class="t">好评生成系统产品方案</div>
+  <div class="d">好评生成流程 · 需求与技术方案聚合文档</div>
+  <span class="tag warm">MARKDOWN</span></div>
+</div><div class="item" data-slug="rui-chen-ui">
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18 2 2 0 0 0 2-2 2 2 0 0 1 2-2h1a4 4 0 0 0 4-4 8 8 0 0 0-9-10z"/><circle cx="8" cy="12" r="1"/><circle cx="12" cy="8" r="1"/><circle cx="16" cy="12" r="1"/></svg></span>
+  <div class="txt"><div class="t">瑞辰宠物医院小程序 · UI 设计规范</div>
+  <div class="d">主色 #FF7A3D 扁平大圆角暖风 · 设计 token 全表</div>
+  <span class="tag warm">HTML</span></div>
+</div><div class="item" data-slug="survey-ui">
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg></span>
+  <div class="txt"><div class="t">问卷调查 UI 设计</div>
+  <div class="d">移动端问卷填写界面（Ardot 原生设计）</div>
+  <span class="tag cool">HTML</span></div>
+</div>
+    </nav>
+    <div class="lockfoot"><button id="ov-lock" style="display:none">锁定并关闭当前访问</button></div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="menu" id="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+      <span class="cur" id="curtitle">请选择方案</span>
+      <span class="ext"><a href="satisfaction/" target="_blank">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        新窗口打开</a></span>
+    </div>
+    <div class="empty" id="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="14" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+      <div class="k">从左侧选择一个方案开始查看</div>
+    </div>
+    <iframe class="frame" id="frame" src="about:blank" style="display:none"></iframe>
+  </main>
+</div>
+<script>
+(function(){
+  const KEY="ov_unlocked";
+  const frame=document.getElementById("frame");
+  const empty=document.getElementById("empty");
+  const cur=document.getElementById("curtitle");
+  const ext=document.querySelector(".topbar .ext a");
+  const lock=document.getElementById("ov-lock");
+  document.getElementById("menu").onclick=()=>document.body.classList.toggle("navopen");
+
+  function open(slug){
+    document.querySelectorAll(".item").forEach(el=>el.classList.toggle("active",el.dataset.slug===slug));
+    frame.src=slug+"/";
+    frame.style.display="block";empty.style.display="none";
+    cur.textContent=document.querySelector('.item[data-slug="'+slug+'"] .t').textContent;
+    ext.href=slug+"/";
+    document.body.classList.remove("navopen");
+  }
+  document.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>open(el.dataset.slug)));
+  document.addEventListener("keydown",e=>{
+    const items=[...document.querySelectorAll(".item")];
+    const i=items.findIndex(x=>x.classList.contains("active"));
+    if(e.key==="ArrowDown"||e.key==="ArrowRight"){items[Math.min(i+1,items.length-1)].click();}
+    if(e.key==="ArrowUp"||e.key==="ArrowLeft"){items[Math.max(i-1,0)].click();}
+  });
+
+  if(sessionStorage.getItem(KEY)){
+    lock.style.display="block";
+    open("satisfaction/");
+  } else {
+    lock.style.display="none";
+    // 未解锁时, 由门禁覆盖层接管; 这里保持空态
+  }
+  lock.onclick=function(){sessionStorage.removeItem(KEY);location.href="satisfaction/";location.reload();};
+  // 若 sessionStorage 已解锁, 直接打开第一个方案; 否则等门禁解锁后由全局再触发
+  if(sessionStorage.getItem(KEY)) open("satisfaction/");
+})();
+
+<!-- ============ OpenGate 访问门禁 (自动注入, 请勿手改) ============ -->
+<div id="ov-gate" style="position:fixed;inset:0;z-index:2147483647;background:
+  radial-gradient(1200px 600px at 20% 0%, #1e2a44, #0d1117 60%);display:flex;
+  align-items:center;justify-content:center;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;">
+  <div style="width:340px;max-width:88vw;background:#161b22;border:1px solid #30363d;
+    border-radius:14px;padding:28px 26px;color:#e6edf3;box-shadow:0 18px 60px rgba(0,0,0,.55)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span id="ov-title" style="font-size:16px;font-weight:600">访问保护</span>
+    </div>
+    <p style="font-size:13px;color:#8b949e;margin:0 0 18px">此内容受密码保护, 请输入访问密码后查看。</p>
+    <form id="ov-gate-form">
+      <input type="password" id="ov-pw" placeholder="访问密码" autocomplete="off"
+        style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #30363d;
+        background:#0d1117;color:#e6edf3;border-radius:8px;font-size:14px;outline:none">
+      <div id="ov-err" style="display:none;color:#f85149;font-size:12px;margin-top:8px">密码不正确, 请重试</div>
+      <button type="submit" id="ov-submit" style="margin-top:12px;width:100%;padding:10px;
+        background:#238636;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">
+        进 入</button>
+    </form>
+    <div id="ov-lockrow" style="display:none;margin-top:14px;text-align:center">
+      <button id="ov-lock" style="background:none;border:none;color:#8b949e;font-size:12px;cursor:pointer">
+        锁定并关闭当前访问
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const GATE = {"salt": "5c2a18eb59d64eed9641f62a5009060d", "iterations": 250000, "hash": "257737748e7e33edac96b45fcc15e733e4bd410ef79ef5351c6e6804e7fb1a37", "algo": "pbkdf2-sha256"};
+  const TITLE = "产品方案中心";
+  const KEY = "ov_unlocked";
+  const gate = document.getElementById("ov-gate");
+  document.getElementById("ov-title").textContent = TITLE + " · 访问保护";
+  function hexToBytes(h){const b=new Uint8Array(h.length/2);for(let i=0;i<b.length;i++)b[i]=parseInt(h.substr(i*2,2),16);return b;}
+  function bufToHex(b){return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+  function showUnlocked(){gate.style.display="none";const lr=document.getElementById("ov-lockrow");if(lr)lr.style.display="block";}
+  async function check(pw){
+    const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2");
+    const out=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(GATE.salt),iterations:GATE.iterations},key,32);
+    return bufToHex(out)===GATE.hash;
+  }
+  if(sessionStorage.getItem(KEY)){showUnlocked();return;}
+  document.getElementById("ov-gate-form").addEventListener("submit",async e=>{
+    e.preventDefault();
+    const pw=document.getElementById("ov-pw").value;
+    const btn=document.getElementById("ov-submit");btn.disabled=true;btn.textContent="验证中…";
+    const ok=await check(pw);
+    if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();}
+    else{btn.disabled=false;btn.textContent="进 入";document.getElementById("ov-err").style.display="block";document.getElementById("ov-pw").select();}
+  });
+  const lb=document.getElementById("ov-lock");
+  if(lb)lb.onclick=function(){sessionStorage.removeItem(KEY);location.href="/";location.reload();};
+})();
+</script>
+<!-- ============ /OpenGate ============ -->
+
+</script>
+</body></html>

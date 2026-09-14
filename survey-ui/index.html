@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户满意度调查问卷</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F7F8FC 0%, #E8EAF6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .survey-container {
+            width: 100%;
+            max-width: 720px;
+            background: #FFFFFF;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .survey-header {
+            padding: 48px 48px 32px;
+            border-bottom: 1px solid #F3F4F6;
+        }
+        
+        .survey-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1A1A2E;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        
+        .survey-desc {
+            font-size: 14px;
+            color: #6B7280;
+            line-height: 1.6;
+        }
+        
+        .progress-section {
+            padding: 24px 48px;
+            background: #FAFBFC;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .progress-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #6B7280;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            color: #9CA3AF;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #E5E7EB;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366F1 0%, #8B5CF6 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .survey-body {
+            padding: 48px;
+        }
+        
+        .question-block {
+            margin-bottom: 40px;
+        }
+        
+        .question-block:last-of-type {
+            margin-bottom: 0;
+        }
+        
+        .question-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1A1A2E;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .question-required {
+            color: #EF4444;
+            margin-left: 4px;
+        }
+        
+        /* Rating Scale */
+        .rating-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: #F9FAFB;
+            border-radius: 16px;
+            border: 1px solid #F3F4F6;
+        }
+        
+        .rating-scale {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .rating-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .rating-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 2px solid #E5E7EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #6B7280;
+            transition: all 0.2s ease;
+        }
+        
+        .rating-item:hover .rating-circle,
+        .rating-item.active .rating-circle {
+            background: #6366F1;
+            border-color: #6366F1;
+            color: #FFFFFF;
+            transform: scale(1.1);
+        }
+        
+        .rating-label {
+            font-size: 12px;
+            color: #9CA3AF;
+            font-weight: 500;
+        }
+        
+        /* Radio Options */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .radio-option:hover {
+            border-color: #6366F1;
+            background: #F5F3FF;
+        }
+        
+        .radio-option.selected {
+            border-color: #6366F1;
+            background: #F5F3FF;
+        }
+        
+        .radio-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #D1D5DB;
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .radio-option.selected .radio-circle {
+            border-color: #6366F1;
+        }
+        
+        .radio-circle::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #6366F1;
+            transform: scale(0);
+            transition: transform 0.2s ease;
+        }
+        
+        .radio-option.selected .radio-circle::after {
+            transform: scale(1);
+        }
+        
+        .radio-text {
+            font-size: 14px;
+            color: #374151;
+            font-weight: 400;
+        }
+        
+        /* Checkbox Options */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .checkbox-option {
+            padding: 16px;
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .checkbox-option:hover {
+            border-color: #6366F1;
+            background: #F5F3FF;
+        }
+        
+        .checkbox-option.selected {
+            border-color: #6366F1;
+            background: #EEF2FF;
+            color: #6366F1;
+            font-weight: 500;
+        }
+        
+        /* Text Input */
+        .text-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #374151;
+            background: #F9FAFB;
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #6366F1;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .text-input::placeholder {
+            color: #9CA3AF;
+        }
+        
+        /* Navigation */
+        .survey-footer {
+            padding: 32px 48px;
+            background: #FAFBFC;
+            border-top: 1px solid #F3F4F6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        
+        .btn-prev {
+            background: #FFFFFF;
+            color: #6B7280;
+            border: 1px solid #D1D5DB;
+        }
+        
+        .btn-prev:hover {
+            background: #F9FAFB;
+            border-color: #9CA3AF;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
+        
+        /* Section divider */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, #E5E7EB 50%, transparent 100%);
+            margin: 40px 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 640px) {
+            .survey-header,
+            .survey-body,
+            .survey-footer,
+            .progress-section {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+            
+            .checkbox-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .rating-scale {
+                gap: 8px;
+            }
+            
+            .rating-circle {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="survey-container">
+        <!-- Header -->
+        <div class="survey-header">
+            <h1 class="survey-title">用户满意度调查问卷</h1>
+            <p class="survey-desc">感谢您参与本次调查，您的反馈对我们非常重要。本问卷约需3-5分钟完成。</p>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <span class="progress-label">问卷进度</span>
+                <span class="progress-text">1 / 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 20%;"></div>
+            </div>
+        </div>
+        
+        <!-- Questions -->
+        <div class="survey-body">
+            <!-- Question 1: Rating Scale -->
+            <div class="question-block">
+                <label class="question-label">
+                    Q1. 您对整体服务满意度如何？<span class="question-required">*</span>
+                </label>
+                <div class="rating-container">
+                    <div class="rating-scale">
+                        <div class="rating-item">
+                            <div class="rating-circle">1</div>
+                            <span class="rating-label">非常不满意</span>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-circle">2</div>
+                            <span class="rating-label">不满意</span>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-circle">3</div>
+                            <span class="rating-label">一般</span>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-circle">4</div>
+                            <span class="rating-label">满意</span>
+                        </div>
+                        <div class="rating-item active">
+                            <div class="rating-circle">5</div>
+                            <span class="rating-label">非常满意</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <!-- Question 2: Radio -->
+            <div class="question-block">
+                <label class="question-label">
+                    Q2. 您通常会通过什么渠道了解我们的产品？<span class="question-required">*</span>
+                </label>
+                <div class="radio-group">
+                    <div class="radio-option selected">
+                        <div class="radio-circle"></div>
+                        <span class="radio-text">社交媒体（微信、微博、抖音等）</span>
+                    </div>
+                    <div class="radio-option">
+                        <div class="radio-circle"></div>
+                        <span class="radio-text">朋友或同事推荐</span>
+                    </div>
+                    <div class="radio-option">
+                        <div class="radio-circle"></div>
+                        <span class="radio-text">搜索引擎（百度、谷歌等）</span>
+                    </div>
+                    <div class="radio-option">
+                        <div class="radio-circle"></div>
+                        <span class="radio-text">官方网站或应用商店</span>
+                    </div>
+                    <div class="radio-option">
+                        <div class="radio-circle"></div>
+                        <span class="radio-text">其他渠道</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <!-- Question 3: Checkbox -->
+            <div class="question-block">
+                <label class="question-label">
+                    Q3. 您对产品的哪些方面最满意？<span style="color: #9CA3AF; font-weight: 400;">（可多选）</span>
+                </label>
+                <div class="checkbox-grid">
+                    <div class="checkbox-option selected">产品质量</div>
+                    <div class="checkbox-option selected">服务态度</div>
+                    <div class="checkbox-option">价格性价比</div>
+                    <div class="checkbox-option">功能丰富度</div>
+                    <div class="checkbox-option">界面美观</div>
+                    <div class="checkbox-option">性能稳定</div>
+                </div>
+            </div>
+            
+            <div class="section-divider"></div>
+            
+            <!-- Question 4: Text Input -->
+            <div class="question-block">
+                <label class="question-label">
+                    Q4. 您对我们有哪些改进建议？<span style="color: #9CA3AF; font-weight: 400;">（选填）</span>
+                </label>
+                <textarea class="text-input" placeholder="请输入您的宝贵建议..."></textarea>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="survey-footer">
+            <button class="btn btn-prev">上一步</button>
+            <button class="btn btn-next">下一步</button>
+        </div>
+    </div>
+    
+    <script>
+        // Rating interaction
+        document.querySelectorAll('.rating-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.rating-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Radio interaction
+        document.querySelectorAll('.radio-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        
+        // Checkbox interaction
+        document.querySelectorAll('.checkbox-option').forEach(option => {
+            option.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
+        });
+        
+        // Button interactions
+        document.querySelector('.btn-prev').addEventListener('click', function() {
+            alert('返回上一页');
+        });
+        
+        document.querySelector('.btn-next').addEventListener('click', function() {
+            alert('进入下一题');
+        });
+    </script>
+
+<!-- ============ OpenGate 访问门禁 (自动注入, 请勿手改) ============ -->
+<div id="ov-gate" style="position:fixed;inset:0;z-index:2147483647;background:
+  radial-gradient(1200px 600px at 20% 0%, #1e2a44, #0d1117 60%);display:flex;
+  align-items:center;justify-content:center;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;">
+  <div style="width:340px;max-width:88vw;background:#161b22;border:1px solid #30363d;
+    border-radius:14px;padding:28px 26px;color:#e6edf3;box-shadow:0 18px 60px rgba(0,0,0,.55)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span id="ov-title" style="font-size:16px;font-weight:600">访问保护</span>
+    </div>
+    <p style="font-size:13px;color:#8b949e;margin:0 0 18px">此内容受密码保护, 请输入访问密码后查看。</p>
+    <form id="ov-gate-form">
+      <input type="password" id="ov-pw" placeholder="访问密码" autocomplete="off"
+        style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #30363d;
+        background:#0d1117;color:#e6edf3;border-radius:8px;font-size:14px;outline:none">
+      <div id="ov-err" style="display:none;color:#f85149;font-size:12px;margin-top:8px">密码不正确, 请重试</div>
+      <button type="submit" id="ov-submit" style="margin-top:12px;width:100%;padding:10px;
+        background:#238636;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">
+        进 入</button>
+    </form>
+    <div id="ov-lockrow" style="display:none;margin-top:14px;text-align:center">
+      <button id="ov-lock" style="background:none;border:none;color:#8b949e;font-size:12px;cursor:pointer">
+        锁定并关闭当前访问
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const GATE = {"salt": "5c2a18eb59d64eed9641f62a5009060d", "iterations": 250000, "hash": "257737748e7e33edac96b45fcc15e733e4bd410ef79ef5351c6e6804e7fb1a37", "algo": "pbkdf2-sha256"};
+  const TITLE = "问卷调查 UI 设计";
+  const KEY = "ov_unlocked";
+  const gate = document.getElementById("ov-gate");
+  document.getElementById("ov-title").textContent = TITLE + " · 访问保护";
+  function hexToBytes(h){const b=new Uint8Array(h.length/2);for(let i=0;i<b.length;i++)b[i]=parseInt(h.substr(i*2,2),16);return b;}
+  function bufToHex(b){return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+  function showUnlocked(){gate.style.display="none";const lr=document.getElementById("ov-lockrow");if(lr)lr.style.display="block";}
+  async function check(pw){
+    const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2");
+    const out=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(GATE.salt),iterations:GATE.iterations},key,32);
+    return bufToHex(out)===GATE.hash;
+  }
+  if(sessionStorage.getItem(KEY)){showUnlocked();return;}
+  document.getElementById("ov-gate-form").addEventListener("submit",async e=>{
+    e.preventDefault();
+    const pw=document.getElementById("ov-pw").value;
+    const btn=document.getElementById("ov-submit");btn.disabled=true;btn.textContent="验证中…";
+    const ok=await check(pw);
+    if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();}
+    else{btn.disabled=false;btn.textContent="进 入";document.getElementById("ov-err").style.display="block";document.getElementById("ov-pw").select();}
+  });
+  const lb=document.getElementById("ov-lock");
+  if(lb)lb.onclick=function(){sessionStorage.removeItem(KEY);location.href="/";location.reload();};
+})();
+</script>
+<!-- ============ /OpenGate ============ -->
+
+</body>
+</html>

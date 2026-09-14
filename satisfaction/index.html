@@ -1,0 +1,2646 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>满意度调查系统 - 产品原型</title>
+<style>
+:root {
+  --bg: #f4f5f7; --card: #fff; --border: #eceff3; --text: #1f2329; --muted: #6b7280;
+  --accent: #FF7A3D; --accent-light: #FFF0E8; --accent-soft: #FFE3D2;
+  --shadow: 0 1px 2px rgba(31,35,41,.03), 0 2px 8px rgba(31,35,41,.06);
+  --shadow-lg: 0 6px 24px rgba(31,35,41,.10);
+  --purple: #7c5cff; --purple-light: #f1ecff;
+  --green: #16a34a; --green-light: #e6f7ec;
+  --orange: #FF7A3D; --orange-light: #FFF0E8;
+  --red: #f04438; --red-light: #ffeceb;
+  --blue: #2b6fff; --blue-light: #e9f0ff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, "PingFang SC", sans-serif; font-size: 14px; line-height: 1.6; }
+.container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+/* 文档排版 */
+.doc { font-size: 14px; line-height: 1.8; }
+.doc h2 { font-size: 18px; margin: 24px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+.doc[contenteditable="true"] { outline: 2px dashed var(--accent); outline-offset: 4px; }
+.doc[contenteditable="true"]:focus { outline-color: var(--purple); }
+.doc-toolbar { display: none; }
+/* 全局编辑工具栏 */
+.edit-toolbar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 99999;
+  background: #1f2937; color: #fff; border-radius: 10px; padding: 10px 16px; display: flex; gap: 10px; align-items: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.edit-toolbar button { padding: 6px 14px; border-radius: 6px; border: 1px solid #4b5563; background: #374151; color: #fff; cursor: pointer; font-size: 13px; }
+.edit-toolbar button.on { background: var(--accent); border-color: var(--accent); }
+.edit-toolbar button.primary { background: var(--accent); border-color: var(--accent); }
+.edit-toolbar button.primary:hover { background: #2563eb; }
+.edit-toolbar .tb-hint { font-size: 12px; color: #9ca3af; max-width: 320px; }
+[contenteditable="true"].editing-outline { outline: 2px dashed var(--accent); outline-offset: 4px; }
+.doc h3 { font-size: 15px; margin: 16px 0 8px; color: var(--accent); }
+.doc p { margin: 6px 0; }
+.doc ul, .doc ol { margin: 6px 0 6px 20px; }
+.doc table { font-size: 13px; margin: 10px 0; }
+.doc th { background: #f1f5f9; }
+.flow { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 12px 0; }
+.flow .node { border: 1px solid var(--accent); background: var(--accent-light); color: #1d4ed8; padding: 6px 14px; border-radius: 16px; font-size: 13px; white-space: nowrap; }
+.flow .node.decision { border-color: var(--orange); background: var(--orange-light); color: #92400e; border-radius: 6px; }
+.flow .node.action { border-color: var(--green); background: var(--green-light); color: #065f46; }
+.flow .arrow { color: var(--muted); font-size: 14px; }
+.flow .branch { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+.tip { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; padding: 10px 14px; font-size: 13px; margin: 10px 0; }
+.tip b { color: #92400e; }
+.tip.blue { background: var(--accent-light); border-color: #93c5fd; }
+.tip.blue b { color: #1e40af; }
+
+/* 导航 */
+.nav { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+.nav-btn { padding: 8px 16px; border: 1px solid var(--border); background: var(--card); border-radius: 6px; cursor: pointer; font-size: 13px; }
+.nav-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+.nav-btn:hover:not(.active) { background: var(--bg); }
+
+/* 子导航 */
+.sub-nav { display: flex; gap: 8px; margin-bottom: 16px; }
+.sub-nav-btn { padding: 6px 12px; border: 1px solid var(--border); background: var(--card); border-radius: 4px; cursor: pointer; font-size: 12px; }
+.sub-nav-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* 模块容器 */
+.module { display: none; }
+.module.active { display: block; }
+
+/* 通用样式 */
+.section { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+.section-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.btn { padding: 6px 12px; border: 1px solid var(--border); background: var(--card); border-radius: 6px; cursor: pointer; font-size: 13px; }
+.btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+.btn-primary:hover { background: #2563eb; }
+.btn-sm { padding: 4px 8px; font-size: 12px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+.badge-purple { background: var(--purple-light); color: var(--purple); }
+.badge-blue { background: var(--accent-light); color: var(--accent); }
+.badge-orange { background: var(--orange-light); color: var(--orange); }
+.badge-green { background: var(--green-light); color: var(--green); }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* 表格 */
+table { width: 100%; border-collapse: collapse; }
+th { background: var(--bg); padding: 10px 12px; text-align: left; font-size: 12px; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--border); }
+td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
+tr:last-child td { border-bottom: none; }
+
+/* 筛选栏 */
+.filter-bar { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+.filter-item { display: flex; align-items: center; gap: 6px; }
+.filter-item label { font-size: 13px; color: var(--muted); }
+.filter-item select, .filter-item input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; }
+
+/* 弹窗 - 使用最高层级 */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 99999; align-items: center; justify-content: center; }
+.modal-overlay.show { display: flex; }
+.modal { background: var(--card); border-radius: 12px; width: 90%; max-width: 600px; max-height: 90vh; overflow: auto; position: relative; z-index: 100000; }
+.modal.wide { max-width: 900px; }
+.modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.modal-title { font-size: 16px; font-weight: 600; }
+.modal-body { padding: 20px; }
+.modal-footer { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--muted); }
+.form-input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; }
+.form-input:focus { outline: none; border-color: var(--accent); }
+
+/* 树形选择 */
+.tree-select { border: 1px solid var(--border); border-radius: 6px; padding: 8px; max-height: 200px; overflow-y: auto; }
+.tree-item { padding: 6px 8px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.tree-item:hover { background: var(--bg); }
+.tree-item.selected { background: var(--accent-light); }
+.tree-children { margin-left: 20px; }
+/* 二维码医院选择：品牌分组 + 医院单选（品牌节点不可选） */
+.hospital-group { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.hospital-group + .hospital-group { margin-top: 10px; }
+.hospital-brand { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg); font-size: 13px; font-weight: 600; color: var(--muted); }
+.hospital-brand .badge { font-weight: 400; }
+.hospital-item { display: flex; align-items: center; gap: 8px; padding: 9px 12px 9px 24px; font-size: 13px; cursor: pointer; border-top: 1px solid var(--border); }
+.hospital-item:hover { background: var(--bg); }
+.hospital-item input { accent-color: var(--orange); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
+.hospital-item.selected { background: var(--accent-light); color: var(--text); }
+.hospital-hint { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
+/* 统计卡片（调查明细-统计层） */
+.stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 14px 0 18px; }
+.stat-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; background: var(--card); }
+.stat-card .sc-label { font-size: 12px; color: var(--muted); }
+.stat-card .sc-value { font-size: 22px; font-weight: 700; margin-top: 4px; }
+.stat-card .sc-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.dist-cell { font-size: 11px; color: var(--muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.dist-cell b { color: var(--text); font-weight: 500; }
+/* 医院管理列表（对齐现有后台：头像+双行名称、"..."下拉） */
+.hosp-avatar { width: 40px; height: 40px; border-radius: 50%; background: #fff5f0; color: var(--orange); border: 1px solid #ffd9c7; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; flex-shrink: 0; }
+.hosp-name-cell { display: flex; align-items: center; gap: 10px; }
+.hosp-name-cell .hn-main { font-weight: 500; }
+.hosp-name-cell .hn-alias { font-size: 12px; color: var(--muted); }
+.hosp-contact { font-size: 12px; color: var(--muted); }
+.row-more { position: relative; display: inline-block; cursor: pointer; color: var(--orange); padding: 0 4px; font-size: 13px; }
+.row-menu { display: none; position: absolute; right: 0; top: 24px; z-index: 999; background: #fff; border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,.12); min-width: 130px; padding: 6px 0; }
+.row-more:hover .row-menu { display: block; }
+.row-menu a { display: block; padding: 7px 14px; font-size: 13px; color: var(--text); text-decoration: none; }
+.row-menu a:hover { background: var(--bg); color: var(--orange); }
+.row-menu a.danger:hover { color: var(--red); }
+
+/* ============================================================
+   B端 视觉升级（Vben5 + Ant Design Vue4 质感，类名不变）
+   卡片投影 / AntD 表格 / 标签页导航 / 主按钮 / 统计卡片
+   ============================================================ */
+/* 卡片（AntD Card：细边框 + 柔和投影） */
+.section { box-shadow: var(--shadow); }
+/* 一级导航：AntD Tabs 卡签形态 */
+.nav { border-bottom: 1px solid var(--border); padding-bottom: 0; gap: 2px; }
+.nav-btn { border: none; border-bottom: 2.5px solid transparent; border-radius: 6px 6px 0 0; background: transparent; color: var(--muted); padding: 9px 16px; font-weight: 500; }
+.nav-btn:hover:not(.active) { background: var(--bg); color: var(--text); }
+.nav-btn.active { background: var(--accent-light); color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; }
+/* 二级子导航：AntD Radio.Button 组 */
+.sub-nav { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 4px; width: fit-content; }
+.sub-nav-btn { border: none; background: transparent; color: var(--muted); border-radius: 6px; padding: 6px 14px; font-weight: 500; }
+.sub-nav-btn.active { background: #fff; color: var(--accent); font-weight: 700; box-shadow: var(--shadow); }
+/* 按钮（AntD Button：主色实心 + 描边默认态） */
+.btn { border: 1px solid #d9d9d9; background: #fff; border-radius: 6px; font-weight: 500; transition: all .15s; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: 0 2px 6px rgba(255,122,61,.35); }
+.btn-primary:hover { background: #f76a2b; border-color: #f76a2b; }
+/* 表格（AntD Table：浅灰表头、行 hover、加高行距） */
+table { border-radius: 8px; overflow: hidden; }
+th { background: #fafafa; color: #8a919e; font-weight: 600; letter-spacing: .3px; padding: 12px 14px; }
+td { padding: 13px 14px; border-bottom: 1px solid #f3f4f6; }
+tbody tr { transition: background .15s; }
+tbody tr:hover td { background: #fafbfc; }
+/* 统计卡片（Vben 数据卡：图标色块 + 投影） */
+.stat-card { box-shadow: var(--shadow); border-radius: 12px; }
+.stat-card .sc-value { color: var(--accent); }
+/* 标签（AntD Tag：圆角 4 + 浅底深字） */
+.badge { border-radius: 4px; padding: 2px 10px; }
+/* 筛选控件（AntD Input/Select：聚焦描边变主色） */
+.filter-item select, .filter-item input { border: 1px solid #d9d9d9; border-radius: 6px; transition: border-color .15s; }
+.filter-item select:focus, .filter-item input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 2px rgba(255,122,61,.15); }
+/* 弹窗（AntD Modal：12 圆角 + 大投影 + 固定 footer） */
+.modal { border-radius: 12px; box-shadow: var(--shadow-lg); }
+.modal-overlay { background: rgba(15,19,26,.45); }
+/* 内容区顶部面包屑位（Vben 布局感） */
+.container { max-width: 1400px; }
+.doc-toolbar { display: none; }
+/* 自动下发消息形态（微信模板消息 / 短信） */
+.msg-row { display: flex; gap: 20px; flex-wrap: wrap; margin: 14px 0; }
+.msg-col { width: 340px; flex-shrink: 0; }
+.wx-card { border: 1px solid var(--border); border-radius: 12px; background: #fff; overflow: hidden; }
+.wx-card .wx-top { background: #f7f8fa; padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
+.wx-card .wx-ava { width: 34px; height: 34px; border-radius: 6px; background: var(--orange); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; }
+.wx-card .wx-name { font-size: 13px; font-weight: 600; }
+.wx-card .wx-tag { font-size: 11px; color: var(--muted); }
+.wx-card .wx-body { padding: 12px 14px; font-size: 12px; color: var(--muted); line-height: 2.1; }
+.wx-card .wx-field { display: flex; gap: 8px; }
+.wx-card .wx-field b { color: var(--text); font-weight: 500; }
+.wx-card .wx-btn { display: block; text-align: center; background: var(--orange); color: #fff; font-size: 12px; padding: 8px 0; margin-top: 10px; }
+.sms-card { border: 1px solid var(--border); border-radius: 12px; background: #f5f6fa; padding: 14px; font-size: 12px; line-height: 2; }
+
+/* 问题卡片 */
+.question-card { border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+.question-info { flex: 1; }
+.question-text { font-weight: 500; margin-bottom: 4px; }
+/* 必填开关（问题配置 / 添加问题） */
+.q-req-toggle { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); cursor: pointer; user-select: none; margin-top: 6px; }
+.q-req-toggle input { accent-color: var(--orange); width: 14px; height: 14px; cursor: pointer; }
+.question-meta { font-size: 12px; color: var(--muted); }
+
+/* 依赖配置 */
+.dependency-list { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.dependency-item { padding: 12px; border-bottom: 1px solid var(--border); }
+.dependency-item:last-child { border-bottom: none; }
+
+/* 宠主端手机 mockup（V2 精致版） */
+.phone-row { display: flex; gap: 28px; flex-wrap: wrap; margin: 16px 0; }
+.phone-col { width: 300px; flex-shrink: 0; }
+.phone-label { font-size: 13px; color: var(--text); margin: 0 0 8px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.phone-label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); display: inline-block; }
+.phone-cap { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+.phone { width: 100%; border: 10px solid #111827; border-radius: 36px; overflow: hidden; background: #f9fafb; box-shadow: 0 12px 32px rgba(17,24,39,.18); }
+.phone-screen { position: relative; }
+.phone-statusbar { display: flex; justify-content: space-between; align-items: center; padding: 6px 18px 4px; font-size: 10px; color: #fff; position: relative; z-index: 2; }
+.phone-statusbar.dark { color: #1f2937; }
+.phone-hero { background: linear-gradient(160deg, #fb923c 0%, #f97316 55%, #ea580c 100%); padding: 4px 16px 22px; color: #fff; position: relative; overflow: hidden; }
+.phone-hero .h-img { position: absolute; right: -8px; top: 6px; width: 108px; opacity: .92; }
+.phone-hero .h-badge { display: inline-block; font-size: 10px; background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.4); border-radius: 99px; padding: 2px 10px; margin-bottom: 8px; letter-spacing: .5px; }
+.phone-hero .h-title { font-size: 16px; font-weight: 700; position: relative; z-index: 1; }
+.phone-hero .h-sub { font-size: 11px; opacity: .92; margin-top: 5px; line-height: 1.55; max-width: 200px; position: relative; z-index: 1; }
+.phone-progress { background: #fff; padding: 10px 16px 8px; }
+.phone-progress .pp-text { font-size: 10px; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 5px; }
+.phone-progress .pp-bar { height: 5px; background: #f3f4f6; border-radius: 3px; overflow: hidden; }
+.phone-progress .pp-fill { height: 100%; width: 35%; background: linear-gradient(90deg, #fb923c, #f97316); border-radius: 3px; }
+.phone-body { padding: 12px 14px 16px; background: #f9fafb; }
+.phone-card { background: #fff; border: 1px solid #f3f4f6; border-radius: 14px; padding: 13px 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(17,24,39,.05); }
+.phone-q { margin-bottom: 4px; }
+.phone-q .q-text { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 9px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.phone-q .q-tag { font-size: 9px; color: var(--orange); border: 1px solid #fdba74; background: #fff7ed; border-radius: 4px; padding: 1px 5px; font-weight: 500; }
+.phone-q .q-req { font-size: 10px; color: var(--red); }
+.radio-opt, .check-opt { display: flex; align-items: center; gap: 9px; font-size: 12px; padding: 9px 12px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 7px; color: #374151; background: #fff; position: relative; }
+.radio-opt:last-child, .check-opt:last-child { margin-bottom: 0; }
+.radio-opt::before { content: "○"; color: #d1d5db; font-size: 14px; }
+.radio-opt.on { border-color: var(--orange); background: #fff7ed; }
+.radio-opt.on::before { content: "●"; color: var(--orange); }
+.check-opt::before { content: "☐"; color: #d1d5db; font-size: 14px; }
+.check-opt.on { border-color: var(--orange); background: #fff7ed; }
+.check-opt.on::before { content: "☑"; color: var(--orange); }
+.star-row { display: flex; align-items: center; gap: 8px; }
+.star-row .stars { display: flex; gap: 4px; font-size: 24px; color: #e5e7eb; line-height: 1; }
+.star-row .stars .on { color: #f59e0b; }
+.star-row .s-label { font-size: 11px; color: #f59e0b; font-weight: 600; }
+.phone-input { width: 100%; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px 12px; font-size: 12px; color: var(--muted); background: #fff; }
+.phone-skip { text-align: center; font-size: 10px; color: #9ca3af; padding: 12px; border: 1px dashed #d1d5db; border-radius: 10px; margin-bottom: 12px; background: #fff; line-height: 1.6; }
+.phone-skip b { color: var(--orange); font-weight: 600; }
+.phone-btn { display: block; width: 100%; text-align: center; margin-top: 14px; padding: 12px; background: linear-gradient(135deg, #fb923c, #f97316); color: #fff; border-radius: 24px; font-size: 14px; font-weight: 700; box-shadow: 0 4px 12px rgba(249,115,22,.3); border: none; }
+.phone-btn.ghost { background: #fff; color: var(--orange); border: 1.5px solid var(--orange); box-shadow: none; }
+.phone-home { height: 5px; background: #111827; border-radius: 3px; width: 34%; margin: 8px auto 0; opacity: .8; }
+/* 成功页 */
+.phone-done { background: linear-gradient(180deg, #fff 0%, #fff7ed 100%); min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px 20px; }
+.phone-done .done-img { width: 150px; margin-bottom: 14px; }
+.phone-done .s-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.phone-done .s-sub { font-size: 11px; color: var(--muted); margin-bottom: 20px; line-height: 1.7; max-width: 220px; }
+/* 异常态 */
+.phone-locked { text-align: center; padding: 40px 22px; color: var(--muted); font-size: 12px; line-height: 1.9; background: #fff; }
+.phone-locked .lock-icon { width: 64px; height: 64px; margin: 0 auto 12px; border-radius: 50%; background: var(--orange-light); color: var(--orange); display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.phone-locked b { color: var(--text); font-size: 13px; display: block; margin-bottom: 6px; }
+
+/* ============================================================
+   C端 UI 设计级（V3）：真实 iOS 手机壳 + 质感/光影/层级 + 隐藏滚动条
+   对照参考图标准：面性图标、渐变头部、卡片投影、真实状态栏
+   ============================================================ */
+.ui-row { display: flex; gap: 30px; flex-wrap: wrap; margin: 16px 0; justify-content: flex-start; }
+.ui-col { width: 340px; flex-shrink: 0; }
+.ui-cap { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.7; padding: 0 6px; }
+.ui-cap b { color: var(--text); font-weight: 600; }
+/* 手机壳（390 宽真实 iPhone 视口） */
+.p-shell { width: 340px; height: 680px; margin: 0 auto; position: relative; border-radius: 52px; background: #0b0b0f; padding: 10px; box-shadow: 0 24px 60px rgba(17,24,39,.32), 0 4px 12px rgba(17,24,39,.2); }
+.p-screen { position: relative; width: 100%; height: 100%; border-radius: 44px; overflow: hidden; background: #F5F6FA; display: flex; flex-direction: column; }
+/* 隐藏滚动条（移动端） */
+.p-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+.p-scroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
+/* iOS 状态栏（真实信号/WiFi/电池 SVG） */
+.p-sb { display: flex; justify-content: space-between; align-items: center; padding: 12px 22px 4px; font-size: 14px; font-weight: 600; color: #fff; z-index: 3; letter-spacing: .3px; }
+.p-sb.onlight { color: #1a1a1a; }
+.p-sb .sb-r { display: flex; align-items: center; gap: 5px; }
+.p-sb .sb-r svg { display: block; }
+/* 动态岛 */
+.p-dyn { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 104px; height: 30px; background: #0b0b0f; border-radius: 16px; z-index: 4; }
+/* 微信胶囊按钮 */
+.p-capsule { position: absolute; top: 12px; right: 12px; z-index: 5; width: 92px; height: 30px; border-radius: 15px; background: rgba(255,255,255,.28); backdrop-filter: blur(8px); border: .5px solid rgba(255,255,255,.5); display: flex; align-items: center; }
+.p-capsule .csp { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: #fff; }
+.p-capsule .cap-sep { width: .5px; height: 16px; background: rgba(255,255,255,.55); }
+.p-capsule.onlight { background: rgba(0,0,0,.12); border-color: rgba(0,0,0,.15); }
+.p-capsule.onlight .csp { color: #1a1a1a; }
+/* 渐变头部（面性图标 + 插画叠加） */
+.p-hero { position: relative; background: linear-gradient(150deg, #FF9A5A 0%, #FF7A3D 46%, #F2571E 100%); padding: 14px 20px 30px; color: #fff; overflow: hidden; }
+.p-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 22px; background: #F5F6FA; border-radius: 22px 22px 0 0; }
+.p-hero .ph-ill { position: absolute; right: -6px; bottom: 18px; width: 120px; z-index: 1; filter: drop-shadow(0 6px 12px rgba(242,87,30,.35)); }
+.p-hero .ph-badge { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 5px; font-size: 11px; background: rgba(255,255,255,.24); border: 1px solid rgba(255,255,255,.45); border-radius: 99px; padding: 3px 11px; margin-bottom: 10px; backdrop-filter: blur(4px); }
+.p-hero .ph-badge svg { width: 12px; height: 12px; }
+.p-hero .ph-title { position: relative; z-index: 2; font-size: 19px; font-weight: 800; letter-spacing: .3px; }
+.p-hero .ph-sub { position: relative; z-index: 2; font-size: 12px; opacity: .92; margin-top: 7px; line-height: 1.6; max-width: 190px; }
+/* 进度条 */
+.p-progress { background: #fff; padding: 12px 20px 10px; position: relative; z-index: 2; margin-top: -8px; }
+.p-progress .pp-t { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.p-progress .pp-t .cur { color: #FF7A3D; font-weight: 700; }
+.p-progress .pp-bar { height: 6px; background: #FFF0E6; border-radius: 4px; overflow: hidden; }
+.p-progress .pp-fill { height: 100%; width: 25%; background: linear-gradient(90deg, #FF9A5A, #FF7A3D); border-radius: 4px; }
+/* 题目卡片 */
+.p-body { padding: 14px 14px 20px; }
+.p-q { background: #fff; border-radius: 16px; padding: 14px 15px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(17,24,39,.05); }
+.p-q .qt { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.p-q .qt .qi { flex-shrink: 0; margin-top: 1px; }
+.p-q .qt .qi svg { width: 16px; height: 16px; display: block; }
+.p-q .qt .qno { font-size: 10px; color: #FF7A3D; font-weight: 800; letter-spacing: .5px; display: block; margin-bottom: 2px; }
+.p-q .qtag { display: inline-flex; align-items: center; font-size: 9px; padding: 1px 6px; border-radius: 5px; font-weight: 600; margin-left: 6px; vertical-align: 1px; }
+.p-q .qtag.zl { background: #F9F0FF; color: #7B2FF7; }
+.p-q .qtag.tw { background: #FFF7E6; color: #D46B08; }
+.p-q .qtag.req { background: #FFF1F0; color: #E02020; }
+.p-q .qopt { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: #374151; padding: 11px 12px; border: 1.5px solid #EEF0F3; border-radius: 12px; margin-bottom: 8px; background: #fff; }
+.p-q .qopt:last-child { margin-bottom: 0; }
+.p-q .qopt .ck { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #D5DAE2; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.p-q .qopt .ck.square { border-radius: 5px; }
+.p-q .qopt.on { border-color: #FF7A3D; background: #FFF7F0; color: #B4450F; font-weight: 600; }
+.p-q .qopt.on .ck { border-color: #FF7A3D; background: #FF7A3D; }
+.p-q .qopt.on .ck svg { width: 11px; height: 11px; }
+/* 星级（SVG） */
+.p-stars { display: flex; gap: 8px; align-items: center; }
+.p-stars svg { width: 30px; height: 30px; fill: #EAECEF; }
+.p-stars svg.on { fill: #FF7A3D; filter: drop-shadow(0 2px 4px rgba(255,122,61,.4)); }
+.p-stars .sl { margin-left: auto; font-size: 11px; color: #FF7A3D; font-weight: 700; }
+/* 问答输入 */
+.p-input { width: 100%; min-height: 74px; border: 1.5px solid #EEF0F3; border-radius: 12px; padding: 11px 13px; font-size: 12px; color: var(--muted); background: #FbFbFf; resize: none; font-family: inherit; line-height: 1.6; }
+/* 依赖跳过标注 */
+.p-skip { text-align: center; font-size: 10.5px; color: #9CA3AF; padding: 13px; border: 1.5px dashed #D7DBE2; border-radius: 12px; margin-bottom: 12px; background: #FAFBFC; line-height: 1.7; position: relative; }
+.p-skip b { color: #FF7A3D; font-weight: 700; }
+.p-skip .skip-tag { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #FF7A3D; color: #fff; font-size: 9px; font-weight: 700; padding: 1px 9px; border-radius: 8px; white-space: nowrap; }
+/* 吸底提交按钮（渐变+光晕） */
+.p-submit { position: sticky; bottom: 0; padding: 14px 16px calc(14px + 6px); background: linear-gradient(0deg, #F5F6FA 30%, rgba(245,246,250,0)); margin-top: 4px; }
+.p-submit .sb-btn { display: flex; align-items: center; justify-content: center; gap: 7px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, #FF9A5A, #FF7A3D 60%, #F2571E); color: #fff; font-size: 15px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 8px 20px rgba(242,87,30,.4); }
+.p-submit .sb-btn svg { width: 18px; height: 18px; }
+.p-submit .sb-btn.ghost { background: #fff; color: #FF7A3D; box-shadow: 0 2px 8px rgba(17,24,39,.08); }
+/* home 指示条 */
+.p-home { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); width: 120px; height: 5px; border-radius: 3px; background: #1a1a1a; opacity: .85; z-index: 6; }
+/* 成功页 */
+.p-done { flex: 1; background: radial-gradient(circle at 50% 30%, #FFF7F0 0%, #F5F6FA 70%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px 26px; }
+.p-done .done-badge { width: 84px; height: 84px; border-radius: 50%; background: linear-gradient(135deg, #FF9A5A, #FF7A3D); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 26px rgba(242,87,30,.35); margin-bottom: 18px; }
+.p-done .done-badge svg { width: 42px; height: 42px; }
+.p-done .done-img { width: 150px; margin-bottom: 6px; filter: drop-shadow(0 8px 18px rgba(242,87,30,.2)); }
+.p-done .d-title { font-size: 18px; font-weight: 800; color: var(--text); }
+.p-done .d-sub { font-size: 12px; color: var(--muted); line-height: 1.8; margin: 8px 0 20px; }
+.p-done .d-coupon { width: 100%; background: #fff; border-radius: 14px; padding: 12px 14px; box-shadow: 0 2px 10px rgba(17,24,39,.06); display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.p-done .dc-amt { font-size: 24px; font-weight: 800; color: #FF7A3D; }
+.p-done .dc-amt small { font-size: 11px; font-weight: 600; }
+.p-done .dc-tx { flex: 1; }
+.p-done .dc-tx .t { font-size: 13px; font-weight: 700; color: var(--text); }
+.p-done .dc-tx .d { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.p-done .dc-go { height: 34px; padding: 0 16px; border-radius: 17px; background: linear-gradient(135deg, #FF9A5A, #FF7A3D); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; }
+/* 异常拦截页 */
+.p-locked { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 26px; background: #fff; }
+.p-locked .lk-ic { width: 76px; height: 76px; border-radius: 50%; background: linear-gradient(135deg, #FFF3E8, #FFE3D0); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; box-shadow: 0 8px 20px rgba(242,87,30,.15); }
+.p-locked .lk-ic svg { width: 36px; height: 36px; }
+.p-locked .lk-t { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.p-locked .lk-s { font-size: 12px; color: var(--muted); line-height: 1.8; }
+/* 成功页"返回首页"幽灵按钮 */
+.p-ghost { height: 40px; padding: 0 26px; border-radius: 20px; background: #fff; color: #FF7A3D; font-size: 13px; font-weight: 700; border: 1.5px solid #FFD9C2; box-shadow: 0 4px 12px rgba(242,87,30,.12); }
+/* 微信模板消息卡片（设计级） */
+.wx-chat { background: #EDEDED; border-radius: 16px; padding: 18px 14px; }
+.wx-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.wx-card .wx-top { display: flex; align-items: center; gap: 10px; padding: 13px 14px; background: #F7F8FA; border-bottom: 1px solid #F0F1F3; }
+.wx-card .wx-ava { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #FF9A5A, #FF7A3D); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; }
+.wx-card .wx-name { font-size: 13.5px; font-weight: 700; color: var(--text); }
+.wx-card .wx-tag { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.wx-card .wx-body { padding: 13px 15px 15px; }
+.wx-card .wx-field { display: flex; gap: 10px; font-size: 12.5px; padding: 4px 0; }
+.wx-card .wx-field span { color: #9AA0AA; min-width: 56px; flex-shrink: 0; }
+.wx-card .wx-field b { color: var(--text); font-weight: 600; }
+.wx-card .wx-btn { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; height: 40px; background: linear-gradient(135deg, #FF9A5A, #FF7A3D); color: #fff; font-size: 13px; font-weight: 700; border-radius: 10px; box-shadow: 0 4px 12px rgba(242,87,30,.3); }
+.wx-card .wx-note { font-size: 9.5px; color: #B6BCC6; margin-top: 11px; line-height: 1.7; }
+.sms-card { background: #fff; border-radius: 14px; padding: 15px; font-size: 13px; color: var(--text); line-height: 1.9; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.sms-card .sms-sig { color: #FF7A3D; font-weight: 700; }
+.sms-card .sms-link { color: #2f6fed; word-break: break-all; text-decoration: underline; }
+.sms-card .sms-sub { font-size: 11px; color: var(--muted); }
+/* 图标通用 */
+.icn { display: inline-flex; }
+.icn svg { display: block; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1 style="margin-bottom:8px" class="">满意度调查系统 - 产品原型</h1>
+<p style="color:var(--muted);margin-bottom:24px" class="">V1.0 需求原型演示</p>
+
+<!-- 导航 -->
+<div class="nav">
+  <button class="nav-btn" onclick="showModule('question', this)">问题库管理</button>
+  <button class="nav-btn" onclick="showModule('template', this)">模板管理</button>
+  <button class="nav-btn" onclick="showModule('detail', this)">调查明细</button>
+  <button class="nav-btn" onclick="showModule('qr', this)">推广二维码</button>
+  <button class="nav-btn" style="border-color:var(--teal,#0ea5e9);color:var(--teal,#0ea5e9)" onclick="showModule('orgcfg', this)">医院下发配置</button>
+  <button class="nav-btn active" style="border-color:var(--purple);color:var(--purple)" onclick="showModule('prd', this)">产品需求文档</button>
+  <button class="nav-btn" style="border-color:var(--green);color:var(--green)" onclick="showModule('tech', this)">技术文档</button>
+  <button class="nav-btn" style="border-color:var(--orange);color:var(--orange)" onclick="showModule('cend', this)">宠主端UI设计</button>
+</div>
+
+<!-- ==================== 问题库管理 ==================== -->
+<div id="module-question" class="module">
+  <div class="section">
+    <div class="section-title">问题库列表</div>
+    
+    <div class="filter-bar">
+      <div class="filter-item">
+        <label class="">分类：</label>
+        <select>
+          <option class="">全部</option>
+          <option class="">诊疗类</option>
+          <option class="">服务类</option>
+          <option class="">吐槽类</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label class="">题型：</label>
+        <select>
+          <option class="">全部</option>
+          <option class="">评分</option>
+          <option class="">单选</option>
+          <option class="">多选</option>
+          <option class="">问答</option>
+        </select>
+      </div>
+      <button class="btn btn-primary">搜索</button>
+      <button class="btn">重置</button>
+      <button class="btn" style="margin-left:auto" onclick="openModal('importModal')">批量导入</button>
+      <button class="btn" onclick="openModal('exportModal')">批量导出</button>
+      <button class="btn btn-primary" onclick="openModal('addQuestionModal')">+ 新增问题</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th class="">ID</th>
+          <th class="">分类</th>
+          <th class="">问题内容</th>
+          <th class="">题型</th>
+          <th class="">选项</th>
+          <th class="">使用次数</th>
+          <th class="">创建人</th>
+          <th class="">创建时间</th>
+          <th class="">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="">1</td>
+          <td class=""><span class="badge badge-purple">诊疗类</span></td>
+          <td class="">您对本次诊疗效果是否满意？</td>
+          <td class="">评分</td>
+          <td class="">-</td>
+          <td class="">12</td>
+          <td class="">admin</td>
+          <td class="">2026-01-15</td>
+          <td class=""><button class="btn btn-sm">编辑</button> <button class="btn btn-sm">删除</button></td>
+        </tr>
+        <tr>
+          <td class="">2</td>
+          <td class=""><span class="badge badge-purple">诊疗类</span></td>
+          <td class="">医生诊断解释是否清晰易懂？</td>
+          <td class="">评分</td>
+          <td class="">-</td>
+          <td class="">8</td>
+          <td class="">admin</td>
+          <td class="">2026-01-15</td>
+          <td class=""><button class="btn btn-sm">编辑</button> <button class="btn btn-sm">删除</button></td>
+        </tr>
+        <tr>
+          <td class="">3</td>
+          <td class=""><span class="badge badge-blue">服务类</span></td>
+          <td class="">医护人员服务态度如何？</td>
+          <td class="">评分</td>
+          <td class="">-</td>
+          <td class="">15</td>
+          <td class="">admin</td>
+          <td class="">2026-01-15</td>
+          <td class=""><button class="btn btn-sm">编辑</button> <button class="btn btn-sm">删除</button></td>
+        </tr>
+        <tr>
+          <td class="">4</td>
+          <td class=""><span class="badge badge-orange">吐槽类</span></td>
+          <td class="">您对我们有何建议？</td>
+          <td class="">问答</td>
+          <td class="">-</td>
+          <td class="">10</td>
+          <td class="">admin</td>
+          <td class="">2026-01-15</td>
+          <td class=""><button class="btn btn-sm">编辑</button> <button class="btn btn-sm">删除</button></td>
+        </tr>
+        <tr>
+          <td class="">5</td>
+          <td class=""><span class="badge badge-orange">吐槽类</span></td>
+          <td class="">您不满的地方是？</td>
+          <td class="">多选</td>
+          <td class="">等待时间长/费用高/环境差</td>
+          <td class="">6</td>
+          <td class="">admin</td>
+          <td class="">2026-01-16</td>
+          <td class=""><button class="btn btn-sm">编辑</button> <button class="btn btn-sm">删除</button></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-size:13px;color:var(--muted)">
+      <span class="">共 25 条</span>
+      <div>
+        <button class="btn btn-sm">上一页</button>
+        <button class="btn btn-sm" style="background:var(--accent);color:white;border-color:var(--accent)">1</button>
+        <button class="btn btn-sm">2</button>
+        <button class="btn btn-sm">3</button>
+        <button class="btn btn-sm">下一页</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 模板管理 ==================== -->
+<div id="module-template" class="module">
+  <!-- 主导航 -->
+  <div class="sub-nav">
+    <button class="sub-nav-btn active" onclick="showTemplateView('list', this)">模板列表</button>
+    <button class="sub-nav-btn" onclick="showTemplateView('edit', this)">模板编辑</button>
+    <button class="sub-nav-btn" onclick="showTemplateView('questions', this)">问题配置</button>
+  </div>
+
+  <!-- 模板列表视图 -->
+  <div id="templateView-list" style="display: block;">
+    <div class="section">
+      <div class="section-title">模板列表</div>
+      <div class="filter-bar">
+        <div class="filter-item">
+          <label class="">模板名称：</label>
+          <input type="text" placeholder="请输入" style="width:150px">
+        </div>
+        <div class="filter-item">
+          <label class="">关联医院：</label>
+          <select><option class="">全部</option><option class="">瑞辰</option><option class="">初馨</option></select>
+        </div>
+        <div class="filter-item">
+          <label class="">状态：</label>
+          <select><option class="">全部</option><option class="">启用</option><option class="">禁用</option></select>
+        </div>
+        <button class="btn btn-primary">搜索</button>
+        <button class="btn">重置</button>
+        <button class="btn btn-primary" style="margin-left:auto" onclick="openModal('createTemplateModal')">+ 新建模板</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th class="">编号</th>
+            <th class="">模板名称</th>
+            <th class="">题目数量</th>
+            <th class="">填写次数</th>
+            <th class="">综合评价</th>
+            <th class="">关联医院</th>
+            <th class="">状态</th>
+            <th class="">创建时间</th>
+            <th class="">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="">T001</td>
+            <td class="">满意度调查</td>
+            <td class="">10</td>
+            <td class="">156</td>
+            <td class=""><span style="color:var(--orange);font-weight:600">4.8</span> <span style="color:var(--muted);font-size:11px">/ 5.0</span></td>
+            <td class="">瑞辰、初馨</td>
+            <td class=""><span class="badge badge-green">启用</span></td>
+            <td class="">2026-01-10</td>
+            <td class="">
+              <button class="btn btn-sm" onclick="showTemplateView('edit', document.querySelectorAll('.sub-nav-btn')[1])">编辑</button>
+              <button class="btn btn-sm" onclick="showTemplateView('questions', document.querySelectorAll('.sub-nav-btn')[2])">问题配置</button>
+              <button class="btn btn-sm" onclick="showModule('detail', document.querySelectorAll('.nav-btn')[2])">明细</button>
+              <button class="btn btn-sm" onclick="showModule('qr', document.querySelectorAll('.nav-btn')[3])">推广</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="">T002</td>
+            <td class="">初馨意见反馈</td>
+            <td class="">5</td>
+            <td class="">23</td>
+            <td class=""><span style="color:var(--orange);font-weight:600">4.9</span> <span style="color:var(--muted);font-size:11px">/ 5.0</span></td>
+            <td class="">初馨</td>
+            <td class=""><span class="badge badge-green">启用</span></td>
+            <td class="">2026-01-12</td>
+            <td class="">
+              <button class="btn btn-sm" onclick="showTemplateView('edit', document.querySelectorAll('.sub-nav-btn')[1])">编辑</button>
+              <button class="btn btn-sm" onclick="showTemplateView('questions', document.querySelectorAll('.sub-nav-btn')[2])">问题配置</button>
+              <button class="btn btn-sm" onclick="showModule('detail', document.querySelectorAll('.nav-btn')[2])">明细</button>
+              <button class="btn btn-sm" onclick="showModule('qr', document.querySelectorAll('.nav-btn')[3])">推广</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="">T003</td>
+            <td class="">武汉希望满意度调查</td>
+            <td class="">8</td>
+            <td class="">0</td>
+            <td class="">-</td>
+            <td class="">希望动物医院</td>
+            <td class=""><span class="badge badge-green">启用</span></td>
+            <td class="">2026-01-15</td>
+            <td class="">
+              <button class="btn btn-sm" onclick="showTemplateView('edit', document.querySelectorAll('.sub-nav-btn')[1])">编辑</button>
+              <button class="btn btn-sm" onclick="showTemplateView('questions', document.querySelectorAll('.sub-nav-btn')[2])">问题配置</button>
+              <button class="btn btn-sm" onclick="showModule('detail', document.querySelectorAll('.nav-btn')[2])">明细</button>
+              <button class="btn btn-sm" onclick="showModule('qr', document.querySelectorAll('.nav-btn')[3])">推广</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 模板编辑视图（模板信息） -->
+  <div id="templateView-edit" style="display: none;">
+    <div class="section">
+      <div class="section-title">
+        模板编辑 - 满意度调查
+        <button class="btn btn-sm" style="margin-left:auto" onclick="showTemplateView('list', document.querySelectorAll('.sub-nav-btn')[0])">返回列表</button>
+      </div>
+      <div style="max-width:500px">
+        <div class="form-group">
+          <label class="form-label">模板名称 *</label>
+          <input type="text" class="form-input" value="满意度调查">
+        </div>
+        <div class="form-group">
+          <label class="form-label">关联医院/品牌 <span style="font-weight:400;color:var(--muted)" class="">(可多选)</span></label>
+          <div class="tree-select">
+            <div class="tree-item selected">
+              <span class="">☑</span>
+              <span class="">瑞辰品牌</span>
+              <span class="badge badge-blue" style="margin-left:auto">品牌</span>
+            </div>
+            <div class="tree-children">
+              <div class="tree-item selected">
+                <span class="">☑</span>
+                <span class="">瑞辰华南动物医院</span>
+                <span class="badge badge-purple" style="margin-left:auto">医院</span>
+              </div>
+              <div class="tree-item">
+                <span class="">☐</span>
+                <span class="">瑞辰北京总院</span>
+                <span class="badge badge-purple" style="margin-left:auto">医院</span>
+              </div>
+            </div>
+            <div class="tree-item selected">
+              <span class="">☑</span>
+              <span class="">初馨宠物医院</span>
+              <span class="badge badge-purple" style="margin-left:auto">医院</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">备注</label>
+          <textarea class="form-input" rows="2">瑞辰品牌及初馨医院通用满意度调查</textarea>
+        </div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:12px;justify-content:flex-end">
+        <button class="btn" onclick="showTemplateView('list', document.querySelectorAll('.sub-nav-btn')[0])">取消</button>
+        <button class="btn btn-primary">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 问题配置视图 -->
+  <div id="templateView-questions" style="display: none;">
+    <div class="section">
+      <div class="section-title">
+        问题配置 - 满意度调查
+        <button class="btn btn-sm" style="margin-left:auto" onclick="showTemplateView('list', document.querySelectorAll('.sub-nav-btn')[0])">返回列表</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <!-- 左侧：问题列表 -->
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span style="font-weight:600" class="">问题列表</span>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-sm" onclick="openModal('addQuestionToTemplate')">+ 从问题库添加</button>
+              <button class="btn btn-sm" onclick="openModal('addCustomQuestion')">+ 手动添加</button>
+            </div>
+          </div>
+          
+          <div class="question-card">
+            <div class="question-info">
+              <div class="question-text">您对本次诊疗效果是否满意？</div>
+              <div class="question-meta"><span class="badge badge-purple">诊疗类</span> 评分题</div>
+              <label class="q-req-toggle"><input type="checkbox" checked> 设为必答（必填）</label>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:12px;color:var(--muted)" class="">1</span>
+              <button class="btn btn-sm" style="padding:2px 6px">↑</button>
+              <button class="btn btn-sm" style="padding:2px 6px">↓</button>
+              <button class="btn btn-sm" style="color:var(--red)">删除</button>
+            </div>
+          </div>
+          
+          <div class="question-card">
+            <div class="question-info">
+              <div class="question-text">医生诊断解释是否清晰易懂？</div>
+              <div class="question-meta"><span class="badge badge-purple">诊疗类</span> 评分题</div>
+              <label class="q-req-toggle"><input type="checkbox" checked> 设为必答（必填）</label>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:12px;color:var(--muted)" class="">2</span>
+              <button class="btn btn-sm" style="padding:2px 6px">↑</button>
+              <button class="btn btn-sm" style="padding:2px 6px">↓</button>
+              <button class="btn btn-sm" style="color:var(--red)">删除</button>
+            </div>
+          </div>
+          
+          <div class="question-card">
+            <div class="question-info">
+              <div class="question-text">您对本院环境是否满意？</div>
+              <div class="question-meta"><span class="badge badge-blue">服务类</span> 评分题</div>
+              <label class="q-req-toggle"><input type="checkbox" checked> 设为必答（必填）</label>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:12px;color:var(--muted)" class="">3</span>
+              <button class="btn btn-sm" style="padding:2px 6px">↑</button>
+              <button class="btn btn-sm" style="padding:2px 6px">↓</button>
+              <button class="btn btn-sm" style="color:var(--red)">删除</button>
+            </div>
+          </div>
+          
+          <div class="question-card">
+            <div class="question-info">
+              <div class="question-text">您对我们有何建议？</div>
+              <div class="question-meta"><span class="badge badge-orange">吐槽类</span> 问答</div>
+              <label class="q-req-toggle"><input type="checkbox"> 设为必答（必填）</label>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:12px;color:var(--muted)" class="">4</span>
+              <button class="btn btn-sm" style="padding:2px 6px">↑</button>
+              <button class="btn btn-sm" style="padding:2px 6px">↓</button>
+              <button class="btn btn-sm" style="color:var(--red)">删除</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 右侧：依赖配置 -->
+        <div>
+          <div style="font-weight:600;margin-bottom:12px">依赖配置</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:12px">
+            默认所有问题都显示，可配置问题间的依赖关系
+          </div>
+          
+          <div class="dependency-list" id="dependencyList"><div class="dependency-item" style="background: white;"><div style="display:flex;align-items:center;gap:8px">
+      <span class="badge badge-purple">问题1</span>
+      <span style="font-size:13px" class="">您对本次诊疗效果是否满意？</span>
+      <span class="badge badge-blue" style="margin-left:auto">评分题</span>
+    </div><div style="margin-top:8px;font-size:12px;color:var(--muted)">无依赖配置</div></div><div class="dependency-item" style="background: var(--bg);"><div style="display:flex;align-items:center;gap:8px">
+      <span class="badge badge-purple">问题2</span>
+      <span style="font-size:13px" class="">医生诊断解释是否清晰易懂？</span>
+      <span class="badge badge-blue" style="margin-left:auto">评分题</span>
+    </div><div style="margin-top:8px"><div style="padding:8px;background:var(--accent-light);border-radius:4px;font-size:12px;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span style="color:var(--muted)" class="">当</span>
+          <select style="padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px" onchange="updateParentQuestion(2, 0, this.value)">
+            <option value="1" selected="" class="">问题1: 您对本次诊疗效果是否满意？</option><option value="3" class="">问题3: 您对本院环境是否满意？</option><option value="4" class="">问题4: 您对我们有何建议？</option>
+          </select>
+          <span style="color:var(--muted)" class="">答案等于</span>
+          <select style="padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px" onchange="updateAnswer(2, 0, this.value)">
+            <option value="1星" class="">1星</option><option value="2星" class="">2星</option><option value="3星" class="">3星</option><option value="4星" class="">4星</option><option value="5星" selected="" class="">5星</option>
+          </select>
+          <span style="color:var(--muted)" class="">时，</span>
+          <select style="padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px" onchange="updateAction(2, 0, this.value)">
+            <option value="show" class="">显示</option>
+            <option value="skip" selected="" class="">跳过</option>
+          </select>
+          <button class="btn btn-sm" style="padding:2px 6px;font-size:11px;color:var(--red)" onclick="removeCondition(2, 0)">删除</button>
+        </div></div></div><div class="dependency-item" style="background: white;"><div style="display:flex;align-items:center;gap:8px">
+      <span class="badge badge-blue">问题3</span>
+      <span style="font-size:13px" class="">您对本院环境是否满意？</span>
+      <span class="badge badge-blue" style="margin-left:auto">评分题</span>
+    </div><div style="margin-top:8px;font-size:12px;color:var(--muted)">无依赖配置</div><button class="btn btn-sm" style="margin-top:8px" onclick="addCondition(3)">+ 添加条件</button></div><div class="dependency-item" style="background: var(--bg);"><div style="display:flex;align-items:center;gap:8px">
+      <span class="badge badge-orange">问题4</span>
+      <span style="font-size:13px" class="">您对我们有何建议？</span>
+      <span class="badge badge-orange" style="margin-left:auto">问答</span>
+    </div><div style="margin-top:8px"><div style="padding:8px;background:var(--accent-light);border-radius:4px;font-size:12px;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span style="color:var(--muted)" class="">当</span>
+          <select style="padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px" onchange="updateParentQuestion(4, 0, this.value)">
+            <option value="1" selected="" class="">问题1: 您对本次诊疗效果是否满意？</option><option value="2" class="">问题2: 医生诊断解释是否清晰易懂？</option><option value="3" class="">问题3: 您对本院环境是否满意？</option>
+          </select>
+          <span style="color:var(--muted)" class="">答案等于</span>
+          <select style="padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px" onchange="updateAnswer(4, 0, this.value)">
+            <option value="1星" class="">1星</option><option value="2星" class="">2星</option><option value="3星" class="">3星</option><option value="4星" class="">4星</option><option value="5星" class="">5星</option>
+          </select>
+          <span style="color:var(--muted)" class="">时，</span>
+          <select style="padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px" onchange="updateAction(4, 0, this.value)">
+            <option value="show" selected="" class="">显示</option>
+            <option value="skip" class="">跳过</option>
+          </select>
+          <button class="btn btn-sm" style="padding:2px 6px;font-size:11px;color:var(--red)" onclick="removeCondition(4, 0)">删除</button>
+        </div></div></div></div>
+        </div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:12px;justify-content:flex-end">
+        <button class="btn" onclick="showTemplateView('list', document.querySelectorAll('.sub-nav-btn')[0])">取消</button>
+        <button class="btn btn-primary">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 调查明细 ==================== -->
+<div id="module-detail" class="module">
+  <div class="section">
+    <div class="section-title">调查明细（先看统计、再钻明细）</div>
+
+    <div class="filter-bar">
+      <div class="filter-item">
+        <label class="">时间：</label>
+        <input type="date" style="width:120px">
+        <span style="color:var(--muted)" class="">至</span>
+        <input type="date" style="width:120px">
+      </div>
+      <div class="filter-item">
+        <label class="">医院：</label>
+        <select><option class="">全部</option><option class="">瑞辰华南动物医院</option><option class="">初馨宠物医院</option><option class="">希望动物医院</option></select>
+      </div>
+      <div class="filter-item">
+        <label class="">模板：</label>
+        <select><option class="">全部</option><option class="">满意度调查</option><option class="">初馨意见反馈</option></select>
+      </div>
+      <div class="filter-item">
+        <label class="">已读：</label>
+        <select><option class="">全部</option><option class="">已读</option><option class="">未读</option></select>
+      </div>
+      <button class="btn btn-primary">搜索</button>
+      <button class="btn">重置</button>
+      <button class="btn" style="margin-left:auto" onclick="openModal('exportModal')">导出</button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin:0 0 12px">默认近 30 天 ｜ 统计口径：被依赖跳过的题（skipped）与选答题未作答<b>不计入平均分分母</b>，明细中显示"—"</p>
+
+    <!-- 统计层 -->
+    <div class="stat-cards">
+      <div class="stat-card"><div class="sc-label">总填写次数</div><div class="sc-value">1,286</div><div class="sc-sub">近30天 +12.4%（环比）</div></div>
+      <div class="stat-card"><div class="sc-label">综合平均分</div><div class="sc-value">4.62</div><div class="sc-sub">仅统计 answered 且未跳过的评分题</div></div>
+      <div class="stat-card"><div class="sc-label">诊疗类均分</div><div class="sc-value">4.71</div><div class="sc-sub">5 道评分题 · 312 份有效</div></div>
+      <div class="stat-card"><div class="sc-label">服务类均分</div><div class="sc-value">4.48</div><div class="sc-sub">4 道评分题 · 305 份有效</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:16px">
+      <!-- 模板 × 题目 平均分表 -->
+      <div style="border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--card)">
+        <div style="font-weight:600;margin-bottom:10px;font-size:14px">题目维度统计（模板 × 题目）</div>
+        <table style="width:100%">
+          <thead>
+            <tr><th class="">模板 / 题目</th><th class="">平均分</th><th class="" style="min-width:150px">分布</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="" style="color:var(--muted);font-size:12px">满意度调查<br><b style="color:var(--text)">诊疗效果是否满意</b></td>
+              <td class=""><b>4.71</b></td>
+              <td class=""><div class="dist-cell"><b>5星</b>72% <b>4星</b>21% <b>3星</b>5% <b>2星</b>1% <b>1星</b>1%</div></td>
+            </tr>
+            <tr>
+              <td class="" style="color:var(--muted);font-size:12px">满意度调查<br><b style="color:var(--text)">医生解释是否清晰</b></td>
+              <td class=""><b>4.65</b></td>
+              <td class=""><div class="dist-cell"><b>5星</b>69% <b>4星</b>24% <b>3星</b>5% <b>2星</b>1% <b>1星</b>1%</div></td>
+            </tr>
+            <tr>
+              <td class="" style="color:var(--muted);font-size:12px">满意度调查<br><b style="color:var(--text)">院内环境是否满意</b></td>
+              <td class=""><b>4.48</b></td>
+              <td class=""><div class="dist-cell"><b>5星</b>58% <b>4星</b>31% <b>3星</b>9% <b>2星</b>1% <b>1星</b>1%</div></td>
+            </tr>
+            <tr>
+              <td class="" style="color:var(--muted);font-size:12px">满意度调查<br><b style="color:var(--text)">改进建议（选答）</b></td>
+              <td class="">—</td>
+              <td class=""><div class="dist-cell">作答率 46%（142/312）｜ 未作答不计入统计</div></td>
+            </tr>
+            <tr>
+              <td class="" style="color:var(--muted);font-size:12px">满意度调查<br><b style="color:var(--text)">不满原因（多选）</b></td>
+              <td class="">—</td>
+              <td class=""><div class="dist-cell"><b>等待时间长</b> 41% <b>费用偏高</b> 23% <b>环境体验</b> 12%</div></td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:11px;color:var(--muted);margin:8px 0 0">点击行 → 下钻该题答卷明细（右侧列表联动）；多选/问答题不计算平均分，仅显示作答占比。</p>
+      </div>
+
+      <!-- 下钻明细层 -->
+      <div style="border:1px solid var(--border);border-radius:8px;padding:14px;background:var(--card)">
+        <div style="font-weight:600;margin-bottom:10px;font-size:14px">答卷明细 <span style="font-weight:400;font-size:12px;color:var(--muted)">（点击题目行可下钻）</span></div>
+        <table style="width:100%">
+          <thead>
+            <tr><th class="">答卷</th><th class="">医院</th><th class="">综合分</th><th class="">提交时间</th><th class="">已读</th><th class="">操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="">#10234</td>
+              <td class="">瑞辰华南</td>
+              <td class=""><b>4.75</b></td>
+              <td class="" style="font-size:12px">05-02 14:30</td>
+              <td class=""><span class="badge badge-green">已读</span></td>
+              <td class=""><button class="btn btn-sm" onclick="openModal('detailModal')">详情</button></td>
+            </tr>
+            <tr>
+              <td class="">#10233</td>
+              <td class="">初馨</td>
+              <td class=""><b>3.20</b></td>
+              <td class="" style="font-size:12px">05-01 10:15</td>
+              <td class=""><span class="badge badge-red">未读</span></td>
+              <td class=""><button class="btn btn-sm" onclick="openModal('detailModal')">详情</button></td>
+            </tr>
+            <tr>
+              <td class="">#10231</td>
+              <td class="">希望</td>
+              <td class=""><b>4.50</b></td>
+              <td class="" style="font-size:12px">04-28 16:45</td>
+              <td class=""><span class="badge badge-green">已读</span></td>
+              <td class=""><button class="btn btn-sm" onclick="openModal('detailModal')">详情</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:11px;color:var(--muted);margin:8px 0 0">"已读"= 工作人员已查看过该答卷；"联系方式"在详情弹窗中展示（小程序手机号验证登录，可回拨联系回访）。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 详情弹窗 -->
+  <div id="detailModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title">调查详情 - 满意度调查</span>
+        <button class="btn btn-sm" onclick="closeModal('detailModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;padding:12px;background:var(--bg);border-radius:6px">
+          <div><span style="color:var(--muted)" class="">所属院部：</span>瑞辰华南动物医院</div>
+          <div><span style="color:var(--muted)" class="">用户昵称：</span>张三</div>
+          <div><span style="color:var(--muted)" class="">联系方式：</span>138****1234</div>
+          <div><span style="color:var(--muted)" class="">提交时间：</span>2026-05-02 14:30</div>
+        </div>
+        
+        <div style="font-weight:600;margin-bottom:12px">答题路径</div>
+        <div class="path-item">
+          <div class="path-num">1</div>
+          <div class="path-content">
+            <div class="path-q">您对本次诊疗效果是否满意？</div>
+            <div class="path-a">答案：<strong>5星</strong></div>
+          </div>
+        </div>
+        <div class="path-item">
+          <div class="path-num">2</div>
+          <div class="path-content">
+            <div class="path-q">医生诊断解释是否清晰易懂？</div>
+            <div class="path-a">答案：<strong>5星</strong></div>
+          </div>
+        </div>
+        <div class="path-item">
+          <div class="path-num">3</div>
+          <div class="path-content">
+            <div class="path-q">您对本院环境是否满意？</div>
+            <div class="path-a">答案：<strong>4星</strong></div>
+          </div>
+        </div>
+        <div class="path-item">
+          <div class="path-num">4</div>
+          <div class="path-content">
+            <div class="path-q">您对我们有何建议？</div>
+            <div class="path-a">答案：<strong>无</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="closeModal('detailModal')">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 推广二维码 ==================== -->
+<div id="module-qr" class="module">
+  <div class="section">
+    <div class="section-title">生成推广二维码</div>
+    
+    <div style="max-width:600px">
+      <div class="form-group">
+        <label class="form-label">选择医院 <span style="font-weight:400;color:var(--muted)" class="">(按医院生成，品牌仅筛选、医院单选)</span></label>
+        <div style="display:flex;gap:10px">
+          <select class="form-input" id="qrBrandSel" style="flex:1" onchange="qrCascadeHospital()">
+            <option value="" class="">全部品牌</option>
+            <option value="ruichen" class="">瑞辰</option>
+            <option value="chuxin" class="">初馨</option>
+            <option value="wangchong" class="">望宠</option>
+          </select>
+          <select class="form-input" id="qrHospitalSel" style="flex:1.4" onchange="qrCascadeTemplate()">
+            <option value="" class="">请选择医院</option>
+          </select>
+        </div>
+        <p class="hospital-hint" style="margin-top:8px">品牌仅作筛选维度（不可选），实际按所选医院生成二维码；选择品牌后医院下拉联动刷新，可改回"全部品牌"。选定医院后，模板下拉<b>只显示该院归属的启用模板</b>（非归属组合不可生成）。</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">选择模板 <span style="font-weight:400;color:var(--muted)" class="">(仅显示该院归属模板)</span></label>
+        <select class="form-input" id="qrTemplateSel">
+          <option value="" class="">请先选择医院</option>
+        </select>
+        <p class="hospital-hint" style="margin-top:8px" id="qrTemplateHint">先选医院，再从其归属模板中选择；若该院无归属模板则无法生成，需先在模板管理中关联。</p>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">分销员</label>
+        <select class="form-input">
+          <option class="">全部</option>
+          <option class="">张经理</option>
+          <option class="">李经理</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">客户来源</label>
+        <select class="form-input">
+          <option class="">全部</option>
+          <option class="">线下扫码</option>
+          <option class="">平台推送</option>
+          <option class="">微信分享</option>
+        </select>
+      </div>
+      
+      <div style="display:flex;gap:12px;margin-top:20px">
+        <button class="btn btn-primary" onclick="openModal('qrResultModal')" style="flex:1">生成二维码</button>
+        <button class="btn">重置</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 二维码结果 -->
+  <div id="qrResultModal" class="modal-overlay">
+    <div class="modal" style="max-width:500px">
+      <div class="modal-header">
+        <span class="modal-title">二维码生成成功</span>
+        <button class="btn btn-sm" onclick="closeModal('qrResultModal')">✕</button>
+      </div>
+      <div class="modal-body" style="text-align:center">
+        <div style="width:130px;height:130px;margin:0 auto 16px;border:1px solid var(--border);border-radius:8px;padding:10px;background:#fff">
+          <div style="width:100%;height:100%;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(7,1fr);gap:3px">
+            <div style="background:#111827"></div><div style="background:#111827"></div><div style="background:#111827"></div><div></div><div style="background:#111827"></div><div style="background:#111827"></div><div style="background:#111827"></div>
+            <div style="background:#111827"></div><div></div><div style="background:#111827"></div><div style="background:#111827"></div><div style="background:#111827"></div><div></div><div style="background:#111827"></div>
+            <div style="background:#111827"></div><div style="background:#111827"></div><div style="background:#111827"></div><div></div><div style="background:#111827"></div><div style="background:#111827"></div><div style="background:#111827"></div>
+            <div></div><div style="background:#111827"></div><div></div><div style="background:#111827"></div><div></div><div style="background:#111827"></div><div></div>
+            <div style="background:#111827"></div><div></div><div style="background:#111827"></div><div style="background:#111827"></div><div></div><div></div><div style="background:#111827"></div>
+            <div style="background:#111827"></div><div style="background:#111827"></div><div></div><div></div><div style="background:#111827"></div><div></div><div style="background:#111827"></div>
+            <div style="background:#111827"></div><div></div><div style="background:#111827"></div><div style="background:#111827"></div><div style="background:#111827"></div><div style="background:#111827"></div><div></div>
+          </div>
+        </div>
+        <div style="font-weight:500;margin-bottom:8px">满意度调查 - 瑞辰华南</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px">模板：满意度调查 | 医院：瑞辰华南动物医院</div>
+        <div style="display:flex;gap:12px;justify-content:center">
+          <button class="btn btn-primary">下载二维码</button>
+          <button class="btn">生成短链</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 医院下发配置 ==================== -->
+<div id="module-orgcfg" class="module">
+  <div class="section">
+    <div class="section-title">医院下发配置（医院管理 · 综合配置）</div>
+    <div class="tip blue" style="margin-bottom:16px"><b>定位</b>：在现有后台"院部列表"增加"综合配置"能力，本页演示新增部分。诊疗结束（HIS 行为）时 HIS 调用本系统下发接口 → 判断该院是否开启 → 开启则下发满意度调查链接：<b>渠道由系统按接收状态自动轮询写死</b>（微信模板消息 → 失败/未关注/无 openid 自动转短信兜底，前端与配置端均不提供渠道选择）。自动下发与"推广二维码"扫码互不影响、互为补充。配置范围受操作角色数据权限限定：仅能配置/同步到有权限的医院。</div>
+
+    <!-- ① 院部列表（上下结构·上；字段对齐现有后台"院部列表"截图） -->
+    <div style="margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div>
+          <span style="font-weight:600;font-size:14px">院部列表</span>
+          <span style="font-size:12px;color:var(--muted);margin-left:10px">共 62 家院部 · 当前操作角色：品牌运营（权限：瑞辰华南 / 瑞辰北京 / 初馨）</span>
+        </div>
+        <button class="btn btn-primary btn-sm">＋ 新增院部</button>
+      </div>
+      <div class="filter-bar">
+        <div class="filter-item"><label class="">院部名称：</label><input type="text" placeholder="请输入院部名称" style="width:160px"></div>
+        <div class="filter-item"><label class="">医院等级：</label><select><option class="">全部</option><option class="">中心医院</option><option class="">社区医院</option></select></div>
+        <div class="filter-item"><label class="">所属品牌：</label><select><option class="">全部</option><option class="">瑞辰</option><option class="">初馨</option><option class="">望宠</option></select></div>
+        <button class="btn btn-primary">搜索</button>
+        <button class="btn">重置</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="">医院名称</th>
+            <th class="">医院等级</th>
+            <th class="">详细地址</th>
+            <th class="">负责人</th>
+            <th class="">修改日期</th>
+            <th class="">下发状态</th>
+            <th class="">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="">
+              <div class="hosp-name-cell">
+                <div class="hosp-avatar">瑞</div>
+                <div><div class="hn-main">瑞辰华南动物医院</div><div class="hn-alias">瑞辰</div></div>
+              </div>
+            </td>
+            <td class="">中心医院</td>
+            <td class="">广东省深圳市南山区科技园南路88号</td>
+            <td class=""><span class="hosp-contact">张灵巧<br>18735265041</span></td>
+            <td class="">2026-08-07 17:10:45</td>
+            <td class=""><span class="badge badge-green">已开启</span></td>
+            <td class="">
+              <a style="color:var(--orange);cursor:pointer">编辑</a>
+              <span class="row-more">…
+                <span class="row-menu">
+                  <a>推广</a>
+                  <a>通知配置</a>
+                  <a>开票配置</a>
+                  <a>预约配置</a>
+                  <a>排班管理</a>
+                  <a onclick="openModal('orgCfgModal')">综合配置（下发）</a>
+                  <a class="danger">删除</a>
+                </span>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td class="">
+              <div class="hosp-name-cell">
+                <div class="hosp-avatar">瑞</div>
+                <div><div class="hn-main">瑞辰华诺爱侣（上海）宠物医院</div><div class="hn-alias">瑞辰</div></div>
+              </div>
+            </td>
+            <td class="">中心医院</td>
+            <td class="">上海市浦东新区张江高科技园区</td>
+            <td class=""><span class="hosp-contact">蔺相如<br>18888888888</span></td>
+            <td class="">2025-11-27 16:17:49</td>
+            <td class=""><span class="badge badge-red">未开启</span></td>
+            <td class="">
+              <a style="color:var(--orange);cursor:pointer">编辑</a>
+              <span class="row-more">…
+                <span class="row-menu">
+                  <a>推广</a>
+                  <a>通知配置</a>
+                  <a>开票配置</a>
+                  <a>预约配置</a>
+                  <a>排班管理</a>
+                  <a onclick="openModal('orgCfgModal')">综合配置（下发）</a>
+                  <a class="danger">删除</a>
+                </span>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td class="">
+              <div class="hosp-name-cell">
+                <div class="hosp-avatar">初</div>
+                <div><div class="hn-main">初馨宠物医院</div><div class="hn-alias">初馨</div></div>
+              </div>
+            </td>
+            <td class="">社区医院</td>
+            <td class="">北京市西城区广安门外大街甲59号</td>
+            <td class=""><span class="hosp-contact">张思礼<br>18888886666</span></td>
+            <td class="">2026-07-21 09:33:12</td>
+            <td class=""><span class="badge badge-orange">已暂停</span> <span style="font-size:11px;color:var(--muted)">模板停用</span></td>
+            <td class="">
+              <a style="color:var(--orange);cursor:pointer">编辑</a>
+              <span class="row-more">…
+                <span class="row-menu">
+                  <a>推广</a>
+                  <a>通知配置</a>
+                  <a>开票配置</a>
+                  <a>预约配置</a>
+                  <a>排班管理</a>
+                  <a onclick="openModal('orgCfgModal')">综合配置（下发）</a>
+                  <a class="danger">删除</a>
+                </span>
+              </span>
+            </td>
+          </tr>
+          <tr style="opacity:.55">
+            <td class="">
+              <div class="hosp-name-cell">
+                <div class="hosp-avatar" style="background:#f5f7fa;color:#999;border-color:#e4e7ed">排</div>
+                <div><div class="hn-main">排班测试医院</div><div class="hn-alias">望宠</div></div>
+              </div>
+            </td>
+            <td class="">社区医院</td>
+            <td class="">陕西省西安市雁塔区……</td>
+            <td class=""><span class="hosp-contact">张三<br>18888888888</span></td>
+            <td class="">2026-05-02 10:00:00</td>
+            <td class=""><span style="font-size:12px;color:var(--muted)">无权限配置</span></td>
+            <td class="">
+              <a style="color:var(--muted);cursor:not-allowed">编辑</a>
+              <span class="row-more" style="opacity:.7">…
+                <span class="row-menu">
+                  <a>推广</a>
+                  <a>通知配置</a>
+                  <a>开票配置</a>
+                  <a>预约配置</a>
+                  <a>排班管理</a>
+                  <a style="color:var(--muted);cursor:not-allowed">综合配置（无权限）</a>
+                  <a>删除</a>
+                </span>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px">"…"更多菜单为现有后台原样（推广/通知配置/开票配置/预约配置/排班管理/删除），<b>新增"综合配置（下发）"入口</b>。下发状态：已暂停 = 模板停用后自动暂停；模板重新启用且该院配置未变更 → 自动恢复下发；停用期间不补推。</p>
+    </div>
+
+    <!-- ② 综合配置表单（上下结构·下，整页宽排布） -->
+    <div style="border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--card)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div style="font-weight:600">综合配置（下发）· 瑞辰华南动物医院</div>
+        <span class="badge badge-green">当前：已开启</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">诊疗结束后自动下发</label>
+          <label class="q-req-toggle"><input type="checkbox" checked> 开启（诊疗结束即触发 HIS 推送判断）</label>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">下发模板 *</label>
+          <select class="form-input">
+            <option class="">满意度调查（T001 · 10题 · 启用）</option>
+          </select>
+          <p style="font-size:12px;color:var(--muted);margin-top:4px">仅显示该院<b>归属且启用</b>的模板（t_template_org 交集）；望宠猫科医院等未归属该院模板不展示</p>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">推送渠道（系统写死，不可选）</label>
+          <div style="font-size:13px;line-height:2">
+            <div>微信模板消息 →（失败/未关注/无openid）→ 短信兜底</div>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-top:4px">系统按接收状态自动轮询渠道，无需配置；结果写 s_survey_push_log（WECHAT_SENT / SMS_FALLBACK）</p>
+        </div>
+      </div>
+      <div class="form-group" style="border-top:1px solid var(--border);padding-top:14px;margin-top:16px">
+        <label class="form-label">同步到其他医院 <span style="font-weight:400;color:var(--muted)">(可选，批量设置：将上方配置批量写入所选医院)</span></label>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:8px">可同步范围 = 该模板归属医院 ∩ 当前角色权限医院。本例角色权限：瑞辰华南、瑞辰北京、初馨；模板归属：瑞辰华南、瑞辰北京、望宠 → 可同步仅 <b style="color:var(--text)">瑞辰北京</b>（望宠超出权限不展示，初馨非归属模板不展示）。</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:var(--bg)">
+            <input type="checkbox" checked style="accent-color:var(--orange)"> 瑞辰华诺爱侣（上海）宠物医院
+            <span class="badge badge-blue" style="font-weight:400">归属医院</span>
+          </label>
+        </div>
+        <div class="tip" style="margin-top:10px">同步 = 将上方配置批量写入所选医院，逐院写入并返回逐院结果（部分失败可重试）；不在模板归属范围或超出角色权限的医院直接不展示（A4）。</div>
+      </div>
+      <div style="display:flex;gap:12px">
+        <button class="btn btn-primary" style="flex:1" onclick="showToast('已保存并同步 1 家医院')">保存并同步</button>
+        <button class="btn" onclick="showToast('已取消')">取消</button>
+      </div>
+    </div>
+
+    <!-- ③ HIS 联动时序 -->
+    <div style="margin-top:24px">
+      <div style="font-weight:600;margin-bottom:8px">HIS 联动时序</div>
+      <div class="flow">
+        <span class="node">HIS 诊疗结束（病历归档）</span><span class="arrow">→</span>
+        <span class="node">HIS 调用 下发判断接口（orgId+billId+宠主联系方式）</span><span class="arrow">→</span>
+        <span class="node decision">该医院下发开启？</span>
+        <div class="branch"><span class="">否 → 返回 NOT_ENABLED，流程结束</span><span class="">是 ↓</span></div>
+        <span class="arrow">→</span>
+        <span class="node">获取 医院×模板 有效链接</span><span class="arrow">→</span>
+        <span class="node">系统轮询渠道：微信模板消息</span><span class="arrow">→</span>
+        <span class="node decision">发送成功？</span>
+        <div class="branch"><span class="">是 → 记录 WECHAT_SENT</span><span class="">否/未关注 → 自动转短信（SMS_FALLBACK）</span></div>
+        <span class="arrow">→</span>
+        <span class="node action">宠主点链接进入 C端填写页（与扫码同路径同口径）</span>
+      </div>
+      <p style="font-size:12px;color:var(--muted)">同一医院同一宠主 24h 内仅推送一次（orgId+clientId 去重，DUPLICATE 幂等命中）；渠道轮询结果全部写 s_survey_push_log（后端日志，B端不提供查看页，G5）。接口出入参与返回码见"技术文档 · 六、HIS 联动与推送接口"。</p>
+    </div>
+  </div>
+
+  <!-- 综合配置弹窗（列表行"..."菜单触发，与上方表单同字段，最小展示） -->
+  <div id="orgCfgModal" class="modal-overlay">
+    <div class="modal" style="max-width:480px">
+      <div class="modal-header">
+        <span class="modal-title">综合配置（下发） - 瑞辰华南动物医院</span>
+        <button class="btn btn-sm" onclick="closeModal('orgCfgModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"><label class="form-label">诊疗结束后自动下发</label>
+          <label class="q-req-toggle"><input type="checkbox" checked> 开启</label>
+        </div>
+        <div class="form-group"><label class="form-label">下发模板（该院归属且启用）</label>
+          <select class="form-input"><option class="">满意度调查（T001 · 10题）</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">推送渠道（系统写死）</label>
+          <div style="font-size:13px">微信模板消息 → 自动短信兜底 <span class="badge badge-gray" style="background:#f1f5f9;color:var(--muted)">不可配置</span></div>
+        </div>
+        <div class="form-group"><label class="form-label">同步到（归属医院 ∩ 角色权限）</label>
+          <label style="font-size:13px;display:block"><input type="checkbox" style="accent-color:var(--orange)"> 瑞辰华诺爱侣（上海）宠物医院</label>
+        </div>
+        <div class="tip">保存时若所选模板当前停用 → 二次确认弹窗："该模板已停用，保存后下发将暂停；模板重新启用且配置未变更时自动恢复。" 同步逐院写入，部分失败可重试。</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="closeModal('orgCfgModal')">取消</button>
+        <button class="btn btn-primary" onclick="closeModal('orgCfgModal')">保存并同步</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 弹窗区域（所有弹窗放在最外层） ==================== -->
+
+<!-- 新建模板弹窗 -->
+<div id="createTemplateModal" class="modal-overlay">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <span class="modal-title">新建模板</span>
+      <button class="btn btn-sm" onclick="closeModal('createTemplateModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">模板名称 *</label>
+        <input type="text" class="form-input" placeholder="例：满意度调查-瑞辰华南">
+      </div>
+      <div class="form-group">
+        <label class="form-label">关联医院/品牌 <span style="font-weight:400;color:var(--muted)" class="">(可多选)</span></label>
+        <div class="tree-select">
+          <div class="tree-item" onclick="this.classList.toggle('selected')">
+            <span class="">☐</span>
+            <span class="">瑞辰品牌</span>
+            <span class="badge badge-blue" style="margin-left:auto">品牌</span>
+          </div>
+          <div class="tree-children">
+            <div class="tree-item selected" onclick="event.stopPropagation();this.classList.toggle('selected')">
+              <span class="">☐</span>
+              <span class="">瑞辰华南动物医院</span>
+              <span class="badge badge-purple" style="margin-left:auto">医院</span>
+            </div>
+            <div class="tree-item" onclick="event.stopPropagation();this.classList.toggle('selected')">
+              <span class="">☐</span>
+              <span class="">瑞辰北京总院</span>
+              <span class="badge badge-purple" style="margin-left:auto">医院</span>
+            </div>
+          </div>
+          <div class="tree-item selected" onclick="this.classList.toggle('selected')">
+            <span class="">☐</span>
+            <span class="">初馨宠物医院</span>
+            <span class="badge badge-purple" style="margin-left:auto">医院</span>
+          </div>
+          <div class="tree-item" onclick="this.classList.toggle('selected')">
+            <span class="">☐</span>
+            <span class="">希望动物医院</span>
+            <span class="badge badge-purple" style="margin-left:auto">医院</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">备注</label>
+        <input type="text" class="form-input" placeholder="可选说明">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('createTemplateModal')">取消</button>
+      <button class="btn btn-primary" onclick="closeModal('createTemplateModal');showTemplateView('edit', document.querySelectorAll('.sub-nav-btn')[1])">创建并编辑</button>
+    </div>
+  </div>
+</div>
+
+<!-- 从问题库添加问题弹窗 -->
+<div id="addQuestionToTemplate" class="modal-overlay">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <span class="modal-title">从问题库选择问题</span>
+      <button class="btn btn-sm" onclick="closeModal('addQuestionToTemplate')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="filter-bar" style="margin-bottom:12px">
+        <div class="filter-item">
+          <select>
+            <option class="">全部分类</option>
+            <option class="">诊疗类</option>
+            <option class="">服务类</option>
+            <option class="">吐槽类</option>
+          </select>
+        </div>
+      </div>
+      <div style="max-height:300px;overflow-y:auto;border:1px solid var(--border);border-radius:6px">
+        <div class="question-card" style="cursor:pointer" onclick="this.querySelector('input').click()">
+          <input type="checkbox" style="margin-right:8px">
+          <div class="question-info">
+            <div class="question-text">您对本次诊疗效果是否满意？</div>
+            <div class="question-meta"><span class="badge badge-purple">诊疗类</span> 评分题</div>
+            <label class="q-req-toggle" onclick="event.stopPropagation()"><input type="checkbox" checked onchange="this.closest('.question-card').classList.toggle('q-req-on', this.checked)"> 设为必答（必填）</label>
+          </div>
+        </div>
+        <div class="question-card" style="cursor:pointer" onclick="this.querySelector('input').click()">
+          <input type="checkbox" style="margin-right:8px">
+          <div class="question-info">
+            <div class="question-text">医生诊断解释是否清晰易懂？</div>
+            <div class="question-meta"><span class="badge badge-purple">诊疗类</span> 评分题</div>
+            <label class="q-req-toggle" onclick="event.stopPropagation()"><input type="checkbox" checked onchange="this.closest('.question-card').classList.toggle('q-req-on', this.checked)"> 设为必答（必填）</label>
+          </div>
+        </div>
+        <div class="question-card" style="cursor:pointer" onclick="this.querySelector('input').click()">
+          <input type="checkbox" style="margin-right:8px">
+          <div class="question-info">
+            <div class="question-text">医护人员服务态度如何？</div>
+            <div class="question-meta"><span class="badge badge-blue">服务类</span> 评分题</div>
+            <label class="q-req-toggle" onclick="event.stopPropagation()"><input type="checkbox" checked onchange="this.closest('.question-card').classList.toggle('q-req-on', this.checked)"> 设为必答（必填）</label>
+          </div>
+        </div>
+        <div class="question-card" style="cursor:pointer" onclick="this.querySelector('input').click()">
+          <input type="checkbox" style="margin-right:8px">
+          <div class="question-info">
+            <div class="question-text">您对我们有何建议？</div>
+            <div class="question-meta"><span class="badge badge-orange">吐槽类</span> 问答</div>
+            <label class="q-req-toggle" onclick="event.stopPropagation()"><input type="checkbox" onchange="this.closest('.question-card').classList.toggle('q-req-on', this.checked)"> 设为必答（必填）</label>
+          </div>
+        </div>
+        <div class="question-card" style="cursor:pointer" onclick="this.querySelector('input').click()">
+          <input type="checkbox" style="margin-right:8px">
+          <div class="question-info">
+            <div class="question-text">您不满的地方是？</div>
+            <div class="question-meta"><span class="badge badge-orange">吐槽类</span> 多选</div>
+            <label class="q-req-toggle" onclick="event.stopPropagation()"><input type="checkbox" checked onchange="this.closest('.question-card').classList.toggle('q-req-on', this.checked)"> 设为必答（必填）</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('addQuestionToTemplate')">取消</button>
+      <button class="btn btn-primary">添加到模板</button>
+    </div>
+  </div>
+</div>
+
+<!-- 手动添加问题弹窗 -->
+<div id="addCustomQuestion" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">手动添加私有问题</span>
+      <button class="btn btn-sm" onclick="closeModal('addCustomQuestion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">问题内容 *</label>
+        <textarea class="form-input" rows="2" placeholder="请输入问题内容"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">分类 <span style="font-weight:400;color:var(--muted)" class="">(用于统计)</span></label>
+        <select class="form-input">
+          <option value="zhiliao" class="">诊疗类</option>
+          <option value="fuwu" class="">服务类</option>
+          <option value="tucao" class="">吐槽类</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">题型 *</label>
+        <select class="form-input" id="customQuestionType" onchange="toggleCustomOptions(this)">
+          <option value="rating" class="">评分（1-5星）</option>
+          <option value="single" class="">单选</option>
+          <option value="multiple" class="">多选</option>
+          <option value="text" class="">问答（文本）</option>
+        </select>
+      </div>
+      <div class="form-group" id="customOptionsGroup" style="display:none">
+        <label class="form-label">选项设置</label>
+        <textarea class="form-input" rows="3" placeholder="每行一个选项，如：
+距离近
+口碑好
+价格实惠"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">是否必填</label>
+        <label class="q-req-toggle" style="margin-top:0"><input type="checkbox" checked> 设为必答（C端显示"必答"标记，提交前必须作答）</label>
+      </div>
+      <div style="padding:8px 12px;background:var(--orange-light);border:1px solid #fcd34d;border-radius:6px;font-size:12px;color:#92400e">
+        此问题仅当前模板可见，不会同步到问题库
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('addCustomQuestion')">取消</button>
+      <button class="btn btn-primary">添加</button>
+    </div>
+  </div>
+</div>
+
+<!-- 新增问题弹窗 -->
+<div id="addQuestionModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">新增问题</span>
+      <button class="btn btn-sm" onclick="closeModal('addQuestionModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">问题内容 *</label>
+        <textarea class="form-input" rows="3" placeholder="请输入问题内容"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">分类 *</label>
+        <select class="form-input">
+          <option class="">诊疗类</option>
+          <option class="">服务类</option>
+          <option class="">吐槽类</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">题型 *</label>
+        <select class="form-input" id="questionTypeSelect" onchange="toggleCustomOptions(this)">
+          <option value="rating" class="">评分（1-5星）</option>
+          <option value="single" class="">单选</option>
+          <option value="multiple" class="">多选</option>
+          <option value="text" class="">问答（文本）</option>
+        </select>
+      </div>
+      <div class="form-group" id="optionsGroup" style="display: block;">
+        <label class="form-label">选项设置</label>
+        <textarea class="form-input" rows="3" placeholder="每行一个选项，如：
+距离近
+口碑好
+价格实惠"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('addQuestionModal')">取消</button>
+      <button class="btn btn-primary">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 批量导入弹窗 -->
+<div id="importModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">批量导入问题</span>
+      <button class="btn btn-sm" onclick="closeModal('importModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">下载模板</label>
+        <button class="btn btn-sm">📥 下载Excel模板</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">上传文件</label>
+        <div style="border:2px dashed var(--border);border-radius:8px;padding:40px;text-align:center;color:var(--muted)">
+          点击或拖拽文件到此处上传
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('importModal')">取消</button>
+      <button class="btn btn-primary">导入</button>
+    </div>
+  </div>
+</div>
+
+<!-- 导出弹窗 -->
+<div id="exportModal" class="modal-overlay">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <span class="modal-title">导出数据</span>
+      <button class="btn btn-sm" onclick="closeModal('exportModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">导出格式</label>
+        <select class="form-input">
+          <option class="">CSV</option>
+          <option class="">Excel</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">导出范围</label>
+        <select class="form-input">
+          <option class="">当前筛选结果</option>
+          <option class="">全部数据</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('exportModal')">取消</button>
+      <button class="btn btn-primary">导出</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 产品需求文档 ==================== -->
+<div id="module-prd" class="module active">
+  <div class="section doc" id="doc-prd">
+    <div class="section-title" style="font-size:20px;border-bottom:none">满意度调查系统 - 产品需求文档（PRD）</div>
+    <p style="color:var(--muted);font-size:13px" class="">版本 V1.0 ｜ 配套原型：本文件"问题库管理 / 模板管理 / 调查明细 / 推广二维码"四个页签 ｜ 适用读者：开发、测试、评审</p>
+
+    <h2 class="">一、背景与目标</h2>
+    <p class=""><b>现状问题</b>：旧系统中调查模板只能在数据库里直接维护，模板不与医院进行绑定，推广生成；题目类型仅支持单选、问答、评级三种；医院推广时逐医院生成二维码；调查结果只能在调查明细中逐条查看，缺乏统计汇总，工作人员无法快速了解整体满意度。</p>
+    <p class=""><b>重构目标</b>：</p>
+    <ol>
+      <li class=""><b>问题库独立维护</b>：题目集中管理、分类（诊疗类 / 服务类 / 吐槽类）、可跨模板复用，记录使用次数。</li>
+      <li class=""><b>模板独立维护</b>：模板与医院解耦，通过"关联医院/品牌"配置；可自由从问题库选题，也支持模板内手动添加自定义题。</li>
+      <li class=""><b>条件化问题展示</b>：模板内可配置"问题依赖"，按前一问题答案决定是否显示/跳过后续问题，提升问卷精准度。</li>
+      <li class=""><b>结果可统计可明</b>：调查明细按医院/模板汇总，评分类题目展示平均分与分布，支持按题查看明细，工作人员一目了然。</li>
+      <li class=""><b>推广简化</b>：按医院/品牌选择后一键生成二维码，二维码直接关联到具体模板。</li>
+      <li class=""><b>诊疗后自动触达（新增）</b>：医院可在后台"综合配置"开启自动下发，HIS 诊疗结束后自动通过微信模板消息（短信兜底）把满意度调查链接推送给宠主，无需患者主动扫码。</li>
+    </ol>
+
+    <h2 class="">二、角色与权限</h2>
+    <table>
+      <tbody><tr><th class="">角色</th><th class="">说明</th><th class="">可用功能</th></tr>
+      <tr><td class="">管理员</td><td class="">集团管理员</td><td class="">全部功能：问题库、模板、明细统计、二维码生成、<b>医院下发配置（含跨品牌批量同步）</b></td></tr>
+      <tr><td class="">品牌/医院工作人员</td><td class="">门店端使用</td><td class="">查看本院调查明细与统计、推广本院二维码、<b>配置本院下发（仅本院，同步范围限本院归属医院∩权限医院）</b></td></tr>
+      <tr><td class="">患者（C端）</td><td class="">扫码/收推送填写者</td><td class="">填写问卷（扫码或微信/短信推送链接进入同一 C端页面）</td></tr>
+      <tr><td class="">HIS 系统</td><td class="">外部调用方（机器）</td><td class="">诊疗结束时调用 <b>POST /open/his/survey/push</b> 触发下发判断与推送；HMAC 签名鉴权，仅能查询/触发，不能改配置</td></tr>
+    </tbody></table>
+
+    <h2 class="">三、核心业务流程图</h2>
+    <h3 class="">3.1 管理主流程（配置侧）</h3>
+    <div class="flow">
+      <span class="node">维护问题库</span><span class="arrow">→</span>
+      <span class="node">创建/编辑模板</span><span class="arrow">→</span>
+      <span class="node">关联医院/品牌</span><span class="arrow">→</span>
+      <span class="node">配置问题及依赖</span><span class="arrow">→</span>
+      <span class="node decision">校验通过？</span>
+      <div class="branch"><span class="">否 → 按校验提示修正</span><span class="">是 ↓</span></div>
+      <span class="arrow">→</span>
+      <span class="node action">保存模板</span><span class="arrow">→</span>
+      <span class="node">推广生成二维码</span>
+    </div>
+    <h3 class="">3.2 填写与查看流程（数据侧）</h3>
+    <div class="flow">
+      <span class="node">患者扫二维码</span><span class="arrow">→</span>
+      <span class="node">C端按依赖逻辑展示题目</span><span class="arrow">→</span>
+      <span class="node action">提交答卷</span><span class="arrow">→</span>
+      <span class="node">明细入库+统计更新</span><span class="arrow">→</span>
+      <span class="node">工作人员查看明细/统计</span>
+    </div>
+    <p class="">C端两条入口汇入同一填写页：① 扫"推广二维码"（线下主动入口）；② 诊疗结束自动下发的微信模板消息/短信链接（HIS 触发入口）。两条入口指向同一 /survey/{qrId}，统计口径统一，仅来源渠道不同（可后续在 s_survey 加 source 字段区分扫码/推送，本期不做）。</p>
+    <h3 class="">3.3 自动下发流程（HIS 联动，新增）</h3>
+    <div class="flow">
+      <span class="node">HIS 诊疗结束（病历归档/结算）</span><span class="arrow">→</span>
+      <span class="node">HIS 调 POST /open/his/survey/push</span><span class="arrow">→</span>
+      <span class="node decision">医院开启下发？</span>
+      <div class="branch"><span class="">否 → NOT_ENABLED 结束</span><span class="">是 ↓</span></div>
+      <span class="arrow">→</span>
+      <span class="node decision">模板启用？</span>
+      <div class="branch"><span class="">停用 → NOT_READY 自动暂停（启用且配置未变自动恢复）</span><span class="">是 ↓</span></div>
+      <span class="arrow">→</span>
+      <span class="node decision">24h 去重窗口内已推？</span>
+      <div class="branch"><span class="">是 → DUPLICATED 结束</span><span class="">否 ↓</span></div>
+      <span class="arrow">→</span>
+      <span class="node">微信模板消息推送短链</span><span class="arrow">→</span>
+      <span class="node decision">发送成功？</span>
+      <div class="branch"><span class="">是 → 记录 WECHAT</span><span class="">否/无 openid → 短信兜底</span></div>
+      <span class="arrow">→</span>
+      <span class="node action">宠主点链接进入同一 C端填写页</span>
+    </div>
+    <p class="">模板停用后<b>不做补推</b>（裁决 G6）：停用窗口内的 HIS 回调一律返回 NOT_READY，启用后仅对窗口之后的新诊疗事件生效。</p>
+
+    <h2 class="">四、功能模块说明</h2>
+    <h3 class="">4.1 问题库管理</h3>
+    <p class=""><b>业务说明</b>：集中管理所有可复用题目。模板创建时优先从问题库选题，保证口径统一、便于横向统计对比。</p>
+    <ul>
+      <li class=""><b>分类</b>：诊疗类（紫）/ 服务类（蓝）/ 吐槽类（橙），新增/编辑时必选，用于模板组织与统计分组。</li>
+      <li class=""><b>题型</b>：评分题（1~5星）、单选、多选、问答（文本题）。单选/多选需配置选项（2~10个）。</li>
+      <li class=""><b>使用次数</b>：统计该题被模板引用的累计次数；若题已被模板引用（使用次数&gt;0），删除时给出警告（见 4.2 校验规则）。</li>
+      <li class=""><b>批量导入/导出</b>：Excel 模板导入（字段校验：分类/题型/选项必填），支持导出当前筛选结果或全量。</li>
+    </ul>
+    <h3 class="">4.2 模板管理</h3>
+    <p class=""><b>业务说明</b>：模板 = 一组有序题目 + 依赖规则 + 关联医院/品牌。旧系统中"模板不关联医院"的结构升级为"一模板多医院"，医院按品牌/单店粒度挂载。</p>
+    <ul>
+      <li class=""><b>模板列表</b>：编号、名称、题目数、填写次数、综合评价（平均分）、关联医院、状态、创建时间；操作：编辑 / 问题配置 / 明细 / 推广 / 启停 / 删除。</li>
+      <li class=""><b>模板编辑（模板信息）</b>：模板名称、关联医院/品牌（树形多选，品牌节点勾选后其下医院默认继承但可单独取消）、备注。独立于问题配置，降低操作心智。</li>
+      <li class=""><b>问题配置（问题列表）</b>：左侧题目列表支持：从问题库添加（按分类/题型筛选）、手动添加（模板自定义题，不入问题库）、上移/下移排序、删除。右侧依赖配置。</li>
+    </ul>
+    <div class="tip"><b>依赖配置规则（重点，页面右侧逐题展示）：</b>
+      <ol>
+        <li class="">条件句式：<b>当【选择问题】答案等于【选择题的答案/星级】时，【显示 / 跳过】该问题</b>，末尾附【删除】按钮。问题与答案均为下拉选择，不可手填。</li>
+        <li class="">答案下拉内容随所选题型联动：评分题 → 1~5星；单选 → 该题选项；多选 → 该题选项（语义为"包含"）；问答 → 无内容/有内容。</li>
+        <li class="">该题<b>已有条件</b> → 只展示条件行与删除按钮，<b>不再显示"添加条件"</b>（一个题只允许一条条件，避免逻辑嵌套）。</li>
+        <li class="">该题<b>无条件</b>，且不是第一条、不是最后一条 → 显示「+ 添加条件」按钮。</li>
+        <li class="">第一条题不允许配置依赖（无前序答案可判断）；最后一条题通常作为兜底建议题，不展示添加入口。</li>
+      </ol>
+    </div>
+    <div class="tip"><b>校验与提醒（保存模板前必须通过）：</b>
+      <ul style="margin:4px 0 0 20px">
+        <li class="">模板至少 1 道题目，否则提示"模板暂无题目，请先配置"。</li>
+        <li class="">依赖的父问题被删除/移出模板 → 自动清除该条件并 toast 提醒"问题X已移除，其依赖条件已清除"。</li>
+        <li class="">所选答案值与父题当前选项不一致（如父题选项被改）→ 保存前提示"问题X的选项已变更，请重新选择答案值"。</li>
+        <li class="">评分题条件答案必须为 1~5 星之一；单选/多选的"答案"必须是父题现存选项。</li>
+        <li class="">删除被引用题目（问题库侧）→ 二次确认弹窗，展示引用它的模板列表，确认后自动从各模板移除并清理相关依赖。</li>
+        <li class="">模板删除前检查：存在历史答卷或启用中的二维码 → 提示"建议停用而非删除"，删除为软删除，历史明细保留。</li>
+        <li class=""><b>模板停用强提醒（新增）</b>：停用操作弹二次确认，文案："停用后，所有已开启下发的医院将自动暂停推送，请确认。"；停用后 t_org_survey_config 中配置<b>保留不改写</b>，下发判断接口联查模板状态返回 NOT_READY（自动暂停）；模板重新启用且该医院配置在停用期间未变更（update_time 不变）→ 自动恢复下发，无需人工操作。</li>
+      </ul>
+    </div>
+    <h3 class="">4.3 调查明细</h3>
+    <p class=""><b>业务说明</b>：将"逐条翻答卷"升级为"先看汇总、再钻明细"。分两层：</p>
+    <ul>
+      <li class=""><b>统计层（默认展示）</b>：筛选维度 = 时间范围 + 医院/品牌 + 模板；展示卡片：总填写次数、综合平均分。下方按模板×题目列出每道题的平均分（评分/题）。</li>
+      <li class=""><b>明细层</b>：点击某道题可下钻到具体答卷列表（答卷ID、医院、提交时间、该题答案）；也可从答卷维度查看完整答卷（含被跳过的题标记为"未展示"）。</li>
+      <li class=""><b>导出</b>：支持导出统计结果与明细列表（Excel）。</li>
+    </ul>
+    <h3 class="">4.4 推广二维码</h3>
+    <ul>
+      <li class=""><b>医院选择（二级联动、单选）</b>：表单提供「品牌 → 医院」两级下拉——品牌仅作<b>筛选维度，不可被选中生成</b>；实际按所选<b>医院</b>生成二维码。选择品牌后医院下拉联动刷新为该品牌下的医院；改回"全部品牌"则列出全部医院。医院为单选，生成时必须有且仅有一个医院。</li>
+      <li class="">选择 医院 + 该医院可用模板 → 生成二维码，编码内容为带模板ID与医院ID的C端URL（如 /survey/{qrId}）。</li>
+      <li class="">同一"模板+医院"组合仅保留一条有效二维码记录。</li>
+      <li class="">重复选择生成，复用已生成二维码。</li>
+    </ul>
+
+    <h3 class="">4.5 宠主端（C端填写页，小程序）</h3>
+    <p class=""><b>业务说明</b>：宠主扫码或从小程序进入填写页。UI 设计见本文件"宠主端UI设计"页签（填写页/依赖跳过/成功页/异常态四类界面）。与旧版差异：题目与依赖关系不再写死在页面，全部由模板快照 + 依赖配置驱动。</p>
+    <ul>
+      <li class=""><b>进入校验</b>：按 qrId 加载 → 校验码状态（停用→"问卷已下线"页；过期→"已过期"页；正常→进入填写）；再校验幂等（同 qrId+client_id 已提交→"您已参与过"页）。</li>
+      <li class=""><b>题目渲染</b>：加载模板全部题目（按顺序），逐题判断依赖：存在条件且父题答案命中 → 按显示/跳过动作处理；无条件默认展示。被跳过的题不渲染、不要求作答。</li>
+      <li class=""><b>题型控件</b>：评分题 1~5 星点选；单选互斥；多选可多项；问答多行文本（选填/必填按模板配置）。</li>
+      <li class=""><b>提交</b>：可见题目必答校验通过后可提交；提交成功跳成功页并展示"3秒后跳转小程序首页"；提交动作异步写入答卷与答案明细（被跳过的题写 skipped=1 记录）。</li>
+      <li class=""><b>防重提交</b>：提交中禁用按钮防连点；服务端按幂等键兜底拒绝重复。</li>
+    </ul>
+
+    <h3 class="">4.6 医院下发配置（医院管理 · 综合配置，新增）</h3>
+    <p class=""><b>业务说明</b>：在现有后台"医院管理"列表为医院增加"综合配置"能力——配置该院<b>诊疗结束后是否自动下发满意度调查</b>、下发哪个模板。HIS 诊疗结束（HIS 侧行为）时调用本系统接口判断并推送，本系统不改造 HIS。下发链接复用"推广二维码"产出的 医院×模板 有效码（两者互不影响：扫码是线下主动入口，自动下发是诊疗后触达入口）。</p>
+    <ul>
+      <li class=""><b>配置项</b>：① 是否开启自动下发；② 下发模板（单模板）；③ 推送渠道：微信模板消息（优先）+ 短信兜底；④ 同步到其他医院（批量）。</li>
+      <li class=""><b>可选模板范围</b>：该院的归属模板（t_template_org 命中）且模板启用。未归属模板不展示、不做拦截提示。</li>
+      <li class=""><b>同步范围限定</b>：同步目标 = 该模板归属医院 ∩ 当前操作角色有权限的医院。例：角色有权限 a/b/c，模板归属 a/b/d → 配置 a 院时只能同步给 a/b（d 因权限不可见，c 因非归属不展示）。同步为批量写入，逐院校验、整单事务，部分失败返回逐院原因可重试。</li>
+      <li class=""><b>推送链路</b>：HIS 诊疗结束 → 调 POST /open/his/survey/push（orgId+billId+clientId/phone）→ 判断开启/模板状态/去重窗口（同院同宠主 24h 一次）→ 取有效码短链 → 微信模板消息，失败或无 openid 时转短信 → 写推送日志。返回码语义见技术文档 6.1。</li>
+      <li class=""><b>模板停用联动</b>：停用模板时弹强提醒二次确认（"停用后已开启下发的医院将自动暂停"）；下发判断接口实时联查模板状态，停用=自动暂停（不改配置表）；重新启用且配置未变更 → 自动恢复。</li>
+      <li class=""><b>推送日志与去重</b>：每次判断/推送写 s_survey_push_log；(orgId, billId) 幂等，(orgId, clientId, 窗口内) 去重，避免连台就诊重复打扰。</li>
+    </ul>
+    <div class="tip"><b>与旧版/其他模块的关系</b>：本功能不改"推广二维码"页逻辑（仍按医院生成、品牌不可选、二级联动）；C端填写页完全复用（自动下发的链接与扫码链接指向同一 /survey/{qrId}，统计口径统一）。</div>
+
+    <h2 class="">五、页面交互逻辑说明</h2>
+    <table>
+      <tbody><tr><th class="">页面</th><th class="">交互点</th><th class="">逻辑说明</th></tr>
+      <tr><td class="">问题库-新增/编辑</td><td class="">题型切换</td><td class="">选单选/多选 → 展开选项编辑区（≥2个，≤10个，可增删行）；评分/问答 → 隐藏选项区。切换题型不保留旧选项值。</td></tr>
+      <tr><td class="">问题库-删除</td><td class="">行操作</td><td class="">使用次数&gt;0 → 确认弹窗列出引用模板，确认后自动清理模板内引用及依赖；使用次数=0 → 直接确认删除。</td></tr>
+      <tr><td class="">模板-模板编辑</td><td class="">品牌勾选</td><td class="">勾选品牌节点默认选中其下全部医院，可单独取消某医院；取消品牌则其下医院全部取消。</td></tr>
+      <tr><td class="">模板-问题配置</td><td class="">从问题库添加</td><td class="">弹窗按分类/题型筛选问题库，勾选后追加到模板末尾；已添加的题在弹窗内置灰不可重复勾选。</td></tr>
+      <tr><td class="">模板-问题配置</td><td class="">手动添加</td><td class="">弹窗表单（内容/分类/题型/选项），保存为模板自定义题（不落问题库）；弹窗层级必须在当前页之上（z-index 高于页面所有元素）。</td></tr>
+      <tr><td class="">模板-问题配置</td><td class="">排序</td><td class="">上移/下移实时调整序号；依赖条件中"问题X"的引用按题ID而非序号，排序后引用不失效。</td></tr>
+      <tr><td class="">模板-问题配置</td><td class="">依赖配置</td><td class="">见 4.2 规则。切换父题下拉 → 答案下拉即时重载为该父题的可选值；已有条件时隐藏添加入口。</td></tr>
+      <tr><td class="">调查明细</td><td class="">筛选/下钻</td><td class="">筛选条件变化即刷新统计卡片；点击题目行下钻明细弹窗；时间范围默认近30天。</td></tr>
+      <tr><td class="">推广二维码</td><td class="">品牌→医院 二级联动</td><td class="">品牌下拉仅作筛选、不可选；医院下拉联动刷新（选品牌=该品牌下医院，"全部品牌"=全部医院），医院单选，生成时未选医院则提示"请选择医院"；选中的医院与模板生成二维码，已存在则提示复用。</td></tr>
+      <tr><td class="">医院下发配置</td><td class="">综合配置</td><td class="">单院配置：开启开关 + 模板单选（仅显示该院归属且启用的模板）+ 渠道勾选（微信模板消息优先、短信兜底）；保存写 t_org_survey_config。</td></tr>
+      <tr><td class="">医院下发配置</td><td class="">同步到其他医院</td><td class="">同步项 = 该模板归属医院 ∩ 角色有权限医院，其余医院不展示；勾选后"保存并同步"逐院写入，整单事务，部分失败返回逐院原因，可重试。</td></tr>
+      <tr><td class="">医院下发配置</td><td class="">模板停用联动</td><td class="">停用模板弹强提醒二次确认；停用后下发自动暂停（列表显示"已暂停"）；重新启用且该院配置未变更 → 自动恢复为"已开启"，无需人工。</td></tr>
+    </tbody></table>
+
+    <h2 class="">六、页面字段说明</h2>
+    <h3 class="">6.1 问题库列表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">说明</th><th class="">备注</th></tr>
+      <tr><td class="">ID</td><td class="">问题唯一编号</td><td class="">自增</td></tr>
+      <tr><td class="">分类</td><td class="">诊疗类/服务类/吐槽类</td><td class="">彩色标签展示</td></tr>
+      <tr><td class="">问题内容</td><td class="">题干文本，≤100字</td><td class="">超长省略+悬浮全文</td></tr>
+      <tr><td class="">题型</td><td class="">评分/单选/多选/问答</td><td class=""></td></tr>
+      <tr><td class="">选项</td><td class="">单选/多选的选项摘要（/分隔），其余显示 -</td><td class=""></td></tr>
+      <tr><td class="">使用次数</td><td class="">被模板引用累计次数</td><td class="">由模板侧引用关系统计</td></tr>
+      <tr><td class="">创建人/创建时间</td><td class="">审计字段</td><td class=""></td></tr>
+      <tr><td class="">操作</td><td class="">编辑/删除</td><td class="">删除有引用校验</td></tr>
+    </tbody></table>
+    <h3 class="">6.2 新增/编辑问题表单</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">必填</th><th class="">规则</th></tr>
+      <tr><td class="">问题内容</td><td class="">是</td><td class="">2~100字，不能与同分类下现有题重复（提示"该分类已存在相同问题"）</td></tr>
+      <tr><td class="">分类</td><td class="">是</td><td class="">三选一</td></tr>
+      <tr><td class="">题型</td><td class="">是</td><td class="">四选一</td></tr>
+      <tr><td class="">选项</td><td class="">单选/多选项</td><td class="">2~10个，每个≤20字，同题内不可重复</td></tr>
+    </tbody></table>
+    <h3 class="">6.3 模板信息表单（模板编辑页）</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">必填</th><th class="">规则</th></tr>
+      <tr><td class="">模板名称</td><td class="">是</td><td class="">2~50字，全局唯一，重复提示"模板名称已存在"</td></tr>
+      <tr><td class="">关联医院/品牌</td><td class="">是</td><td class="">树形多选≥1个；品牌勾选联动其下医院</td></tr>
+      <tr><td class="">备注</td><td class="">否</td><td class="">≤200字</td></tr>
+    </tbody></table>
+    <h3 class="">6.4 问题配置（模板内）</h3>
+    <table>
+      <tbody><tr><th class="">字段/控件</th><th class="">说明</th></tr>
+      <tr><td class="">题目卡片</td><td class="">题干 + 分类标签 + 题型 + 序号 + 上移/下移/删除；来源标记"库内题/自定义题"</td></tr>
+      <tr><td class="">是否必填（每道题）</td><td class="">卡片内"设为必答（必填）"开关，勾选=必答，取消=选答；默认勾选。自定义题在"手动添加"弹窗中同样配置</td></tr>
+      <tr><td class="">依赖条件（每题至多1条）</td><td class="">当[父问题▾] 答案等于[答案值▾] 时，[显示|跳过▾] [删除]</td></tr>
+      <tr><td class="">父问题下拉</td><td class="">选项 = 当前题之前的题目（按题ID引用，排序不失效）；首题无下拉</td></tr>
+      <tr><td class="">答案值下拉</td><td class="">随父题题型联动：评分→1~5星；单选/多选→父题选项；问答→无内容/有内容</td></tr>
+      <tr><td class="">添加条件按钮</td><td class="">仅当该题无条件 且 非首题 且 非末题 时展示</td></tr>
+    </tbody></table>
+    <h3 class="">6.5 调查明细 / 推广二维码</h3>
+    <table>
+      <tbody><tr><th class="">页面</th><th class="">字段</th></tr>
+      <tr><td class="">调查明细-统计</td><td class="">总填写次数、综合平均分、模板平均分、分类平均分；题目维度：平均分/分布占比</td></tr>
+      <tr><td class="">调查明细-答卷</td><td class="">答卷ID、模板、医院、提交时间、各题答案（被跳过的题显示"未展示"）</td></tr>
+      <tr><td class="">推广二维码</td><td class="">医院、品牌、模板、二维码图片、URL(qrId)、短链(可生成)、生成时间、状态、扫码次数</td></tr>
+    </tbody></table>
+    <h3 class="">6.6 医院下发配置（医院管理·综合配置）</h3>
+    <table>
+      <tbody><tr><th class="">字段/控件</th><th class="">说明</th></tr>
+      <tr><td class="">下发状态</td><td class="">已开启 / 未开启 / 已暂停（模板停用自动暂停）；列表列展示</td></tr>
+      <tr><td class="">自动下发开关</td><td class="">开启后 HIS 诊疗结束即触发判断；写 t_org_survey_config.enabled</td></tr>
+      <tr><td class="">下发模板</td><td class="">单选，可选范围 = 该院归属 且 启用的模板；无可选模板时置灰并提示</td></tr>
+      <tr><td class="">推送渠道</td><td class="">微信模板消息（优先）/ 短信兜底，可组合；决定 channels 字段</td></tr>
+      <tr><td class="">同步到其他医院</td><td class="">多选，选项 = 该模板归属医院 ∩ 角色权限医院；其余医院不展示；"保存并同步"批量写入</td></tr>
+      <tr><td class="">权限提示</td><td class="">角色无权限的医院：列表置灰"无权限配置"，综合配置按钮禁用</td></tr>
+    </tbody></table>
+
+    <h2 class="">七、异常与边界</h2>
+    <ul>
+      <li class="">模板被编辑期间有用户正在填写：C端答卷按提交时的快照作答，统计按答卷提交时的题目快照计算。</li>
+      <li class="">答卷提交失败/重复提交：以二维码+设备/用户维度做幂等控制（同组合仅允许一次，可配置是否允许多次）。</li>
+      <li class="">二维码长期未扫描：默认有效期 1 年，过期后访问提示"问卷已过期"。</li>
+      <li class=""><b>自动下发相关边界（新增）</b>：① HIS 重复回调同一 billId → 幂等直接返回 DUPLICATED，不重复推送；② 微信模板消息失败（额度/拒收）→ 有短信渠道自动兜底，无则记录 PARTIAL_FAILED 可人工重推；③ 宠主无 openid 且手机号缺失/无效 → NO_CONTACT，仅记日志不下发；④ 模板停用期间 HIS 回调 → NOT_READY，HIS 无需重试（模板启用后同宠主窗口内未推送过的可补推策略待运营确认，本期不自动补推）；⑤ 连台就诊（同宠主多张病历）→ 去重窗口 24h 仅推一次，后续单据返回 DUPLICATED。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== 技术文档 ==================== -->
+<div id="module-tech" class="module">
+  <div class="section doc" id="doc-tech">
+    <div class="section-title" style="font-size:20px;border-bottom:none">满意度调查系统 - 技术文档</div>
+    <p style="color:var(--muted);font-size:13px" class="">版本 V1.0 ｜ 内容范围：数据库表设计、字段说明、核心逻辑与接口约定（不含代码）</p>
+
+    <h2 class="">一、表结构总览</h2>
+    <p class="">共 7 张表：问题 2 张（题干+选项）、模板 3 张（模板信息、模板-题目关系、题目依赖条件）、答卷 2 张（答卷+答案明细）、推广 1 张（二维码）。医院/品牌复用现有机构表，不做重复设计。</p>
+    <div class="flow">
+      <span class="node">q_question</span><span class="arrow">→</span>
+      <span class="node">q_question_option</span>
+      <span class="arrow" style="margin-left:20px">→</span>
+      <span class="node">t_template</span><span class="arrow">→</span>
+      <span class="node">t_template_question</span><span class="arrow">→</span>
+      <span class="node">t_question_condition</span>
+      <span class="arrow" style="margin-left:20px">→</span>
+      <span class="node">s_survey</span><span class="arrow">→</span>
+      <span class="node">s_survey_answer</span>
+      <span class="arrow" style="margin-left:20px">→</span>
+      <span class="node">p_qrcode</span>
+      <span class="arrow" style="margin-left:20px">→</span>
+      <span class="node">t_org_survey_config</span><span class="arrow">→</span>
+      <span class="node">s_survey_push_log</span>
+    </div>
+    <div class="tip blue"><b>设计要点：</b>模板题目采用"引用+快照"双轨——<code>t_template_question</code> 存引用（可继续用问题库的题）、同时保存题干/选项/必填标志快照（模板修改与问卷作答不互相干扰）；依赖条件独立成表 <code>t_question_condition</code>，挂在模板题目上（每模板题目至多 1 条，与 PRD 规则一致）；<code>t_org_survey_config</code> 是医院下发开关（一院一行覆盖式更新），<code>s_survey_push_log</code> 记录每次 HIS 触发与推送结果（去重与对账依据）。</div>
+
+    <h2 class="">二、表结构明细</h2>
+    <h3 class="">2.1 q_question 问题主表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">必填</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">是</td><td class="">自增</td></tr>
+      <tr><td class="">category</td><td class="">tinyint</td><td class="">是</td><td class="">分类：1诊疗 2服务 3吐槽</td></tr>
+      <tr><td class="">title</td><td class="">varchar(200)</td><td class="">是</td><td class="">题干，≤100字</td></tr>
+      <tr><td class="">type</td><td class="">tinyint</td><td class="">是</td><td class="">题型：1评分 2单选 3多选 4问答</td></tr>
+      <tr><td class="">use_count</td><td class="">int</td><td class="">是</td><td class="">被模板引用次数（冗余计数，保存时更新）</td></tr>
+      <tr><td class="">status / creator / create_time / update_time / deleted</td><td class="">—</td><td class="">是</td><td class="">状态、审计、软删</td></tr>
+    </tbody></table>
+    <p class="">唯一约束：<code>(category, title)</code> 不删除时唯一（同分类题干不可重复）。</p>
+    <h3 class="">2.2 q_question_option 问题选项表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">自增</td></tr>
+      <tr><td class="">question_id</td><td class="">bigint, 索引</td><td class="">外键→q_question.id</td></tr>
+      <tr><td class="">option_text</td><td class="">varchar(50)</td><td class="">选项文本，≤20字</td></tr>
+      <tr><td class="">sort</td><td class="">int</td><td class="">选项顺序（1~10）</td></tr>
+    </tbody></table>
+    <p class="">约束：同一 question_id 下 option_text 唯一；评分/问答题型无选项记录。</p>
+    <h3 class="">2.3 t_template 模板表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">必填</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">是</td><td class="">自增</td></tr>
+      <tr><td class="">code</td><td class="">varchar(20)</td><td class="">是</td><td class="">模板编号（T001…），全局唯一</td></tr>
+      <tr><td class="">name</td><td class="">varchar(100)</td><td class="">是</td><td class="">模板名称，全局唯一，2~50字</td></tr>
+      <tr><td class="">remark</td><td class="">varchar(200)</td><td class="">否</td><td class="">备注</td></tr>
+      <tr><td class="">question_count</td><td class="">int</td><td class="">是</td><td class="">题目数（冗余，保存时更新）</td></tr>
+      <tr><td class="">fill_count</td><td class="">int</td><td class="">是</td><td class="">填写次数（冗余，答卷提交时+1）</td></tr>
+      <tr><td class="">avg_score</td><td class="">decimal(3,2)</td><td class="">否</td><td class="">综合评价平均分（冗余，统计时更新）</td></tr>
+      <tr><td class="">status</td><td class="">tinyint</td><td class="">是</td><td class="">1启用 0停用</td></tr>
+      <tr><td class="">creator / create_time / update_time / deleted</td><td class="">—</td><td class="">是</td><td class="">审计字段，deleted 软删</td></tr>
+    </tbody></table>
+    <h3 class="">2.4 t_template_org 模板-医院/品牌关联表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">自增</td></tr>
+      <tr><td class="">template_id</td><td class="">bigint, 索引</td><td class="">外键→t_template.id</td></tr>
+      <tr><td class="">org_id</td><td class="">bigint, 索引</td><td class="">医院或品牌ID（复用现有机构表）</td></tr>
+      <tr><td class="">org_type</td><td class="">tinyint</td><td class="">1品牌 2医院</td></tr>
+    </tbody></table>
+    <p class="">联合索引 <code>(template_id, org_id)</code>；"一模板多医院"即一行一模板一医院。品牌勾选联动逻辑在前端完成，落库时品牌与医院各存对应行。</p>
+    <h3 class="">2.5 t_template_question 模板-题目关系表（含快照）</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">必填</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">是</td><td class="">自增，C端按此 ID 标识"模板内的题"</td></tr>
+      <tr><td class="">template_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">外键→t_template.id</td></tr>
+      <tr><td class="">source</td><td class="">tinyint</td><td class="">是</td><td class="">来源：1问题库 2自定义题</td></tr>
+      <tr><td class="">question_id</td><td class="">bigint, 可空</td><td class="">否</td><td class="">外键→q_question.id（仅 source=1 时有值；题库题被删除后本行保留快照仍可展示）</td></tr>
+      <tr><td class="">category</td><td class="">tinyint</td><td class="">是</td><td class="">分类快照</td></tr>
+      <tr><td class="">title</td><td class="">varchar(200)</td><td class="">是</td><td class="">题干快照</td></tr>
+      <tr><td class="">type</td><td class="">tinyint</td><td class="">是</td><td class="">题型快照：1评分 2单选 3多选 4问答</td></tr>
+      <tr><td class="">required</td><td class="">tinyint</td><td class="">是</td><td class="">必填标志快照：1必答 0选答（默认1；C端"必答"标记与提交前校验依据）</td></tr>
+      <tr><td class="">options</td><td class="">json</td><td class="">否</td><td class="">选项快照（数组，单选/多选有值）</td></tr>
+      <tr><td class="">sort</td><td class="">int</td><td class="">是</td><td class="">模板内顺序</td></tr>
+    </tbody></table>
+    <p class="">索引：<code>(template_id, sort)</code>。依赖条件引用的是本表 id（稳定，排序不失效）。<b>required 随模板题目配置写入快照</b>：运营在"问题配置"页可对每道题单独勾选/取消"设为必答"，落库为该题一行快照；题库侧题目默认必填（1），但同一题可被不同模板设为不同的必填态，互不影响。</p>
+    <h3 class="">2.6 t_question_condition 题目依赖条件表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">必填</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">是</td><td class="">自增</td></tr>
+      <tr><td class="">template_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">冗余模板ID，便于按模板整体加载</td></tr>
+      <tr><td class="">tq_id</td><td class="">bigint, 唯一索引</td><td class="">是</td><td class="">外键→t_template_question.id（被控制的题目，唯一：每题至多1条条件）</td></tr>
+      <tr><td class="">parent_tq_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">外键→t_template_question.id（父题，必须 sort 小于本条）</td></tr>
+      <tr><td class="">answer_value</td><td class="">varchar(50)</td><td class="">是</td><td class="">匹配的答案值：星级（1~5）、选项文本、"HAS"/"NONE"（问答有/无内容）</td></tr>
+      <tr><td class="">action</td><td class="">tinyint</td><td class="">是</td><td class="">1显示 2跳过</td></tr>
+    </tbody></table>
+    <div class="tip blue"><b>校验逻辑（保存时服务端兜底，与前端规则一致）：</b>① tq_id 唯一 → 一题一条条件；② parent_tq_id 必须指向 sort 更小的题目（非首题才可能有条件）；③ 末题不允许作为被控题（无后续可跳）；④ answer_value 必须在父题快照选项/星级/枚举范围内；⑤ 父题被删除时级联删除本表对应行。</div>
+
+    <h3 class="">2.7 s_survey 答卷表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">必填</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">是</td><td class="">答卷ID（建议雪花ID防并发）</td></tr>
+      <tr><td class="">qrcode_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">外键→p_qrcode.id</td></tr>
+      <tr><td class="">template_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">冗余模板ID，便于按模板统计</td></tr>
+      <tr><td class="">org_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">冗余医院ID，便于按医院统计</td></tr>
+      <tr><td class="">submit_time</td><td class="">datetime, 索引</td><td class="">是</td><td class="">提交时间（统计时间维度）</td></tr>
+      <tr><td class="">avg_score</td><td class="">decimal(3,2)</td><td class="">否</td><td class="">本答卷平均分（提交时计算，加速明细展示）</td></tr>
+      <tr><td class="">client_id</td><td class="">varchar(64)</td><td class="">否</td><td class="">设备/用户标识，幂等控制用</td></tr>
+    </tbody></table>
+    <p class="">幂等约束：联合唯一 <code>(qrcode_id, client_id)</code>（同码同人只允许提交一次；"允许多次"场景则去掉 client_id 唯一并另加频率限制）。</p>
+    <h3 class="">2.8 s_survey_answer 答卷-答案明细表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">必填</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">是</td><td class="">自增</td></tr>
+      <tr><td class="">survey_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">外键→s_survey.id</td></tr>
+      <tr><td class="">tq_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">外键→t_template_question.id（答卷时的题ID快照）</td></tr>
+      <tr><td class="">title / type / category</td><td class="">—</td><td class="">是</td><td class="">题目快照冗余（统计直接查本表，不依赖模板后续变更）</td></tr>
+      <tr><td class="">answer</td><td class="">varchar(500)</td><td class="">否</td><td class="">答案：星级1~5 / 选项文本（多选逗号分隔）/ 文本题全文</td></tr>
+      <tr><td class="">skipped</td><td class="">tinyint</td><td class="">是</td><td class="">1=被依赖逻辑跳过未展示（明细显示"未展示"），0=正常作答</td></tr>
+    </tbody></table>
+    <p class="">被跳过的题也要写一行 skipped=1 的记录，明细页才能完整还原答卷视图；统计计算时过滤 skipped=1。索引 <code>(survey_id, tq_id)</code>。</p>
+    <h3 class="">2.9 p_qrcode 推广二维码表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">必填</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">是</td><td class="">自增，C端URL为 /survey/{id}</td></tr>
+      <tr><td class="">template_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">外键→t_template.id</td></tr>
+      <tr><td class="">org_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">医院ID（二维码仅按医院生成，前端二级联动选中的医院）</td></tr>
+      <tr><td class="">org_type</td><td class="">tinyint</td><td class="">是</td><td class="">固定 2（医院）；品牌不可选，仅作为前端筛选维度，不落库</td></tr>
+      <tr><td class="">qr_image</td><td class="">varchar(500)</td><td class="">是</td><td class="">二维码图片对象存储路径</td></tr>
+      <tr><td class="">short_url</td><td class="">varchar(64)</td><td class="">否</td><td class="">短链（如 s.example.com/{id}），点击"生成短链"时调用短链服务创建并回填；用于短信/模板消息文案，C端访问 302 到 /survey/{id}</td></tr>
+      <tr><td class="">status</td><td class="">tinyint</td><td class="">是</td><td class="">1启用 0停用</td></tr>
+      <tr><td class="">scan_count</td><td class="">int</td><td class="">是</td><td class="">扫码次数（C端访问时异步+1）</td></tr>
+      <tr><td class="">expire_time</td><td class="">datetime</td><td class="">否</td><td class="">默认生成时间+1年，过期C端提示"问卷已过期"</td></tr>
+    </tbody></table>
+    <p class="">有效唯一约束：<code>(template_id, org_id, org_type)</code> 在 status=1 时唯一（复用现有启用码；重新生成=旧的置停用后建新码，或原地重刷图片）。</p>
+
+    <h3 class="">2.10 t_org_survey_config 医院下发配置表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">必填</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">是</td><td class="">自增</td></tr>
+      <tr><td class="">org_id</td><td class="">bigint, 唯一索引</td><td class="">是</td><td class="">医院ID（org_type 固定医院；一医院一行，配置覆盖式更新）</td></tr>
+      <tr><td class="">template_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">下发模板，必须命中 t_template_org 该院归属行；模板变更时旧行直接覆盖</td></tr>
+      <tr><td class="">enabled</td><td class="">tinyint</td><td class="">是</td><td class="">1开启 0关闭（HIS 下发判断接口读此字段）</td></tr>
+      <tr><td class="">channels</td><td class="">varchar(32)</td><td class="">是</td><td class="">推送渠道位标记：WECHAT 微信模板消息 / SMS 短信，可组合"WECHAT,SMS"；短信兜底=组合含 SMS 时模板消息失败自动触发</td></tr>
+      <tr><td class="">dedup_window_hour</td><td class="">int</td><td class="">是</td><td class="">同院同宠主去重窗口（默认24h），防连台就诊重复推送</td></tr>
+      <tr><td class="">creator / create_time / update_time</td><td class="">—</td><td class="">是</td><td class="">审计；update_time 用于"模板重新启用且配置未变更→自动恢复"判定（比较更新人/时间是否仍为原配置）</td></tr>
+    </tbody></table>
+    <p class="">规则：① 配置可选模板 = 该院归属且启用 的模板；模板停用时不改本表，下发自动暂停（判断接口实时联查 t_template.status=1，停用即 NOT_READY）；② 模板重新启用 且 本行 update_time 未变（配置未变更）→ 自动恢复，无需人工；③ 批量同步 = 逐院写本表（事务内，任一院越权/非归属则整单回滚并返回逐院原因）。</p>
+
+    <h3 class="">2.11 s_survey_push_log 下发推送日志表</h3>
+    <table>
+      <tbody><tr><th class="">字段</th><th class="">类型</th><th class="">必填</th><th class="">说明</th></tr>
+      <tr><td class="">id</td><td class="">bigint PK</td><td class="">是</td><td class="">雪花ID</td></tr>
+      <tr><td class="">org_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">医院ID</td></tr>
+      <tr><td class="">qrcode_id</td><td class="">bigint, 索引</td><td class="">是</td><td class="">外键→p_qrcode.id（推送使用的有效码，短链从其 short_url 取）</td></tr>
+      <tr><td class="">bill_id</td><td class="">varchar(64), 索引</td><td class="">是</td><td class="">HIS 病历/医嘱单号（追溯源头）</td></tr>
+      <tr><td class="">client_id</td><td class="">varchar(64), 索引</td><td class="">是</td><td class="">宠主标识（openid / 手机号，与 C端提交幂等键同源）</td></tr>
+      <tr><td class="">channel</td><td class="">varchar(16)</td><td class="">是</td><td class="">实际渠道：WECHAT / SMS / WECHAT_FAILED_SMS（模板失败转短信）</td></tr>
+      <tr><td class="">status</td><td class="">tinyint</td><td class="">是</td><td class="">0待发送 1已发送 2发送失败 3已跳过（去重窗口内重复请求）</td></tr>
+      <tr><td class="">fail_reason</td><td class="">varchar(200)</td><td class="">否</td><td class="">失败原因（用户拒收/手机号无效/模板额度不足…）</td></tr>
+      <tr><td class="">send_time / create_time</td><td class="">datetime</td><td class="">是</td><td class="">去重窗口判断按 create_time</td></tr>
+    </tbody></table>
+    <p class="">去重规则：下发判断接口先查 <code>(org_id, client_id, create_time &gt;= now()-dedup_window_hour)</code> 存在 status∈{1,0} 的记录 → 直接返回 DUPLICATED，不再推送。索引 <code>(org_id, client_id, create_time)</code>。</p>
+
+    <h2 class="">三、核心逻辑约定</h2>
+    <h3 class="">3.1 C端题目展示判定</h3>
+    <div class="flow">
+      <span class="node">加载模板全部 tq（按sort）</span><span class="arrow">→</span>
+      <span class="node">逐题判断</span><span class="arrow">→</span>
+      <span class="node decision">存在条件且父题答案=answer_value？</span>
+      <div class="branch"><span class="">是 → 按 action 决定展示/跳过</span><span class="">否 → 默认展示</span></div>
+      <span class="arrow">→</span>
+      <span class="node action">提交时写 s_survey_answer（含skipped标记）</span>
+    </div>
+    <p class="">无条件的题一律默认展示；"跳过"动作含义：本被控题隐藏，"显示"动作含义：仅在父题答案匹配时展示（否则隐藏）。</p>
+    <h3 class="">3.2 统计计算口径</h3>
+    <ul>
+      <li class="">题目平均分 = AVG(answer) WHERE type=评分 AND skipped=0；选择类 = 各选项计数/总作答数（分母同样过滤 skipped）。</li>
+      <li class="">模板平均分 = 该模板全部评分题平均分均值；综合评价 = 全部分类评分题均值。冗余到 t_template.avg_score（提交答卷时增量更新：(旧分×旧次数+新答卷分)/(旧次数+1)）。</li>
+      <li class="">统计查询按 <code>(template_id, submit_time)</code>、<code>(org_id, submit_time)</code> 走索引；大时间范围走汇总表（可按需后加 s_daily_stat，本期不做）。</li>
+    </ul>
+
+    <h2 class="">四、接口约定（B端管理接口，风格参考现有系统）</h2>
+    <table>
+      <tbody><tr><th class="">模块</th><th class="">接口</th><th class="">说明</th></tr>
+      <tr><td rowspan="4" class="">问题库</td><td class="">GET /question/page</td><td class="">分页+分类/题型/关键词筛选</td></tr>
+      <tr><td class="">POST /question / PUT /question/{id}</td><td class="">新增/编辑，含选项数组；服务端做重复题干、选项个数校验</td></tr>
+      <tr><td class="">DELETE /question/{id}</td><td class="">返回引用模板列表（前端二次确认），确认后逻辑删并清理模板引用</td></tr>
+      <tr><td class="">POST /question/import | GET /question/export</td><td class="">Excel 批量导入（逐行校验返回错误行）/导出</td></tr>
+      <tr><td rowspan="3" class="">模板</td><td class="">GET /template/page</td><td class="">列表含题目数/填写数/平均分</td></tr>
+      <tr><td class="">PUT /template/{id}/info</td><td class="">保存模板信息（名称/医院/品牌/备注）</td></tr>
+      <tr><td class="">PUT /template/{id}/questions</td><td class="">保存问题配置（题目数组+依赖条件数组），服务端执行 2.6 校验逻辑，失败返回逐条错误</td></tr>
+      <tr><td rowspan="2" class="">明细</td><td class="">GET /survey/statistics</td><td class="">入参：时间范围/org/template；返回汇总卡片+题目维度统计</td></tr>
+      <tr><td class="">GET /survey/page | GET /survey/{id}/answers</td><td class="">答卷分页（含医院/时间筛选）+单答卷完整题答（含skipped标记）</td></tr>
+      <tr><td rowspan="2" class="">二维码</td><td class="">POST /qrcode/generate</td><td class="">入参 templateId+orgId（品牌仅作前端筛选、不落库）；命中有效唯一约束返回已存在码</td></tr>
+      <tr><td class="">PUT /qrcode/{id}/status | DELETE /qrcode/{id} | POST /qrcode/{id}/shorten</td><td class="">启用/停用、删除（仅无答卷的码可删）、生成短链（回填 p_qrcode.short_url，幂等）</td></tr>
+      <tr><td rowspan="2" class="">医院下发配置</td><td class="">PUT /org-survey-config/{orgId}</td><td class="">保存单院配置（enabled+templateId+channels）；服务端校验：医院归属该模板、模板启用、角色有该医院权限</td></tr>
+      <tr><td class="">POST /org-survey-config/sync</td><td class="">批量同步 {config, targetOrgIds[]}；逐院校验归属∩权限，整单事务，返回逐院结果（成功/原因），可重试</td></tr>
+      <tr><td rowspan="2" class="">HIS 开放接口</td><td class="">POST /open/his/survey/push</td><td class="">HMAC 鉴权；入参 orgId/billId/clientId/phone；返回 OK/NOT_ENABLED/NOT_READY/DUPLICATED/NO_CONTACT/PARTIAL_FAILED，详见六、6.1</td></tr>
+      <tr><td class="">GET /open/his/survey/push-log</td><td class="">按 billId/orgId+时间查推送日志（HIS 对账用）</td></tr>
+    </tbody></table>
+    <h2 class="">五、C端接口约定（宠主端小程序）</h2>
+    <table>
+      <tbody><tr><th class="">接口</th><th class="">说明</th></tr>
+      <tr><td class="">GET /c/survey/load?qrId={id}</td><td class="">进入填写页：校验码状态/有效期/幂等 → 返回 {status: normal|offline|expired|done}；normal 时返回题目列表（tq 快照含选项 + <b>required 必填标志</b>）+ 依赖条件数组 + 医院名称</td></tr>
+      <tr><td class="">POST /c/survey/submit</td><td class="">入参 {qrId, clientId, answers:[{tqId, answer, skipped}]}；服务端按幂等键 (qrcode_id, client_id) 兜底去重；写 s_survey + s_survey_answer（被跳过的题 skipped=1），更新 t_template 冗余统计。<b>校验：可见且 required=1 的题目必须有 answer，否则拒绝提交返回 4001"存在未必答的必答题"</b>（skipped=1 的题免校验）</td></tr>
+    </tbody></table>
+    <ul>
+      <li class="">返回体统一封装 { data, error, usage, request_id }，与现有 B端风格一致。</li>
+      <li class="">clientId 取小程序侧用户标识（如 openid 或本地设备号），提交与幂等校验均用它。</li>
+      <li class="">提交异步写统计：答卷主表落库同步，avg_score 与 fill_count 更新走事务内增量计算，不走聚合重算。</li>
+      <li class="">过期/停用判定读 p_qrcode.status 与 expire_time，命中则不返回题目，前端展示对应异常页。</li>
+    </ul>
+
+    <h2 class="">六、HIS 联动与推送接口（医院综合配置 · 自动下发）</h2>
+    <p class=""><b>调用方</b>：HIS 在诊疗结束（病历归档/结算）事件触发；<b>提供方</b>：本系统。接口鉴权走 HMAC 签名（双方共享密钥，请求头 X-Sign，防伪造）。</p>
+
+    <h3 class="">6.1 下发判断与推送接口</h3>
+    <table>
+      <tbody><tr><th class="">项</th><th class="">内容</th></tr>
+      <tr><td class="">接口</td><td class="">POST /open/his/survey/push</td></tr>
+      <tr><td class="">入参</td><td class="">orgId（医院ID）、billId（病历/结算单号）、clientId（宠主 openid，可空）、phone（手机号，可空，兜底短信用）、visitTime（就诊结束时间）</td></tr>
+      <tr><td class="">处理顺序</td><td class="">① 查 t_org_survey_config(orgId) 不存在或 enabled=0 → NOT_ENABLED；② 联查 t_template.status=1，停用 → NOT_READY（已暂停，HIS 侧无需重试）；③ 去重窗口命中（s_survey_push_log 24h 内有 status∈{0,1}）→ DUPLICATED；④ 取 医院×模板 有效二维码（无则按 4.4 规则自动生成）；⑤ 按 channels 先发微信模板消息，失败/未关注 且 含 SMS → 转短信；⑥ 写 s_survey_push_log（逐渠道一行或合并一行，channel 标记实际渠道）</td></tr>
+      <tr><td class="">返回码</td><td class="">OK（已推送/已进入队列）｜NOT_ENABLED（医院未开启下发）｜NOT_READY（模板停用已暂停，启用后自动恢复）｜DUPLICATED（窗口内已推）｜NO_CONTACT（无 openid 且无/无效手机号，无法兜底）｜PARTIAL_FAILED（多渠道部分失败，detail 逐渠道返回）</td></tr>
+      <tr><td class="">返回体示例</td><td class=""><code>{ "code":"OK", "data":{ "pushLogId":123, "qrcodeId":456, "channel":"WECHAT_FAILED_SMS", "qrUrl":"https://s.ex.com/abc" } }</code></td></tr>
+      <tr><td class="">幂等</td><td class="">(orgId, billId) 唯一索引，HIS 重试同单不重复推送</td></tr>
+    </tbody></table>
+
+    <h3 class="">6.2 微信模板消息（调研结论）</h3>
+    <div class="tip blue"><b>调研：官方模板库里没有现成的"满意度调查"模板</b>（微信服务号模板库按 医疗/交通/政务等类目管理，无问卷类目；小程序侧"订阅消息"也无现成问卷模板）。<b>可行方案</b>：选用服务号「工具→活动报名/进度通知」类或「医疗→就诊提醒」类目下的<b>服务提醒类模板</b>，将字段映射为：{{time}}=就诊结束时间、{{thing}}=医院名称、{{phrase1}}="诚邀您对本次诊疗进行评价"、{{url}}=短链（或小程序页跳转参数）。模板消息仅允许服务通知、不得营销化，跳转页面必须是服务号同主体的已发布页面（本次 C端填写页需挂在服务号自定义菜单或关联小程序上，跳转参数走小程序 page 路径）。需与微信侧确认：服务号行业类目、模板 ID 申请（"广告与服务→消息模板"添加）、IP 白名单。短信兜底走现有短信通道，文案含短链。</div>
+
+    <h3 class="">6.3 短链接口（推广二维码"生成短链"）</h3>
+    <table>
+      <tbody><tr><th class="">接口</th><th class="">说明</th></tr>
+      <tr><td class="">POST /qrcode/{id}/shorten</td><td class="">调用短链服务生成 short_url 并回填 p_qrcode.short_url；已存在则直接返回（幂等）。short_url 访问 302 → /survey/{id}，C端统计口径不变（按 qrId 归属）。</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- ==================== 宠主端UI设计 ==================== -->
+<div id="module-cend" class="module">
+  <div class="section doc">
+    <div class="section-title" style="font-size:20px;border-bottom:none">宠主端UI设计（C端填写页）</div>
+    <p style="color:var(--muted);font-size:13px" class="">入口：扫码 / 小程序内跳转进入填写页 ｜ 依据当前需求重构：题目来自模板快照，按依赖配置动态展示，支持四类题型</p>
+
+    <h2 class="">一、设计说明</h2>
+    <ul>
+      <li class=""><b>入口</b>：扫描"推广二维码"（含 qrId 的小程序 URL）进入；或从医院服务号 / 小程序列表点入。落地页默认加载该码关联模板。</li>
+      <li class=""><b>主题</b>：延续旧版橙色渐变视觉，但题目不再写死——按 <code>t_template_question</code> 快照 + <code>t_question_condition</code> 依赖逻辑动态渲染，旧版"固定 4 题"改为"按模板题目 + 条件显隐"。</li>
+      <li class=""><b>依赖联动</b>：逐题判断父题答案是否匹配，命中则按 action 显示/跳过；被跳过的题不渲染、不计入必答。</li>
+      <li class=""><b>题型控件</b>：评分（1~5星可点选）、单选（圆形）、多选（方形，≥1）、问答（多行文本，可带字数上限）；控件由题型决定，与具体题目解耦。</li>
+      <li class=""><b>幂等与过期</b>：同 qrId + client_id 已提交 → 直接进成功页并提示"您已参与过"；码停用/过期 → 展示对应提示页，不进入填写。</li>
+      <li class=""><b>提交</b>：必答校验（评分/单选必答、多选≥1、问答按配置）通过后可提交；提交成功跳成功页，异步写答卷与统计。</li>
+    </ul>
+
+    <h2 class="">二、UI 设计图（移动端 mockup）</h2>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:8px" class="">主色 #f97316（橙）+ 辅色奶油白 #fff7ed ｜ 圆角 10~36px ｜ 卡片投影 0 1px 3px ｜ 插画为 AI 生成（assets/ 目录本地引用）</p>
+    <div class="ui-row">
+          <!-- 手机1：填写页（UI 设计级） -->
+          <div class="ui-col">
+            <div class="phone-label">填写页 · 正常展示</div>
+            <div class="p-shell">
+              <div class="p-dyn"></div>
+              <div class="p-capsule"><div class="csp">······</div><div class="cap-sep"></div><div class="csp">○</div></div>
+              <div class="p-screen">
+                <div class="p-scroll">
+                  <div class="p-hero">
+                    <div class="p-sb" style="position:relative"><span>9:41</span><div class="sb-r"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".45"/></svg><svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="1" y="1" width="20" height="10" rx="3" stroke="currentColor" stroke-width="1" opacity=".55"/><rect x="3" y="3" width="14" height="6" rx="1.5" fill="currentColor"/></svg></div></div>
+                    <div class="ph-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>满意度调查</div>
+                    <div class="ph-title">北京万千宠爱宠物医院</div>
+                    <div class="ph-sub">亲爱的宠友，诚邀您留下真实反馈，帮助我们为毛孩子提供更好的服务。</div>
+                    <img class="ph-ill" src="assets/pets-hero.png" alt="pet illustration">
+                  </div>
+                  <div class="p-progress">
+                    <div class="pp-t"><span>填写进度</span><span class="cur">1 / 4</span></div>
+                    <div class="pp-bar"><div class="pp-fill"></div></div>
+                  </div>
+                  <div class="p-body">
+                    <div class="p-q">
+                      <div class="qt"><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF7A3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg></span><span><span class="qno">Q1</span>您对本次诊疗效果是否满意？<span class="qtag req">必答</span><span class="qtag zl">评分</span></span></div>
+                      <div class="p-stars"><svg class="on" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><svg class="on" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><svg class="on" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><svg class="on" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><span class="sl">非常满意</span></div>
+                    </div>
+                    <div class="p-q">
+                      <div class="qt"><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF7A3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg></span><span><span class="qno">Q2</span>您觉得哪些方面有待改进？<span class="qtag tw">多选</span></span></div>
+                      <div class="qopt on"><span class="ck square"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>等待时间长</div>
+                      <div class="qopt"><span class="ck square"></span>费用偏高</div>
+                      <div class="qopt"><span class="ck square"></span>环境体验</div>
+                    </div>
+                    <div class="p-q">
+                      <div class="qt"><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF7A3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg></span><span><span class="qno">Q3</span>您对我们还有什么建议？<span class="qtag tw">问答</span></span></div>
+                      <div class="p-input">选填，最多 200 字</div>
+                    </div>
+                    <div class="p-submit"><div class="sb-btn">提交问卷<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div></div>
+                  </div>
+                </div>
+                <div class="p-home"></div>
+              </div>
+            </div>
+            <div class="ui-cap"><b>UI 设计级</b>：真实 iOS 壳（动态岛 + 胶囊）+ 渐变头部 + 插画投影 + SVG 面性图标 + 卡片阴影；滚动条隐藏。</div>
+          </div>
+
+          <!-- 手机2：依赖跳过 -->
+          <div class="ui-col">
+            <div class="phone-label">依赖联动 · 条件跳过</div>
+            <div class="p-shell">
+              <div class="p-dyn"></div>
+              <div class="p-capsule"><div class="csp">······</div><div class="cap-sep"></div><div class="csp">○</div></div>
+              <div class="p-screen">
+                <div class="p-scroll">
+                  <div class="p-hero">
+                    <div class="p-sb" style="position:relative"><span>9:41</span><div class="sb-r"><svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="6" width="3" height="5" rx="1"/><rect x="4.5" y="4" width="3" height="7" rx="1"/><rect x="9" y="2" width="3" height="9" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1" opacity=".45"/></svg></div></div>
+                    <div class="ph-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>满意度调查</div>
+                    <div class="ph-title">初馨宠物医院</div>
+                    <img class="ph-ill" src="assets/pets-hero.png" alt="pet illustration">
+                  </div>
+                  <div class="p-progress">
+                    <div class="pp-t"><span>填写进度</span><span class="cur">1 / 3</span></div>
+                    <div class="pp-bar"><div class="pp-fill" style="width:33%"></div></div>
+                  </div>
+                  <div class="p-body">
+                    <div class="p-q">
+                      <div class="qt"><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF7A3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg></span><span><span class="qno">Q1</span>您对本次诊疗效果是否满意？<span class="qtag req">必答</span><span class="qtag zl">评分</span></span></div>
+                      <div class="p-stars"><svg class="on" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><svg class="on" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><svg class="on" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><svg class="on" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><svg class="on" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01Z"/></svg><span class="sl">5 / 5</span></div>
+                    </div>
+                    <div class="p-skip"><span class="skip-tag">条件跳过</span>「Q2 哪些方面有待改进？」<br>因 <b>Q1 = 5星</b> 命中跳过条件，本题不渲染</div>
+                    <div class="p-q">
+                      <div class="qt"><span class="qi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF7A3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg></span><span><span class="qno">Q3</span>您对我们还有什么建议？<span class="qtag tw">问答</span></span></div>
+                      <div class="p-input">选填</div>
+                    </div>
+                    <div class="p-submit"><div class="sb-btn">提交问卷<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div></div>
+                  </div>
+                </div>
+                <div class="p-home"></div>
+              </div>
+            </div>
+            <div class="ui-cap">被跳过的题不渲染、不计入必答；虚线框为<b>设计标注</b>（真实界面无此块），跳过逻辑由 <b>t_question_condition</b> 驱动。</div>
+          </div>
+
+          <!-- 手机3：提交成功页 -->
+          <div class="ui-col">
+            <div class="phone-label">提交成功页</div>
+            <div class="p-shell">
+              <div class="p-dyn"></div>
+              <div class="p-capsule"><div class="csp">······</div><div class="cap-sep"></div><div class="csp">○</div></div>
+              <div class="p-screen">
+                <div class="p-done">
+                  <img class="done-img" src="assets/pets-done.png" alt="success illustration">
+                  <div class="d-title">问卷已提交</div>
+                  <div class="d-sub">再次感谢您的参与！<br>3 秒后跳转至小程序首页，超多项目立即享优惠。</div>
+                  <div class="d-coupon">
+                    <div class="dc-amt">¥30<small> 起</small></div>
+                    <div class="dc-tx"><div class="t">感恩回馈券</div><div class="d">下次到店可用 · 有效期至 2026-12-31</div></div>
+                    <div class="dc-go">领取</div>
+                  </div>
+                  <div class="p-ghost">返回首页</div>
+                </div>
+                <div class="p-home"></div>
+              </div>
+            </div>
+            <div class="ui-cap">成功后自动倒计时跳转；异步写入答卷与统计，不阻塞用户。赠券为模板可配的"提交后激励"位。</div>
+          </div>
+
+          <!-- 手机4：异常态 -->
+          <div class="ui-col">
+            <div class="phone-label">异常态 · 已参与 / 下线</div>
+            <div class="p-shell">
+              <div class="p-dyn"></div>
+              <div class="p-capsule"><div class="csp">······</div><div class="cap-sep"></div><div class="csp">○</div></div>
+              <div class="p-screen">
+                <div class="p-locked">
+                  <div class="lk-ic"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF7A3D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+                  <div class="lk-t">您已参与过本问卷</div>
+                  <div class="lk-s">感谢支持！同一入口仅可提交一次。<br>（码停用 / 过期时此处显示"该问卷已下线"）</div>
+                </div>
+                <div class="p-home"></div>
+              </div>
+            </div>
+            <div class="ui-cap">幂等命中 / 码停用 / 码过期 三种情况统一走此拦截页，不进入填写。</div>
+          </div>
+        </div>
+
+    <h2>三、自动下发触达形态（微信模板消息 / 短信，对应"医院下发配置"页签）</h2>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:8px">诊疗结束后 HIS 触发下发：微信模板消息优先，失败或无 openid 时短信兜底。消息内链接 = 该医院×模板有效码短链，点击直接进入上述填写页。</p>
+    <div class="msg-row">
+      <div class="msg-col">
+        <div class="phone-label">微信模板消息（服务号推送）</div>
+        <div class="wx-card">
+          <div class="wx-top">
+            <div class="wx-ava">万</div>
+            <div>
+              <div class="wx-name">万千宠爱 · 服务提醒</div>
+              <div class="wx-tag">模板消息 · 就诊服务通知</div>
+            </div>
+          </div>
+          <div class="wx-body">
+            <div class="wx-field"><span>就诊时间</span><b>2026-09-14 14:30</b></div>
+            <div class="wx-field"><span>就诊医院</span><b>瑞辰华南动物医院</b></div>
+            <div class="wx-field"><span>温馨提示</span><b>诚邀您对本次诊疗进行满意度评价</b></div>
+            <div class="wx-field"><span>备注</span><b>1~2 分钟即可完成</b></div>
+            <a class="wx-btn">填写满意度问卷</a>
+          </div>
+        </div>
+        <div class="phone-cap">跳转参数走小程序 page 路径（携带 qrId）；模板字段映射见"技术文档 6.2"。</div>
+      </div>
+      <div class="msg-col">
+        <div class="phone-label">短信兜底（模板消息失败 / 未关注服务号）</div>
+        <div class="sms-card">
+          【万千宠爱】亲爱的宠友，感谢到瑞辰华南动物医院就诊。诚邀您1分钟完成满意度评价：
+          https://s.example.com/ab3x 回复TD退订
+        </div>
+        <div class="phone-cap">文案含短链（p_qrcode.short_url），302 到 /survey/{qrId}，与扫码入口统计口径统一。</div>
+      </div>
+    </div>
+    <div class="tip blue"><b>与旧版差异：</b>旧版题目固定 4 道（性别/宠物类型/看法/服务星级）写死在页面；新版题目与依赖全部由模板快照驱动，运营改模板即可改变 C端内容、无需发版；新增"跳过/下线/已参与"三类异常态、顶部插画与进度条，控件按题型解耦复用；并新增诊疗后自动触达（微信模板消息/短信），宠主无需主动扫码。</div>
+  </div>
+</div>
+
+<!-- 全局编辑工具栏（原型页面 + 文档页面均可编辑，保存直接写回源文件） -->
+<div class="edit-toolbar" id="editToolbar" style="display:none">
+  <button id="btnEdit" onclick="toggleEdit()" class="">✎ 编辑</button>
+  <button id="btnSave" class="primary" onclick="saveToFile()">💾 保存</button>
+  <span class="tb-hint" id="saveHint">当前源文件：D:\Data\Ai Agent\Hermes\产品方案\满意度调查系统重构方案\index.html（首次保存需在弹窗中选择该文件）</span>
+</div>
+
+</div>
+
+<script>
+// 显示模块
+function showModule(name, btn) {
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const mod = document.getElementById('module-' + name);
+  mod.classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (typeof applyEditState === 'function') applyEditState(mod, editing);
+}
+
+// ===== 推广二维码：品牌→医院 二级联动（品牌仅筛选、不可选，医院单选） =====
+// 数据：品牌下的医院列表
+const QR_HOSPITALS = {
+  '':        ['瑞辰华南动物医院', '瑞辰北京总院', '初馨宠物医院', '希望动物医院', '望宠猫科医院'],
+  'ruichen': ['瑞辰华南动物医院', '瑞辰北京总院'],
+  'chuxin':  ['初馨宠物医院'],
+  'wangchong': ['望宠猫科医院']
+};
+// 数据：医院归属的启用模板（模拟 t_template_org 命中且模板 status=1）
+const QR_HOSP_TEMPLATES = {
+  '瑞辰华南动物医院': ['满意度调查'],
+  '瑞辰北京总院':     ['满意度调查'],
+  '初馨宠物医院':     ['满意度调查', '初馨意见反馈'],
+  '希望动物医院':     ['武汉希望满意度调查'],
+  '望宠猫科医院':     []  // 无归属模板 → 无法生成
+};
+function qrCascadeHospital() {
+  const brandSel = document.getElementById('qrBrandSel');
+  const hospSel = document.getElementById('qrHospitalSel');
+  if (!brandSel || !hospSel) return;
+  const brand = brandSel.value;
+  const list = QR_HOSPITALS[brand] || QR_HOSPITALS[''];
+  hospSel.innerHTML = '<option value="" class="">请选择医院</option>' +
+    list.map(n => `<option value="${n}" class="">${n}</option>`).join('');
+  // 切换品牌后医院被重置 → 模板下拉同步清空
+  qrCascadeTemplate();
+}
+// 医院 → 归属模板（只显示该院归属且启用的模板，非归属组合不可生成）
+function qrCascadeTemplate() {
+  const hospSel = document.getElementById('qrHospitalSel');
+  const tplSel = document.getElementById('qrTemplateSel');
+  const hint = document.getElementById('qrTemplateHint');
+  if (!hospSel || !tplSel) return;
+  const hosp = hospSel.value;
+  const tpls = hosp ? (QR_HOSP_TEMPLATES[hosp] || []) : [];
+  if (!hosp) {
+    tplSel.innerHTML = '<option value="" class="">请先选择医院</option>';
+    tplSel.disabled = true;
+    if (hint) hint.innerHTML = '先选医院，再从其归属模板中选择；若该院无归属模板则无法生成，需先在模板管理中关联。';
+  } else if (tpls.length === 0) {
+    tplSel.innerHTML = '<option value="" class="">（该院暂无归属的启用模板）</option>';
+    tplSel.disabled = true;
+    if (hint) hint.innerHTML = '该院未关联任何启用模板，无法生成二维码。请先在"模板管理"中将该院加入目标模板的关联医院/品牌。';
+  } else {
+    tplSel.innerHTML = tpls.map(n => `<option value="${n}" class="">${n}</option>`).join('');
+    tplSel.disabled = false;
+    if (hint) hint.innerHTML = tpls.length > 1 ? `该院归属 ${tpls.length} 个启用模板，逐一模板生成（一模板一码）。` : '该院归属 1 个启用模板。';
+  }
+}
+// 初始化：进入二维码页签时自动填充一次全部医院列表
+document.addEventListener('DOMContentLoaded', qrCascadeHospital);
+
+// 显示模板视图
+function showTemplateView(view, btn) {
+  const views = ['list', 'edit', 'questions'];
+  views.forEach(v => {
+    const el = document.getElementById('templateView-' + v);
+    if (el) el.style.display = (v === view) ? 'block' : 'none';
+  });
+  if (btn) {
+    document.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
+
+// 打开弹窗
+function openModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.classList.add('show');
+  }
+}
+
+// 关闭弹窗
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.classList.remove('show');
+  }
+}
+
+// 切换选项显示
+function toggleCustomOptions(selectEl) {
+  const show = (selectEl.value === 'single' || selectEl.value === 'multiple');
+  
+  // 根据是哪个弹窗来显示对应的选项组
+  const modal = selectEl.closest('.modal-overlay');
+  const optionsGroup = modal.querySelector('[id$="OptionsGroup"], [id="optionsGroup"]');
+  if (optionsGroup) {
+    optionsGroup.style.display = show ? 'block' : 'none';
+  }
+}
+
+// 点击遮罩层关闭弹窗
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('show');
+  }
+});
+
+// 依赖配置数据（模拟）
+const templateQuestions = [
+  { id: 1, text: '您对本次诊疗效果是否满意？', type: 'rating', conditions: [] },
+  { id: 2, text: '医生诊断解释是否清晰易懂？', type: 'rating', conditions: [{ parentQId: 1, answer: '5星', action: 'skip' }] },
+  { id: 3, text: '您对本院环境是否满意？', type: 'rating', conditions: [] },
+  { id: 4, text: '您对我们有何建议？', type: 'text', conditions: [{ parentQId: 1, answer: '无', action: 'show' }] }
+];
+
+// 渲染依赖配置
+function renderDependencyList() {
+  const container = document.getElementById('dependencyList');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  templateQuestions.forEach((q, index) => {
+    const item = document.createElement('div');
+    item.className = 'dependency-item';
+    item.style.background = index % 2 === 0 ? 'white' : 'var(--bg)';
+    
+    // 问题标题行
+    let html = `<div style="display:flex;align-items:center;gap:8px">
+      <span class="badge badge-${index === 0 ? 'purple' : index === 1 ? 'purple' : index === 2 ? 'blue' : 'orange'}">问题${q.id}</span>
+      <span style="font-size:13px">${q.text}</span>
+      <span class="badge badge-${q.type === 'rating' ? 'blue' : 'orange'}" style="margin-left:auto">${q.type === 'rating' ? '评分题' : '问答'}</span>
+    </div>`;
+    
+    // 条件列表
+    if (q.conditions && q.conditions.length > 0) {
+      html += `<div style="margin-top:8px">`;
+      q.conditions.forEach((cond, cIdx) => {
+        const actionText = cond.action === 'skip' ? '跳过' : '显示';
+        const actionBadge = cond.action === 'skip' ? 'badge-red' : 'badge-green';
+        
+        // 生成父问题选择选项
+        let parentOptions = '';
+        templateQuestions.forEach((pq, pIdx) => {
+          if (pq.id !== q.id) {
+            parentOptions += `<option value="${pq.id}" ${cond.parentQId === pq.id ? 'selected' : ''}>问题${pq.id}: ${pq.text}</option>`;
+          }
+        });
+        
+        // 生成答案选项（选中状态与数据同步）
+        const parentQ = templateQuestions.find(x => x.id === cond.parentQId);
+        let answerOptions = '';
+        const answerOpts = parentQ ? (parentQ.type === 'rating' ? ['1星','2星','3星','4星','5星'] : parentQ.type === 'single' ? ['选项1','选项2','选项3'] : ['无','有其他建议']) : ['无','有其他建议'];
+        answerOpts.forEach(a => {
+          answerOptions += `<option value="${a}" ${cond.answer === a ? 'selected' : ''}>${a}</option>`;
+        });
+        
+        html += `<div style="padding:8px;background:var(--accent-light);border-radius:4px;font-size:12px;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span style="color:var(--muted)">当</span>
+          <select style="padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px" onchange="updateParentQuestion(${q.id}, ${cIdx}, this.value)">
+            ${parentOptions}
+          </select>
+          <span style="color:var(--muted)">答案等于</span>
+          <select style="padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px" onchange="updateAnswer(${q.id}, ${cIdx}, this.value)">
+            ${answerOptions}
+          </select>
+          <span style="color:var(--muted)">时，</span>
+          <select style="padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:12px" onchange="updateAction(${q.id}, ${cIdx}, this.value)">
+            <option value="show" ${cond.action === 'show' ? 'selected' : ''}>显示</option>
+            <option value="skip" ${cond.action === 'skip' ? 'selected' : ''}>跳过</option>
+          </select>
+          <button class="btn btn-sm" style="padding:2px 6px;font-size:11px;color:var(--red)" onclick="removeCondition(${q.id}, ${cIdx})">删除</button>
+        </div>`;
+      });
+      html += `</div>`;
+    } else {
+      // 无条件的问题
+      html += `<div style="margin-top:8px;font-size:12px;color:var(--muted)">无依赖配置</div>`;
+      
+      // 添加条件按钮（第一个和最后一个问题不显示）
+      if (index > 0 && index < templateQuestions.length - 1) {
+        html += `<button class="btn btn-sm" style="margin-top:8px" onclick="addCondition(${q.id})">+ 添加条件</button>`;
+      }
+    }
+    
+    item.innerHTML = html;
+    container.appendChild(item);
+  });
+}
+
+// 添加条件
+function addCondition(questionId) {
+  const q = templateQuestions.find(x => x.id === questionId);
+  if (q) {
+    // 默认选择第一个可用的父问题
+    const parentQ = templateQuestions.find(x => x.id !== questionId);
+    q.conditions.push({ parentQId: parentQ ? parentQ.id : 1, answer: '5星', action: 'skip' });
+    renderDependencyList();
+  }
+}
+
+// 删除条件
+function removeCondition(questionId, conditionIndex) {
+  const q = templateQuestions.find(x => x.id === questionId);
+  if (q && q.conditions) {
+    q.conditions.splice(conditionIndex, 1);
+    renderDependencyList();
+  }
+}
+
+// 更新父问题选择
+function updateParentQuestion(questionId, conditionIndex, parentId) {
+  const q = templateQuestions.find(x => x.id === questionId);
+  if (q && q.conditions[conditionIndex]) {
+    q.conditions[conditionIndex].parentQId = parseInt(parentId);
+    // 重新渲染以更新答案选项
+    renderDependencyList();
+  }
+}
+
+// 更新答案选择
+function updateAnswer(questionId, conditionIndex, answer) {
+  const q = templateQuestions.find(x => x.id === questionId);
+  if (q && q.conditions[conditionIndex]) {
+    q.conditions[conditionIndex].answer = answer;
+  }
+}
+
+// 更新动作选择
+function updateAction(questionId, conditionIndex, action) {
+  const q = templateQuestions.find(x => x.id === questionId);
+  if (q && q.conditions[conditionIndex]) {
+    q.conditions[conditionIndex].action = action;
+  }
+}
+
+// ===== 全局文字编辑 + 源文件保存 =====
+// 覆盖全部文字类元素：标题/段落/列表/表格/标签/按钮/弹窗文案/导航/手机mockup 等
+const TEXT_SELECTORS = ['h1','h2','h3','h4','h5','p','li','td','th','label','span','button','small','option','.section-title','.question-text','.question-meta','.tip','.flow .node','.flow .branch span','.modal-title','.form-label','.tree-item span','dt','dd','a','.phone-label','.phone-cap','.h-title','.h-sub','.h-badge','.q-text','.q-req','.radio-opt','.check-opt','.s-label','.s-title','.s-sub','.phone-input','.phone-skip','.pp-text','.lock-icon','.phone-locked'];
+let editing = false;
+let fsHandle = null; // 关联的源文件句柄（首次保存时选定，之后直接写回）
+
+// 对当前文档（含所有模块与弹窗）应用/取消编辑状态
+function applyEditState(root, on) {
+  root.querySelectorAll(TEXT_SELECTORS.join(',')).forEach(el => {
+    if (on) { el.setAttribute('contenteditable', 'true'); el.classList.add('editing-outline'); }
+    else { el.removeAttribute('contenteditable'); el.classList.remove('editing-outline'); }
+  });
+}
+
+function toggleEdit() {
+  editing = !editing;
+  applyEditState(document.body, editing);
+  const btn = document.getElementById('btnEdit');
+  btn.textContent = editing ? '✓ 完成编辑' : '✎ 编辑';
+  btn.classList.toggle('on', editing);
+  showToast(editing ? '编辑已开启：点击页面上任何文字（含弹窗、按钮、导航）直接修改' : '已退出编辑');
+}
+
+// 取干净源码：去掉编辑态属性，避免写回文件里带上 contenteditable
+function cleanSource() {
+  const clone = document.cloneNode(true);
+  clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+  clone.querySelectorAll('.editing-outline').forEach(el => el.classList.remove('editing-outline'));
+  return '<!DOCTYPE html>\n' + clone.documentElement.outerHTML;
+}
+
+// 保存：直接写回源文件（File System Access API，首次需选定文件）
+async function saveToFile() {
+  const source = cleanSource();
+  try {
+    if (!fsHandle && window.showOpenFilePicker) {
+      document.getElementById('saveHint').textContent = '请在文件选择框中选择本文件所在的 index.html';
+      const [handle] = await showOpenFilePicker({
+        types: [{ description: 'HTML 文件', accept: { 'text/html': ['.html', '.htm'] } }],
+        multiple: false
+      });
+      fsHandle = handle;
+      document.getElementById('saveHint').textContent = '已关联 ' + handle.name + '，再次保存直接写回';
+    }
+    if (!fsHandle) throw new Error('no-fs');
+    const w = await fsHandle.createWritable();
+    await w.write(source);
+    await w.close();
+    showToast('已保存到源文件 ' + fsHandle.name + '，2秒后自动打开所在文件夹');
+    openContainingFolder();
+  } catch (e) {
+    if (e.name === 'AbortError') { document.getElementById('saveHint').textContent = '请点保存后在文件框中选择 index.html'; return; }
+    // 降级：不支持直接写文件时下载，手动覆盖
+    downloadText(source, 'index.html');
+    showToast('当前浏览器不支持直接写文件，已下载修改后的 index.html，请用它覆盖源文件');
+  }
+}
+
+// 保存后在资源管理器中打开源文件所在文件夹
+function openContainingFolder() {
+  const url = window.location.href;
+  if (url.startsWith('file://')) {
+    // 取目录部分并打开；失败则降级为新标签打开目录
+    const dir = url.substring(0, url.lastIndexOf('/'));
+    try {
+      window.open(dir, '_blank');
+      return;
+    } catch (e) { /* fall through */ }
+  }
+  // http(s) 或本地无法打开目录时，提示手动前往
+  showToast('请在浏览器地址栏复制路径，前往文件所在文件夹查看：' + (url.replace(/^https?:\/\//, '')));
+}
+
+function downloadText(text, filename) {
+  const blob = new Blob([text], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+// 轻量提示
+function showToast(msg) {
+  let t = document.getElementById('toastTip');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toastTip';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;z-index:999999;box-shadow:0 4px 12px rgba(0,0,0,.2)';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.style.display = 'none', 2500);
+}
+
+// 初始化
+renderDependencyList();
+(function() {
+  const u = window.location.href;
+  if (u.startsWith('file://')) {
+    try {
+      let p = decodeURIComponent(new URL(u).pathname).replace(/^\/+/, '');
+      p = p.replace(/\//g, '\\');
+      if (!/^[A-Za-z]:/.test(p)) p = 'C:' + p;
+      document.getElementById('saveHint').textContent = '当前源文件：' + p + '（首次保存需在弹窗中选择该文件）';
+    } catch (e) { /* 保持默认提示 */ }
+  }
+})();
+</script>
+
+
+<div id="toastTip" style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgb(31, 41, 55); color: rgb(255, 255, 255); padding: 10px 18px; border-radius: 8px; font-size: 13px; z-index: 999999; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; display: none;">已退出编辑</div>
+<!-- ============ OpenGate 访问门禁 (自动注入, 请勿手改) ============ -->
+<div id="ov-gate" style="position:fixed;inset:0;z-index:2147483647;background:
+  radial-gradient(1200px 600px at 20% 0%, #1e2a44, #0d1117 60%);display:flex;
+  align-items:center;justify-content:center;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;">
+  <div style="width:340px;max-width:88vw;background:#161b22;border:1px solid #30363d;
+    border-radius:14px;padding:28px 26px;color:#e6edf3;box-shadow:0 18px 60px rgba(0,0,0,.55)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span id="ov-title" style="font-size:16px;font-weight:600">访问保护</span>
+    </div>
+    <p style="font-size:13px;color:#8b949e;margin:0 0 18px">此内容受密码保护, 请输入访问密码后查看。</p>
+    <form id="ov-gate-form">
+      <input type="password" id="ov-pw" placeholder="访问密码" autocomplete="off"
+        style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #30363d;
+        background:#0d1117;color:#e6edf3;border-radius:8px;font-size:14px;outline:none">
+      <div id="ov-err" style="display:none;color:#f85149;font-size:12px;margin-top:8px">密码不正确, 请重试</div>
+      <button type="submit" id="ov-submit" style="margin-top:12px;width:100%;padding:10px;
+        background:#238636;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">
+        进 入</button>
+    </form>
+    <div id="ov-lockrow" style="display:none;margin-top:14px;text-align:center">
+      <button id="ov-lock" style="background:none;border:none;color:#8b949e;font-size:12px;cursor:pointer">
+        锁定并关闭当前访问
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const GATE = {"salt": "5c2a18eb59d64eed9641f62a5009060d", "iterations": 250000, "hash": "257737748e7e33edac96b45fcc15e733e4bd410ef79ef5351c6e6804e7fb1a37", "algo": "pbkdf2-sha256"};
+  const TITLE = "满意度调查系统重构方案";
+  const KEY = "ov_unlocked";
+  const gate = document.getElementById("ov-gate");
+  document.getElementById("ov-title").textContent = TITLE + " · 访问保护";
+  function hexToBytes(h){const b=new Uint8Array(h.length/2);for(let i=0;i<b.length;i++)b[i]=parseInt(h.substr(i*2,2),16);return b;}
+  function bufToHex(b){return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+  function showUnlocked(){gate.style.display="none";const lr=document.getElementById("ov-lockrow");if(lr)lr.style.display="block";}
+  async function check(pw){
+    const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2");
+    const out=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(GATE.salt),iterations:GATE.iterations},key,32);
+    return bufToHex(out)===GATE.hash;
+  }
+  if(sessionStorage.getItem(KEY)){showUnlocked();return;}
+  document.getElementById("ov-gate-form").addEventListener("submit",async e=>{
+    e.preventDefault();
+    const pw=document.getElementById("ov-pw").value;
+    const btn=document.getElementById("ov-submit");btn.disabled=true;btn.textContent="验证中…";
+    const ok=await check(pw);
+    if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();}
+    else{btn.disabled=false;btn.textContent="进 入";document.getElementById("ov-err").style.display="block";document.getElementById("ov-pw").select();}
+  });
+  const lb=document.getElementById("ov-lock");
+  if(lb)lb.onclick=function(){sessionStorage.removeItem(KEY);location.href="/";location.reload();};
+})();
+</script>
+<!-- ============ /OpenGate ============ -->
+
+</body></html>
