@@ -2616,7 +2616,7 @@ renderDependencyList();
 </div>
 <script>
 (function(){
-  const GATE = {"salt": "5d73affb1853a51add05db2ef508ece5", "iterations": 250000, "hash": "2c722efc4c1e1f8e274e10cb5e86035714f25a5ea734c7923c666cf84d011145", "algo": "pbkdf2-sha256"};
+  const GATE = {"salt": "75f8a809a1dd179960162802050b0a42", "hash": "73e7542fbb6f6b256f90b6e43dd16d6e384a46bef6164f72e32b5c5360a70467", "algo": "sha256-salt-pipe"};
   const TITLE = "满意度调查系统重构方案";
   const KEY = "ov_unlocked";
   const gate = document.getElementById("ov-gate");
@@ -2627,8 +2627,7 @@ renderDependencyList();
   async function check(pw){
     try{
       if(!window.crypto||!crypto.subtle){return false;}
-      const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);
-      const out=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(GATE.salt),iterations:GATE.iterations},key,32);
+      const out=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(GATE.salt+"|"+pw));
       return bufToHex(out)===GATE.hash;
     }catch(err){return false;}
   }
