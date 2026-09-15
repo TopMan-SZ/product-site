@@ -96,14 +96,15 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   const lock=document.getElementById("ov-lock");
   document.getElementById("menu").onclick=()=>document.body.classList.toggle("navopen");
 
+  const BUILD="1789441403"; // 构建时间戳: 拼进 iframe URL, 更新方案后查看者强刷即可见新版
   function open(slug){
     slug=String(slug).replace(/\/+$/,""); // 归一化: 去掉末尾斜杠, 防 frame.src 双斜杠 & querySelector 失配
     document.querySelectorAll(".item").forEach(el=>el.classList.toggle("active",el.dataset.slug===slug));
-    frame.src=slug+"/";
+    frame.src=slug+"/?v="+BUILD;
     frame.style.display="block";empty.style.display="none";
     const t=document.querySelector('.item[data-slug="'+slug+'"] .t');
     if(t) cur.textContent=t.textContent;
-    ext.href=slug+"/";
+    ext.href=slug+"/?v="+BUILD;
     document.body.classList.remove("navopen");
   }
   document.querySelectorAll(".item").forEach(el=>el.addEventListener("click",()=>open(el.dataset.slug)));
