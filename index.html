@@ -61,7 +61,7 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
       <p>Product &amp; Research Hub</p>
     </div>
     <nav class="nav">
-      <div class="cap">产品方案 · 5</div>
+      <div class="cap">产品方案 · 4</div>
       <div class="item" data-slug="satisfaction">
   <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg></span>
   <div class="txt"><div class="t">满意度调查系统重构方案</div>
@@ -72,11 +72,6 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   <div class="txt"><div class="t">宠物医疗行业调研报告</div>
   <div class="d">宠物经济 7013 亿、医疗占 28% 的深度数据调研（图表可交互）</div>
   <span class="tag cool">HTML</span></div>
-</div><div class="item" data-slug="good-review">
-  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l4 4v16H6z"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="14" x2="15" y2="14"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
-  <div class="txt"><div class="t">好评生成系统产品方案</div>
-  <div class="d">好评生成流程 · 需求与技术方案聚合文档</div>
-  <span class="tag warm">MARKDOWN</span></div>
 </div><div class="item" data-slug="rui-chen-ui">
   <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18 2 2 0 0 0 2-2 2 2 0 0 1 2-2h1a4 4 0 0 0 4-4 8 8 0 0 0-9-10z"/><circle cx="8" cy="12" r="1"/><circle cx="12" cy="8" r="1"/><circle cx="16" cy="12" r="1"/></svg></span>
   <div class="txt"><div class="t">瑞辰宠物医院小程序 · UI 设计规范</div>
@@ -142,7 +137,9 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   lock.onclick=function(){sessionStorage.removeItem(KEY);location.href="satisfaction/";location.reload();};
   // 若 sessionStorage 已解锁, 直接打开第一个方案; 否则等门禁解锁后由全局再触发
   if(sessionStorage.getItem(KEY)) open("satisfaction/");
+  document.addEventListener("ov-unlocked",function(){open("satisfaction/");});
 })();
+</script>
 
 <!-- ============ OpenGate 访问门禁 (自动注入, 请勿手改) ============ -->
 <div id="ov-gate" style="position:fixed;inset:0;z-index:2147483647;background:
@@ -193,7 +190,7 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
     const pw=document.getElementById("ov-pw").value;
     const btn=document.getElementById("ov-submit");btn.disabled=true;btn.textContent="验证中…";
     const ok=await check(pw);
-    if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();}
+    if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();document.dispatchEvent(new Event("ov-unlocked"));}
     else{btn.disabled=false;btn.textContent="进 入";document.getElementById("ov-err").style.display="block";document.getElementById("ov-pw").select();}
   });
   const lb=document.getElementById("ov-lock");
@@ -202,5 +199,4 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
 </script>
 <!-- ============ /OpenGate ============ -->
 
-</script>
 </body></html>

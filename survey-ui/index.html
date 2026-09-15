@@ -575,7 +575,7 @@
     const pw=document.getElementById("ov-pw").value;
     const btn=document.getElementById("ov-submit");btn.disabled=true;btn.textContent="验证中…";
     const ok=await check(pw);
-    if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();}
+    if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();document.dispatchEvent(new Event("ov-unlocked"));}
     else{btn.disabled=false;btn.textContent="进 入";document.getElementById("ov-err").style.display="block";document.getElementById("ov-pw").select();}
   });
   const lb=document.getElementById("ov-lock");
