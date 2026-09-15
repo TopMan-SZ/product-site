@@ -61,27 +61,12 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
       <p>Product &amp; Research Hub</p>
     </div>
     <nav class="nav">
-      <div class="cap">产品方案 · 4</div>
+      <div class="cap">产品方案 · 1</div>
       <div class="item" data-slug="satisfaction">
   <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg></span>
   <div class="txt"><div class="t">满意度调查系统重构方案</div>
   <div class="d">HIS 联动 · 微信模板消息/短信兜底 · 二级医院联动 的重构原型与文档</div>
   <span class="tag warm">HTML</span></div>
-</div><div class="item" data-slug="pet-medical">
-  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="11" width="3" height="6"/><rect x="11" y="7" width="3" height="10"/><rect x="16" y="4" width="3" height="13"/></svg></span>
-  <div class="txt"><div class="t">宠物医疗行业调研报告</div>
-  <div class="d">宠物经济 7013 亿、医疗占 28% 的深度数据调研（图表可交互）</div>
-  <span class="tag cool">HTML</span></div>
-</div><div class="item" data-slug="rui-chen-ui">
-  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18 2 2 0 0 0 2-2 2 2 0 0 1 2-2h1a4 4 0 0 0 4-4 8 8 0 0 0-9-10z"/><circle cx="8" cy="12" r="1"/><circle cx="12" cy="8" r="1"/><circle cx="16" cy="12" r="1"/></svg></span>
-  <div class="txt"><div class="t">瑞辰宠物医院小程序 · UI 设计规范</div>
-  <div class="d">主色 #FF7A3D 扁平大圆角暖风 · 设计 token 全表</div>
-  <span class="tag warm">HTML</span></div>
-</div><div class="item" data-slug="survey-ui">
-  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg></span>
-  <div class="txt"><div class="t">问卷调查 UI 设计</div>
-  <div class="d">移动端问卷填写界面（Ardot 原生设计）</div>
-  <span class="tag cool">HTML</span></div>
 </div>
     </nav>
     <div class="lockfoot"><button id="ov-lock" style="display:none">锁定并关闭当前访问</button></div>
@@ -171,7 +156,7 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
 </div>
 <script>
 (function(){
-  const GATE = {"salt": "5c2a18eb59d64eed9641f62a5009060d", "iterations": 250000, "hash": "257737748e7e33edac96b45fcc15e733e4bd410ef79ef5351c6e6804e7fb1a37", "algo": "pbkdf2-sha256"};
+  const GATE = {"salt": "5d73affb1853a51add05db2ef508ece5", "iterations": 250000, "hash": "2c722efc4c1e1f8e274e10cb5e86035714f25a5ea734c7923c666cf84d011145", "algo": "pbkdf2-sha256"};
   const TITLE = "产品方案中心";
   const KEY = "ov_unlocked";
   const gate = document.getElementById("ov-gate");
@@ -180,9 +165,12 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   function bufToHex(b){return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
   function showUnlocked(){gate.style.display="none";const lr=document.getElementById("ov-lockrow");if(lr)lr.style.display="block";}
   async function check(pw){
-    const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2");
-    const out=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(GATE.salt),iterations:GATE.iterations},key,32);
-    return bufToHex(out)===GATE.hash;
+    try{
+      if(!window.crypto||!crypto.subtle){return false;}
+      const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);
+      const out=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(GATE.salt),iterations:GATE.iterations},key,32);
+      return bufToHex(out)===GATE.hash;
+    }catch(err){return false;}
   }
   if(sessionStorage.getItem(KEY)){showUnlocked();return;}
   document.getElementById("ov-gate-form").addEventListener("submit",async e=>{

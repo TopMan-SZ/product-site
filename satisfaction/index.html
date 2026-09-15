@@ -2615,7 +2615,7 @@ renderDependencyList();
 </div>
 <script>
 (function(){
-  const GATE = {"salt": "5c2a18eb59d64eed9641f62a5009060d", "iterations": 250000, "hash": "257737748e7e33edac96b45fcc15e733e4bd410ef79ef5351c6e6804e7fb1a37", "algo": "pbkdf2-sha256"};
+  const GATE = {"salt": "5d73affb1853a51add05db2ef508ece5", "iterations": 250000, "hash": "2c722efc4c1e1f8e274e10cb5e86035714f25a5ea734c7923c666cf84d011145", "algo": "pbkdf2-sha256"};
   const TITLE = "满意度调查系统重构方案";
   const KEY = "ov_unlocked";
   const gate = document.getElementById("ov-gate");
@@ -2624,9 +2624,12 @@ renderDependencyList();
   function bufToHex(b){return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
   function showUnlocked(){gate.style.display="none";const lr=document.getElementById("ov-lockrow");if(lr)lr.style.display="block";}
   async function check(pw){
-    const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2");
-    const out=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(GATE.salt),iterations:GATE.iterations},key,32);
-    return bufToHex(out)===GATE.hash;
+    try{
+      if(!window.crypto||!crypto.subtle){return false;}
+      const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);
+      const out=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(GATE.salt),iterations:GATE.iterations},key,32);
+      return bufToHex(out)===GATE.hash;
+    }catch(err){return false;}
   }
   if(sessionStorage.getItem(KEY)){showUnlocked();return;}
   document.getElementById("ov-gate-form").addEventListener("submit",async e=>{
