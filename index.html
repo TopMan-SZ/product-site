@@ -2,6 +2,7 @@
 <html lang="zh-CN"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>产品方案中心</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
 :root{
   --bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--border:#30363d;
@@ -96,7 +97,7 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   const lock=document.getElementById("ov-lock");
   document.getElementById("menu").onclick=()=>document.body.classList.toggle("navopen");
 
-  const BUILD="1789441403"; // 构建时间戳: 拼进 iframe URL, 更新方案后查看者强刷即可见新版
+  const BUILD="1789443573"; // 构建时间戳: 拼进 iframe URL, 更新方案后查看者强刷即可见新版
   function open(slug){
     slug=String(slug).replace(/\/+$/,""); // 归一化: 去掉末尾斜杠, 防 frame.src 双斜杠 & querySelector 失配
     document.querySelectorAll(".item").forEach(el=>el.classList.toggle("active",el.dataset.slug===slug));
