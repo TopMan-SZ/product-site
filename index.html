@@ -97,10 +97,12 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   document.getElementById("menu").onclick=()=>document.body.classList.toggle("navopen");
 
   function open(slug){
+    slug=String(slug).replace(/\/+$/,""); // 归一化: 去掉末尾斜杠, 防 frame.src 双斜杠 & querySelector 失配
     document.querySelectorAll(".item").forEach(el=>el.classList.toggle("active",el.dataset.slug===slug));
     frame.src=slug+"/";
     frame.style.display="block";empty.style.display="none";
-    cur.textContent=document.querySelector('.item[data-slug="'+slug+'"] .t').textContent;
+    const t=document.querySelector('.item[data-slug="'+slug+'"] .t');
+    if(t) cur.textContent=t.textContent;
     ext.href=slug+"/";
     document.body.classList.remove("navopen");
   }
