@@ -142,7 +142,8 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
       <input type="password" id="ov-pw" placeholder="访问密码" autocomplete="off"
         style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #30363d;
         background:#0d1117;color:#e6edf3;border-radius:8px;font-size:14px;outline:none">
-      <div id="ov-err" style="display:none;color:#f85149;font-size:12px;margin-top:8px">密码不正确, 请重试</div>
+      <div id="ov-err" style="display:none;color:#f85149;font-size:12px;margin-top:8px">密码不正确, 请重试。若确认密码无误, 请强制刷新 (Ctrl+Shift+R) —— 你当前打开的可能是缓存的旧版页面。
+        <div id="ov-errinfo" style="margin-top:4px;color:#8b949e;font-size:11px"></div></div>
       <button type="submit" id="ov-submit" style="margin-top:12px;width:100%;padding:10px;
         background:#238636;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">
         进 入</button>
@@ -175,11 +176,17 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   if(sessionStorage.getItem(KEY)){showUnlocked();return;}
   document.getElementById("ov-gate-form").addEventListener("submit",async e=>{
     e.preventDefault();
-    const pw=document.getElementById("ov-pw").value;
+    const raw=document.getElementById("ov-pw").value;
+    const pw=raw.trim();
     const btn=document.getElementById("ov-submit");btn.disabled=true;btn.textContent="验证中…";
     const ok=await check(pw);
     if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();document.dispatchEvent(new Event("ov-unlocked"));}
-    else{btn.disabled=false;btn.textContent="进 入";document.getElementById("ov-err").style.display="block";document.getElementById("ov-pw").select();}
+    else{
+      btn.disabled=false;btn.textContent="进 入";
+      const er=document.getElementById("ov-err");er.style.display="block";
+      const ei=document.getElementById("ov-errinfo");if(ei)ei.textContent="本页校验基线 "+GATE.hash.slice(0,12)+"… (页面版本若与最新不符, 强刷即可)";
+      document.getElementById("ov-pw").select();
+    }
   });
   const lb=document.getElementById("ov-lock");
   if(lb)lb.onclick=function(){sessionStorage.removeItem(KEY);location.href="/";location.reload();};
