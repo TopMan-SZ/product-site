@@ -97,7 +97,7 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   const lock=document.getElementById("ov-lock");
   document.getElementById("menu").onclick=()=>document.body.classList.toggle("navopen");
 
-  const BUILD="1789443573"; // 构建时间戳: 拼进 iframe URL, 更新方案后查看者强刷即可见新版
+  const BUILD="1789537392"; // 构建时间戳: 拼进 iframe URL, 更新方案后查看者强刷即可见新版
   function open(slug){
     slug=String(slug).replace(/\/+$/,""); // 归一化: 去掉末尾斜杠, 防 frame.src 双斜杠 & querySelector 失配
     document.querySelectorAll(".item").forEach(el=>el.classList.toggle("active",el.dataset.slug===slug));
