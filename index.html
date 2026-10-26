@@ -13,7 +13,6 @@
 html,body{height:100%}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px}
 .app{display:grid;grid-template-columns:300px 1fr;height:100vh;overflow:hidden}
-/* sidebar */
 .side{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
 .brand{padding:22px 20px 18px;border-bottom:1px solid var(--border)}
 .brand h1{font-size:17px;font-weight:600;display:flex;align-items:center;gap:9px}
@@ -27,6 +26,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang 
 .item.active{background:var(--cool-bg);border-color:rgba(88,166,255,.35)}
 .item.active .ic{color:var(--cool)}
 .item .ic{width:20px;height:20px;flex:0 0 20px;color:var(--muted);margin-top:1px}
+.item .ic svg{width:20px;height:20px;display:block}
 .item .txt{flex:1;min-width:0}
 .item .t{font-size:13.5px;font-weight:550;line-height:1.35}
 .item .d{font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:3px}
@@ -37,7 +37,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang 
 .lockfoot button{background:none;border:1px solid var(--border);color:var(--muted);width:100%;
   padding:8px;border-radius:8px;cursor:pointer;font-size:12px}
 .lockfoot button:hover{color:var(--text);border-color:var(--muted)}
-/* main */
 .main{display:flex;flex-direction:column;background:var(--bg)}
 .topbar{display:flex;align-items:center;gap:12px;padding:0 18px;height:52px;border-bottom:1px solid var(--border);flex:0 0 auto}
 .topbar .cur{font-size:14px;font-weight:600}
@@ -48,10 +47,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang 
 .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);gap:14px}
 .empty svg{width:46px;height:46px;opacity:.4}
 .empty .k{font-size:13px}
-@media(max-width:760px){.app{grid-template-columns:1fr}.side{position:fixed;left:0;top:0;bottom:0;z-index:20;transform:translateX(-100%);transition:transform .2s;width:280px}
-body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
 .menu{display:none;width:34px;height:34px;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--muted)}
 .menu svg{width:18px;height:18px}
+@media(max-width:760px){.app{grid-template-columns:1fr}.side{position:fixed;left:0;top:0;bottom:0;z-index:20;transform:translateX(-100%);transition:transform .2s;width:280px}
+body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
 </style>
 </head>
 <body>
@@ -62,11 +61,16 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
       <p>Product &amp; Research Hub</p>
     </div>
     <nav class="nav">
-      <div class="cap">产品方案 · 1</div>
+      <div class="cap">产品方案 · 2</div>
       <div class="item" data-slug="satisfaction">
   <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg></span>
   <div class="txt"><div class="t">满意度调查系统重构方案</div>
   <div class="d">HIS 联动 · 微信模板消息/短信兜底 · 二级医院联动 的重构原型与文档</div>
+  <span class="tag warm">HTML</span></div>
+</div><div class="item" data-slug="mendian-zhushou">
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><line x1="10" y1="18.5" x2="14" y2="18.5"/></svg></span>
+  <div class="txt"><div class="t">门店助手（企微迁移）</div>
+  <div class="d">企微自建应用员工端 · 核销/预约/发票认证 15 页 50 态高保真交付</div>
   <span class="tag warm">HTML</span></div>
 </div>
     </nav>
@@ -95,11 +99,10 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   const cur=document.getElementById("curtitle");
   const ext=document.querySelector(".topbar .ext a");
   const lock=document.getElementById("ov-lock");
+  const BUILD="1793008330";
   document.getElementById("menu").onclick=()=>document.body.classList.toggle("navopen");
-
-  const BUILD="1789537392"; // 构建时间戳: 拼进 iframe URL, 更新方案后查看者强刷即可见新版
   function open(slug){
-    slug=String(slug).replace(/\/+$/,""); // 归一化: 去掉末尾斜杠, 防 frame.src 双斜杠 & querySelector 失配
+    slug=String(slug).replace(/\/+$/,"");
     document.querySelectorAll(".item").forEach(el=>el.classList.toggle("active",el.dataset.slug===slug));
     frame.src=slug+"/?v="+BUILD;
     frame.style.display="block";empty.style.display="none";
@@ -115,18 +118,9 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
     if(e.key==="ArrowDown"||e.key==="ArrowRight"){items[Math.min(i+1,items.length-1)].click();}
     if(e.key==="ArrowUp"||e.key==="ArrowLeft"){items[Math.max(i-1,0)].click();}
   });
-
-  if(sessionStorage.getItem(KEY)){
-    lock.style.display="block";
-    open("satisfaction/");
-  } else {
-    lock.style.display="none";
-    // 未解锁时, 由门禁覆盖层接管; 这里保持空态
-  }
+  if(sessionStorage.getItem(KEY)){lock.style.display="block";open("satisfaction/");}
   lock.onclick=function(){sessionStorage.removeItem(KEY);location.href="satisfaction/";location.reload();};
-  // 若 sessionStorage 已解锁, 直接打开第一个方案; 否则等门禁解锁后由全局再触发
-  if(sessionStorage.getItem(KEY)) open("satisfaction/");
-  document.addEventListener("ov-unlocked",function(){open("satisfaction/");});
+  document.addEventListener("ov-unlocked",function(){lock.style.display="block";open("satisfaction/");});
 })();
 </script>
 
@@ -166,7 +160,6 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   const KEY = "ov_unlocked";
   const gate = document.getElementById("ov-gate");
   document.getElementById("ov-title").textContent = TITLE + " · 访问保护";
-  function hexToBytes(h){const b=new Uint8Array(h.length/2);for(let i=0;i<b.length;i++)b[i]=parseInt(h.substr(i*2,2),16);return b;}
   function bufToHex(b){return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
   function showUnlocked(){gate.style.display="none";const lr=document.getElementById("ov-lockrow");if(lr)lr.style.display="block";}
   async function check(pw){
@@ -179,8 +172,7 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   if(sessionStorage.getItem(KEY)){showUnlocked();return;}
   document.getElementById("ov-gate-form").addEventListener("submit",async e=>{
     e.preventDefault();
-    const raw=document.getElementById("ov-pw").value;
-    const pw=raw.trim();
+    const pw=document.getElementById("ov-pw").value.trim();
     const btn=document.getElementById("ov-submit");btn.disabled=true;btn.textContent="验证中…";
     const ok=await check(pw);
     if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();document.dispatchEvent(new Event("ov-unlocked"));}
@@ -195,6 +187,6 @@ body.navopen .side{transform:none}.topbar .menu{display:inline-flex}}
   if(lb)lb.onclick=function(){sessionStorage.removeItem(KEY);location.href="/";location.reload();};
 })();
 </script>
-<!-- ============ /OpenGate ============ -->
+<!-- ============ /OpenGate -->
 
 </body></html>

@@ -1,3 +1,4 @@
 secret.json
+.gh-token
 .DS_Store
 *.log

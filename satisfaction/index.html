@@ -2652,6 +2652,9 @@ renderDependencyList();
 
 
 <div id="toastTip" style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgb(31, 41, 55); color: rgb(255, 255, 255); padding: 10px 18px; border-radius: 8px; font-size: 13px; z-index: 999999; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; display: block;">已退出编辑</div>
+
+
+
 <!-- ============ OpenGate 访问门禁 (自动注入, 请勿手改) ============ -->
 <div id="ov-gate" style="position:fixed;inset:0;z-index:2147483647;background:
   radial-gradient(1200px 600px at 20% 0%, #1e2a44, #0d1117 60%);display:flex;
@@ -2688,7 +2691,6 @@ renderDependencyList();
   const KEY = "ov_unlocked";
   const gate = document.getElementById("ov-gate");
   document.getElementById("ov-title").textContent = TITLE + " · 访问保护";
-  function hexToBytes(h){const b=new Uint8Array(h.length/2);for(let i=0;i<b.length;i++)b[i]=parseInt(h.substr(i*2,2),16);return b;}
   function bufToHex(b){return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
   function showUnlocked(){gate.style.display="none";const lr=document.getElementById("ov-lockrow");if(lr)lr.style.display="block";}
   async function check(pw){
@@ -2701,8 +2703,7 @@ renderDependencyList();
   if(sessionStorage.getItem(KEY)){showUnlocked();return;}
   document.getElementById("ov-gate-form").addEventListener("submit",async e=>{
     e.preventDefault();
-    const raw=document.getElementById("ov-pw").value;
-    const pw=raw.trim();
+    const pw=document.getElementById("ov-pw").value.trim();
     const btn=document.getElementById("ov-submit");btn.disabled=true;btn.textContent="验证中…";
     const ok=await check(pw);
     if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();document.dispatchEvent(new Event("ov-unlocked"));}
@@ -2717,6 +2718,6 @@ renderDependencyList();
   if(lb)lb.onclick=function(){sessionStorage.removeItem(KEY);location.href="/";location.reload();};
 })();
 </script>
-<!-- ============ /OpenGate ============ -->
+<!-- ============ /OpenGate -->
 
 </body></html>
