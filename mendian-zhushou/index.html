@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-build="d802a448">
+<html lang="zh-CN" data-build="a09ea495">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>门店助手（企微员工端）· UI 交付 v23</title>
+<title>门店助手（企微员工端）· UI 交付 v24</title>
 <style>
 /* ==========================================================================
    瑞辰 · 门店助手（企微小程序）设计 token  v3
@@ -518,21 +518,138 @@ main { padding-bottom: 96px; }
 }
 
 /* ---------------------------------------------------------------- 文档 */
-.doc {
-  max-width: 980px;
+/* 版面（变更单 38）：左目录 + 右正文；章节号由 CSS 计数器出（md 里不写死数字），
+   h3 / h4 一律 <details> 可逐级折叠；强调只有一种表达（品牌 800 字色），不再混用加粗与底色。 */
+.doc-wrap {
+  max-width: 1296px;
   margin: 0 auto;
-  padding: 8px 28px 40px;
+  padding: 8px 28px 48px;
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+/* ---- 目录 ---- */
+.doc-toc {
+  position: sticky;
+  top: 128px;
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+  padding: 4px 12px 12px 0;
+  border-right: 1px solid var(--shell-line);
+  font-size: var(--fs-t4);
+  line-height: var(--lh-t4);
+  overscroll-behavior: contain;
+}
+.toc-hd { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 0 12px; }
+.toc-tt { font-size: 11px; letter-spacing: .16em; font-weight: 700; color: var(--shell-ink-3); }
+.toc-tools { display: flex; gap: 4px; }
+.toc-tools button {
+  appearance: none; font: inherit; font-size: 11px; line-height: 1;
+  min-height: 24px; padding: 4px 8px; border: 1px solid var(--shell-line); border-radius: 5px;
+  background: #FFFFFF; color: var(--shell-ink-2); cursor: pointer;
+}
+.toc-tools button:hover { border-color: var(--color-primary-border); color: var(--color-primary-ink); }
+.toc-tools button:focus-visible { outline: 2px solid var(--color-primary-ink); outline-offset: 1px; }
+.doc-toc ol { list-style: none; margin: 0; padding: 0; }
+.doc-toc ol.toc-l2 { padding-left: 12px; margin: 0 0 4px; }
+.doc-toc ol.toc-l2:empty { display: none; }
+.doc-toc a {
+  display: block; padding: 4px 8px; margin: 0;
+  color: var(--shell-ink-2); text-decoration: none; border-radius: 0 6px 6px 0;
+  border-left: 2px solid transparent;
+}
+.doc-toc a i {
+  font-style: normal; font-variant-numeric: tabular-nums; color: var(--shell-ink-3);
+  margin-right: 8px; font-size: var(--fs-t5);
+}
+.doc-toc a:hover { color: var(--color-text-1); background: #FFFFFF; }
+.doc-toc a.is-cur {
+  color: var(--color-primary-ink); font-weight: 600;
+  border-left-color: var(--color-primary-ink); background: #FFFFFF;
+}
+.doc-toc a.is-cur i { color: var(--color-primary-ink); }
+
+/* ---- 正文 ---- */
+.doc {
+  counter-reset: ch;
+  max-width: 940px;
   font-size: var(--fs-t3);
   line-height: 1.75;
   color: var(--color-text-2);
 }
 
-/* 文档首行 h1 是 md 自带的文档名，面板头已写「需求规格说明书 vNN」，重复则隐去 */
+/* 文档名：面板头已写「需求规格说明书 vNN」，正文首行同名标题不再重复 */
 .doc > h1:first-child { display: none; }
 .doc h1 { font-size: 26px; line-height: 34px; margin: 28px 0 12px; color: var(--color-text-1); letter-spacing: -.4px; }
-.doc h2 { font-size: 22px; line-height: 30px; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--shell-line); color: var(--color-text-1); }
-.doc h3 { font-size: 17px; line-height: 24px; margin: 24px 0 8px; color: var(--color-text-1); }
-.doc h4 { font-size: 15px; line-height: 22px; margin: 18px 0 6px; color: var(--color-text-1); }
+
+.doc .ch { scroll-margin-top: 136px; }
+.doc .ch > h2 {
+  display: flex; align-items: baseline; gap: 10px;
+  font-size: var(--fs-t1); line-height: var(--lh-t1); margin: 40px 0 16px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--shell-line);
+  color: var(--color-text-1); letter-spacing: -.2px;
+}
+.doc .ch:first-child > h2 { margin-top: 4px; }
+
+/* 多级编号：h2 = 1 / h3 = 1.1 / h4 = 1.1.1（数字都在 md 之外生成） */
+/* 计数器必须挂在元素自身、编号只从 ::before 取：挂在伪元素里，increment 落在伪元素
+   自己的作用域，每章都会从 0 重来（v24 首版 1.1 / 1.1 重复的坑）。
+   作用域要盖住后续兄弟节点：ch 由 .doc 重置、h2 递增；sec 由 h2 重置、details.sec 递增；
+   sub 由 details.sec 重置、h4 递增。 */
+.doc h2 { counter-increment: ch; counter-reset: sec sub; }
+.doc details.sec { counter-increment: sec; counter-reset: sub; }
+.doc h4 { counter-increment: sub; }
+.doc h2::before {
+  content: counter(ch);
+  font-variant-numeric: tabular-nums; font-weight: 700;
+  color: var(--color-primary-ink); font-size: var(--fs-t1);
+}
+.doc h3::before {
+  content: counter(ch) "." counter(sec);
+  font-variant-numeric: tabular-nums; font-weight: 600;
+  color: var(--shell-ink-3); font-size: var(--fs-t4);
+}
+.doc h4::before {
+  content: counter(ch) "." counter(sec) "." counter(sub);
+  font-variant-numeric: tabular-nums; font-weight: 500;
+  color: var(--shell-ink-3); font-size: var(--fs-t5);
+}
+.doc h3::before, .doc h4::before { display: inline-block; margin-right: 9px; }
+.doc .ch > h2::before { display: inline-block; margin-right: 0; }
+
+/* 折叠：h3 / h4 各自是一个 <details>，默认展开，点标题行即收起 */
+.doc details { scroll-margin-top: 136px; }
+.doc details.sec { margin: 24px 0 0; }
+.doc details.sub { margin: 16px 0 0; }
+.doc details > summary {
+  list-style: none; cursor: pointer; border-radius: 6px;
+  display: flex; align-items: center; gap: 8px;
+  margin-left: -8px; padding: 4px 8px;
+  transition: background .12s ease;
+}
+.doc details > summary::-webkit-details-marker { display: none; }
+.doc details > summary:hover { background: #FFFFFF; box-shadow: 0 0 0 1px var(--shell-line); }
+.doc details > summary:focus-visible { outline: 2px solid var(--color-primary-ink); outline-offset: 1px; }
+.doc details > summary h3, .doc details > summary h4 {
+  flex: 1; min-width: 0; margin: 0; display: block;
+}
+.doc details.sec > summary h3 { font-size: var(--fs-t2); line-height: var(--lh-t2); color: var(--color-text-1); }
+.doc details.sub > summary h4 { font-size: var(--fs-t3); line-height: var(--lh-t3); color: var(--color-text-1); }
+/* 折叠箭头：默认指右，展开指下 */
+.doc .chev {
+  flex: none; width: 7px; height: 7px; margin: 0 3px 0 0; align-self: center;
+  border-right: 1.6px solid var(--shell-ink-3); border-bottom: 1.6px solid var(--shell-ink-3);
+  transform: rotate(-45deg); transition: transform .14s ease;
+}
+.doc details[open] > summary .chev { transform: rotate(45deg); }
+.doc details > .bd { padding-top: 2px; }
+.doc details.sub > .bd {
+  border-left: 1px solid var(--shell-line);
+  margin-left: 2px; padding-left: 16px;
+}
+
 .doc p { margin: 8px 0; }
 .doc ul, .doc ol { margin: 10px 0; padding-left: 22px; }
 .doc li { margin: 4px 0; }
@@ -557,7 +674,7 @@ main { padding-bottom: 96px; }
 .doc table {
   width: 100%;
   border-collapse: collapse;
-  margin: 14px 0;
+  margin: 16px 0;
   font-size: var(--fs-t4);
   line-height: 1.6;
   background: #FFFFFF;
@@ -567,7 +684,6 @@ main { padding-bottom: 96px; }
 }
 .doc th, .doc td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--shell-line); vertical-align: top; }
 .doc th { background: #F7F3EF; font-weight: var(--font-weight-semibold); color: var(--color-text-1); white-space: nowrap; }
-/* 编号单元格（T-01 / N-01 / R11）不按连字符断行：`T-` 和 `02` 拆两行会被看成排版错误 */
 .doc td .nw { white-space: nowrap; }
 .doc tr:last-child td { border-bottom: 0; }
 .doc blockquote {
@@ -578,9 +694,32 @@ main { padding-bottom: 96px; }
   color: var(--shell-ink-2);
   border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
 }
-.doc figure { margin: 18px 0; }
+.doc figure { margin: 18px 0 20px; }
 .doc figure svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.doc figcaption {
+  margin-top: 8px; text-align: center;
+  font-size: var(--fs-t5); line-height: var(--lh-t5); color: var(--shell-ink-3);
+}
 .doc hr { border: 0; border-top: 1px solid var(--shell-line); margin: 28px 0; }
+
+/* 强调只有一种：品牌 800 字色（白底 5.67:1）+ 600 字重；不再出现底色块与彩色加粗混排 */
+.doc strong { color: var(--color-primary-ink); font-weight: var(--font-weight-semibold); }
+.doc .rno {
+  color: var(--color-primary-ink); font-weight: 600;
+  font-size: .92em; letter-spacing: .01em;
+  font-variant-numeric: tabular-nums;
+}
+/* 功能点小卡：F-xx 起头的那一行当小标题用 */
+.doc strong + br { display: none; }
+
+@media (max-width: 1180px) {
+  .doc-wrap { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-left: 14px; padding-right: 14px; }
+  .doc-toc {
+    position: static; max-height: none; border-right: 0;
+    border-bottom: 1px solid var(--shell-line); padding: 0 0 10px; margin-bottom: 8px;
+  }
+  .doc-toc ol.toc-l2 { display: none; }
+}
 
 /* ---------------------------------------------------------------- 素材 */
 .asset-grid {
@@ -4192,10 +4331,10 @@ main { padding-bottom: 96px; }
   <div class="topbar-inner">
     <div class="brand">
       <div class="brand-mark"><span class="brand-dot"></span><h1 class="brand-name">门店助手 · 企微员工端</h1></div>
-      <p class="brand-sub">瑞辰宠医 · 迁移企微｜需求规格 v23｜设计引导 v21｜token v3</p>
+      <p class="brand-sub">瑞辰宠医 · 迁移企微｜需求规格 v24｜设计引导 v21｜token v3</p>
     </div>
     <div class="deliver-meta">
-      <span>版本 <b>v23</b></span><span>日期 <b>2026-10-27</b></span>
+      <span>版本 <b>v24</b></span><span>日期 <b>2026-10-27</b></span>
       <span>页面 <b>20</b></span><span>可切态 <b>77</b></span>
       <span>图标 <b>6+46</b></span><span>形态 <b>离线单文件</b></span>
     </div>
@@ -6000,66 +6139,90 @@ main { padding-bottom: 96px; }
 </section>
 
 <section class="panel" id="doc">
-  <div class="panel-head"><h2>需求规格说明书 v23</h2><p>45 条需求 · 移动端 20 页 64 态 + 后台 6 页 13 态 · 10 模块（M0–M9）· 纯文本说明书，无图无 CDN</p></div>
-  <article class="doc">
-<h1>门店助手（企微小程序）+ 后台配套 · 需求规格说明书 v23</h1>
-<table><thead><tr><th>项</th><th>内容</th></tr></thead><tbody><tr><td><span class="nw">产品</span></td><td>门店助手 — 瑞辰宠医员工端作业入口（企微自建应用内小程序）</td></tr><tr><td>版本 / 日期</td><td>v23 / 2026-10-27</td></tr><tr><td><span class="nw">范围</span></td><td><strong>45 条需求（R01–R45）</strong> · 10 个模块（M0–M9） · 移动端 <strong>20 页 / 64 态</strong> + 后台 PC <strong>6 页 / 13 态</strong></td></tr><tr><td><span class="nw">怎么读</span></td><td>只想知道「要做什么」→ §4 一句话清单；想知道「这个模块怎么用」→ §5；要验收 → 每模块末尾的「功能点」；要开发 → §6 数据、§7 状态机</td></tr><tr><td><span class="nw">不在本文范围</span></td><td>C 端小程序改造、支付、佣金结算与提现；后台 PC 只含与门店助手直接相关的 3 处改造（管理员企微映射、角色功能权限、数据权限），其余后台菜单不动</td></tr></tbody></table>
-<hr>
-<h2>1 概述</h2>
-<h3>1.1 这是什么</h3>
+  <div class="panel-head"><h2>需求规格说明书 v24</h2><p>45 条需求 · 10 模块（M0–M9）· 14 张内联 SVG 流程图 · 三级编号 · 小节可折叠 · 左侧目录可跳转 · 无外链</p></div>
+<div class="doc-wrap"><nav class="doc-toc" aria-label="文档目录"><div class="toc-hd"><span class="toc-tt">目录</span><span class="toc-tools"><button type="button" data-act="open">全展开</button><button type="button" data-act="close">全收起</button></span></div><ol class="toc-l1"><li><a href="#c1"><i>1</i>概述</a><ol class="toc-l2"><li><a href="#c1-1"><i>1.1</i>这是什么</a></li><li><a href="#c1-2"><i>1.2</i>七条不能破的边界</a></li><li><a href="#c1-3"><i>1.3</i>前提与依赖</a></li></ol></li><li><a href="#c2"><i>2</i>术语（只留容易搞错的）</a><ol class="toc-l2"></ol></li><li><a href="#c3"><i>3</i>角色与权限</a><ol class="toc-l2"></ol></li><li><a href="#c4"><i>4</i>需求条目</a><ol class="toc-l2"><li><a href="#c4-1"><i>4.1</i>需求清单（45 条）</a></li><li><a href="#c4-2"><i>4.2</i>没有界面的需求</a></li><li><a href="#c4-3"><i>4.3</i>需求 → 页面 / 功能点</a></li><li><a href="#c4-4"><i>4.4</i>后台 PC 页面</a></li></ol></li><li><a href="#c5"><i>5</i>模块规格</a><ol class="toc-l2"><li><a href="#c5-1"><i>5.1</i>M0 身份与登录（R02 R03 R04 R36）</a></li><li><a href="#c5-2"><i>5.2</i>M1 入口、首页与权限（R01 R06 R07 R08 R09 R34 R37）</a></li><li><a href="#c5-3"><i>5.3</i>M2 扫码核销（R10–R15）· 三类单据共用一套外壳</a></li><li><a href="#c5-4"><i>5.4</i>M3 预约（R16–R19 R21 R38）· 列表、详情、确认 / 改约 / 取消</a></li><li><a href="#c5-5"><i>5.5</i>M4 预约待办（R20 R21）</a></li><li><a href="#c5-6"><i>5.6</i>M5 开票待办与发票认证（R22–R29）</a></li><li><a href="#c5-7"><i>5.7</i>M6 我的（R34 R36）</a></li><li><a href="#c5-8"><i>5.8</i>M7 迁移与发版（R30–R33）</a></li><li><a href="#c5-9"><i>5.9</i>M8 分销（R39–R43）· 分销员视角</a></li><li><a href="#c5-10"><i>5.10</i>M9 后台配套（R07 R35 R44 R45）· 企微映射 / 角色权限 / 数据权限</a></li></ol></li><li><a href="#c6"><i>6</i>数据实体</a><ol class="toc-l2"></ol></li><li><a href="#c7"><i>7</i>状态机</a><ol class="toc-l2"><li><a href="#c7-1"><i>7.1</i>核销（三类单据共用一个外壳）</a></li><li><a href="#c7-2"><i>7.2</i>预约</a></li><li><a href="#c7-3"><i>7.3</i>开票</a></li></ol></li></ol></nav><article class="doc"><h1>门店助手（企微小程序）+ 后台配套 · 需求规格说明书 v24</h1>
+<section class="ch" id="c1"><h2>概述</h2>
+<details class="sec" id="c1-1" open><summary><span class="chev" aria-hidden="true"></span><h3>这是什么</h3></summary><div class="bd">
 <p>门店助手把员工现在「核销、看预约、办开票」这三件活搬进企业微信：员工从企微工作台一个图标进去，不装 App、不用登录。</p>
 <table><thead><tr><th>能力</th><th>一句话</th></tr></thead><tbody><tr><td><span class="nw">扫码核销</span></td><td>扫客户出示的核销码，把<strong>预约单 / 实物单 / 代金券</strong>改成「已完成」</td></tr><tr><td><span class="nw">查看预约</span></td><td>按院部 + 周 + 日查预约；详情里能确认、改约、核销、取消（退或不退挂号费）</td></tr><tr><td><span class="nw">预约待办</span></td><td>有核销权限的人看本院部待确认 / 待核销的预约，直接从待办处理</td></tr><tr><td><span class="nw">开票待办</span></td><td>开票员在列表卡上审核（通过 / 驳回）—— 没有状态 tab、没有详情页</td></tr><tr><td><span class="nw">发票认证</span></td><td>上传 6 位税务验证码、取三方二维码扫脸。<strong>独立操作</strong>，不属于开票申请流程</td></tr><tr><td><span class="nw">分销中心</span></td><td>有分销能力的员工看<strong>本人</strong>业绩（8 + 5 指标）、近期活动、推广海报</td></tr><tr><td><span class="nw">我的</span></td><td>身份、院部、退出。<strong>不放任何工作入口</strong></td></tr></tbody></table>
 <p><strong>形态与迁移</strong>：企微小程序，只在企业微信里跑；一次性全量迁移，C 端门店助手旧入口同期下线——<strong>不做双入口、没有并行期</strong>。</p>
-<h3>1.2 七条不能破的边界</h3>
-<ol><li><strong>权限只由瑞辰判定</strong>，企微通讯录只回答「你是谁」。没勾核销 = 没入口；没有医院权限 = 只能看 / 核自己那几家院部。</li><li><strong>核销只改单据状态</strong>：门店助手不写套餐次数（<code>order_item_usages</code>）。次数由预约侧 / HIS 按「预约即冻结 1 次 → 核销转实扣不可回退 → 取消解冻 1 次 → 改约保持冻结」执行。</li><li><strong>预约的业务动作只有 确认 / 核销 / 取消</strong>；改约不单独成页、不单独提交，和「确认」复用同一个半屏浮层。</li><li><strong>开票没有详情页</strong>：消费金额、开票金额、客户信息、驳回/通过，全部在列表卡上。</li><li><strong>认证是独立操作</strong>：入口在工作台「发票认证」，不关联开票任务、不填金额、不校验医院归属。</li><li><strong>核销必须在线校验</strong>，不做离线核销；重复提交幂等，不产生半成功。</li><li><strong>分销入口只在首页宫格</strong>：「我的」页不放任何工作入口——入口只有一个来源，避免两处维护两种状态。</li></ol>
-<h3>1.3 前提与依赖</h3>
+</div></details>
+<details class="sec" id="c1-2" open><summary><span class="chev" aria-hidden="true"></span><h3>七条不能破的边界</h3></summary><div class="bd">
+<ol><li><strong>权限只由瑞辰判定</strong>，企微通讯录只回答「你是谁」。没勾核销 = 没入口；没有医院权限 = 只能看 / 核自己那几家院部。</li><li><strong>核销只改单据状态</strong>：门店助手不写套餐次数（<code>order_item_usages</code>）。次数由预约侧 / HIS 按「预约即冻结 1 次 → 核销转实扣不可回退 → 取消解冻 1 次 → 改约保持冻结」执行。</li><li><strong>预约的业务动作只有 确认 / 核销 / 取消</strong>；改约不单独成页、不单独提交，和「确认」复用同一个半屏浮层。</li><li><strong>开票没有详情页</strong>：消费金额、开票金额、客户信息、驳回/通过，全部在列表卡上。</li><li><strong>认证是独立操作</strong>：入口在工作台「发票认证」，不关联开票任务、不填金额、不校验医院归属。</li><li><strong>核销必须在线校验</strong>，不做离线核销；重复提交幂等，不产生半成功。</li><li><strong>分销入口只在首页宫格</strong>：「我的」页不放任何工作入口——入口只有一个来源，避免两处维护两种状态。</li><li><strong>界面只写员工能读的东西</strong>：页面只承载员工能读的东西 —— 页面标题、动作名、当下事实、操作后果一句、下一步一行。<strong>需求编号、功能点编号、字段名、接口名、状态机名、实现标识（如 <code>cancel_rule</code>）、规则解释都不许出现在页面上</strong>。空态单行：预约「暂无预约信息」/ 开票「暂无开票信息」/ 首页待办「今天没有待处理」。后台能力（次数解冻、客户通知）在页面一个字不写，不出现「已通知」「次数已退回」。</li></ol>
+</div></details>
+<details class="sec" id="c1-3" open><summary><span class="chev" aria-hidden="true"></span><h3>前提与依赖</h3></summary><div class="bd">
 <table><thead><tr><th>#</th><th>前提</th><th>对实现的影响</th></tr></thead><tbody><tr><td><span class="nw">1</span></td><td>集团一个企微主体，通讯录按区域 / 品牌 / 医院建部门</td><td>工作台可见范围按部门配，非门店人员不可见</td></tr><tr><td><span class="nw">2</span></td><td>员工唯一标识 = <strong>企微 userid</strong>；员工手机号在企微通讯录与瑞辰档案<strong>不一致</strong></td><td>手机号不参与任何身份匹配，只作档案展示</td></tr><tr><td><span class="nw">3</span></td><td>userid 与瑞辰员工没有天然共同键，映射要人工建一次（<code>corp_userid ↔ user_id</code>）</td><td>映射表是本期新增表；维护入口在后台「组织管理」，门店助手<strong>只读</strong></td></tr><tr><td><span class="nw">4</span></td><td>员工的医院权限（可多家）与能力值（1 核销 / 2 分销 / 3 开票）由后台「员工列表」维护</td><td>本期不改配置入口；权限读取收敛到单一入口（R34），后台合并时只换实现</td></tr><tr><td><span class="nw">5</span></td><td>认证二维码由税局接口返回，五分钟有效</td><td>只展示与保存，不做倒计时、不管理有效期，页面只写文案提示</td></tr><tr><td><span class="nw">6</span></td><td>核销留痕沿用现网核销详情日志（已记录操作人）</td><td>不新增字段、不新建日志表</td></tr><tr><td><span class="nw">7</span></td><td>存量预约 / 实物单 / 券 / 开票任务在现网能正常处理</td><td>切换后必须仍可查、可核销、可审核（R30）</td></tr></tbody></table>
 <hr>
-<h2>2 术语（只留容易搞错的）</h2>
+</div></details>
+</section>
+<section class="ch" id="c2"><h2>术语（只留容易搞错的）</h2>
 <table><thead><tr><th>术语</th><th>定义</th></tr></thead><tbody><tr><td>企微小程序 / 工作台</td><td>员工端唯一形态，只在企业微信内运行；入口从工作台进，可见范围决定谁能看到</td></tr><tr><td>C 端微信小程序</td><td>现有主人端小程序；迁移期保留旧入口</td></tr><tr><td><span class="nw">核销码</span></td><td>客户出示的凭证，<strong>28 天有效</strong>；详情页展示 96px 二维码 + 码号 + 复制，给客户出示、员工扫码用。<strong>只展示，不是第二条核销路径</strong>——员工侧没有「输码代核销」</td></tr><tr><td><span class="nw">三类单据</span></td><td>预约单 / 实物单 / 代金券；核销即改对应单据状态</td></tr><tr><td><span class="nw">预约四态</span></td><td><strong>待确认 / 待核销 / 已完成 / 已取消</strong>。「已完成」是状态名，「核销」只作动作名，两者不混用</td></tr><tr><td><span class="nw">确认（动作）</span></td><td>受理待确认预约：待确认 → 待核销，可在浮层里一并改 4 项</td></tr><tr><td><span class="nw">改约（动作）</span></td><td>改预约的宠物 / 日期 / 服务人员 / 服务时间。不是独立页面、不是独立提交，与「确认」同一个浮层，<strong>保留原状态</strong></td></tr><tr><td><span class="nw">院部</span></td><td>医院 / 门店的组织单元，后台实体字段 <code>hospital</code>；全站唯一用词。院部简称 / 全称是该实体的字段</td></tr><tr><td>员工能力（三把钥匙）</td><td>1 核销 / 2 分销 / 3 开票，可同时具备</td></tr><tr><td><span class="nw">医院权限</span></td><td>后台给员工配的可操作院部，<strong>可以多家</strong>；配置入口在后台员工列表</td></tr><tr><td><span class="nw">开票任务</span></td><td>用户发起的开票申请；要开票员认证后审核；<strong>员工端没有详情页</strong></td></tr><tr><td>验证医院 / 验证码</td><td>上传验证码时选的医院（默认带出一家有权限院部，可切，不关联开票任务）；验证码 = 6 位税务码，五分钟有效</td></tr><tr><td><span class="nw">认证二维码</span></td><td>三方接口返回的扫脸二维码，保存后用北京税务 APP 扫</td></tr><tr><td>企微 userid / 员工映射</td><td>企微成员唯一标识，也是本项目登录主键；映射 = <code>corp_userid ↔ 瑞辰员工</code>，新表，后台维护，门店助手只读</td></tr></tbody></table>
 <hr>
-<h2>3 角色与权限</h2>
+</section>
+<section class="ch" id="c3"><h2>角色与权限</h2>
 <table><thead><tr><th>角色</th><th>工作台可见</th><th>门店助手入口</th><th>扫码核销</th><th>查看预约</th><th>确认/改约/取消</th><th>预约待办</th><th>开票待办</th><th>上传验证码</th><th>人脸验证</th><th>审核</th></tr></thead><tbody><tr><td>勾核销 + 有医院权限</td><td>是</td><td>有</td><td>三类、仅有权限院部</td><td>有权限院部</td><td>有权限院部</td><td>有（同院）</td><td>视开票</td><td>视开票</td><td>视开票</td><td>视开票 + 核销</td></tr><tr><td>勾核销 + 无医院权限</td><td>是</td><td>有</td><td>失败</td><td>空</td><td>—</td><td>空</td><td>视开票</td><td>视开票</td><td>视开票</td><td>视开票 + 核销</td></tr><tr><td>有医院权限、未勾核销</td><td>是</td><td>无</td><td>拒绝</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>勾开票、未勾核销</td><td>是</td><td>无</td><td>拒绝</td><td>—</td><td>—</td><td>—</td><td>入口不可达</td><td>—</td><td>—</td><td>拒绝</td></tr><tr><td>无映射 / 未绑定</td><td>视范围</td><td>暂无权限页</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td></tr><tr><td>已离职 / 停用</td><td>否</td><td>—</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td><td>拒绝</td></tr></tbody></table>
 <p>5 条约束：</p>
 <ol><li>权限判定只在瑞辰 API 侧；前端按接口返回决定入口渲染，<strong>不做本地能力推断</strong>。</li><li>待办是<strong>院级</strong>的：同院有核销权限的同事互相能看到、也能处理对方名下的预约。</li><li>「确认 / 改约 / 取消」是同一条作业路径上的三个动作，不因角色拆入口；改约不单独授权。</li><li>运维不在小程序角色集合里（映射导入属后台功能）。</li><li>无权限一律提示「您没有权限进行此操作」，与入口不可达保持一致。</li></ol>
 <hr>
-<h2>4 需求条目</h2>
+</section>
+<section class="ch" id="c4"><h2>需求条目</h2>
 <p>优先级：<strong>P0</strong> 阻断主流程或合规红线；<strong>P1</strong> 核心体验，缺了产品不可用；<strong>P2</strong> 增强可后置。</p>
-<h3>4.1 需求清单（45 条）</h3>
-<p><strong>入口 · 身份 · 权限（14 条）</strong></p>
+<details class="sec" id="c4-1" open><summary><span class="chev" aria-hidden="true"></span><h3>需求清单（45 条）</h3></summary><div class="bd">
+<details class="sub" id="c4-1-1" open><summary><span class="chev" aria-hidden="true"></span><h4>入口 · 身份 · 权限</h4></summary><div class="bd">
 <table><thead><tr><th>编号</th><th>优先级</th><th>需求</th><th>验收看什么</th></tr></thead><tbody><tr><td><span class="nw">R01</span></td><td>P0</td><td>工作台可见；首页自上而下<strong>五段</strong>：品牌幅面（日期 + 星期 + 问候 + 右上院部，<strong>无班次</strong>）→ 1 张当日主操作卡「扫码核销」（副行「预约、优惠券核销」）→ 4 列功能宫格（不设段头，格 78×68，按能力渲染）→ 预约待办段（段头「全部 ›」+ 两行）→ 开票待办段（段头「全部 ›」+ 待审核行，摘要 = 待审核单据金额总计）</td><td>范围外不可见；五段之外没有统计卡、没有页脚院部说明行；两段段头都没有分段 tab；认证两个操作不经开票流程也能各自进入；摘要 <code>待审核单据金额总计：¥7,867.34</code> = 待审核任务金额之和（<strong>认证中不计入</strong>）；空态 E2 = 「未分配院部」pill + 一张空卡（「还没有可用院部」+ 一行联系管理员），E4 = 单行「今天没有待处理」</td></tr><tr><td><span class="nw">R02</span></td><td>P0</td><td>免登：<code>wx.qy.login</code> → code2Session → userid → 瑞辰 token</td><td>没有登录页；3s 出首页；code 失效能重试</td></tr><tr><td><span class="nw">R03</span></td><td>P0</td><td>身份匹配：userid 查员工映射 → 瑞辰员工 → 签发 token；<strong>手机号不参与匹配</strong></td><td>命中直接进首页，未命中进暂无权限页；<strong>不自动新建员工</strong>；改名换号不影响身份</td></tr><tr><td><span class="nw">R04</span></td><td>P0</td><td>无映射或已离职：整页「暂无权限」，API 同步拦截</td><td>文案就这四个字；不暴露档案与门店；离职即时失效</td></tr><tr><td><span class="nw">R05</span></td><td>P0</td><td>一次性全量迁企微，C 端旧入口同期下线，<strong>不做双入口</strong></td><td>切换日企微端功能齐备、C 端入口已下线、按门店灰度放开、无并行期</td></tr><tr><td><span class="nw">R06</span></td><td>P0</td><td>三把钥匙（核销 / 分销 / 开票）<strong>任一有</strong>即可进入，各开各的界面：核销 → 扫码核销 · 查看预约 · 预约待办；分销 → 分销中心；开票员 → <strong>只开</strong>「上传验证码」「人脸验证」两页（其余四项都要核销权）。入口<strong>分区固定、尺寸固定</strong>，权限只决定「在不在」，未开通不渲染、不画灰；宫格上限 2 行 8 格</td><td>只有开票员 = 无主卡 + 宫格两格 + 一行说明 + 无待办段；只有分销员 = 无主卡 + 宫格一格 + 一行说明；核销 + 分销 = 主操作卡 + 宫格两格、<strong>开票待办段整段不出</strong>；三把都没有才落「暂无权限」；直达内页被拒</td></tr><tr><td><span class="nw">R07</span></td><td>P0</td><td>能核 / 能看 / 待办只限有医院权限的院部（可多家）</td><td>无权限院扫码失败；列表不含该院；多院员工能看到多院</td></tr><tr><td><span class="nw">R08</span></td><td>P1</td><td>开票能力只开通认证两页，且只能对<strong>已授权开票企业</strong>提交（授权见 R44）；<strong>开票待办与审核必须有核销权</strong></td><td>只有开票员（无核销）：两页可进可提交，开票段不渲染、待办页无开票分段；核销 + 开票：开票段与审核弹窗才出现</td></tr><tr><td><span class="nw">R09</span></td><td>P1</td><td>无权限统一提示</td><td>「您没有权限进行此操作」，所有拒绝场景一致</td></tr><tr><td><span class="nw">R33</span></td><td>P0</td><td>工作台可见范围按区域 / 品牌 / 医院部门配</td><td>非门店人员根本看不到入口</td></tr><tr><td><span class="nw">R34</span></td><td>P0</td><td>能力值与医院权限只经瑞辰 API <strong>单一入口</strong>读取，禁止直连员工表、禁止缓存冗余</td><td>全端无一处直查员工表；换实现后页面零改动；权限变更 1 分钟内生效；我的页只写「账号由管理员维护」<strong>单行</strong>，不带副行</td></tr><tr><td><span class="nw">R35</span></td><td>P0</td><td>员工映射改在后台「组织管理 › 管理员列表」维护：管理员档案新增<strong>企微 UserID</strong> 字段（新增 / 编辑时可填），未绑定在列表显示「未绑定」。Excel 批量导入<strong>不在本期</strong></td><td>列表能看到这一列、能看出谁没绑；编辑可填可改；未绑定的管理员不影响门店助手进</td></tr><tr><td><span class="nw">R36</span></td><td>P1</td><td>首登显示「你好，{姓名}」+「不是你？联系管理员」</td><td>姓名对得上；发现张冠李戴有反馈路径；不露手机号、工号</td></tr><tr><td><span class="nw">R37</span></td><td>P1</td><td>首页右上院部：≥2 家 → 「全部」+ 折叠箭头可切单院；=1 家 → 院部简称（≤10 汉字）无箭头不可切；=0 家 → 「未分配院部」+ E2 空卡</td><td>简称取后台「院部简称」，没有则取全称前 10 字；切院只换数据不换身份，切后列表与两段待办同步过滤</td></tr></tbody></table>
-<p><strong>扫码核销（6 条）</strong></p>
+</div></details>
+<details class="sub" id="c4-1-2" open><summary><span class="chev" aria-hidden="true"></span><h4>扫码核销</h4></summary><div class="bd">
 <table><thead><tr><th>编号</th><th>优先级</th><th>需求</th><th>验收看什么</th></tr></thead><tbody><tr><td><span class="nw">R10</span></td><td>P0</td><td><code>wx.scanCode</code> 扫客户核销码；页面只写「对准客户核销码」</td><td>扫码成功进确认；无效码有明确提示；页面上不出现「支持三类码」这类口径说明</td></tr><tr><td><span class="nw">R11</span></td><td>P0</td><td>扫预约类码，识别来源并改预约单状态；套餐次数按「预约冻结 → 核销转实扣」，门店助手不写 <code>order_item_usages</code></td><td>项目 / 套餐下项目 / 普通三种来源都识别；核销后状态为<strong>已完成</strong>；转实扣只发生一次、不可回退；取消该预约回 1 次、改约次数不变</td></tr><tr><td><span class="nw">R12</span></td><td>P0</td><td>扫实物单码，改实物单状态；弹窗五项 = 到院时间 / 商品名称（含数量）/ 商品原价 / 订单金额 / 订单来源（砍价 / 拼团 / 抽奖）</td><td>五项齐全、顺序固定；核销后状态正确</td></tr><tr><td><span class="nw">R13</span></td><td>P0</td><td>扫代金券码，改券状态；弹窗五项 = 到院时间 / 核销医院 / 代金券（券名）/ 面值 / 下发主体（集团 / 院部）</td><td>五项齐全、顺序固定；过期券不可核销；核销后状态正确</td></tr><tr><td><span class="nw">R14</span></td><td>P0</td><td>二次确认后提交；重复请求幂等；操作人写进现有核销日志</td><td>双端 / 双击不重复改状态；失败可重试；详情日志能查到谁核销</td></tr><tr><td><span class="nw">R15</span></td><td>P0</td><td>异常统一处理：无效 / 过期 / 跨院 / 已完成 / 并发</td><td>每类一句可执行文案；不产生半成功</td></tr></tbody></table>
-<p><strong>预约（7 条）</strong></p>
+</div></details>
+<details class="sub" id="c4-1-3" open><summary><span class="chev" aria-hidden="true"></span><h4>预约</h4></summary><div class="bd">
 <table><thead><tr><th>编号</th><th>优先级</th><th>需求</th><th>验收看什么</th></tr></thead><tbody><tr><td><span class="nw">R16</span></td><td>P1</td><td>按<strong>院部 + 周 + 日</strong>筛选：左右箭头<strong>切周</strong>（不切月）；点「YYYY 年 M 月」开<strong>月历浮层</strong>（7 列 × 6 行 = 42 格、跨月补灰、有预约 = 浅橙底 + 橙数字、今天描边、选中实心橙，<strong>点某日即选中并关闭</strong>，右上「今天」）；日期条 7 格（周日起）：有预约 = 浅橙底 + 橙数字（只要那天有单，不限状态）、今天 = 品牌色描边 + 加粗、已过且无预约 = 灰、选中 = 深橙底白字</td><td>筛选结果与后台一致；能翻到本月任意一周；默认选中今天；单院视图卡片不重复院部；空态只有一行「暂无预约信息」</td></tr><tr><td><span class="nw">R17</span></td><td>P1</td><td>状态 chips 横滑：全部 / 待确认 / 待核销 / 已取消（各带数量）；<strong>已完成只在「全部」里，不单列</strong></td><td>数量与列表条数一致；切组不丢院部与日期筛选；没有「已完成」独立 chip</td></tr><tr><td><span class="nw">R18</span></td><td>P1</td><td>详情 <strong>4 模块</strong>（自上而下）：①状态头（状态 pill + 项目名 t2/17 允许两行 + 套餐/来源标签 + 预约时间 + 院部名 + 导航 / 电话两枚图标按钮）②核销码（96px 二维码 + 码号 + 复制 + 「核销码 28 天内有效」，只在待确认 / 待核销出）③明细 <strong>7 行</strong>（预约宠物 / 预约诉求 / 客户（姓名 · 全号手机号）/ 服务人员 / 挂号费 / 提交时间 / 预约备注）④须知（2–3 条小字）。项目不单独成模块，项目名下不出任何说明行</td><td>4 模块齐全、顺序固定；导航与电话可点；核销码可复制；7 行齐全且<strong>客户手机号全号不脱敏</strong>；底栏按钮<strong>等高 48、等宽、不折行、图标齐全一致</strong>；已完成 / 已取消<strong>没有底栏</strong>；待确认底栏 = 取消 + 确认，待核销底栏 = 取消 + 改约 + 核销</td></tr><tr><td><span class="nw">R19</span></td><td>P1</td><td>业务动作只有 <strong>确认 / 核销 / 取消</strong>；<strong>改约不单独成页、不单独提交</strong>，与「确认」复用同一半屏浮层（标题「改约预约」/ 主按钮「保存修改」），限同院、不限次数，可改宠物 / 日期 / 服务人员 / 服务时间；门店取消可选退 / 不退挂号费，副行「原路退回，到账时间以支付方为准」，界面不出现 <code>cancel_rule</code> 这类实现标识</td><td>改约后<strong>保留原状态</strong>、原号源已释放、连续改约多次都成功；退与不退两条路径账目与后台一致；改约不改项目 / 院部 / 客户 / 挂号费 / 来源；界面上没有独立改约入口页、没有实现标识</td></tr><tr><td><span class="nw">R20</span></td><td>P1</td><td>有核销权限者看有权限院部的待确认 / 待核销预约（<strong>院级</strong>，同院同事互见）。首页段 = 段头「全部 ›」+ 两行（待确认 · n 单 / 待核销 · n 单）；待办页 = 预约 / 开票分段 + chips + <strong>预约卡 v7</strong>（①时间 17/24 600 + 状态 pill + 右侧按钮或箭头 ②宠物 15/700 + 客户 13/20，不用点号 ③项目名独占整行 13/20 500、超长单行截断，其后紧跟「套餐」标签 ④人员 / 院部 11/16 + 图标，左侧 3px 状态色轨）。按钮矩阵：待确认 = 确认、待核销 = 改约、已完成 / 已取消 = 无按钮只有箭头</td><td>只出有权限院部；卡片四层、高 116，375 机身一屏约 4 张；项目名 30 字时单行截断、不换行、不撑高；预约来源与手机号<strong>不在卡片上</strong>；数量只出现在首页行标题与待办页分段徽标；空态只有一行</td></tr><tr><td><span class="nw">R21</span></td><td>P2</td><td>待办项点进去就是对应预约详情</td><td>跳转后能直接处理</td></tr><tr><td><span class="nw">R38</span></td><td>P1</td><td>「确认」和「改约」<strong>同一个半屏浮层</strong>；可改 4 项：预约宠物 / 预约日期 / 服务人员 / 服务时间；不可改项目、院部、客户、挂号费、预约来源；两个入口只差标题、主按钮、底部提示（确认 <code>* 确认预约后保留本次修改</code> / 改约 <code>* 保存后原预约时间作废，状态不变</code>）</td><td>确认后 待确认 → 待核销，改约后保留原状态；4 项都能展开选择并落到单据；号源冲突整体不生效、留在浮层提示「该时段号源已被占用，请重选时间。」；客户通知本期不做，界面不出现「已通知」</td></tr></tbody></table>
-<p><strong>开票与认证（10 条）</strong></p>
+</div></details>
+<details class="sub" id="c4-1-4" open><summary><span class="chev" aria-hidden="true"></span><h4>开票与认证</h4></summary><div class="bd">
 <table><thead><tr><th>编号</th><th>优先级</th><th>需求</th><th>验收看什么</th></tr></thead><tbody><tr><td><span class="nw">R22</span></td><td>P1</td><td>有权限院部的待审核开票任务（院级）；<strong>无状态 tab</strong>；列表卡 = 头行（待审核 pill + <strong>提交时间</strong>，界面格式 <code>10-22 18:42 提交</code>）+ 院部条 + 消费金额 / 开票金额 / 客户信息（姓名 ｜ 全号手机号）+ 驳回 / 通过；首页摘要「待审核单据金额总计：¥x」</td><td>只出有权限院部；开票段没有 chips；四类信息齐全且与后台一致；总计 = 待审核任务金额之和（<strong>认证中不计入</strong>），逐条之和必须等于总计；空态只有一行「暂无开票信息」</td></tr><tr><td><span class="nw">R23</span></td><td>P1</td><td><strong>开票没有详情页</strong>：消费金额 / 开票金额 / 客户信息 / 驳回·通过 四项直接上移列表卡；没有详情入口、卡片不显示箭头</td><td>四项齐全且与后台一致；全流程无详情页可达（无箭头、无跳转）</td></tr><tr><td><span class="nw">R24</span></td><td>P1</td><td>工作台「发票认证」→ 上传验证码：<strong>先选验证医院</strong>（默认带出当前选中院部，多院可切；0 院员工没有本页入口）→ 输入 6 位税务码 → 异步提交；<strong>不关联开票任务、不填金额、不校验医院归属</strong>；副行「五分钟内有效，请及时验证」；<strong>只有提交成功态，没有接口失败态</strong></td><td>独立入口可达；页面上不出现「开票任务」「金额」两个字段；空 / 输入中 / 粘贴带空格自动去空格 / 提交成功四态；不足 6 位不可提交；成功页只写「已提交，等待税局回传」；页内标题只写「发票认证」</td></tr><tr><td><span class="nw">R25</span></td><td>P1</td><td>人脸验证：取三方二维码 153×153 展示；副行同「五分钟内有效，请及时验证」；<strong>不给「重新获取」</strong>；底栏只有「保存到相册」</td><td>独立入口可达；清晰可扫；页面无「重新获取」；153×153 与「由税局接口返回」只写在文档、不上页面</td></tr><tr><td><span class="nw">R26</span></td><td>P1</td><td>只做「保存到相册」，并提示用三方 APP 扫脸</td><td>保存成功提示扫码路径；拒绝授权有引导；不提供第二个入口</td></tr><tr><td><span class="nw">R27</span></td><td>P1</td><td>认证完成后刷新任务状态</td><td>认证成功后可继续审核；超时提示「认证结果查询中」，超时不等于失败</td></tr><tr><td><span class="nw">R28</span></td><td>P1</td><td>从列表卡「通过 / 驳回」进审核弹窗；<strong>弹窗只有抬头 / 金额 / 邮箱三行</strong>（不展示任务号、认证状态）；驳回原因非必填；通过弹层写「通过后将向税局发起开票。」、驳回弹层写「驳回后任务结束，原因选填。」</td><td>恰好三行、无多余行；通过 / 驳回状态回写；有二次确认拦误操作；「结果异步回写」「原因同步后台」只作规则、不上页面</td></tr><tr><td><span class="nw">R29</span></td><td>P2</td><td>23:00–07:00 不提交开票；40008 / 40010 文案沿用现网</td><td>时段内有提示；错误码文案与现网一字不差</td></tr><tr><td><span class="nw">R44</span></td><td>P1</td><td>开票企业授权<strong>不单独开页</strong>，并入「配置数据权限」弹窗的第二个页签；只有该角色具备开票员能力时才出现；授权清单<strong>只取第一个页签已勾选并保存的医院</strong>，一行一院、右侧灰字是该院开票主体，可多选后「保存授权」</td><td>两个页签各自保存、切页签不提交也不互相带改动；不能授权数据权限范围外的医院；数据权限一家没勾时该页签给空态且「保存授权」置灰；无开票能力的角色只有一个页签</td></tr><tr><td><span class="nw">R45</span></td><td>P0</td><td>「组织管理 › 角色列表 › 配置权限」的功能权限树新增一级节点「<strong>门店助手（企微）</strong>」：工作台 / 待办 / 我的 / 发票认证 / 分销中心，能展开到按钮级；数据权限（品牌 → 医院两级树）决定院部范围</td><td>父节点半选正确；勾选后门店助手内入口随之出现或消失</td></tr></tbody></table>
-<p><strong>迁移与发版（3 条）</strong></p>
+</div></details>
+<details class="sub" id="c4-1-5" open><summary><span class="chev" aria-hidden="true"></span><h4>迁移与发版</h4></summary><div class="bd">
 <table><thead><tr><th>编号</th><th>优先级</th><th>需求</th><th>验收看什么</th></tr></thead><tbody><tr><td><span class="nw">R30</span></td><td>P0</td><td>切换前就存在的预约 / 实物单 / 券 / 开票任务，在企微端要能正常处理</td><td>存量单据可查、可核销、可审核；不丢单、状态不错乱</td></tr><tr><td><span class="nw">R31</span></td><td>P2</td><td>埋点记录来源端与企微 userid</td><td>能按端统计核销量与审核量</td></tr><tr><td><span class="nw">R32</span></td><td>P1</td><td>体验版 → 灰度门店 → 全量</td><td>可按门店回滚；灰度名单可配</td></tr></tbody></table>
-<p><strong>分销（5 条）</strong></p>
+</div></details>
+<details class="sub" id="c4-1-6" open><summary><span class="chev" aria-hidden="true"></span><h4>分销</h4></summary><div class="bd">
 <table><thead><tr><th>编号</th><th>优先级</th><th>需求</th><th>验收看什么</th></tr></thead><tbody><tr><td><span class="nw">R39</span></td><td>P1</td><td>有分销能力就能进「分销中心」，入口 = <strong>首页宫格一格</strong>（与查看预约、发票认证同级，不升格成主卡）；只看<strong>本人</strong>业绩，不按院部拆分、不随院部切换变化</td><td>没能力就整格不渲染；入口常在首页、「我的」页不出现；只有分销钥匙 = 宫格一格 + 一行说明；叠加核销 = 宫格两格</td></tr><tr><td><span class="nw">R40</span></td><td>P1</td><td>分销中心两张卡：<strong>分销数据 8 指标</strong>（销售总额 / 订单数 / 下单用户数 / 退款金额 / 退款订单数 / 核销金额 / 核销用户数 / 客单价）+ <strong>拉新数据 5 指标</strong>（总注册数 / 新注册用户数 / HIS 老用户数 / 首购新用户数 / 复购老用户数）；筛选 = 时间范围（默认近 30 个自然日）+ 活动名模糊搜索；两卡各有 ⓘ 口径弹窗与「查看明细 ›」</td><td>8 + 5 指标齐全、顺序固定；客单价 = 销售总额 / 订单数（都不含成功退款）；改时间或活动后两卡同步刷新；ⓘ 口径与文档一字不差；加载中给骨架不给 0</td></tr><tr><td><span class="nw">R41</span></td><td>P1</td><td>分销明细：顶部分销数据卡（收起 3 指标 / 展开 8 指标）+ 4 分组（全部 / 待使用 / 已完成 / 已退款）+ 订单卡（订单号 + 复制、类型标签「项目」「套餐」、付款用户（昵称 + 脱敏手机号）、付款时间、活动类型、支付金额、核销金额、退款金额、推广活动）+「展开明细」按 sku 拆（无值渲染 <code>--</code>）</td><td>四分组条数与数据一致；单卡展开 / 收起只影响本卡；金额一律两位小数；空分组给「暂无分销订单」</td></tr><tr><td><span class="nw">R42</span></td><td>P1</td><td>拉新明细：拉新数据卡 5 指标 + 扫码明细表 3 列（用户（脱敏手机号）/ 创建时间 / 注册时间），一行一用户；「展开全部」收起 / 展开数据卡</td><td>表头 3 列固定；空态「暂无任何拉新数据」；时间格式 <code>2025-10-15 10:25:24</code></td></tr><tr><td><span class="nw">R43</span></td><td>P1</td><td>「近期活动」两列活动卡（头图 + 活动名 + 有效期）→ 活动详情；底部「分销推广」→ 推广二维码海报（含邀请码、可保存）；活动详情底部同样给「分销推广」</td><td>活动按时间倒序；点卡进详情；海报可保存；空态「暂无进行中的活动」</td></tr></tbody></table>
-<h3>4.2 没有界面的需求</h3>
+</div></details>
+</div></details>
+<details class="sec" id="c4-2" open><summary><span class="chev" aria-hidden="true"></span><h3>没有界面的需求</h3></summary><div class="bd">
 <p>这几条验收看行为和数据，不看某个界面：</p>
 <table><thead><tr><th>需求</th><th>归属</th></tr></thead><tbody><tr><td><span class="nw">R02 免登</span></td><td>没有登录页，<code>wx.qy.login</code> → code2Session 静默完成，页面表现就是直接进首页；验收看「3s 出首页」</td></tr><tr><td>R05 全量切换</td><td>迁移与发版（M7），页面上没有专属元素</td></tr><tr><td>R27 认证回写</td><td>税局回调后刷新开票任务状态（M5 / F-27），页面表现 = 开票卡状态刷新</td></tr><tr><td>R30 存量单据连续</td><td>数据连续（M7）；切换前的老单在列表 / 详情 / 待办仍可查可处理</td></tr><tr><td>R31 埋点日志</td><td>日志与统计（M7 / F-34），没有界面元素</td></tr><tr><td>R32 发版灰度</td><td>运维发版（M7 / F-33），没有界面元素</td></tr><tr><td>R33 应用可见范围</td><td>企微后台配置（M7 / F-33），非门店人员看不到入口</td></tr></tbody></table>
-<h3>4.3 需求 → 页面 / 功能点</h3>
+</div></details>
+<details class="sec" id="c4-3" open><summary><span class="chev" aria-hidden="true"></span><h3>需求 → 页面 / 功能点</h3></summary><div class="bd">
 <p>P-01…P-20 是交付画板编号，与 UI 稿逐一对应。</p>
 <table><thead><tr><th>编号</th><th>页面</th><th>态数</th><th>需求</th><th>功能点</th></tr></thead><tbody><tr><td><span class="nw">P-01</span></td><td>暂无权限</td><td>3</td><td>R03、R04、R09</td><td>M0 · F-02；M1 · F-07</td></tr><tr><td><span class="nw">P-02</span></td><td>门店助手首页</td><td>8</td><td>R01、R06–R08、R37、R39</td><td>M1 · F-05、F-06、F-35；M8 · F-38</td></tr><tr><td><span class="nw">P-03</span></td><td>姓名核对（首登）</td><td>1</td><td>R36</td><td>M0 · F-03</td></tr><tr><td><span class="nw">P-04</span></td><td>待办</td><td>3</td><td>R20–R23</td><td>M4 · F-20、F-21；M5 · F-22、F-23</td></tr><tr><td><span class="nw">P-05</span></td><td>预约列表</td><td>4</td><td>R16、R17</td><td>M3 · F-15、F-16</td></tr><tr><td><span class="nw">P-06</span></td><td>预约详情</td><td>4</td><td>R18、R19、R21</td><td>M3 · F-17、F-18；M4 · F-21</td></tr><tr><td><span class="nw">P-07</span></td><td>确认 / 改约预约</td><td>7</td><td>R38、R19</td><td>M3 · F-36、F-18</td></tr><tr><td><span class="nw">P-08</span></td><td>取消预约</td><td>3</td><td>R19</td><td>M3 · F-19</td></tr><tr><td><span class="nw">P-09</span></td><td>扫码</td><td>2</td><td>R10</td><td>M2 · F-09</td></tr><tr><td><span class="nw">P-10</span></td><td>扫码核销</td><td>3</td><td>R11–R15</td><td>M2 · F-10、F-11、F-12、F-13</td></tr><tr><td><span class="nw">P-11</span></td><td>核销结果</td><td>2</td><td>R14、R15</td><td>M2 · F-13、F-14</td></tr><tr><td><span class="nw">P-12</span></td><td>上传验证码</td><td>4</td><td>R24</td><td>M5 · F-24</td></tr><tr><td><span class="nw">P-13</span></td><td>人脸验证</td><td>3</td><td>R25、R26</td><td>M5 · F-25、F-26</td></tr><tr><td><span class="nw">P-14</span></td><td>审核确认</td><td>3</td><td>R28、R29</td><td>M5 · F-28</td></tr><tr><td><span class="nw">P-15</span></td><td>我的</td><td>3</td><td>R34、R36</td><td>M6 · F-37；M1 · F-08</td></tr><tr><td><span class="nw">P-16</span></td><td>分销中心</td><td>3</td><td>R39、R40、R43</td><td>M8 · F-38、F-39、F-42</td></tr><tr><td><span class="nw">P-17</span></td><td>分销明细</td><td>3</td><td>R41</td><td>M8 · F-40</td></tr><tr><td><span class="nw">P-18</span></td><td>拉新明细</td><td>2</td><td>R42</td><td>M8 · F-41</td></tr><tr><td><span class="nw">P-19</span></td><td>活动详情</td><td>1</td><td>R43</td><td>M8 · F-42</td></tr><tr><td><span class="nw">P-20</span></td><td>分销推广</td><td>2</td><td>R43</td><td>M8 · F-42</td></tr></tbody></table>
 <p>共 20 页 / 64 态。</p>
-<h3>4.4 后台 PC 页面</h3>
+</div></details>
+<details class="sec" id="c4-4" open><summary><span class="chev" aria-hidden="true"></span><h3>后台 PC 页面</h3></summary><div class="bd">
 <p>只包含与门店助手直接相关的三处改造，其余后台菜单不动；B- 编号与交付画板一一对应。</p>
 <table><thead><tr><th>编号</th><th>页面</th><th>态数</th><th>需求</th><th>功能点</th></tr></thead><tbody><tr><td><span class="nw">B-01</span></td><td>管理员列表</td><td>2</td><td>R35</td><td>M9 · F-43</td></tr><tr><td><span class="nw">B-02</span></td><td>配置数据权限</td><td>5</td><td>R07、R44、R45</td><td>M9 · F-45、F-46</td></tr><tr><td><span class="nw">B-03</span></td><td>编辑管理员</td><td>2</td><td>R35</td><td>M9 · F-43</td></tr><tr><td><span class="nw">B-04</span></td><td>角色列表</td><td>1</td><td>R45</td><td>M9 · F-44</td></tr><tr><td><span class="nw">B-05</span></td><td>配置权限</td><td>2</td><td>R45、R06</td><td>M9 · F-44</td></tr><tr><td><span class="nw">B-06</span></td><td>新增角色</td><td>1</td><td>R45</td><td>M9 · F-44</td></tr></tbody></table>
 <p>共 6 页 / 13 态。后台画板按 1440 × 900 出图，字段与现网一致，只加不改。<br>---</p>
-<h2>5 模块规格</h2>
+</div></details>
+</section>
+<section class="ch" id="c5"><h2>模块规格</h2>
 <p>十个模块，每个都说清同样的五件事：<strong>干什么 / 谁用 / 怎么走 / 有什么规则 / 功能点怎么验收</strong>。</p>
-<h3>M0 身份与登录</h3>
-<p><strong>干什么</strong>：拿企微身份直接换成瑞辰身份；没映射、已离职的人拦在门外。<br><strong>谁用</strong>：所有员工；到这一步还不谈权限。</p>
-<p><strong>怎么走</strong>：① 点工作台图标 → ② <code>wx.qy.login</code> 取 code → ③ 服务端 code2Session 换 userid → ④ 查员工映射 → ⑤ 看员工是否在职 → ⑥ 签发瑞辰 token → ⑦ 首次登录先看「你好，{姓名}」→ 进首页。</p>
-<p><strong>规则</strong></p>
+<details class="sec" id="c5-1" open><summary><span class="chev" aria-hidden="true"></span><h3>M0 身份与登录（<span class="rno">R02</span> <span class="rno">R03</span> <span class="rno">R04</span> <span class="rno">R36</span>）</h3></summary><div class="bd">
+<details class="sub" id="c5-1-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>拿企微身份直接换成瑞辰身份；没映射、已离职的人拦在门外。</p>
+</div></details>
+<details class="sub" id="c5-1-2" open><summary><span class="chev" aria-hidden="true"></span><h4>谁用</h4></summary><div class="bd">
+<p>所有员工；到这一步还不谈权限。</p>
+</div></details>
+<details class="sub" id="c5-1-3" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走</h4></summary><div class="bd">
+<ol><li>点工作台图标</li><li><code>wx.qy.login</code> 取 code</li><li>服务端 code2Session 换 userid</li><li>查员工映射</li><li>看员工是否在职</li><li>签发瑞辰 token</li><li>首次登录先看「你好，{姓名}」→ 进首页。</li></ol>
+<figure><svg viewBox="0 0 408 720" width="408" height="720" role="img" aria-label="业务流程图 1"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="720" fill="none"/><path d="M204.0 70.0 C204.0 97.9 204.0 104.1 204.0 132.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 180.0 C204.0 205.2 204.0 210.8 204.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 284.0 C204.0 358.7 114.0 375.3 114.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="148.9" y="358.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="370.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><path d="M204.0 284.0 C204.0 309.2 204.0 314.8 204.0 340.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="193.9" y="303.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="204.0" y="315.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M204.0 388.0 C204.0 415.9 114.0 422.1 114.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="148.9" y="410.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="422.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><path d="M204.0 388.0 C204.0 415.9 294.0 422.1 294.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="238.9" y="410.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="422.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M294.0 486.0 C294.0 516.6 204.0 523.4 204.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 590.0 C204.0 620.6 204.0 627.4 204.0 658.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="154.9" y="34.0" width="98.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">点工作台图标</text><rect x="117.9" y="132.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="152.7" text-anchor="middle" font-size="13" fill="#231815">wx.qy.login </text><text x="204.0" y="168.7" text-anchor="middle" font-size="13" fill="#231815">取 code</text><polygon points="204.0,236.0 264.0,260.0 204.0,284.0 144.0,260.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">有员工映射?</text><polygon points="204.0,340.0 265.4,364.0 204.0,388.0 142.6,364.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">在职且映射生效?</text><rect x="70.0" y="450.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">暂无权限页</text><rect x="220.2" y="450.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">签发瑞辰 token</text><rect x="130.2" y="554.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">首登核对：你好 姓名</text><rect x="160.0" y="658.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="680.7" text-anchor="middle" font-size="13" fill="#231815">进首页</text></svg><figcaption>图 1 · 登录与身份拦截</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-1-4" open><summary><span class="chev" aria-hidden="true"></span><h4>规则</h4></summary><div class="bd">
 <ul><li>code 五分钟有效，过期前端自动重取一次。<strong>网络失败提示「网络异常，请重试」，与「暂无权限」文案分开</strong>——别让员工误以为没账号。</li><li>手机号<strong>不参与任何身份匹配</strong>（企微与瑞辰两边不一致），只作档案展示；界面展示全号，只有服务端日志脱敏。</li><li>员工改名、换手机号，不影响登录，也不影响核销归属。</li><li>离职 / 停用 / 映射作废：下一次请求即失效，回暂无权限页，1 分钟内生效。</li><li>暂无权限页不显示档案、门店、待办等任何业务信息。</li></ul>
-<p><strong>员工映射表</strong>（本期新增）</p>
+</div></details>
+<details class="sub" id="c5-1-5" open><summary><span class="chev" aria-hidden="true"></span><h4>员工映射表</h4></summary><div class="bd">
 <p><code>corp_userid</code>（唯一键）· <code>user_id</code> · <code>emp_name</code>（冗余存姓名，首登核对与对账用）· <code>emp_no</code>（工号，重名消歧，可空）· <code>status</code>（生效 / 作废）· <code>updated_by</code>（最近维护人）。</p>
 <p>校验：一个 <code>user_id</code> 只能绑一个 <code>corp_userid</code>（换号先作废旧记录）；作废记录保留，不做物理删除。</p>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-1-6" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-01 免登进入</strong></p>
 <ul><li>取 code → 换 userid → 查映射 → 签 token，全程没有登录页、没有授权弹窗；code 过期自动重取一次。</li><li>验收：4G 下首屏 ≤3s；二次打开、杀进程重进都仍然免登。</li><li>关联：R02</li></ul>
 <p><strong>F-02 未命中拦截</strong></p>
@@ -6068,21 +6231,38 @@ main { padding-bottom: 96px; }
 <ul><li>首次成功登录时提示「你好，{emp_name}」+「不是你？请联系管理员」；只显示姓名，不显示手机号、工号、医院权限。</li><li>验收：姓名与实际登录人对得上；只出现一次。</li><li>关联：R36</li></ul>
 <p><strong>F-04 映射变更即时生效</strong></p>
 <ul><li>后台补录 / 作废 / 改绑后 1 分钟内生效，员工不用重新登录；作废即时踢下线。</li><li>验收：作废后下一次操作即被拦；改绑后核销归属变成新员工。</li><li>关联：R34</li></ul>
-<p><strong>依赖</strong>：企微 <code>code2Session</code>（换 userid）；瑞辰「登录换 token」「查员工映射」沿用现网报文，不新增接口；需要企微 secret、corp_id 与新增的映射表。</p>
+</div></details>
+<details class="sub" id="c5-1-7" open><summary><span class="chev" aria-hidden="true"></span><h4>依赖</h4></summary><div class="bd">
+<p>企微 <code>code2Session</code>（换 userid）；瑞辰「登录换 token」「查员工映射」沿用现网报文，不新增接口；需要企微 secret、corp_id 与新增的映射表。</p>
 <hr>
-<h3>M1 入口、首页与权限</h3>
-<p><strong>干什么</strong>：决定谁能进、进去看到哪些格子，以及右上角挂哪家院部。<br><strong>谁用</strong>：全员（判断口径见 §3）。</p>
-<p><strong>怎么走</strong>：① 登录成功 → ② 读能力值与医院权限 → ③ 三把钥匙都没有 → 暂无权限页；有 → 进首页 → ④ 按钥匙组合渲染主卡、宫格、两段待办 → ⑤ 医院权限为空时页面能进，但列表空、扫码即拒。</p>
-<p><strong>首页固定五段</strong>（这一条最容易做歪）</p>
+</div></details>
+</div></details>
+<details class="sec" id="c5-2" open><summary><span class="chev" aria-hidden="true"></span><h3>M1 入口、首页与权限（<span class="rno">R01</span> <span class="rno">R06</span> <span class="rno">R07</span> <span class="rno">R08</span> <span class="rno">R09</span> <span class="rno">R34</span> <span class="rno">R37</span>）</h3></summary><div class="bd">
+<details class="sub" id="c5-2-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>决定谁能进、进去看到哪些格子，以及右上角挂哪家院部。</p>
+</div></details>
+<details class="sub" id="c5-2-2" open><summary><span class="chev" aria-hidden="true"></span><h4>谁用</h4></summary><div class="bd">
+<p>全员（判断口径见 §3）。</p>
+</div></details>
+<details class="sub" id="c5-2-3" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走</h4></summary><div class="bd">
+<ol><li>登录成功</li><li>读能力值与医院权限</li><li>三把钥匙都没有 → 暂无权限页；有 → 进首页</li><li>按钥匙组合渲染主卡、宫格、两段待办</li><li>医院权限为空时页面能进，但列表空、扫码即拒。</li></ol>
+<figure><svg viewBox="0 0 408 928" width="408" height="928" role="img" aria-label="业务流程图 2"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="928" fill="none"/><path d="M204.0 70.0 C204.0 100.6 204.0 107.4 204.0 138.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 174.0 C204.0 201.9 204.0 208.1 204.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 284.0 C204.0 309.2 204.0 314.8 204.0 340.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 388.0 C204.0 415.9 204.0 422.1 204.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="193.9" y="410.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="204.0" y="422.5" text-anchor="middle" font-size="11" fill="#4E5257">有</text><path d="M204.0 388.0 C204.0 462.7 204.0 479.3 204.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="193.9" y="462.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="204.0" y="474.5" text-anchor="middle" font-size="11" fill="#4E5257">无</text><path d="M204.0 486.0 C204.0 516.6 204.0 523.4 204.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 590.0 C204.0 620.6 204.0 627.4 204.0 658.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 694.0 C204.0 724.6 204.0 731.4 204.0 762.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 798.0 C204.0 828.6 204.0 835.4 204.0 866.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="117.9" y="34.0" width="172.2" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">体验版在真实门店跑全流程</text><rect x="136.4" y="138.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">后台录入映射并对账</text><rect x="117.9" y="236.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="256.7" text-anchor="middle" font-size="13" fill="#231815">可见范围先放开 1 家门</text><text x="204.0" y="272.7" text-anchor="middle" font-size="13" fill="#231815">店</text><polygon points="204.0,340.0 271.6,364.0 204.0,388.0 136.4,364.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">跑一周有阻断问题?</text><rect x="148.8" y="450.0" width="110.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">修完再放开该店</text><rect x="148.8" y="554.0" width="110.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">按门店分批放开</text><rect x="124.1" y="658.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="680.7" text-anchor="middle" font-size="13" fill="#231815">切换日 C 端入口下线</text><rect x="148.8" y="762.0" width="110.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="784.7" text-anchor="middle" font-size="13" fill="#231815">盯核销与开票量</text><rect x="124.1" y="866.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="888.7" text-anchor="middle" font-size="13" fill="#231815">异常就回收该店可见范围</text></svg><figcaption>图 2 · 灰度与切换</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-2-4" open><summary><span class="chev" aria-hidden="true"></span><h4>首页固定五段</h4></summary><div class="bd">
 <p>① 品牌幅面：日期 + 星期 + 问候 + 右上院部，<strong>不显示班次 / 排班</strong>。<br>② 当日主操作卡：只有「扫码核销」，副行「预约、优惠券核销」，<strong>只有核销权限才有这张卡</strong>，没有就不留灰卡、不留占位。<br>③ 4 列功能宫格：<strong>不设段头</strong>，格 78×68，<code>查看预约 → 上传验证码 → 人脸验证 → 分销中心</code> 固定顺序，行不满左对齐不拉伸；上限 2 行 8 格（住院、库存是阶段 2+ 追加在末尾，本期不建溢出页）。<br>④ 预约待办段：段头「全部 ›」+ 两行。<br>⑤ 开票待办段：段头「全部 ›」+ 待审核行，摘要 = 待审核单据金额总计。</p>
 <p>两段段头<strong>都不做分段 tab</strong>，开票段也<strong>没有状态 chips</strong>。</p>
-<p><strong>四种账号形态</strong>（同一入口在任何账号里区域与尺寸都不变，权限只决定「在不在」）</p>
+<figure><svg viewBox="0 0 752 616" width="752" height="616" role="img" aria-label="业务流程图 3"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="752" height="616" fill="none"/><path d="M376.0 70.0 C376.0 100.6 376.0 107.4 376.0 138.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M376.0 174.0 C376.0 201.9 376.0 208.1 376.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M376.0 284.0 C376.0 311.9 112.0 318.1 112.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="223.8" y="306.0" width="40.4" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="244.0" y="318.5" text-anchor="middle" font-size="11" fill="#4E5257">都没有</text><path d="M376.0 284.0 C376.0 309.2 288.0 314.8 288.0 340.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="306.8" y="303.0" width="50.5" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="332.0" y="315.5" text-anchor="middle" font-size="11" fill="#4E5257">只有开票</text><path d="M376.0 284.0 C376.0 309.2 464.0 314.8 464.0 340.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="394.8" y="303.0" width="50.5" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="420.0" y="315.5" text-anchor="middle" font-size="11" fill="#4E5257">只有分销</text><path d="M376.0 284.0 C376.0 309.2 640.0 314.8 640.0 340.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="487.8" y="303.0" width="40.4" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="508.0" y="315.5" text-anchor="middle" font-size="11" fill="#4E5257">有核销</text><path d="M640.0 388.0 C640.0 413.2 376.0 418.8 376.0 444.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M376.0 492.0 C376.0 519.9 200.0 526.1 200.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="277.9" y="514.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="288.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M376.0 492.0 C376.0 519.9 552.0 526.1 552.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="453.9" y="514.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="464.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><rect x="332.0" y="34.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="376.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">登录成功</text><rect x="308.4" y="138.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="376.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">读能力值与医院权限</text><polygon points="376.0,236.0 436.0,260.0 376.0,284.0 316.0,260.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="376.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">有几把钥匙</text><rect x="68.0" y="346.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="112.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">暂无权限页</text><rect x="201.9" y="340.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="360.7" text-anchor="middle" font-size="13" fill="#231815">宫格 2 格 + 一行说</text><text x="288.0" y="376.7" text-anchor="middle" font-size="13" fill="#231815">明</text><rect x="377.9" y="340.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="464.0" y="360.7" text-anchor="middle" font-size="13" fill="#231815">宫格 1 格 + 一行说</text><text x="464.0" y="376.7" text-anchor="middle" font-size="13" fill="#231815">明</text><rect x="553.9" y="340.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="640.0" y="360.7" text-anchor="middle" font-size="13" fill="#231815">主卡 + 宫格 + 预约</text><text x="640.0" y="376.7" text-anchor="middle" font-size="13" fill="#231815">待办</text><polygon points="376.0,444.0 436.0,468.0 376.0,492.0 316.0,468.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="376.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">有开票能力?</text><rect x="144.8" y="554.0" width="110.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="200.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">再加开票待办段</text><rect x="508.0" y="554.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="552.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">不加开票段</text></svg><figcaption>图 3 · 首页按钥匙渲染</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-2-5" open><summary><span class="chev" aria-hidden="true"></span><h4>四种账号形态</h4></summary><div class="bd">
 <table><thead><tr><th>账号</th><th>首页长什么样</th></tr></thead><tbody><tr><td>核销（± 分销 / 开票）</td><td>主操作卡 + 宫格（查看预约 / 上传验证码 / 人脸验证 / 分销中心中按能力显示）+ 预约待办段 + 开票待办段（有开票能力才有）</td></tr><tr><td><span class="nw">只有开票员</span></td><td>无主卡；宫格两格（上传验证码 / 人脸验证）+ 下方一行 13 号中性灰说明「当前账号只开通了发票认证；预约、核销等功能请联系门店管理员开通。」；无待办段、无分销</td></tr><tr><td><span class="nw">只有分销员</span></td><td>无主卡；宫格一格（分销中心）+ 一行说明「当前账号只开通了分销；核销、预约等功能请联系门店管理员开通。」；无待办段、无认证两格</td></tr><tr><td>核销 + 分销（无开票）</td><td>主操作卡 + 宫格两格（查看预约 / 分销中心）；<strong>开票待办段整段不渲染</strong></td></tr></tbody></table>
-<p><strong>空态</strong></p>
+</div></details>
+<details class="sub" id="c5-2-6" open><summary><span class="chev" aria-hidden="true"></span><h4>空态</h4></summary><div class="bd">
 <ul><li>E2（0 家院部）：右上只剩「未分配院部」pill + 一张空卡：标题「还没有可用院部」，一行「请联系门店管理员为您分配管理院部。」</li><li>E4（今天没待办）：两段合并成一张空卡，标题只有一行「今天没有待处理」。</li></ul>
-<p><strong>院部显示与切换</strong></p>
+</div></details>
+<details class="sub" id="c5-2-7" open><summary><span class="chev" aria-hidden="true"></span><h4>院部显示与切换</h4></summary><div class="bd">
 <ul><li><strong>≥2 家</strong>：右上显示「全部」+ 折叠箭头，可切到任一单院；「全部」= 所有有权限院部的聚合。</li><li><strong>=1 家</strong>：只显示院部简称（≤10 汉字，超长省略号），<strong>没有箭头、点了不切</strong>。</li><li><strong>=0 家</strong>：见上面 E2。</li><li>简称取后台「院部简称」，没有就取全称前 10 字。</li><li>切院<strong>只换数据不换身份</strong>；切后预约列表与两段待办同步过滤。</li><li><strong>数量只出现在两处</strong>：首页待办行标题（<code>待确认 · 3 单</code>）与待办页分段徽标（<code>预约 3</code> / <code>开票 2</code>）。</li></ul>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-2-8" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-05 入口按核销能力显示</strong></p>
 <ul><li>没勾核销就没有入口；用深链接直达内页会被拒绝，落到无权限提示。</li><li>验收：未勾核销者首页无入口；直达被拒且提示一致。</li><li>关联：R06</li></ul>
 <p><strong>F-06 院部数据范围</strong></p>
@@ -6093,18 +6273,32 @@ main { padding-bottom: 96px; }
 <ul><li>能力值、医院权限、员工状态只经一个瑞辰接口读取；代码里没有一处直查员工表。</li><li>验收：把权限来源切到后台用户权限后，页面与流程零改动。</li><li>关联：R34</li></ul>
 <p><strong>F-35 院部显示与切换</strong></p>
 <ul><li>按 §1 的三种家数走；多院默认「全部」，可切单院；单院只显示简称、无箭头；0 院只看到「未分配院部」pill + 空卡（不是空白页）。</li><li>验收：多院切院后列表与两段待办同步过滤；单院点击无反应；简称超 10 汉字省略号截断。</li><li>关联：R37</li></ul>
-<p><strong>依赖</strong>：瑞辰权限读取接口（入参 user_id，出参 能力值 + 医院权限 + 员工状态）；<strong>不拿企微部门当权限源</strong>。</p>
+</div></details>
+<details class="sub" id="c5-2-9" open><summary><span class="chev" aria-hidden="true"></span><h4>依赖</h4></summary><div class="bd">
+<p>瑞辰权限读取接口（入参 user_id，出参 能力值 + 医院权限 + 员工状态）；<strong>不拿企微部门当权限源</strong>。</p>
 <hr>
-<h3>M2 扫码核销（三类单据共用一套外壳）</h3>
-<p><strong>干什么</strong>：扫客户的核销码，把对应单据改成「已完成」。<br><strong>谁用</strong>：有核销权限、且码所属院部在权限内的员工；<strong>必须在线</strong>。</p>
-<p><strong>怎么走</strong>：① 首页「扫码核销」→ ② 扫客户码 → ③ 码可识别？否 → 提示无效 / 过期；是 → ④ 码所属院部在权限内？否 → 提示无该院部权限 → ⑤ 识别单据类型，弹出对应字段 → ⑥ 点「核销」→ ⑦ 成功改状态并写日志；失败提示可重试，不产生半成功。</p>
+</div></details>
+</div></details>
+<details class="sec" id="c5-3" open><summary><span class="chev" aria-hidden="true"></span><h3>M2 扫码核销（<span class="rno">R10</span>–<span class="rno">R15</span>）· 三类单据共用一套外壳</h3></summary><div class="bd">
+<details class="sub" id="c5-3-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>扫客户的核销码，把对应单据改成「已完成」。</p>
+</div></details>
+<details class="sub" id="c5-3-2" open><summary><span class="chev" aria-hidden="true"></span><h4>谁用</h4></summary><div class="bd">
+<p>有核销权限、且码所属院部在权限内的员工；<strong>必须在线</strong>。</p>
+</div></details>
+<details class="sub" id="c5-3-3" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走</h4></summary><div class="bd">
+<ol><li>首页「扫码核销」</li><li>扫客户码</li><li>码可识别？否 → 提示无效 / 过期；是</li><li>码所属院部在权限内？否 → 提示无该院部权限</li><li>识别单据类型，弹出对应字段</li><li>点「核销」</li><li>成功改状态并写日志；失败提示可重试，不产生半成功。</li></ol>
 <p>扫码后如果单据已被别人先核销，展示「该单据已完成」并显示核销时间与操作人——<strong>不报系统错误</strong>。</p>
-<p><strong>三类单据的弹窗</strong>（顺序就是展示顺序）</p>
+</div></details>
+<details class="sub" id="c5-3-4" open><summary><span class="chev" aria-hidden="true"></span><h4>三类单据的弹窗</h4></summary><div class="bd">
 <table><thead><tr><th>单据 → 弹窗显示（顺序即展示顺序）</th><th>核销后</th></tr></thead><tbody><tr><td><strong>预约单</strong>：到院时间（含秒）/ 预约院部 / 预约项目 / 已收费用（<code>¥挂号费（挂号费）+ 项目金额（项目）</code>）</td><td>预约单改<strong>已完成</strong>；套餐次数由预约侧 / HIS 从冻结转实扣</td></tr><tr><td><strong>实物单</strong>：到院时间 / 商品名称（含数量）/ 商品原价 / 订单金额 / 订单来源（砍价 / 拼团 / 抽奖）</td><td>实物单改<strong>已完成</strong></td></tr><tr><td><strong>代金券</strong>：到院时间 / 核销医院 / 代金券（券名）/ 面值 / 下发主体（集团下发 / 院部下发）</td><td>券改<strong>已完成</strong></td></tr></tbody></table>
 <p>按钮：取消（次）/ 核销（主）。<strong>弹窗不展示客户手机号</strong>，也不遮挡页面头部（品牌幅面与顶部信息保持可见）。</p>
-<p><strong>规则</strong></p>
+<figure><svg viewBox="0 0 408 928" width="408" height="928" role="img" aria-label="业务流程图 4"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="928" fill="none"/><path d="M204.0 70.0 C204.0 100.6 204.0 107.4 204.0 138.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 174.0 C204.0 201.9 204.0 208.1 204.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 284.0 C204.0 311.9 114.0 318.1 114.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="148.9" y="306.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="318.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><path d="M204.0 284.0 C204.0 309.2 294.0 314.8 294.0 340.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="238.9" y="303.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="315.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M294.0 388.0 C294.0 415.9 114.0 422.1 114.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="193.9" y="410.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="204.0" y="422.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><path d="M294.0 388.0 C294.0 415.9 294.0 422.1 294.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="283.9" y="410.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="294.0" y="422.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M294.0 486.0 C294.0 516.6 204.0 523.4 204.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 590.0 C204.0 617.9 204.0 624.1 204.0 652.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 700.0 C204.0 727.9 114.0 734.1 114.0 762.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="148.9" y="722.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="734.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M204.0 700.0 C204.0 727.9 294.0 734.1 294.0 762.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="238.9" y="722.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="734.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><path d="M294.0 798.0 C294.0 828.6 204.0 835.4 204.0 866.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="148.8" y="34.0" width="110.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">首页点扫码核销</text><rect x="154.9" y="138.0" width="98.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">扫客户核销码</text><polygon points="204.0,236.0 264.0,260.0 204.0,284.0 144.0,260.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">码可识别?</text><rect x="52.6" y="346.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">提示无效或已过期</text><polygon points="294.0,340.0 354.0,364.0 294.0,388.0 234.0,364.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="294.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">院部在权限内?</text><rect x="52.6" y="450.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">提示无该院部权限</text><rect x="226.4" y="450.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">识别单据类型并弹窗</text><rect x="160.0" y="554.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">点核销提交</text><polygon points="204.0,652.0 264.0,676.0 204.0,700.0 144.0,676.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="680.7" text-anchor="middle" font-size="13" fill="#231815">之前已被核销?</text><rect x="40.2" y="762.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="784.7" text-anchor="middle" font-size="13" fill="#231815">幂等返回 提示已完成</text><rect x="214.1" y="762.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="784.7" text-anchor="middle" font-size="13" fill="#231815">改状态 + 写核销日志</text><rect x="160.0" y="866.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="888.7" text-anchor="middle" font-size="13" fill="#231815">核销结果页</text></svg><figcaption>图 4 · 扫码核销主流程</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-3-5" open><summary><span class="chev" aria-hidden="true"></span><h4>规则</h4></summary><div class="bd">
 <ul><li>核销码 28 天有效，过期直接拦。</li><li>预约单三种来源（项目预约 / 套餐下项目预约 / 普通预约）走同一条路径，只在弹窗文案上区分。</li><li>套餐次数：预约成功即<strong>预扣 1 次（冻结）</strong>；核销 → 冻结转<strong>实扣，只发生一次，不可回退</strong>；<strong>取消该预约 = 解冻 1 次</strong>（回到可用）；<strong>改约 = 保持冻结</strong>（不释放、不重复预扣）。门店助手<strong>只改预约单状态，不直接写 <code>order_item_usages</code></strong>。</li><li>幂等：同一单据重复提交或两人同扫，只成功一次；第二次返回「已完成」而不是报错。</li><li>顺序：先校验权限与状态，再改状态，最后写日志；任一步失败整体回滚。</li><li>留痕：操作人取当前 token 对应员工，写现网核销日志，不新增字段、不另建表。</li><li>断网时按钮不可提交，不做离线核销。</li></ul>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-3-6" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-09 扫码</strong></p>
 <ul><li>页面提示只写「对准客户核销码」；「支持三类码」这类口径不上页面。</li><li>异常：相机权限被拒 → 引导设置页；非本系统二维码 → 「不是有效的核销码」。</li><li>验收：有效码 1s 内出确认弹窗；无效码文案明确；相机拒绝后有可恢复路径。</li><li>关联：R10</li></ul>
 <p><strong>F-10 预约单核销</strong></p>
@@ -6117,21 +6311,39 @@ main { padding-bottom: 96px; }
 <ul><li>必须显式点「核销」才提交，按钮防连点。</li><li>验收：双击 / 双端并发只成功一次；失败可重试且不重复改状态。</li><li>关联：R14</li></ul>
 <p><strong>F-14 异常统一处理</strong></p>
 <ul><li>覆盖无效码、过期码、跨院、已完成、并发、网络失败六类。</li><li>验收：每类一句可执行提示；任一失败场景下单据状态不变。</li><li>关联：R15</li></ul>
-<p><strong>依赖</strong>：企微 <code>wx.scanCode</code>（只有移动端有，PC 不做扫码入口）；瑞辰「识别核销码」「提交核销」沿用现网接口与单据锁。<br>---</p>
-<h3>M3 预约：列表、详情、确认 / 改约 / 取消</h3>
-<p><strong>干什么</strong>：查预约、看详情、把待确认的受理掉、把待核销的核掉或改期、把取消的取消掉。<br><strong>谁用</strong>：有核销权限、且院部在权限内的员工。</p>
-<p><strong>怎么走</strong>：① 首页「查看预约」→ ② 选院部、切周 / 选日 → ③ chips 过滤状态 → ④ 点卡进详情 → ⑤ 按状态做事：待确认 = 确认（浮层里可一并改 4 项）/ 待核销 = 改约 或 扫码核销 / 取消 = 取消弹窗选退不退挂号费。</p>
-<p><strong>列表筛选（院部 + 周 + 日）</strong></p>
+</div></details>
+<details class="sub" id="c5-3-7" open><summary><span class="chev" aria-hidden="true"></span><h4>依赖</h4></summary><div class="bd">
+<p>企微 <code>wx.scanCode</code>（只有移动端有，PC 不做扫码入口）；瑞辰「识别核销码」「提交核销」沿用现网接口与单据锁。</p>
+<hr>
+</div></details>
+</div></details>
+<details class="sec" id="c5-4" open><summary><span class="chev" aria-hidden="true"></span><h3>M3 预约（<span class="rno">R16</span>–<span class="rno">R19</span> <span class="rno">R21</span> <span class="rno">R38</span>）· 列表、详情、确认 / 改约 / 取消</h3></summary><div class="bd">
+<details class="sub" id="c5-4-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>查预约、看详情、把待确认的受理掉、把待核销的核掉或改期、把取消的取消掉。</p>
+</div></details>
+<details class="sub" id="c5-4-2" open><summary><span class="chev" aria-hidden="true"></span><h4>谁用</h4></summary><div class="bd">
+<p>有核销权限、且院部在权限内的员工。</p>
+</div></details>
+<details class="sub" id="c5-4-3" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走</h4></summary><div class="bd">
+<ol><li>首页「查看预约」</li><li>选院部、切周 / 选日</li><li>chips 过滤状态</li><li>点卡进详情</li><li>按状态做事：待确认 = 确认（浮层里可一并改 4 项）/ 待核销 = 改约 或 扫码核销 / 取消 = 取消弹窗选退不退挂号费。</li></ol>
+</div></details>
+<details class="sub" id="c5-4-4" open><summary><span class="chev" aria-hidden="true"></span><h4>列表筛选</h4></summary><div class="bd">
 <ul><li>左右箭头 <code>‹ ›</code> <strong>切周</strong>，不切月。</li><li>点「YYYY 年 M 月」开<strong>月历浮层</strong>：7 列 × 6 行 = <strong>42 格</strong>（格 42×40，宽按 1fr）、跨月补灰、gap 4；有预约 = 浅橙底 + 橙数字，今天 = 2px 描边，选中 = 实心橙；<strong>点某日即选中并关闭</strong>（跨月也能选），右上「今天」。浮层挂在滚动容器之外，不被裁切、不被 TabBar 盖住。<strong>不引入新色值、新字号。</strong></li><li>日期条 7 格（周日起，格宽 43、高 56，上「周X」下数字）：<strong>有预约 = 浅橙底 + 橙数字</strong>（只要那天有单，不限状态）；今天 = 品牌色描边 + 数字加粗；已过且无预约 = 灰；选中 = 深橙底白字。</li><li>默认选中今天；列表按预约时间倒序；<strong>不做时段筛选</strong>。</li><li>状态 chips：全部 / 待确认 / 待核销 / 已取消（各带数量），<strong>已完成只在「全部」里</strong>。</li><li>空态只有一行「暂无预约信息」，不写第二行解释、不放第二个按钮。</li></ul>
-<p><strong>详情固定四模块</strong></p>
+<figure><svg viewBox="0 0 576 720" width="576" height="720" role="img" aria-label="业务流程图 5"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="576" height="720" fill="none"/><path d="M288.0 70.0 C288.0 100.6 288.0 107.4 288.0 138.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M288.0 174.0 C288.0 204.6 288.0 211.4 288.0 242.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M288.0 278.0 C288.0 308.6 288.0 315.4 288.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M288.0 382.0 C288.0 409.9 288.0 416.1 288.0 444.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M288.0 492.0 C288.0 519.9 112.0 526.1 112.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="179.8" y="514.0" width="40.4" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="200.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">待确认</text><path d="M112.0 590.0 C112.0 620.6 156.0 627.4 156.0 658.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M288.0 492.0 C288.0 519.9 288.0 526.1 288.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="267.8" y="514.0" width="40.4" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="288.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">待核销</text><path d="M288.0 492.0 C288.0 519.9 464.0 526.1 464.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="335.6" y="514.0" width="80.8" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="376.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">待确认或待核销</text><path d="M288.0 590.0 C288.0 617.9 420.0 624.1 420.0 652.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="238.9" y="34.0" width="98.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">首页查看预约</text><rect x="201.9" y="138.0" width="172.2" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">选院部 切周 点月历选日</text><rect x="214.2" y="242.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">chips 过滤状态</text><rect x="244.0" y="346.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">点卡进详情</text><polygon points="288.0,444.0 348.0,468.0 288.0,492.0 228.0,468.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="288.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">单据状态</text><rect x="32.1" y="554.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="112.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">确认 顺带可改 4 项</text><rect x="220.4" y="554.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">改约 或 扫码核销</text><rect x="390.2" y="554.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="464.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">取消 选退不退挂号费</text><rect x="112.0" y="658.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="156.0" y="680.7" text-anchor="middle" font-size="13" fill="#231815">变待核销</text><rect x="333.9" y="652.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="420.0" y="672.7" text-anchor="middle" font-size="13" fill="#231815">改约保持原状态 核销变已</text><text x="420.0" y="688.7" text-anchor="middle" font-size="13" fill="#231815">完成</text></svg><figcaption>图 5 · 列表到动作</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-4-5" open><summary><span class="chev" aria-hidden="true"></span><h4>详情固定四模块</h4></summary><div class="bd">
 <p>① 状态头：状态 pill + <strong>项目名（t2/17，允许两行）</strong> + 套餐 / 来源标签 + 预约时间 + 院部名 + 「导航 / 电话」两枚图标按钮。<br>② 核销码：96px 二维码 + 码号 + 复制 + 说明「核销码 28 天内有效」；<strong>只在待确认 / 待核销出现，已完成与已取消不出码</strong>。<br>③ 明细 7 行：预约宠物 / 预约诉求 / <strong>客户（姓名 · 全号手机号，如 <code>欧阳陈明 · 17644008888</code>，不做掩码）</strong> / 服务人员（<code>张凯文 ｜ 执业兽医师</code>）/ 挂号费 / 提交时间 / 预约备注。<strong>预约来源只在状态头标签里，单号只在核销码块里，都不重复进明细。</strong><br>④ 须知：2–3 条小字，折叠成一段灰字。</p>
 <p><strong>项目不单独成模块，项目名下面不出任何说明行</strong>（不展示次数一类的东西）。</p>
 <p>底栏按状态切换：待确认 = 取消（次）+ 确认（主）；待核销 = 取消 + 改约 + 核销（主）；<strong>已完成 / 已取消没有底栏</strong>。三个按钮<strong>等高 48、等宽、不折行、图标齐全一致</strong>（待确认「× 取消预约 / ✓ 确认」，待核销「× 取消 / ▣ 改约 / ⌗ 核销」）。</p>
-<p><strong>三个业务动作</strong></p>
+</div></details>
+<details class="sub" id="c5-4-6" open><summary><span class="chev" aria-hidden="true"></span><h4>三个业务动作</h4></summary><div class="bd">
 <table><thead><tr><th>动作</th><th>结果</th></tr></thead><tbody><tr><td><span class="nw">确认</span></td><td>待确认 → <strong>待核销</strong>；浮层里改的 4 项一并生效</td></tr><tr><td><span class="nw">改约</span></td><td><strong>保留原状态</strong>（待核销还是待核销），不推进也不后退</td></tr><tr><td><span class="nw">取消</span></td><td>置已取消；可选退 / 不退挂号费，退费按现网 <code>cancel_rule</code>；<strong>退挂号费副行「原路退回，到账时间以支付方为准」</strong>，界面上不出现 <code>cancel_rule</code> 这类标识</td></tr></tbody></table>
-<p><strong>改约的范围</strong></p>
+<figure><svg viewBox="0 0 408 824" width="408" height="824" role="img" aria-label="业务流程图 6"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="824" fill="none"/><path d="M204.0 76.0 C204.0 103.9 204.0 110.1 204.0 138.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 174.0 C204.0 201.9 204.0 208.1 204.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 284.0 C204.0 311.9 204.0 318.1 204.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 382.0 C204.0 409.9 204.0 416.1 204.0 444.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 492.0 C204.0 519.9 114.0 526.1 114.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="148.9" y="514.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M204.0 492.0 C204.0 519.9 294.0 526.1 294.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="238.9" y="514.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><path d="M294.0 590.0 C294.0 617.9 204.0 624.1 204.0 652.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 700.0 C204.0 727.9 114.0 734.1 114.0 762.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="148.9" y="722.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="734.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M204.0 700.0 C204.0 727.9 294.0 734.1 294.0 762.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="238.9" y="722.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="734.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><rect x="117.9" y="28.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="48.7" text-anchor="middle" font-size="13" fill="#231815">待确认点确认 或 待核销</text><text x="204.0" y="64.7" text-anchor="middle" font-size="13" fill="#231815">点改约</text><rect x="136.4" y="138.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">打开同一个半屏浮层</text><rect x="117.9" y="236.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="256.7" text-anchor="middle" font-size="13" fill="#231815">改 4 项：宠物 日期 </text><text x="204.0" y="272.7" text-anchor="middle" font-size="13" fill="#231815">人员 服务时间</text><rect x="160.0" y="346.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">点保存</text><polygon points="204.0,444.0 264.0,468.0 204.0,492.0 144.0,468.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">号源被占?</text><rect x="27.9" y="554.0" width="172.2" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">整体不生效 提示重选时间</text><rect x="214.1" y="554.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">先占新号源 再放旧号源</text><polygon points="204.0,652.0 264.0,676.0 204.0,700.0 144.0,676.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="680.7" text-anchor="middle" font-size="13" fill="#231815">入口是确认?</text><rect x="58.8" y="762.0" width="110.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="784.7" text-anchor="middle" font-size="13" fill="#231815">待确认变待核销</text><rect x="232.6" y="762.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="784.7" text-anchor="middle" font-size="13" fill="#231815">改约 保持原状态</text></svg><figcaption>图 6 · 确认与改约共用一个浮层</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-4-7" open><summary><span class="chev" aria-hidden="true"></span><h4>改约的范围</h4></summary><div class="bd">
 <ul><li>可改 4 项：<strong>预约宠物 / 预约日期 / 服务人员 / 服务时间</strong>（标签写「服务时间」，不写「时段」）。</li><li>不可改：项目、院部、客户、挂号费、预约来源（只读展示）。</li><li>限同院，不限次数，不支持跨院改约。</li><li>号源<strong>先占新的再放旧的</strong>，避免中途失败丢号；冲突时<strong>整体不生效</strong>（状态和字段都不变），留在浮层提示重选，文案固定「该时段号源已被占用，请重选时间。」</li><li>次数联动：<strong>取消 = 解冻 1 次</strong>；<strong>改约 = 不解冻</strong>（单还在，次数保持冻结，不重复预扣）；门店助手只改预约单状态。</li><li>客户通知（短信 / 企微 / 订阅消息）本期不做，界面不出现「已通知」；员工侧触达只有详情页「电话」。</li></ul>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-4-8" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-15 预约列表与筛选</strong></p>
 <ul><li>院部 + 周 + 日三个维度；箭头切周、月历浮层选日；日期条与月历用同一套标识（有预约浅橙底、今天描边、选中实心橙）。</li><li>验收：筛选结果与后台一致；能翻到本月任意一周；日期条 7 格；点月历某日即选中并关闭（跨月可选）；默认选中今天；有预约的日期才有底色；空态只有一行「暂无预约信息」。</li><li>关联：R16</li></ul>
 <p><strong>F-16 状态分组</strong></p>
@@ -6146,38 +6358,78 @@ main { padding-bottom: 96px; }
 <ul><li>同一个半屏浮层，两个入口只差三处：</li></ul>
 <table><thead><tr><th>入口</th><th>标题</th><th>主按钮</th><th>底部提示</th></tr></thead><tbody><tr><td>待确认「确认」</td><td>确认预约</td><td>确认预约</td><td><code>* 确认预约后保留本次修改</code></td></tr><tr><td>待核销「改约」</td><td>改约预约</td><td>保存修改</td><td><code>* 保存后原预约时间作废，状态不变</code></td></tr></tbody></table>
 <ul><li>4 个折叠块（收起态一行 + 笔，展开态可选）：预约宠物（该客户名下宠物 chips）、预约日期（横滑日期条）、服务人员（「到店分配」+ 医生卡）、服务时间（时间格子）。</li><li>验收：两入口打开的是同一个浮层；确认后变待核销、改约后状态不变；4 项改动一起生效，不出现「改了一半」；号源冲突时字段与状态都不变；浮层 7 个态齐全（概览·确认 / 选宠物 / 选日期 / 选人员 / 选时间 / 概览·改约 / 号源冲突）。</li><li>关联：R38</li></ul>
-<p><strong>依赖</strong>：瑞辰预约列表、详情、确认 / 改约（<strong>同一提交</strong>，入参带被改的 4 项）、取消（含退挂号费判断）；<strong>不新增改约专用接口</strong>；依赖现网 <code>cancel_rule</code> 与号源占用逻辑。</p>
+</div></details>
+<details class="sub" id="c5-4-9" open><summary><span class="chev" aria-hidden="true"></span><h4>依赖</h4></summary><div class="bd">
+<p>瑞辰预约列表、详情、确认 / 改约（<strong>同一提交</strong>，入参带被改的 4 项）、取消（含退挂号费判断）；<strong>不新增改约专用接口</strong>；依赖现网 <code>cancel_rule</code> 与号源占用逻辑。</p>
 <hr>
-<h3>M4 预约待办</h3>
-<p><strong>干什么</strong>：把本院部要处理的预约聚到一个列表，点两下就处理完。<br><strong>谁用</strong>：有核销权限、有医院权限的员工（<strong>院级共享</strong>，同事之间互相可见、可处理）。</p>
-<p><strong>怎么走</strong>：① 首页预约待办段「全部 ›」→ ② 取有权限院部的待确认 / 待核销预约，倒序排 → ③ 有数据？没有就空态「暂无预约信息」；有就出预约卡 → ④ 待确认卡点「确认」（开 P-07 浮层）、待核销卡点「改约」（开同一浮层）、已完成 / 已取消只有箭头 → ⑤ 点卡片任意处进预约详情。</p>
+</div></details>
+</div></details>
+<details class="sec" id="c5-5" open><summary><span class="chev" aria-hidden="true"></span><h3>M4 预约待办（<span class="rno">R20</span> <span class="rno">R21</span>）</h3></summary><div class="bd">
+<details class="sub" id="c5-5-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>把本院部要处理的预约聚到一个列表，点两下就处理完。</p>
+</div></details>
+<details class="sub" id="c5-5-2" open><summary><span class="chev" aria-hidden="true"></span><h4>谁用</h4></summary><div class="bd">
+<p>有核销权限、有医院权限的员工（<strong>院级共享</strong>，同事之间互相可见、可处理）。</p>
+</div></details>
+<details class="sub" id="c5-5-3" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走</h4></summary><div class="bd">
+<ol><li>首页预约待办段「全部 ›」</li><li>取有权限院部的待确认 / 待核销预约，倒序排</li><li>有数据？没有就空态「暂无预约信息」；有就出预约卡</li><li>待确认卡点「确认」（开 P-07 浮层）、待核销卡点「改约」（开同一浮层）、已完成 / 已取消只有箭头</li><li>点卡片任意处进预约详情。</li></ol>
 <p>刷新失败时保留上一次的数据并提示重试，<strong>不清空成空态</strong>（不然员工会误以为没活干）。</p>
-<p><strong>首页那两行</strong></p>
+</div></details>
+<details class="sub" id="c5-5-4" open><summary><span class="chev" aria-hidden="true"></span><h4>首页那两行</h4></summary><div class="bd">
 <ul><li>格式 <code>待确认 · 3 单</code> / <code>待核销 · 5 单</code>，两组样式与图标一致。</li><li>行摘要：<code>MM-DD HH:MM 客户名 / 宠物昵称</code>（例 <code>07-02 08:00 欧阳陈明 / 金渐层</code>），两段共用一套格式。</li><li>数量只出现在行标题，段头不做统计。</li></ul>
-<p><strong>预约卡 v7</strong>（待办页与预约列表同一个组件）</p>
+<figure><svg viewBox="0 0 576 616" width="576" height="616" role="img" aria-label="业务流程图 7"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="576" height="616" fill="none"/><path d="M288.0 70.0 C288.0 97.9 288.0 104.1 288.0 132.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M288.0 180.0 C288.0 205.2 288.0 210.8 288.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M288.0 284.0 C288.0 311.9 156.0 318.1 156.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="211.9" y="306.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="222.0" y="318.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><path d="M288.0 284.0 C288.0 311.9 420.0 318.1 420.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="343.9" y="306.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="354.0" y="318.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M420.0 382.0 C420.0 409.9 156.0 416.1 156.0 444.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M156.0 492.0 C156.0 519.9 112.0 526.1 112.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="113.8" y="514.0" width="40.4" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="134.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">待确认</text><path d="M156.0 492.0 C156.0 519.9 288.0 526.1 288.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="201.8" y="514.0" width="40.4" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="222.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">待核销</text><path d="M156.0 492.0 C156.0 519.9 464.0 526.1 464.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="269.6" y="514.0" width="80.8" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="310.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">已完成或已取消</text><path d="M420.0 382.0 C420.0 412.6 420.0 419.4 420.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="214.2" y="34.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">首页预约待办段 全部</text><rect x="201.9" y="132.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="152.7" text-anchor="middle" font-size="13" fill="#231815">取有权限院部的待确认与待</text><text x="288.0" y="168.7" text-anchor="middle" font-size="13" fill="#231815">核销</text><polygon points="288.0,236.0 348.0,260.0 288.0,284.0 228.0,260.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="288.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">有数据?</text><rect x="88.4" y="346.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="156.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">空态：暂无预约信息</text><rect x="340.1" y="346.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="420.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">预约卡列表 按时间倒序</text><polygon points="156.0,444.0 216.0,468.0 156.0,492.0 96.0,468.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="156.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">卡片状态</text><rect x="358.6" y="450.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="420.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">点卡片进预约详情</text><rect x="44.4" y="554.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="112.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">点确认 开同一浮层</text><rect x="220.4" y="554.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">点改约 开同一浮层</text><rect x="420.0" y="554.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="464.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">只有箭头</text></svg><figcaption>图 7 · 预约待办处理</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-5-5" open><summary><span class="chev" aria-hidden="true"></span><h4>预约卡 v7</h4></summary><div class="bd">
 <table><thead><tr><th>层</th><th>内容</th><th>为什么这么排</th></tr></thead><tbody><tr><td><span class="nw">① 头行</span></td><td>时间 <code>08:00 — 09:00</code>（17/24 600）+ 状态 pill（11）+ 右侧按钮或箭头</td><td>时间最大最左——员工扫读轴就是「几点」；pill 与按钮靠右成一组，左边文字列才对齐；按钮 32 高</td></tr><tr><td><span class="nw">② 主行</span></td><td>宠物（15/700）+ 客户（13/20），<strong>不用「·」</strong></td><td>先回答「谁、哪只宠物」；主次靠字号与色阶，不靠点号</td></tr><tr><td><span class="nw">③ 项目名</span></td><td>独占整行（13/20 500），超长单行截断加省略号；其后<strong>紧跟</strong>「套餐」标签</td><td>可用宽 256px ≈ 19.7 汉字；不换行、不与人员院部挤一行；完整项目名去详情页看</td></tr><tr><td><span class="nw">④ 角标行</span></td><td>人员图标 + 服务人员 / 院部图标 + 院部简称（11/16），整行截断</td><td>图标替掉分隔符；院部只在多院（全部）视图出现，单院视图不重复</td></tr><tr><td><span class="nw">左轨</span></td><td>3px 状态色轨（待确认 brand / 待核销 teal / 已完成 success / 已取消 danger）</td><td>颜色<strong>不作为唯一编码</strong>，pill 带文字</td></tr></tbody></table>
-<p><strong>量测（设计依据，不回写到界面）</strong>：卡高 116、一屏约 4 张；③ 行可用宽 256px ≈ 19.7 汉字——20 字项目名在 13px 下刚好整行显示，换成 15px 会被截成「…血常…」；④ 行整行 300px 够放最长 11 字院部简称；① 行 300px 够放（时间 110 + pill 52 + 按钮 56 + 间距 24 = 242）。</p>
-<p><strong>按钮矩阵</strong>：待确认 = 确认、待核销 = 改约、已完成 / 已取消 = 无按钮只有箭头。</p>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-5-6" open><summary><span class="chev" aria-hidden="true"></span><h4>量测（不外发）</h4></summary><div class="bd">
+<p>卡高 116、一屏约 4 张；③ 行可用宽 256px ≈ 19.7 汉字——20 字项目名在 13px 下刚好整行显示，换成 15px 会被截成「…血常…」；④ 行整行 300px 够放最长 11 字院部简称；① 行 300px 够放（时间 110 + pill 52 + 按钮 56 + 间距 24 = 242）。</p>
+</div></details>
+<details class="sub" id="c5-5-7" open><summary><span class="chev" aria-hidden="true"></span><h4>按钮矩阵</h4></summary><div class="bd">
+<p>待确认 = 确认、待核销 = 改约、已完成 / 已取消 = 无按钮只有箭头。</p>
+</div></details>
+<details class="sub" id="c5-5-8" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-20 待办列表</strong></p>
 <ul><li>待办页 = 预约 / 开票分段 + chips + 预约卡 v7；卡片①行按钮随状态变。</li><li>验收：只出有权限院部；卡片四层、高 116、一屏约 4 张；卡上不出现手机号与预约来源；分段徽标与列表条数一致；下拉能刷新；③ 层项目名 30 字时单行截断、不换行、卡片高度不变；空态只有一行。</li><li>关联：R20</li></ul>
 <p><strong>F-21 待办跳转详情</strong></p>
 <ul><li>点卡进对应预约详情，处理完回列表已刷新。</li><li>验收：从待办进去能直接确认 / 核销 / 改约。</li><li>关联：R21</li></ul>
-<p><strong>依赖</strong>：瑞辰待办计数 + 待办列表（按院部过滤，返回卡片所需的字段）。</p>
+</div></details>
+<details class="sub" id="c5-5-9" open><summary><span class="chev" aria-hidden="true"></span><h4>依赖</h4></summary><div class="bd">
+<p>瑞辰待办计数 + 待办列表（按院部过滤，返回卡片所需的字段）。</p>
 <hr>
-<h3>M5 开票待办与发票认证</h3>
-<p><strong>干什么</strong>：开票员在列表卡上审核开票申请；认证（传验证码 / 扫脸）是另一件独立的事，入口在工作台。<br><strong>谁用</strong>：审核要「开票能力 + 核销能力」；认证只要开票能力。</p>
-<p><strong>怎么走（审核）</strong>：① 首页开票待办段「全部 ›」→ ② 取有权限院部的待审核任务 → ③ 看列表卡上的金额、客户信息、抬头 → ④ 点「通过」或「驳回」→ ⑤ 审核弹窗（抬头 / 金额 / 邮箱）→ ⑥ 提交，状态回写，异步开票。</p>
-<p><strong>怎么走（认证）</strong>：工作台「发票认证」→ 传验证码：选验证医院 → 输 6 位码 → 异步提交；人脸验证：取二维码 → 保存到相册 → 打开北京税务 APP 扫脸。认证结果由税局回写到开票待办，<strong>认证不属于开票申请 / 审核流程的一步</strong>。</p>
-<p><strong>开票列表卡</strong>（列表就是详情，没有详情页）</p>
+</div></details>
+</div></details>
+<details class="sec" id="c5-6" open><summary><span class="chev" aria-hidden="true"></span><h3>M5 开票待办与发票认证（<span class="rno">R22</span>–<span class="rno">R29</span>）</h3></summary><div class="bd">
+<details class="sub" id="c5-6-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>开票员在列表卡上审核开票申请；认证（传验证码 / 扫脸）是另一件独立的事，入口在工作台。</p>
+</div></details>
+<details class="sub" id="c5-6-2" open><summary><span class="chev" aria-hidden="true"></span><h4>谁用</h4></summary><div class="bd">
+<p>审核要「开票能力 + 核销能力」；认证只要开票能力。</p>
+</div></details>
+<details class="sub" id="c5-6-3" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走（审核）</h4></summary><div class="bd">
+<ol><li>首页开票待办段「全部 ›」</li><li>取有权限院部的待审核任务</li><li>看列表卡上的金额、客户信息、抬头</li><li>点「通过」或「驳回」</li><li>审核弹窗（抬头 / 金额 / 邮箱）</li><li>提交，状态回写，异步开票。</li></ol>
+<figure><svg viewBox="0 0 408 720" width="408" height="720" role="img" aria-label="业务流程图 8"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="720" fill="none"/><path d="M204.0 70.0 C204.0 100.6 204.0 107.4 204.0 138.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 174.0 C204.0 201.9 204.0 208.1 204.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 284.0 C204.0 309.2 204.0 314.8 204.0 340.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 388.0 C204.0 415.9 114.0 422.1 114.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="143.9" y="410.0" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="422.5" text-anchor="middle" font-size="11" fill="#4E5257">通过</text><path d="M204.0 388.0 C204.0 415.9 294.0 422.1 294.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="233.9" y="410.0" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="422.5" text-anchor="middle" font-size="11" fill="#4E5257">驳回</text><path d="M114.0 486.0 C114.0 511.6 114.0 517.4 114.0 543.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M114.0 601.0 C114.0 626.6 114.0 632.4 114.0 658.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="103.9" y="620.5" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="114.0" y="633.0" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M114.0 601.0 C114.0 626.6 294.0 632.4 294.0 658.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="193.9" y="620.5" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="204.0" y="633.0" text-anchor="middle" font-size="11" fill="#4E5257">否</text><path d="M294.0 486.0 C294.0 516.6 294.0 523.4 294.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="130.2" y="34.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">首页开票待办段 全部</text><rect x="117.9" y="138.0" width="172.2" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">取有权限院部的待审核任务</text><rect x="117.9" y="236.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="256.7" text-anchor="middle" font-size="13" fill="#231815">列表卡：抬头 金额 客户</text><text x="204.0" y="272.7" text-anchor="middle" font-size="13" fill="#231815">信息</text><polygon points="204.0,340.0 264.0,364.0 204.0,388.0 144.0,364.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">点哪一个</text><rect x="34.1" y="450.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">弹层三行 + 二次确认</text><rect x="226.4" y="450.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">弹层三行 原因选填</text><polygon points="114.0,543.0 200.1,572.0 114.0,601.0 27.9,572.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="114.0" y="568.7" text-anchor="middle" font-size="13" fill="#231815">在 23:00-07:0</text><text x="114.0" y="584.7" text-anchor="middle" font-size="13" fill="#231815">0?</text><rect x="232.6" y="554.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">任务结束 可追溯</text><rect x="40.2" y="658.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="680.7" text-anchor="middle" font-size="13" fill="#231815">不提交 提示静默时段</text><rect x="207.9" y="658.0" width="172.2" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="680.7" text-anchor="middle" font-size="13" fill="#231815">向税局发起开票 回写状态</text></svg><figcaption>图 8 · 开票审核</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-6-4" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走（认证）</h4></summary><div class="bd">
+<p>工作台「发票认证」→ 传验证码：选验证医院 → 输 6 位码 → 异步提交；人脸验证：取二维码 → 保存到相册 → 打开北京税务 APP 扫脸。认证结果由税局回写到开票待办，<strong>认证不属于开票申请 / 审核流程的一步</strong>。</p>
+<figure><svg viewBox="0 0 408 720" width="408" height="720" role="img" aria-label="业务流程图 9"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="720" fill="none"/><path d="M204.0 70.0 C204.0 97.9 204.0 104.1 204.0 132.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 180.0 C204.0 207.9 114.0 214.1 114.0 242.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="128.7" y="202.0" width="60.6" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="214.5" text-anchor="middle" font-size="11" fill="#4E5257">上传验证码</text><path d="M114.0 278.0 C114.0 308.6 114.0 315.4 114.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M114.0 382.0 C114.0 412.6 114.0 419.4 114.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M114.0 486.0 C114.0 513.9 204.0 520.1 204.0 548.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 180.0 C204.0 205.2 294.0 210.8 294.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="223.8" y="199.0" width="50.5" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="211.5" text-anchor="middle" font-size="11" fill="#4E5257">人脸验证</text><path d="M294.0 284.0 C294.0 311.9 294.0 318.1 294.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M294.0 382.0 C294.0 412.6 294.0 419.4 294.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M294.0 486.0 C294.0 563.4 204.0 580.6 204.0 658.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 596.0 C204.0 623.9 204.0 630.1 204.0 658.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="142.6" y="34.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">工作台 发票认证</text><polygon points="204.0,132.0 264.0,156.0 204.0,180.0 144.0,156.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">两条路径</text><rect x="65.0" y="242.0" width="98.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">先选验证医院</text><rect x="207.9" y="236.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="256.7" text-anchor="middle" font-size="13" fill="#231815">取三方二维码 153×1</text><text x="294.0" y="272.7" text-anchor="middle" font-size="13" fill="#231815">53</text><rect x="52.6" y="346.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">输 6 位税务码</text><rect x="250.0" y="346.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">保存到相册</text><rect x="70.0" y="450.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">异步提交</text><rect x="214.1" y="450.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">北京税务 APP 扫脸</text><rect x="117.9" y="548.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="568.7" text-anchor="middle" font-size="13" fill="#231815">成功态 已提交 等待税局</text><text x="204.0" y="584.7" text-anchor="middle" font-size="13" fill="#231815">回传</text><rect x="124.1" y="658.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="680.7" text-anchor="middle" font-size="13" fill="#231815">税局回传 刷新开票任务</text></svg><figcaption>图 9 · 发票认证两条路径</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-6-5" open><summary><span class="chev" aria-hidden="true"></span><h4>开票列表卡</h4></summary><div class="bd">
 <ul><li>头行：待审核 pill + <strong>提交时间</strong>（<code>10-22 18:42 提交</code>，是客户提交申请的时间，不是消费 / 到院时间）。</li><li>院部条：暖底 + 院部图标 + 院部全称，1 行省略。</li><li>两行金额（label 左、值右对齐）：消费金额 / 开票金额。</li><li>客户信息：<code>姓名 ｜ 手机号</code>（全号，不做掩码）。</li><li>右侧：驳回 / 通过。</li><li><strong>无状态 tab</strong>（开票只有待审核，不做 全部 / 待审核 / 认证中 切换）；<strong>无箭头、点不进详情</strong>。</li></ul>
-<p><strong>首页摘要「待审核单据金额总计：¥x」</strong></p>
+</div></details>
+<details class="sub" id="c5-6-6" open><summary><span class="chev" aria-hidden="true"></span><h4>首页摘要</h4></summary><div class="bd">
 <ul><li><code>x = Σ 单据金额</code>，取该员工权限内、尚未审结的开票任务。</li><li>计入：待审核、可审核。<strong>不计入：认证中</strong>、已通过、已驳回、开票中、成功、失败、已作废。</li><li>金额取<strong>含税价税合计</strong>，不是税额也不是不含税；一张单据只计一次（多明细先汇总再求和）。</li><li>切院部、切筛选、审核成功、下拉刷新、重新进页面都要重算。</li><li>空集也显示 <code>¥0.00</code>，行不隐藏。</li><li>该总计必须等于列表卡逐条金额之和，<strong>差 1 分也算错</strong>；格式千分位 + 两位小数（<code>¥7,867.34</code>，不写 <code>7.9k</code>）。</li><li>样例：<code>INV-20261023-008 ¥4,867.34 待审核</code> + <code>INV-20261023-007 ¥3,000.00 待审核</code> → 行标题 <code>待审核 · 2 单</code>、摘要 <code>¥7,867.34</code>。若后者转「认证中」→ 变 <code>¥4,867.34</code> / <code>待审核 · 1 单</code>（金额与条数一起变）；若把院部切到双井（已无待审）→ <code>¥0.00</code>。</li></ul>
-<p><strong>审核弹窗</strong>：只有三行 —— 抬头 / 金额（取开票金额）/ 邮箱；不展示任务号与认证状态。通过弹层写「通过后将向税局发起开票。」；驳回弹层写「驳回后任务结束，原因选填。」，原因非必填、没有预设清单。</p>
-<p><strong>认证两页</strong></p>
+</div></details>
+<details class="sub" id="c5-6-7" open><summary><span class="chev" aria-hidden="true"></span><h4>审核弹窗</h4></summary><div class="bd">
+<p>只有三行 —— 抬头 / 金额（取开票金额）/ 邮箱；不展示任务号与认证状态。通过弹层写「通过后将向税局发起开票。」；驳回弹层写「驳回后任务结束，原因选填。」，原因非必填、没有预设清单。</p>
+</div></details>
+<details class="sub" id="c5-6-8" open><summary><span class="chev" aria-hidden="true"></span><h4>认证两页</h4></summary><div class="bd">
 <ul><li>上传验证码：<strong>先选验证医院</strong>（默认带出当前选中院部，多院可切；0 院员工没有本页入口，首页走 E2 空态）→ 6 位格 + <code>n/6</code> 计数，输入自动去空格、只允许数字；<strong>不关联开票任务、不填金额、不校验医院归属</strong>；只有提交成功态，<strong>没有接口失败态</strong>；成功页只写「已提交，等待税局回传」。</li><li>人脸验证：二维码由三方返回，固定 153×153 展示；底栏只有「保存到相册」，<strong>没有「重新获取」</strong>，取图失败靠重新进页面。153×153 与「由税局接口返回」只写在文档，不上页面。</li><li>两页副行统一「五分钟内有效，请及时验证」，<strong>不做倒计时</strong>；页内顶部标题只写「发票认证」。</li><li>保存用 <code>saveImageToPhotosAlbum</code>，拒绝授权引导到设置页（PC 端 <code>openSetting</code> 不支持）。</li></ul>
-<p><strong>其余规则</strong>：静默时段 23:00–07:00 不发起开票提交（沿用现网）；错误码 40008 / 40010 文案沿用现网一字不差；认证结果超时不判失败，提示「认证结果查询中」。</p>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-6-9" open><summary><span class="chev" aria-hidden="true"></span><h4>其余规则</h4></summary><div class="bd">
+<p>静默时段 23:00–07:00 不发起开票提交（沿用现网）；错误码 40008 / 40010 文案沿用现网一字不差；认证结果超时不判失败，提示「认证结果查询中」。</p>
+</div></details>
+<details class="sub" id="c5-6-10" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-22 开票待办列表</strong></p>
 <ul><li>每张卡 = 头行 + 院部条 + 两行金额 + 客户信息 + 驳回 / 通过；没有 tab、没有箭头。</li><li>验收：只出有权限院部；四类信息齐全且与后台一致；卡片点不进详情；摘要总计 = 逐条之和（认证中不计入），切院部同步重算；空态只有一行「暂无开票信息」。</li><li>关联：R22</li></ul>
 <p><strong>F-23 开票无详情页</strong></p>
@@ -6192,45 +6444,94 @@ main { padding-bottom: 96px; }
 <ul><li>认证完成后刷新单据状态；超时不判失败，提示查询中并可重试。</li><li>验收：认证成功后列表卡变为可审核；超时文案不等于失败文案。</li><li>关联：R27</li></ul>
 <p><strong>F-28 通过 / 驳回</strong></p>
 <ul><li>弹窗恰好三行；驳回原因可留空；提交后状态即时回写；静默时段不做开票提交。</li><li>验收：三行 kv 无多余行；通过后进「开票中」，驳回后任务结束且可追溯；有二次确认拦误操作；两弹层文案与配置一致、界面无规则解释。</li><li>关联：R28、R29</li></ul>
-<p><strong>依赖</strong>：瑞辰开票待办、上传验证码（入参含验证医院、不带任务号）、取认证二维码、审核（通过 / 驳回）；<strong>不提供开票单据详情接口</strong>；三方用税局现网接口，本阶段不定义报文。<br>---</p>
-<h3>M6 我的</h3>
-<p><strong>干什么</strong>：一屏说清「我是谁、我管哪几家、我能干什么」，然后退出。<br><strong>谁用</strong>：所有人；<strong>这一页不放任何工作入口</strong>。</p>
-<p><strong>页面内容（自上而下）</strong></p>
+</div></details>
+<details class="sub" id="c5-6-11" open><summary><span class="chev" aria-hidden="true"></span><h4>依赖</h4></summary><div class="bd">
+<p>瑞辰开票待办、上传验证码（入参含验证医院、不带任务号）、取认证二维码、审核（通过 / 驳回）；<strong>不提供开票单据详情接口</strong>；三方用税局现网接口，本阶段不定义报文。</p>
+<hr>
+</div></details>
+</div></details>
+<details class="sec" id="c5-7" open><summary><span class="chev" aria-hidden="true"></span><h3>M6 我的（<span class="rno">R34</span> <span class="rno">R36</span>）</h3></summary><div class="bd">
+<details class="sub" id="c5-7-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>一屏说清「我是谁、我管哪几家、我能干什么」，然后退出。</p>
+</div></details>
+<details class="sub" id="c5-7-2" open><summary><span class="chev" aria-hidden="true"></span><h4>谁用</h4></summary><div class="bd">
+<p>所有人；<strong>这一页不放任何工作入口</strong>。</p>
+</div></details>
+<details class="sub" id="c5-7-3" open><summary><span class="chev" aria-hidden="true"></span><h4>页面内容</h4></summary><div class="bd">
 <ul><li>姓名（与首登核对同一来源，只显示姓名）。</li><li>能力：「核销」「开票」两个 pill，没有的能力就不显示（不画灰）。</li><li>院部：逐家列出（院部名 + 城区 + 门诊数），有主院标「主」；<strong>多院不折叠、不做切换</strong>（切换只在首页右上）。</li><li>账号行：「账号由管理员维护」一行，不带副行。</li><li>版本行：<code>门店助手 v1.0.0 · 企微自建应用</code>。</li><li><strong>不显示</strong>：手机号、工号、企微 userid、角色名、后台菜单名。</li></ul>
-<p><strong>规则</strong></p>
+</div></details>
+<details class="sub" id="c5-7-4" open><summary><span class="chev" aria-hidden="true"></span><h4>规则</h4></summary><div class="bd">
 <ul><li>院部家数决定形态：≥2 逐家列 / =1 只列一家 / =0 显示一行「请联系门店管理员为您分配管理院部。」</li><li>全部只读：没有改绑入口、没有编辑入口（读的就是 R34 那个单一入口）。</li><li>没有「帮助与反馈」「在线客服」，本页也没有二级页。</li><li>退出登录清本地登录态回暂无权限页，<strong>不调后台解绑</strong>，不影响员工映射。</li><li>院部名称必须与首页右上、待办过滤同源，不能出现「我的里有 3 家、首页只认 2 家」。</li></ul>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-7-5" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-37 我的（身份与权限只读）</strong></p>
 <ul><li>验收：多院账号列出全部有权限院部、主院有「主」标记；单院只列一家；0 院显示单行指引；页面不出现手机号 / 工号 / userid / 角色名 / 后台菜单名；无「帮助与反馈」；点退出回暂无权限页。</li><li>关联：R34、R36</li></ul>
-<p><strong>依赖</strong>：员工身份、能力、院部列表，与 M1 同一读取入口，不新增接口。</p>
+</div></details>
+<details class="sub" id="c5-7-6" open><summary><span class="chev" aria-hidden="true"></span><h4>依赖</h4></summary><div class="bd">
+<p>员工身份、能力、院部列表，与 M1 同一读取入口，不新增接口。</p>
 <hr>
-<h3>M7 迁移与发版</h3>
-<p><strong>干什么</strong>：把 C 端门店助手换成企微小程序，并且保证换的过程中不出事。<br><strong>谁用</strong>：运维与发版同学，员工无感。</p>
-<p><strong>怎么走</strong>：① 体验版在真实门店跑全流程 → ② 后台做完映射导入与对账 → ③ 企微应用可见范围先放开 1 家门店 → ④ 该店跑一周没阻断问题 → ⑤ 按门店分批放开到全量 → ⑥ 切换日 C 端门店助手入口下线 → ⑦ 盯着核销与开票量，异常就回收该店可见范围。</p>
-<p><strong>规则</strong></p>
+</div></details>
+</div></details>
+<details class="sec" id="c5-8" open><summary><span class="chev" aria-hidden="true"></span><h3>M7 迁移与发版（<span class="rno">R30</span>–<span class="rno">R33</span>）</h3></summary><div class="bd">
+<details class="sub" id="c5-8-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>把 C 端门店助手换成企微小程序，并且保证换的过程中不出事。</p>
+</div></details>
+<details class="sub" id="c5-8-2" open><summary><span class="chev" aria-hidden="true"></span><h4>谁用</h4></summary><div class="bd">
+<p>运维与发版同学，员工无感。</p>
+</div></details>
+<details class="sub" id="c5-8-3" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走</h4></summary><div class="bd">
+<ol><li>体验版在真实门店跑全流程</li><li>后台做完映射导入与对账</li><li>企微应用可见范围先放开 1 家门店</li><li>该店跑一周没阻断问题</li><li>按门店分批放开到全量</li><li>切换日 C 端门店助手入口下线</li><li>盯着核销与开票量，异常就回收该店可见范围。</li></ol>
+</div></details>
+<details class="sub" id="c5-8-4" open><summary><span class="chev" aria-hidden="true"></span><h4>规则</h4></summary><div class="bd">
 <ul><li>一次性全量迁企微，<strong>不做双入口并行</strong>；C 端代码保留一个版本周期，必要时临时恢复旧入口。</li><li>灰度不用开关，用<strong>企微应用可见范围按门店分批放开</strong>；回收可见范围就是回滚。</li><li>发版勾「仅在企业微信运行」；体验版 → 灰度门店 → 全量。</li><li>同一张单据只在一个入口被处理，不存在双写。</li><li>切换前未完结的预约、实物单、券、开票任务必须仍可查、可核销、可审核。</li><li>埋点记：来源端（企微 / C 端）、<code>corp_userid</code>、动作（核销 / 审核 / 确认 / 改约 / 取消）。</li></ul>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-8-5" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-32 存量单据连续</strong></p>
 <ul><li>验收：切换前生成的预约 / 实物单 / 券 / 开票任务在企微端可查、可核销、可审核，状态不漂移。</li><li>关联：R30</li></ul>
 <p><strong>F-33 分批放开</strong></p>
 <ul><li>验收：可按门店 / 部门配可见范围；放开与回收即时生效；非门店人员不可见。</li><li>关联：R33、R32</li></ul>
 <p><strong>F-34 埋点可统计</strong></p>
 <ul><li>验收：能按端统计核销量与审核量；日志能检索到具体 <code>corp_userid</code>（手机号脱敏）。</li><li>关联：R31</li></ul>
-<p><strong>依赖</strong>：企微管理后台（可见范围、通讯录部门树）；现网埋点与日志系统。</p>
+</div></details>
+<details class="sub" id="c5-8-6" open><summary><span class="chev" aria-hidden="true"></span><h4>依赖</h4></summary><div class="bd">
+<p>企微管理后台（可见范围、通讯录部门树）；现网埋点与日志系统。</p>
 <hr>
-<h3>M8 分销（分销员）</h3>
-<p><strong>干什么</strong>：有分销能力的员工看自己的分销与拉新业绩，顺便推广活动。<br><strong>谁用</strong>：有分销能力（能力值 2）的员工；<strong>只看本人业绩，不按院部、不随院部切换变化</strong>。</p>
-<p><strong>怎么走</strong>：① 首页宫格「分销中心」→ ② 两张数据卡（分销 8 指标 + 拉新 5 指标）→ ③ 点「查看明细 ›」进分销明细 / 拉新明细 → ④ 「近期活动」进活动详情 → ⑤ 「分销推广」出推广海报，保存到相册。<br>没有分销能力就<strong>整块不渲染</strong>，不画灰。</p>
-<p><strong>数据来源</strong>：瑞辰分销模块（C 端分销业绩），门店助手<strong>只读</strong>——不产生分销关系、不算佣金、不做结算。</p>
-<p><strong>分销数据 8 指标（与界面 ⓘ 弹窗一字不差）</strong></p>
+</div></details>
+</div></details>
+<details class="sec" id="c5-9" open><summary><span class="chev" aria-hidden="true"></span><h3>M8 分销（<span class="rno">R39</span>–<span class="rno">R43</span>）· 分销员视角</h3></summary><div class="bd">
+<details class="sub" id="c5-9-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>有分销能力的员工看自己的分销与拉新业绩，顺便推广活动。</p>
+</div></details>
+<details class="sub" id="c5-9-2" open><summary><span class="chev" aria-hidden="true"></span><h4>谁用</h4></summary><div class="bd">
+<p>有分销能力（能力值 2）的员工；<strong>只看本人业绩，不按院部、不随院部切换变化</strong>。</p>
+</div></details>
+<details class="sub" id="c5-9-3" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走</h4></summary><div class="bd">
+<ol><li>首页宫格「分销中心」</li><li>两张数据卡（分销 8 指标 + 拉新 5 指标）</li><li>点「查看明细 ›」进分销明细 / 拉新明细</li><li>「近期活动」进活动详情</li><li>「分销推广」出推广海报，保存到相册。</li></ol>
+<p>没有分销能力就<strong>整块不渲染</strong>，不画灰。</p>
+</div></details>
+<details class="sub" id="c5-9-4" open><summary><span class="chev" aria-hidden="true"></span><h4>数据来源</h4></summary><div class="bd">
+<p>瑞辰分销模块（C 端分销业绩），门店助手<strong>只读</strong>——不产生分销关系、不算佣金、不做结算。</p>
+<figure><svg viewBox="0 0 408 616" width="408" height="616" role="img" aria-label="业务流程图 10"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="616" fill="none"/><path d="M204.0 70.0 C204.0 97.9 204.0 104.1 204.0 132.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 180.0 C204.0 205.2 204.0 210.8 204.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 284.0 C204.0 309.2 204.0 314.8 204.0 340.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 388.0 C204.0 413.2 114.0 418.8 114.0 444.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="133.8" y="407.0" width="50.5" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="419.5" text-anchor="middle" font-size="11" fill="#4E5257">查看明细</text><path d="M204.0 388.0 C204.0 415.9 294.0 422.1 294.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="223.8" y="410.0" width="50.5" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="422.5" text-anchor="middle" font-size="11" fill="#4E5257">近期活动</text><path d="M204.0 388.0 C204.0 462.7 204.0 479.3 204.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="178.8" y="462.0" width="50.5" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="204.0" y="474.5" text-anchor="middle" font-size="11" fill="#4E5257">分销推广</text><path d="M294.0 486.0 C294.0 516.6 204.0 523.4 204.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="136.4" y="34.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">首页宫格 分销中心</text><rect x="117.9" y="132.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="152.7" text-anchor="middle" font-size="13" fill="#231815">分销 8 指标 + 拉新</text><text x="204.0" y="168.7" text-anchor="middle" font-size="13" fill="#231815"> 5 指标</text><rect x="117.9" y="236.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="256.7" text-anchor="middle" font-size="13" fill="#231815">时间范围默认近 30 天</text><text x="204.0" y="272.7" text-anchor="middle" font-size="13" fill="#231815"> 活动名搜索</text><polygon points="204.0,340.0 264.0,364.0 204.0,388.0 144.0,364.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">看哪一块</text><rect x="27.9" y="444.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="464.7" text-anchor="middle" font-size="13" fill="#231815">分销明细 4 分组 或 </text><text x="114.0" y="480.7" text-anchor="middle" font-size="13" fill="#231815">拉新明细 3 列</text><rect x="250.0" y="450.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">活动详情</text><rect x="130.2" y="554.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">推广海报 保存到相册</text></svg><figcaption>图 10 · 分销中心结构</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-9-5" open><summary><span class="chev" aria-hidden="true"></span><h4>分销数据 8 指标</h4></summary><div class="bd">
 <ol><li>销售总额：订单总金额（不包含成功退款金额）</li><li>订单数：所有订单的总数量</li><li>下单用户：涉及到下单的用户数量</li><li>退款金额：申请退款成功的订单金额</li><li>退款订单：申请退款成功的订单总数量</li><li>核销金额：下单后用户到店核销所涉及的订单金额</li><li>核销用户：下单后到店核销所涉及的下单用户数</li><li>客单价：销售总额 / 订单数（均不包含成功退款）</li></ol>
-<p><strong>拉新数据 5 指标</strong>：总注册数 / 新注册用户数 / HIS 老用户数 / 首购新用户数 / 复购老用户数。</p>
-<p><strong>筛选</strong>：时间范围（默认近 30 个自然日）+ 活动名称模糊搜索；改了以后两卡和两个明细同步过滤；活动多选时拉新数据按活动口径统计。</p>
-<p><strong>四个页面</strong></p>
+</div></details>
+<details class="sub" id="c5-9-6" open><summary><span class="chev" aria-hidden="true"></span><h4>拉新数据 5 指标</h4></summary><div class="bd">
+<p>总注册数 / 新注册用户数 / HIS 老用户数 / 首购新用户数 / 复购老用户数。</p>
+</div></details>
+<details class="sub" id="c5-9-7" open><summary><span class="chev" aria-hidden="true"></span><h4>筛选</h4></summary><div class="bd">
+<p>时间范围（默认近 30 个自然日）+ 活动名称模糊搜索；改了以后两卡和两个明细同步过滤；活动多选时拉新数据按活动口径统计。</p>
+</div></details>
+<details class="sub" id="c5-9-8" open><summary><span class="chev" aria-hidden="true"></span><h4>四个页面</h4></summary><div class="bd">
 <ul><li><strong>分销明细</strong>：顶部分销数据卡（收起 3 指标 / 展开 8 指标）+ 4 分组（全部 / 待使用 / 已完成 / 已退款，四组之和等于全部）+ 订单卡（订单号 + 复制、类型标签「项目」「套餐」、付款用户（昵称 + 脱敏手机号）、付款时间、活动类型（拼团 / 秒杀 / 砍价）、支付金额、核销金额、退款金额、推广活动）；「展开明细」按 sku 拆，无值渲染 <code>--</code>。单卡展开只影响本卡。</li><li><strong>拉新明细</strong>：5 指标卡 + 扫码明细表 3 列（用户（脱敏手机号）/ 创建时间 / 注册时间），一行一用户；「展开全部」收起 / 展开数据卡；时间格式 <code>2025-10-15 10:25:24</code>。</li><li><strong>活动详情</strong>：「近期活动」两列活动卡（头图 + 活动名 + 有效期），按活动时间倒序，点卡进详情；详情底部同样给「分销推广」。</li><li><strong>分销推广</strong>：二维码海报（含邀请码），只做保存到相册，不做分享回调。</li></ul>
-<p><strong>规则与空态</strong>：金额两位小数 + 千分位，退款类为 0 时显示 <code>0.00</code> 不显示 <code>--</code>；分销明细空「暂无分销订单」、拉新空「暂无任何拉新数据」、活动空「暂无进行中的活动」；加载中给骨架，<strong>不给假 0</strong>。</p>
-<p><strong>不做</strong>：分销关系绑定、上下级、佣金计算与提现、对客分享、按院部维度拆分与院部之间对比。</p>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-9-9" open><summary><span class="chev" aria-hidden="true"></span><h4>规则与空态</h4></summary><div class="bd">
+<p>金额两位小数 + 千分位，退款类为 0 时显示 <code>0.00</code> 不显示 <code>--</code>；分销明细空「暂无分销订单」、拉新空「暂无任何拉新数据」、活动空「暂无进行中的活动」；加载中给骨架，<strong>不给假 0</strong>。</p>
+</div></details>
+<details class="sub" id="c5-9-10" open><summary><span class="chev" aria-hidden="true"></span><h4>不做</h4></summary><div class="bd">
+<p>分销关系绑定、上下级、佣金计算与提现、对客分享、按院部维度拆分与院部之间对比。</p>
+</div></details>
+<details class="sub" id="c5-9-11" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-38 分销入口按能力显示</strong></p>
 <ul><li>验收：没有分销能力的人页面里不存在任何分销入口（不画灰）；入口在首页宫格常驻、「我的」页不出现；只有分销钥匙 = 宫格一格 + 一行说明；核销 + 分销 = 宫格两格。</li><li>关联：R39</li></ul>
 <p><strong>F-39 分销数据看板</strong></p>
@@ -6242,14 +6543,23 @@ main { padding-bottom: 96px; }
 <p><strong>F-42 活动与推广</strong></p>
 <ul><li>验收：活动卡按时间倒序；点卡进详情；海报含邀请码且可保存；没有进行中活动时给空态。</li><li>关联：R43</li></ul>
 <hr>
-<h3>M9 后台配套（企微映射 / 角色权限 / 数据权限）</h3>
-<p><strong>干什么</strong>：后台只改三处，让门店助手知道「谁是谁」和「谁能干什么」。其余菜单不动，字段只加不改。</p>
-<p><strong>怎么走</strong>：① 管理员登录后台 → ② 组织管理 › 管理员列表 → ③ 新增 / 编辑管理员，填<strong>企微 UserID</strong> → ④ 保存映射 <code>corp_userid ↔ user_id</code> → ⑤ 角色列表 › 配置权限：功能权限树里有「门店助手（企微）」→ ⑥ 配置数据权限：品牌 → 医院两级树 → ⑦ 若该角色有开票能力，数据权限弹窗里多一个「开票企业授权」页签，勾可开票的医院。</p>
-<p><strong>三个页面</strong></p>
+</div></details>
+</div></details>
+<details class="sec" id="c5-10" open><summary><span class="chev" aria-hidden="true"></span><h3>M9 后台配套（<span class="rno">R07</span> <span class="rno">R35</span> <span class="rno">R44</span> <span class="rno">R45</span>）· 企微映射 / 角色权限 / 数据权限</h3></summary><div class="bd">
+<details class="sub" id="c5-10-1" open><summary><span class="chev" aria-hidden="true"></span><h4>干什么用</h4></summary><div class="bd">
+<p>后台只改三处，让门店助手知道「谁是谁」和「谁能干什么」。其余菜单不动，字段只加不改。</p>
+</div></details>
+<details class="sub" id="c5-10-2" open><summary><span class="chev" aria-hidden="true"></span><h4>怎么走</h4></summary><div class="bd">
+<ol><li>管理员登录后台</li><li>组织管理 › 管理员列表</li><li>新增 / 编辑管理员，填<strong>企微 UserID</strong></li><li>保存映射 <code>corp_userid ↔ user_id</code></li><li>角色列表 › 配置权限：功能权限树里有「门店助手（企微）」</li><li>配置数据权限：品牌 → 医院两级树</li><li>若该角色有开票能力，数据权限弹窗里多一个「开票企业授权」页签，勾可开票的医院。</li></ol>
+</div></details>
+<details class="sub" id="c5-10-3" open><summary><span class="chev" aria-hidden="true"></span><h4>三个页面</h4></summary><div class="bd">
 <ul><li><strong>管理员列表 / 编辑管理员</strong>：新增「企微 UserID」列，未绑定显示「未绑定」灰字；新增 / 编辑时可填可改。一个管理员一个角色，<code>corp_userid</code> 空 = 未绑定。</li><li><strong>角色列表 / 配置权限 / 新增角色</strong>：功能权限树新增一级节点「门店助手（企微）」，展开到按钮级：工作台（扫码核销 / 查看预约）/ 待办（确认预约 / 改约 / 取消预约 / 审核开票）/ 我的 / 发票认证（上传验证码 / 人脸验证）/ 分销中心（分销数据 / 分销明细 / 拉新明细 / 分销推广）。父节点可半选。</li><li><strong>配置数据权限</strong>（含第二个页签「开票企业授权」）：品牌 → 医院两级树决定院部范围 <code>H</code>；第二个页签只在角色具备开票员能力（功能权限含「门店助手 › 发票认证」）时出现，授权清单<strong>只取第一个页签已勾选并保存的医院</strong>，一行一院、右侧灰字是该院开票主体，多选后「保存授权」。</li></ul>
-<p><strong>规则</strong></p>
+<figure><svg viewBox="0 0 408 824" width="408" height="824" role="img" aria-label="业务流程图 11"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="824" fill="none"/><path d="M204.0 70.0 C204.0 100.6 204.0 107.4 204.0 138.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 174.0 C204.0 201.9 204.0 208.1 204.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 284.0 C204.0 305.6 204.0 310.4 204.0 332.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 396.0 C204.0 420.3 204.0 425.7 204.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 486.0 C204.0 513.9 114.0 520.1 114.0 548.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 486.0 C204.0 513.9 294.0 520.1 294.0 548.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M294.0 596.0 C294.0 621.2 204.0 626.8 204.0 652.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 700.0 C204.0 727.9 114.0 734.1 114.0 762.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="148.9" y="722.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="734.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M204.0 700.0 C204.0 727.9 294.0 734.1 294.0 762.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="238.9" y="722.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="734.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><rect x="148.8" y="34.0" width="110.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">管理员登录后台</text><rect x="130.2" y="138.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">组织管理 管理员列表</text><rect x="117.9" y="236.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="256.7" text-anchor="middle" font-size="13" fill="#231815">新增或编辑 填企微 Us</text><text x="204.0" y="272.7" text-anchor="middle" font-size="13" fill="#231815">erID</text><rect x="117.9" y="332.0" width="172.2" height="64.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="352.7" text-anchor="middle" font-size="13" fill="#231815">保存映射 corp_us</text><text x="204.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">erid 与 user_</text><text x="204.0" y="384.7" text-anchor="middle" font-size="13" fill="#231815">id</text><rect x="136.4" y="450.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">角色列表 配置权限</text><rect x="27.9" y="548.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="568.7" text-anchor="middle" font-size="13" fill="#231815">功能权限树 门店助手 企</text><text x="114.0" y="584.7" text-anchor="middle" font-size="13" fill="#231815">微</text><rect x="207.9" y="548.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="568.7" text-anchor="middle" font-size="13" fill="#231815">数据权限 品牌到医院两级</text><text x="294.0" y="584.7" text-anchor="middle" font-size="13" fill="#231815">树</text><polygon points="204.0,652.0 271.6,676.0 204.0,700.0 136.4,676.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="680.7" text-anchor="middle" font-size="13" fill="#231815">该角色有开票能力?</text><rect x="27.9" y="762.0" width="172.2" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="784.7" text-anchor="middle" font-size="13" fill="#231815">多一个页签 开票企业授权</text><rect x="244.9" y="762.0" width="98.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="784.7" text-anchor="middle" font-size="13" fill="#231815">只有一个页签</text></svg><figcaption>图 11 · 后台三处改造</figcaption></figure>
+</div></details>
+<details class="sub" id="c5-10-4" open><summary><span class="chev" aria-hidden="true"></span><h4>规则</h4></summary><div class="bd">
 <ul><li><code>corp_userid</code> 全局唯一；重复时提示「该企微 UserID 已被账号 xxx 占用」且不落库。</li><li>允许先建管理员后补 UserID；未绑定不影响后台使用，只影响门店助手能不能匹配到人。</li><li>两个页签<strong>各自保存</strong>：切页签不提交、也不互相带改动。</li><li>不能授权数据权限范围外的医院；数据权限一家没勾时第二个页签给空态且「保存授权」置灰；无开票能力的角色只有一个页签。</li><li>门店助手侧的能力只读「角色功能权限 + 数据权限 + 开票企业授权」，小程序内没有任何配置界面。</li><li>本期不做 Excel 批量导入；不改企微部门结构与同步策略，部门也不是权限源。</li></ul>
-<p><strong>功能点</strong></p>
+</div></details>
+<details class="sub" id="c5-10-5" open><summary><span class="chev" aria-hidden="true"></span><h4>功能点</h4></summary><div class="bd">
 <p><strong>F-43 管理员企微 UserID</strong></p>
 <ul><li>验收：列表有「企微 UserID」列，未绑定显示「未绑定」；编辑可填可改；重复时给占用提示且不落库。</li><li>关联：R35</li></ul>
 <p><strong>F-44 角色功能权限树</strong></p>
@@ -6259,29 +6569,31 @@ main { padding-bottom: 96px; }
 <p><strong>F-46 数据权限（品牌 → 医院）</strong></p>
 <ul><li>验收：两级树可全选 / 半选；勾选结果决定门店助手的院部范围 <code>H</code>；与现网医院权限一致。</li><li>关联：R07</li></ul>
 <hr>
-<h2>6 数据实体</h2>
+</div></details>
+</div></details>
+</section>
+<section class="ch" id="c6"><h2>数据实体</h2>
 <p>模块内的字段见各章；这里只列<strong>新增实体</strong>、<strong>跨模块关键字段</strong>和必须守住的写入边界。</p>
 <table><thead><tr><th>实体</th><th>关键字段</th><th>来源</th><th>说明</th></tr></thead><tbody><tr><td>企微员工映射（新）</td><td><code>corp_userid</code>（唯一键）、<code>user_id</code>、<code>emp_name</code>、<code>emp_no</code>、<code>status</code></td><td>新增</td><td>只存映射关系；<strong>不存手机号用于匹配</strong>——手机号两端不一致，只作档案展示</td></tr><tr><td><span class="nw">员工档案</span></td><td><code>ability</code>（1 核销 / 2 分销 / 3 开票）、<code>hospital_ids</code>（多家）</td><td>现有</td><td>只经 R34 单一入口读</td></tr><tr><td><span class="nw">预约单</span></td><td><code>id</code>、<code>hospital_id</code>、<code>appoint_time</code>、<code>source</code>、<code>status</code>、<code>verify_code</code></td><td>现有</td><td><code>appoint_time</code> 是<strong>服务时间</strong>，卡片上显示成区间 <code>08:00 – 09:00</code>；状态四态；核销码 28 天有效，详情只展示</td></tr><tr><td><span class="nw">实物单</span></td><td><code>order_id</code>、<code>items</code>、<code>quantity</code>、<code>origin_price</code>、<code>order_amount</code>、<code>order_source</code>、<code>status</code></td><td>现有</td><td>核销弹窗五项见 R12</td></tr><tr><td><span class="nw">代金券</span></td><td><code>coupon_id</code>、<code>name</code>、<code>face_value</code>、<code>issuer</code>、<code>status</code></td><td>现有</td><td>核销弹窗五项见 R13</td></tr><tr><td><span class="nw">开票任务</span></td><td><code>invoice_id</code>、<code>status</code>、<code>hospital_id</code>、<code>amount</code>、<code>title</code>、<code>email</code></td><td>现有</td><td>员工端无详情页，字段在列表卡展示；<code>verify_code</code> 不由门店助手写入（认证不关联任务）</td></tr><tr><td><span class="nw">会话</span></td><td>token、<code>corp_userid</code>、<code>user_id</code>、<code>exp</code></td><td>现有 + 新增</td><td>服务端签发，前端只持 token；不落明文</td></tr></tbody></table>
 <p><strong>写入边界（套餐次数 <code>order_item_usages</code>）</strong></p>
 <ul><li>预约成功即<strong>预扣 1 次（冻结）</strong>；到店扫码核销 → 冻结转<strong>实扣</strong>，核销后<strong>不可回退</strong>。</li><li>门店助手核销<strong>只改预约单状态，不直接写 <code>order_item_usages</code></strong>。</li><li><strong>取消该预约 = 解冻 1 次</strong>（回到可用）；<strong>改约 = 保持冻结</strong>（不释放、不重复预扣）；适用一切预约。</li><li>解冻由预约侧 / HIS 按「已取消」执行，门店助手不写次数。</li></ul>
 <hr>
-<h2>7 状态机</h2>
-<h3>7.1 核销（三类单据共用一个外壳）</h3>
+</section>
+<section class="ch" id="c7"><h2>状态机</h2>
+<details class="sec" id="c7-1" open><summary><span class="chev" aria-hidden="true"></span><h3>核销（三类单据共用一个外壳）</h3></summary><div class="bd">
 <table><thead><tr><th>状态</th><th>触发</th><th>做什么</th><th>结果</th><th>异常</th></tr></thead><tbody><tr><td><span class="nw">待核销</span></td><td>员工扫码</td><td>识别单据类型、展示字段</td><td>进确认</td><td>无效 / 过期 / 无权限院部 → 拦</td></tr><tr><td><span class="nw">待确认</span></td><td>点「核销」</td><td>提交核销</td><td><strong>已完成</strong></td><td>重复提交 → 幂等返回</td></tr><tr><td><span class="nw">已完成</span></td><td>成功</td><td>改单据状态、写核销记录</td><td>结束</td><td>两人同扫 → 只成功一个</td></tr></tbody></table>
-<h3>7.2 预约</h3>
+<figure><svg viewBox="0 0 408 616" width="408" height="616" role="img" aria-label="业务流程图 12"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="616" fill="none"/><path d="M204.0 70.0 C204.0 95.7 204.0 101.3 204.0 127.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 185.0 C204.0 210.7 114.0 216.3 114.0 242.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="138.8" y="204.5" width="40.4" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="217.0" text-anchor="middle" font-size="11" fill="#4E5257">不通过</text><path d="M204.0 185.0 C204.0 210.7 294.0 216.3 294.0 242.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="233.9" y="204.5" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="217.0" text-anchor="middle" font-size="11" fill="#4E5257">通过</text><path d="M294.0 278.0 C294.0 308.6 204.0 315.4 204.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 382.0 C204.0 409.9 204.0 416.1 204.0 444.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 492.0 C204.0 519.9 114.0 526.1 114.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="148.9" y="514.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">是</text><path d="M204.0 492.0 C204.0 519.9 294.0 526.1 294.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="238.9" y="514.0" width="20.1" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">否</text><rect x="136.4" y="34.0" width="135.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">待核销 扫码进确认</text><polygon points="204.0,127.0 290.1,156.0 204.0,185.0 117.9,156.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="152.7" text-anchor="middle" font-size="13" fill="#231815">校验 有效 未过期 有权</text><text x="204.0" y="168.7" text-anchor="middle" font-size="13" fill="#231815">限</text><rect x="52.6" y="242.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">拦下 一句话提示</text><rect x="232.6" y="242.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">弹窗展示单据五项</text><rect x="160.0" y="346.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">点核销提交</text><polygon points="204.0,444.0 264.0,468.0 204.0,492.0 144.0,468.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">之前已被核销?</text><rect x="40.2" y="554.0" width="147.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">幂等返回 提示已完成</text><rect x="214.1" y="554.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">已完成 + 写核销记录</text></svg><figcaption>图 12 · 核销状态与异常</figcaption></figure>
+</div></details>
+<details class="sec" id="c7-2" open><summary><span class="chev" aria-hidden="true"></span><h3>预约</h3></summary><div class="bd">
 <table><thead><tr><th>状态</th><th>触发</th><th>做什么</th><th>结果</th><th>异常</th></tr></thead><tbody><tr><td><span class="nw">待确认</span></td><td>用户预约</td><td>员工确认（浮层里可一并改 4 项）</td><td>待核销</td><td>超时未确认按现网规则</td></tr><tr><td><span class="nw">待核销</span></td><td>到店</td><td>扫码核销</td><td>已完成</td><td>过期 / 已取消 → 不可核销</td></tr><tr><td><span class="nw">已完成</span></td><td>交付完成</td><td>—</td><td>结束</td><td>—</td></tr><tr><td><span class="nw">已取消</span></td><td>用户或门店取消</td><td>记原因、按规则退挂号费</td><td>结束</td><td>退费失败 → 提示</td></tr><tr><td>改约（<strong>动作，不是状态</strong>）</td><td>改宠物 / 日期 / 人员 / 服务时间</td><td>先占新号源再放旧号源</td><td><strong>保持原状态</strong></td><td>号源被占 → 整体不生效</td></tr></tbody></table>
-<h3>7.3 开票</h3>
+<figure><svg viewBox="0 0 408 512" width="408" height="512" role="img" aria-label="业务流程图 13"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="408" height="512" fill="none"/><path d="M204.0 70.0 C204.0 97.9 204.0 104.1 204.0 132.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M204.0 180.0 C204.0 207.9 114.0 214.1 114.0 242.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="143.9" y="202.0" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="214.5" text-anchor="middle" font-size="11" fill="#4E5257">确认</text><path d="M204.0 180.0 C204.0 207.9 294.0 214.1 294.0 242.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="233.9" y="202.0" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="249.0" y="214.5" text-anchor="middle" font-size="11" fill="#4E5257">改约</text><path d="M204.0 180.0 C204.0 254.7 114.0 271.3 114.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="143.9" y="254.0" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="159.0" y="266.5" text-anchor="middle" font-size="11" fill="#4E5257">取消</text><path d="M114.0 278.0 C114.0 308.6 294.0 315.4 294.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M114.0 278.0 C114.0 308.6 114.0 315.4 114.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M294.0 382.0 C294.0 412.6 204.0 419.4 204.0 450.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="142.6" y="34.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">用户下单 待确认</text><polygon points="204.0,132.0 264.0,156.0 204.0,180.0 144.0,156.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="204.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">门店动作</text><rect x="70.0" y="242.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">待核销</text><rect x="250.0" y="242.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">保持原状态</text><rect x="34.1" y="346.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="114.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">已取消 按规则退挂号费</text><rect x="250.0" y="346.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="294.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">扫码核销</text><rect x="160.0" y="450.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="204.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">已完成</text></svg><figcaption>图 13 · 预约状态流转</figcaption></figure>
+</div></details>
+<details class="sec" id="c7-3" open><summary><span class="chev" aria-hidden="true"></span><h3>开票</h3></summary><div class="bd">
 <table><thead><tr><th>状态</th><th>触发</th><th>做什么</th><th>结果</th><th>异常</th></tr></thead><tbody><tr><td><span class="nw">待审核</span></td><td>用户提交</td><td>开票员在列表卡上看单据</td><td>认证中 / 可审核</td><td>无权限 → 拒绝</td></tr><tr><td><span class="nw">认证中</span></td><td>上传验证码 / 人脸验证（独立入口，不是申请流程的一步）</td><td>回传 / 轮询</td><td>可审核</td><td>接口失败 → 提示重试</td></tr><tr><td>已通过 / 已驳回</td><td>开票员在审核弹窗操作</td><td>回写状态</td><td>开票中 / 结束</td><td>驳回原因非必填</td></tr><tr><td><span class="nw">开票中</span></td><td>通过后调税局</td><td>开票</td><td>成功 / 失败</td><td>静默时段不提交</td></tr><tr><td>成功 / 失败</td><td>回调</td><td>回写</td><td>结束</td><td>40008 / 40010 对应文案</td></tr></tbody></table>
 <hr>
-<h2>8 非功能需求</h2>
-<table><thead><tr><th>项</th><th>要求</th></tr></thead><tbody><tr><td><span class="nw">性能</span></td><td>4G 首屏 ≤3s；扫码到确认 ≤1s；核销提交 ≤2s；列表切周 / 切 chips 后 ≤1s 出结果</td></tr><tr><td><span class="nw">弱网</span></td><td>核销必须在线校验；失败可重试且不重复改状态；验证码异步提交，弱网下也没有「接口失败」态（只有提交中 / 成功）</td></tr><tr><td><span class="nw">兼容</span></td><td>企微 iOS / Android 最近两个大版本；iOS 拍照用 <code>chooseImage</code></td></tr><tr><td><span class="nw">相册</span></td><td>保存二维码用 <code>wx.saveImageToPhotosAlbum</code>；拒绝授权引导设置页（PC 端 <code>openSetting</code> 不支持）</td></tr><tr><td><span class="nw">安全</span></td><td>token 不落明文；<strong>服务端日志手机号脱敏</strong>；二维码不含敏感信息；离职即失效</td></tr><tr><td><span class="nw">手机号</span></td><td><strong>界面一律全号</strong>（开票卡客户信息、预约详情明细客户），不做掩码</td></tr><tr><td>金额 / 时区</td><td>元、两位小数；国内时区；日期文案 <code>YYYY 年 M 月</code></td></tr><tr><td><span class="nw">发版</span></td><td>勾「仅在企业微信运行」；体验版先行；正式版走审核；可按门店回滚</td></tr><tr><td><span class="nw">可观测</span></td><td>登录 / 绑定 / 核销 / 开票认证失败都有可检索日志</td></tr><tr><td>无障碍 / 密度</td><td>状态色轨不作唯一编码（pill 带文字）；预约卡项目名单行省略、不截断院部简称；④ 行图标只作辅助，人员与院部都有文字</td></tr></tbody></table>
-<p><strong>界面内容边界</strong>：页面只承载员工能读的东西 —— 页面标题、动作名、当下事实、操作后果一句、下一步一行。<strong>需求编号、功能点编号、字段名、接口名、状态机名、实现标识（如 <code>cancel_rule</code>）、规则解释都不许出现在页面上</strong>。空态单行：预约「暂无预约信息」/ 开票「暂无开票信息」/ 首页待办「今天没有待处理」。后台能力（次数解冻、客户通知）在页面一个字不写，不出现「已通知」「次数已退回」。</p>
-<hr>
-<h2>附录 A 现网对齐项（联调前要确认的 4 件）</h2>
-<table><thead><tr><th>#</th><th>项</th><th>待对齐</th></tr></thead><tbody><tr><td><span class="nw">1</span></td><td>待办刷新时机</td><td>进页面自动刷新 + 下拉刷新已定；要不要定时轮询、间隔多少</td></tr><tr><td><span class="nw">2</span></td><td>驳回原因</td><td>非必填、无预设清单已定；现网有没有下拉可选项</td></tr><tr><td><span class="nw">3</span></td><td>卡片「服务时间」区间来源</td><td>起止取项目时长还是号源时长；浮层里可选时段由哪个接口返回</td></tr><tr><td><span class="nw">4</span></td><td>月历浮层可约范围</td><td>能翻几个月（不单独选年份），要和排班可约范围一致</td></tr></tbody></table>
-<h2>附录 B 本期不做</h2>
-<table><thead><tr><th>不做</th><th>说明</th></tr></thead><tbody><tr><td>客户联系 / 外部联系人 / 对客分享；分销的关系绑定、上下级、佣金结算、提现</td><td>员工端不承载，分销只读业绩</td></tr><tr><td>住院护理、电子交接班、经营管理统计、库存管理</td><td>阶段 2+</td></tr><tr><td>企微 H5 版、支付、跨院改约；后台除 §4.4 三处改造以外的菜单</td><td>形态与范围外</td></tr><tr><td>库存硬件（BLE / 扫码枪 / PDA）</td><td>明确不需要</td></tr><tr><td>员工映射的 Excel 批量导入 / 补录 / 作废</td><td>R35 只做管理员档案逐个维护；门店助手只读映射结果</td></tr><tr><td>分销数据按院部维度拆分、院部之间对比</td><td>只算本人业绩，不提供院部筛选、不随院部切换变化</td></tr><tr><td>后台 PC 拆成独立子项目</td><td>三处改造与门店助手同期迭代，作为第二个断点（1440）交付</td></tr><tr><td>「帮助与反馈 / 在线客服」入口</td><td>产品里没有这个功能，需要人工就线下找门店管理员</td></tr><tr><td><span class="nw">开票申请入口</span></td><td>申请在客户端；门店助手只做认证与审核</td></tr><tr><td>首页「今日待办」三段统计卡（含骨架态）</td><td>与两段待办列表重复</td></tr><tr><td>开票单据详情页、开票段状态 tab（全部 / 待审核 / 认证中）</td><td>开票只有待审核，信息在列表卡上</td></tr><tr><td>独立的改约入口页</td><td>改约是动作，复用确认浮层</td></tr><tr><td>「全部功能」页（宫格第 9 个入口的溢出页）</td><td>本期只有 4 个宫格入口，用不上；阶段 2+ 住院 / 库存进来也还在 2 行内</td></tr><tr><td>客户通知通道（短信 / 企微 / 订阅消息）与通知回执</td><td>本期不做，界面不承诺；员工侧唯一客户触达是详情页「电话」</td></tr></tbody></table>
-  </article>
+<figure><svg viewBox="0 0 576 616" width="576" height="616" role="img" aria-label="业务流程图 14"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6B6E72"/></marker></defs><rect x="0" y="0" width="576" height="616" fill="none"/><path d="M288.0 70.0 C288.0 100.6 288.0 107.4 288.0 138.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M288.0 174.0 C288.0 201.9 156.0 208.1 156.0 236.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M156.0 284.0 C156.0 311.9 112.0 318.1 112.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="118.9" y="306.0" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="134.0" y="318.5" text-anchor="middle" font-size="11" fill="#4E5257">通过</text><path d="M156.0 284.0 C156.0 311.9 288.0 318.1 288.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="206.9" y="306.0" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="222.0" y="318.5" text-anchor="middle" font-size="11" fill="#4E5257">驳回</text><path d="M112.0 382.0 C112.0 409.9 288.0 416.1 288.0 444.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M288.0 492.0 C288.0 519.9 156.0 526.1 156.0 554.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="206.9" y="514.0" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="222.0" y="526.5" text-anchor="middle" font-size="11" fill="#4E5257">成功</text><path d="M288.0 492.0 C288.0 517.2 420.0 522.8 420.0 548.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="338.9" y="511.0" width="30.2" height="17" rx="4"  stroke="#E5E6EB" style="fill:var(--color-text-inverse)"/><text x="354.0" y="523.5" text-anchor="middle" font-size="11" fill="#4E5257">失败</text><path d="M288.0 174.0 C288.0 204.6 420.0 211.4 420.0 242.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><path d="M420.0 278.0 C420.0 308.6 464.0 315.4 464.0 346.0" fill="none" stroke="#8A93A1" stroke-width="1.3" marker-end="url(#ar)"/><rect x="226.6" y="34.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="56.7" text-anchor="middle" font-size="13" fill="#231815">用户提交 待审核</text><rect x="232.8" y="138.0" width="110.5" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="160.7" text-anchor="middle" font-size="13" fill="#231815">开票员看列表卡</text><polygon points="156.0,236.0 216.0,260.0 156.0,284.0 96.0,260.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="156.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">审核动作</text><rect x="340.1" y="242.0" width="159.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="420.0" y="264.7" text-anchor="middle" font-size="13" fill="#231815">认证中 由独立入口推进</text><rect x="50.6" y="346.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="112.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">已通过 进开票中</text><rect x="226.6" y="346.0" width="122.8" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="288.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">已驳回 任务结束</text><rect x="414.9" y="346.0" width="98.1" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="464.0" y="368.7" text-anchor="middle" font-size="13" fill="#231815">回传后可审核</text><polygon points="288.0,444.0 348.0,468.0 288.0,492.0 228.0,468.0" fill="#FFF7F2" stroke="#CC4A14" stroke-width="1.3"/><text x="288.0" y="472.7" text-anchor="middle" font-size="13" fill="#231815">税局回调</text><rect x="112.0" y="554.0" width="88.0" height="36.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="156.0" y="576.7" text-anchor="middle" font-size="13" fill="#231815">成功 结束</text><rect x="333.9" y="548.0" width="172.2" height="48.0" rx="8.0"  stroke="#B3B8C1" stroke-width="1.3" style="fill:var(--color-text-inverse)"/><text x="420.0" y="568.7" text-anchor="middle" font-size="13" fill="#231815">失败 记 40008 或</text><text x="420.0" y="584.7" text-anchor="middle" font-size="13" fill="#231815"> 40010</text></svg><figcaption>图 14 · 开票状态流转</figcaption></figure>
+</div></details>
+</section></article></div>
 </section>
 
 
@@ -6561,6 +6873,67 @@ main { padding-bottom: 96px; }
     requestAnimationFrame(function () { window.scrollTo(0, 0); });
   }
 
+  /* ---- 文档：可折叠小节 + 左侧目录（变更单 38） ---- */
+  (function () {
+    var doc = document.querySelector('.doc');
+    if (!doc) return;
+
+    /* 编辑模式下点标题行只进编辑、不改折叠状态（否则边打字边收起） */
+    doc.addEventListener('click', function (e) {
+      var sm = e.target.closest && e.target.closest('summary');
+      if (!sm) return;
+      if (document.documentElement.getAttribute('data-editing') === '1') e.preventDefault();
+    }, true);
+
+    function openAncestors(el) {
+      if (el.tagName === 'DETAILS') el.open = true;   /* 目标自己也可能是一个折叠块 */
+      var p = el.parentElement;
+      while (p) {
+        if (p.tagName === 'DETAILS') p.open = true;
+        p = p.parentElement;
+      }
+    }
+
+    var toc = document.querySelector('.doc-toc');
+    if (!toc) return;
+
+    toc.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-act]');
+      if (btn) {
+        var on = btn.getAttribute('data-act') === 'open';
+        [].slice.call(doc.querySelectorAll('details')).forEach(function (d) { d.open = on; });
+        return;
+      }
+      var a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var t = document.getElementById(a.getAttribute('href').slice(1));
+      if (!t) return;
+      e.preventDefault();
+      openAncestors(t);
+      var y = t.getBoundingClientRect().top + window.scrollY - 128;
+      window.scrollTo({ top: y < 0 ? 0 : y, behavior: 'smooth' });
+      /* 不写 hash：hash 是「页签」的深链（#doc），改写成 #c4-1 后刷新会掉回「小程序UI」 */
+    });
+
+    /* 当前章节高亮：滚到位移上方最近的那个标题 */
+    var links = [].slice.call(toc.querySelectorAll('a'));
+    var heads = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+    var ticking = false;
+    function sync() {
+      ticking = false;
+      var y = window.scrollY + 150, cur = 0;
+      heads.forEach(function (h, i) {
+        if (!h) return;
+        if (h.getBoundingClientRect().top + window.scrollY <= y) cur = i;
+      });
+      links.forEach(function (a, i) { a.classList.toggle('is-cur', i === cur); });
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(sync); }
+    }, { passive: true });
+    sync();
+  })();
+
   /* ---- 多态：每个画板独立切换 ---- */
   function applyState(screen) {
     var st = screen.getAttribute('data-state') || 's1';
@@ -6609,7 +6982,7 @@ main { padding-bottom: 96px; }
   });
 
   /* key 带构建号：换一版就与上一版的编辑记录彻底断开，修复后的文案不会被旧 map 覆盖 */
-  var KEY = 'rc-edit-d802a448';
+  var KEY = 'rc-edit-a09ea495';
   /* 清掉历史脏 map（旧版全局序号 key 与旧构建号 key） */
   try {
     Object.keys(localStorage).forEach(function (k) {
@@ -6643,6 +7016,7 @@ main { padding-bottom: 96px; }
   btnEdit.addEventListener('click', function () {
     editing = !editing;
     btnEdit.setAttribute('aria-pressed', String(editing));
+    document.documentElement.setAttribute('data-editing', editing ? '1' : '0');
     editables.forEach(function (el) {
       if (editing) {
         el.setAttribute('contenteditable', 'plaintext-only');
