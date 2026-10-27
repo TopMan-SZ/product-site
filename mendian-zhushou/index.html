@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-build="c3690e30">
+<html lang="zh-CN" data-build="7f45ecfd">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>门店助手（企微员工端）· UI 交付 v21</title>
+<title>门店助手（企微员工端）· UI 交付 v22</title>
 <style>
 /* ==========================================================================
    瑞辰 · 门店助手（企微小程序）设计 token  v3
@@ -4192,17 +4192,17 @@ main { padding-bottom: 96px; }
   <div class="topbar-inner">
     <div class="brand">
       <div class="brand-mark"><span class="brand-dot"></span><h1 class="brand-name">门店助手 · 企微员工端</h1></div>
-      <p class="brand-sub">瑞辰宠医 · 迁移企微｜需求规格 v22｜设计引导 v20｜token v3</p>
+      <p class="brand-sub">瑞辰宠医 · 迁移企微｜需求规格 v22｜设计引导 v21｜token v3</p>
     </div>
     <div class="deliver-meta">
-      <span>版本 <b>v21</b></span><span>日期 <b>2026-10-27</b></span>
+      <span>版本 <b>v22</b></span><span>日期 <b>2026-10-27</b></span>
       <span>页面 <b>20</b></span><span>可切态 <b>77</b></span>
       <span>图标 <b>6+46</b></span><span>形态 <b>离线单文件</b></span>
     </div>
   </div>
   <nav class="tabs" role="tablist">
-    <button class="tabbtn" role="tab" data-tab="p-ui" aria-selected="true">小程序 UI</button>
-    <button class="tabbtn" role="tab" data-tab="p-web" aria-selected="false">后台 UI</button>
+    <button class="tabbtn" role="tab" data-tab="p-ui" aria-selected="true">小程序UI</button>
+    <button class="tabbtn" role="tab" data-tab="p-web" aria-selected="false">后台UI</button>
     <button class="tabbtn" role="tab" data-tab="doc" aria-selected="false">需求文档</button>
     <button class="tabbtn" role="tab" data-tab="p-assets" aria-selected="false">切图与素材</button>
     <button class="tabbtn" role="tab" data-tab="p-ds" aria-selected="false">设计规范</button>
@@ -5949,7 +5949,7 @@ main { padding-bottom: 96px; }
 </article>
   </div>
   <p class="foot">口径：发票人脸验证 / 上传验证码是<b>独立操作功能</b>，入口在工作台「发票认证」，不在开票申请流程里；
-  员工端没有「帮助与反馈」；企微映射与角色权限在后台页（见「后台 UI」）。
+  员工端没有「帮助与反馈」；企微映射与角色权限在后台页（见「后台UI」）。
   首页按钥匙组合渲染：三把钥匙任一即可进入；有核销才有那张当日主操作卡，其余入口一律进 4 列功能宫格。
   首页不重复统计待办数量，两段数量只在段头显示；套餐次数按「预约时冻结 → 核销转实扣、不可回退」口径。</p>
 </section>
@@ -6422,7 +6422,7 @@ main { padding-bottom: 96px; }
   </table>
   <p class="helper">卡片与幅面之间<b>不再叠压</b>（v12 取消 <code>margin-top:-32px</code>）：幅面下留 16 内距，卡片四个圆角都完整，一眼看出「上面是身份，下面是活」。</p>
 
-  <h3 style="font-size:17px;margin:26px 0 8px">4. 组件（C01–C45，与 <code>UI设计引导-v20.md</code> §6 一一对应）</h3>
+  <h3 style="font-size:17px;margin:26px 0 8px">4. 组件（C01–C45，与 <code>UI设计引导-v21.md</code> §6 一一对应）</h3>
   <table class="spec-table">
     <tr><th>#</th><th>组件</th><th>关键规格</th></tr>
     <tr><td>C01</td><td>品牌幅面 Hero</td><td>渐变 + 柔光球 + 点阵；内含状态栏 / 导航栏 / 日期行 / 问候；底部 16 内距、<b>不再给卡片留叠压余量</b>；<b>不显示班次</b>（员工端没有排班数据）</td></tr>
@@ -6545,7 +6545,7 @@ main { padding-bottom: 96px; }
   <h3 style="font-size:17px;margin:26px 0 8px">7.1 v17–v20 新增组件（C36–C45，实物见画板）</h3>
   <p class="helper" style="margin:0 0 10px">
     v17–v20 新增的 10 个组件都长在具体页面里（分销组 P-16–P-20、后台组 B-01–B-06、首页宫格），
-    所以本节只登记编号与判据，实物请对照画板看；完整规格在 <code>UI设计引导-v20.md</code> §6.8。
+    所以本节只登记编号与判据，实物请对照画板看；完整规格在 <code>UI设计引导-v21.md</code> §6.8。
   </p>
   <table class="spec-table">
     <tr><th>编号</th><th>组件</th><th>判据（什么时候用它、什么时候别用）</th></tr>
@@ -6656,7 +6656,7 @@ main { padding-bottom: 96px; }
   });
 
   /* key 带构建号：换一版就与上一版的编辑记录彻底断开，修复后的文案不会被旧 map 覆盖 */
-  var KEY = 'rc-edit-c3690e30';
+  var KEY = 'rc-edit-7f45ecfd';
   /* 清掉历史脏 map（旧版全局序号 key 与旧构建号 key） */
   try {
     Object.keys(localStorage).forEach(function (k) {
