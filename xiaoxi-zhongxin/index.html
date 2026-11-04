@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-build="1cde7309">
+<html lang="zh-CN" data-build="05cc097f">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1461,8 +1461,10 @@ button.w-switch:focus-visible { outline: 2px solid var(--color-primary); outline
 .c-hp-name { width: 17%; } .c-hp-ov { width: 10%; } .c-hp-st { width: 21%; }
 .c-hp-cust { width: 21%; } .c-hp-time { width: 14%; } .c-hp-status { width: 9%; } .c-hp-op { width: 8%; }
 /* 列宽：临时通知 7 列 */
-.c-bc-name { width: 26%; } .c-bc-ev { width: 13%; } .c-bc-n { width: 8%; }
-.c-bc-st { width: 10%; } .c-bc-who { width: 10%; } .c-bc-time { width: 15%; } .c-bc-op { width: 18%; }
+.c-bc-name { width: 22%; } .c-bc-ev { width: 12%; } .c-bc-aud { width: 7%; }
+.c-bc-n { width: 7%; } .c-bc-ok { width: 11%; } .c-bc-st { width: 9%; }
+.c-bc-who { width: 8%; } .c-bc-time { width: 12%; } .c-bc-op { width: 12%; }
+.w-ok { color: var(--color-success); } .w-bad { color: var(--color-danger); }
 
 /* 配置页下拉：文案短的项不要把整行拉空 */
 .w-conf-sec .w-sel, .w-conf-sec .w-selwrap { min-width: 200px; }
@@ -1898,11 +1900,11 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
   <div class="topbar-inner">
     <div class="brand">
       <div class="brand-mark"><span class="brand-dot"></span><h1 class="brand-name">消息中心 · 对照阅读版</h1></div>
-      <p class="brand-sub">瑞辰宠医 · 集团与医院配置台｜需求 v19｜设计引导 v4｜4 页 · 可切 17 态 · 流程图 19 节点</p>
+      <p class="brand-sub">瑞辰宠医 · 集团与医院配置台｜需求 v20｜设计引导 v4｜4 页 · 可切 18 态 · 流程图 19 节点</p>
     </div>
     <div class="deliver-meta">
       <span>版本 <b>v8</b></span><span>日期 <b>2026-11-04</b></span>
-      <span>页面 <b>4</b></span><span>可切态 <b>17</b></span>
+      <span>页面 <b>4</b></span><span>可切态 <b>18</b></span>
       <span>形态 <b>离线单文件</b></span>
     </div>
   </div>
@@ -2307,23 +2309,23 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
       <div class="w-pghead">
         <div>
           <h1>临时通知</h1>
-          <p class="w-sub">共 4 条 · 3 条已发布 · 1 条草稿 · 只列群发事件发起的通知</p>
+          <p class="w-sub">共 4 条 · 2 条已完成 · 1 条发送中 · 1 条待发 · 只列群发事件发起的通知</p>
         </div>
         <div class="w-actions"><button class="w-btn w-btn-pri"><svg aria-hidden="true"><use href="#i-plus"/></svg>新建通知</button></div>
       </div>
       
 <div class="w-card">
   <div class="w-filters">
-    <div class="w-fld"><label for="b1">状态</label><span class="w-selwrap"><select class="w-sel" id="b1"><option>全部状态</option><option>草稿</option><option>发送中</option><option>已发布</option></select></span></div>
+    <div class="w-fld"><label for="b1">状态</label><span class="w-selwrap"><select class="w-sel" id="b1"><option>全部状态</option><option>待发</option><option>发送中</option><option>已完成</option><option>已终止</option></select></span></div>
     <div class="w-fld w-fld-grow"><input class="w-inp" id="b2" placeholder="搜索通知标题"></div>
     <div class="w-spacer"></div>
     <button class="w-btn w-btn-pri">查询</button>
     <button class="w-btn w-btn-sec">重置</button>
   </div>
   <div data-when="s1" data-blk="通知批次"><table class="w-tbl">
-  <colgroup><col class="c-bc-name"><col class="c-bc-ev"><col class="c-bc-n"><col class="c-bc-st"><col class="c-bc-who"><col class="c-bc-time"><col class="c-bc-op"></colgroup>
-  <thead><tr><th>通知标题</th><th>事件</th><th class="w-tcenter">人数</th><th>状态</th><th>发起人</th><th>发起时间</th><th class="w-t-op">操作</th></tr></thead>
-  <tbody><tr><td><span class="w-truncate w-t-name">停诊通知 · 11月5日中心院区</span></td><td class="w-t13">停诊通知</td><td class="num w-tcenter">1,180</td><td><span class="w-pill w-pill-ok">已发布</span></td><td class="w-t13">陈立</td><td class="num w-muted">11-01 14:03</td><td class="w-t-op"><button class="w-link">明细</button></td></tr><tr><td><span class="w-truncate w-t-name">双井院区设备检修停诊</span></td><td class="w-t13">停诊通知</td><td class="num w-tcenter">326</td><td><span class="w-pill w-pill-ok">已发布</span></td><td class="w-t13">王川</td><td class="num w-muted">10-31 09:12</td><td class="w-t-op"><button class="w-link">明细</button></td></tr><tr><td><span class="w-truncate w-t-name">11 月疫苗活动预告</span></td><td class="w-t13">活动预告</td><td class="num w-tcenter">2,410</td><td><span class="w-pill w-pill-warn">草稿</span></td><td class="w-t13">林晓</td><td class="num w-muted">10-30 18:40</td><td class="w-t-op"><span class="w-link-pair"><button class="w-link">继续</button><button class="w-link">删草稿</button></span></td></tr><tr><td><span class="w-truncate w-t-name">系统维护公告 · 夜间不可挂号</span></td><td class="w-t13">系统维护公告</td><td class="num w-tcenter">64</td><td><span class="w-pill w-pill-info">发送中</span></td><td class="w-t13">陈立</td><td class="num w-muted">10-29 22:00</td><td class="w-t-op"><button class="w-link">明细</button></td></tr></tbody></table></div>
+  <colgroup><col class="c-bc-name"><col class="c-bc-ev"><col class="c-bc-aud"><col class="c-bc-n"><col class="c-bc-ok"><col class="c-bc-st"><col class="c-bc-who"><col class="c-bc-time"><col class="c-bc-op"></colgroup>
+  <thead><tr><th>通知标题</th><th>事件</th><th>受众</th><th class="w-tcenter">条数</th><th class="w-tcenter">成功 / 失败</th><th>状态</th><th>发起人</th><th>发起时间</th><th class="w-t-op">操作</th></tr></thead>
+  <tbody><tr><td><span class="w-truncate w-t-name">停诊通知 · 11月5日中心院区</span></td><td class="w-t13">停诊通知</td><td class="w-t13">客户</td><td class="num w-tcenter">1,180</td><td class="num w-tcenter"><span class="w-ok">1,102</span> / <span class="w-bad">78</span></td><td><span class="w-pill w-pill-ok">已完成</span></td><td class="w-t13">陈立</td><td class="num w-muted">11-01 14:03</td><td class="w-t-op"><button class="w-link">明细</button></td></tr><tr><td><span class="w-truncate w-t-name">双井院区设备检修停诊</span></td><td class="w-t13">停诊通知</td><td class="w-t13">客户</td><td class="num w-tcenter">326</td><td class="num w-tcenter"><span class="w-ok">326</span> / <span class="w-bad">0</span></td><td><span class="w-pill w-pill-ok">已完成</span></td><td class="w-t13">王川</td><td class="num w-muted">10-31 09:12</td><td class="w-t-op"><button class="w-link">明细</button></td></tr><tr><td><span class="w-truncate w-t-name">11 月疫苗活动预告</span></td><td class="w-t13">活动预告</td><td class="w-t13">客户</td><td class="num w-tcenter">2,410</td><td class="num w-tcenter"><span class="w-ok">—</span> / <span class="w-bad">—</span></td><td><span class="w-pill w-pill-warn">待发</span></td><td class="w-t13">林晓</td><td class="num w-muted">10-30 18:40</td><td class="w-t-op"><span class="w-link-pair"><button class="w-link">明细</button><button class="w-link">终止</button></span></td></tr><tr><td><span class="w-truncate w-t-name">系统维护公告 · 夜间不可挂号</span></td><td class="w-t13">系统维护公告</td><td class="w-t13">客户</td><td class="num w-tcenter">64</td><td class="num w-tcenter"><span class="w-ok">41</span> / <span class="w-bad">0</span></td><td><span class="w-pill w-pill-info">发送中</span></td><td class="w-t13">陈立</td><td class="num w-muted">10-29 22:00</td><td class="w-t-op"><button class="w-link">明细</button></td></tr></tbody></table></div>
   <div data-when="s2" hidden>
     <div class="w-empty">
       <div class="w-empty-ico"><svg aria-hidden="true"><use href="#i-mega"/></svg></div>
@@ -2346,17 +2348,17 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
     <dl class="w-kv">
       <div><dt>事件</dt><dd>停诊通知 · 客户</dd></div>
       <div><dt>模板</dt><dd>短信 · BC01</dd></div>
-      <div><dt>人数</dt><dd class="num">1,180</dd></div>
+      <div><dt>条数</dt><dd class="num">1,180 人（去重后）</dd></div>
       <div><dt>发送时点</dt><dd>11-01 14:03 立即</dd></div>
     </dl>
     <dl class="w-stats w-mt16">
-      <div class="w-stat w-stat-ok"><dt>已发送</dt><dd class="num">1,102<small>人</small></dd></div>
-      <div class="w-stat w-stat-bad"><dt>失败</dt><dd class="num">78<small>人</small></dd></div>
+      <div class="w-stat w-stat-ok"><dt>成功（送达 + 受理）</dt><dd class="num">1,102<small>人</small></dd></div>
+      <div class="w-stat w-stat-bad"><dt>失败（终止）</dt><dd class="num">78<small>人</small></dd></div>
       <div class="w-stat w-stat-mute"><dt>去重后</dt><dd class="num">1,180<small>人</small></dd></div>
     </dl>
     <table class="w-mini w-box w-mt16">
-      <thead><tr><th>收件人</th><th>通道</th><th>状态</th><th>失败原因</th><th>发送时间</th></tr></thead>
-      <tbody><tr><td class="num w-t-mono">138****4021</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已发送</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:22</td></tr><tr><td class="num w-t-mono">139****7712</td><td>短信</td><td><span class="w-pill w-pill-bad"><i></i>失败</span></td><td><span class="w-truncate w-muted">号码无效（空号）</span></td><td class="num w-muted">10-29 14:03:21</td></tr><tr><td class="num w-t-mono">137****2280</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已发送</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:20</td></tr><tr><td class="num w-t-mono">186****0093</td><td>短信</td><td><span class="w-pill w-pill-bad"><i></i>失败</span></td><td><span class="w-truncate w-muted">用户拒收</span></td><td class="num w-muted">10-29 14:03:19</td></tr><tr><td class="num w-t-mono">135****6614</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已发送</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:18</td></tr><tr><td class="num w-t-mono">180****3377</td><td>短信</td><td><span class="w-pill w-pill-bad"><i></i>失败</span></td><td><span class="w-truncate w-muted">短信签名未报备</span></td><td class="num w-muted">10-29 14:03:18</td></tr><tr><td class="num w-t-mono">136****5108</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已发送</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:17</td></tr><tr><td class="num w-t-mono">159****2244</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已发送</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:16</td></tr><tr><td class="num w-t-mono">133****9087</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已发送</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:15</td></tr><tr><td class="num w-t-mono">188****7712</td><td>短信</td><td><span class="w-pill w-pill-bad"><i></i>失败</span></td><td><span class="w-truncate w-muted">号码已停机</span></td><td class="num w-muted">10-29 14:03:14</td></tr><tr><td class="num w-t-mono">155****3302</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已发送</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:13</td></tr></tbody></table>
+      <thead><tr><th>任务号</th><th>收件人</th><th>通道</th><th>状态</th><th>失败原因</th><th>发送时间</th></tr></thead>
+      <tbody><tr><td class="w-t-mono">TK26011140312001</td><td class="num">138****4021</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已送达</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:22</td></tr><tr><td class="w-t-mono">TK26011140312002</td><td class="num">139****7712</td><td>短信</td><td><span class="w-pill w-pill-bad"><i></i>终止</span></td><td><span class="w-truncate w-muted">回执：空号</span></td><td class="num w-muted">10-29 14:03:21</td></tr><tr><td class="w-t-mono">TK26011140312003</td><td class="num">137****2280</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已送达</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:20</td></tr><tr><td class="w-t-mono">TK26011140312004</td><td class="num">186****0093</td><td>短信</td><td><span class="w-pill w-pill-bad"><i></i>终止</span></td><td><span class="w-truncate w-muted">用户拒收（不重试不降级）</span></td><td class="num w-muted">10-29 14:03:19</td></tr><tr><td class="w-t-mono">TK26011140312005</td><td class="num">135****6614</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已送达</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:18</td></tr><tr><td class="w-t-mono">TK26011140312006</td><td class="num">180****3377</td><td>短信</td><td><span class="w-pill w-pill-bad"><i></i>终止</span></td><td><span class="w-truncate w-muted">模板超长（短信 70 字）</span></td><td class="num w-muted">10-29 14:03:18</td></tr><tr><td class="w-t-mono">TK26011140312007</td><td class="num">136****5108</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已送达</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:17</td></tr><tr><td class="w-t-mono">TK26011140312008</td><td class="num">159****2244</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已送达</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:16</td></tr><tr><td class="w-t-mono">TK26011140312009</td><td class="num">133****9087</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已送达</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:15</td></tr><tr><td class="w-t-mono">TK26011140312010</td><td class="num">188****7712</td><td>短信</td><td><span class="w-pill w-pill-bad"><i></i>终止</span></td><td><span class="w-truncate w-muted">无可用通道</span></td><td class="num w-muted">10-29 14:03:14</td></tr><tr><td class="w-t-mono">TK26011140312011</td><td class="num">155****3302</td><td>短信</td><td><span class="w-pill w-pill-ok"><i></i>已送达</span></td><td><span class="w-truncate w-muted">—</span></td><td class="num w-muted">10-29 14:03:13</td></tr></tbody></table>
     <div class="w-pgbar w-pgbar-in"><span>显示 1–20 条，共 1,180 条</span>
       <span class="w-pgs"><button class="w-pg is-on">1</button><button class="w-pg">2</button><button class="w-pg">下一页</button></span></div>
   </div>
@@ -2368,7 +2370,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 </div>
     </div>
   </div>
-</div></div></div><div class="dl-pagewrap" id="wrap-p04" data-page="P-04" data-end-key="adm"><div class="states"><span class="lab">状态</span><button class="statepick" data-set="state:s1" data-grp="chips" aria-pressed="false">导入名单</button><button class="statepick is-on" data-set="state:s2" data-grp="chips" aria-pressed="true">选事件</button><button class="statepick" data-set="state:s3" data-grp="chips" aria-pressed="false">选时间</button></div><div class="frame"><div class="screen is-web" data-state="s2" data-ch="sms" data-tree="t1" data-mt="text" data-bt="text">
+</div></div></div><div class="dl-pagewrap" id="wrap-p04" data-page="P-04" data-end-key="adm"><div class="states"><span class="lab">状态</span><button class="statepick" data-set="state:s1" data-grp="chips" aria-pressed="false">导入名单</button><button class="statepick" data-set="state:s4" data-grp="chips" aria-pressed="false">导入校验</button><button class="statepick is-on" data-set="state:s2" data-grp="chips" aria-pressed="true">选事件</button><button class="statepick" data-set="state:s3" data-grp="chips" aria-pressed="false">选时间</button></div><div class="frame"><div class="screen is-web" data-state="s2" data-ch="sms" data-tree="t1" data-mt="text" data-bt="text">
   <aside class="w-sb">
     <div class="w-brand">
       <span class="w-brand-mark"><svg aria-hidden="true"><use href="#i-msg"/></svg></span>
@@ -2412,9 +2414,44 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 <div class="w-card" data-blk="导入名单">
   <div class="w-card-hd"><h2>导入名单</h2><span class="w-chip">xlsx / csv</span></div>
   <div class="w-card-bd">
-    <div class="w-drop"><svg aria-hidden="true"><use href="#i-upload"/></svg><b>把名单表格拖到这里</b><span>手机号必填，客户名选填；一行一个人</span></div>
+    <div class="w-drop"><svg aria-hidden="true"><use href="#i-upload"/></svg><b>把名单表格拖到这里</b><span>三列任填其一：手机号 / 客户编号 / 员工；一行一个人</span></div>
     <div class="w-flex w-mt12"><button class="w-link" data-dl="tpl"><svg aria-hidden="true"><use href="#i-download"/></svg>下载名单模板</button>
-      <span class="w-t12 w-muted w-mla">一次一份，导入多少发多少；模板就两列：手机号、客户名</span></div>
+      <span class="w-t12 w-muted w-mla">一份一个表页，CSV 或 XLSX，单批上限 2 万行</span></div>
+  </div>
+</div>
+<div class="w-center-row">
+  <button class="w-btn w-btn-sec">取消</button>
+  <button class="w-btn w-btn-pri">下一步：选事件</button>
+</div></div>
+  <div data-when="s4" hidden>
+<div class="w-steps"><div class="w-step is-on"><i class="num">1</i><b>导入名单</b></div><span class="w-step-line"></span><div class="w-step"><i class="num">2</i><b>选事件</b></div><span class="w-step-line"></span><div class="w-step"><i class="num">3</i><b>选时间</b></div></div>
+<div class="w-card" data-blk="名单校验">
+  <div class="w-card-hd"><h2>名单已读取</h2><button class="w-link">重新上传</button></div>
+  <div class="w-card-bd">
+    <div class="w-flex"><span class="w-file-ico"><svg aria-hidden="true"><use href="#i-tpl"/></svg></span>
+      <div><div class="w-t14 w-fw6">停诊通知-11月5日.xlsx</div>
+        <div class="w-t12 w-muted w-mt8">识别到列头：手机号、客户编号 · 同一编号视为同一人</div></div></div>
+    <dl class="w-kv w-mt16">
+      <div><dt>读取行数</dt><dd class="num">1,203</dd></div>
+      <div><dt>去重后人数</dt><dd class="num">1,180</dd></div>
+      <div><dt>不可发</dt><dd class="num">23</dd></div>
+      <div><dt>将发送</dt><dd class="num">1,180 人</dd></div>
+    </dl>
+  </div>
+</div>
+<div class="w-card" data-blk="跳过行">
+  <div class="w-card-hd"><h2>跳过的 23 行</h2><button class="w-link">查看全部</button></div>
+  <div class="w-card-bd">
+    <table class="w-mini w-box">
+      <thead><tr><th>行号</th><th>原值</th><th>原因</th></tr></thead>
+      <tbody>
+        <tr><td class="num">37</td><td class="w-t-mono">1390000123</td><td>号码位数不对</td></tr>
+        <tr><td class="num">58</td><td class="w-t-mono">—</td><td>整行空白</td></tr>
+        <tr><td class="num">102</td><td class="w-t-mono">C88213</td><td>非本院客户</td></tr>
+        <tr><td class="num">211</td><td class="w-t-mono">137****2280</td><td>与第 96 行是同一人</td></tr>
+      </tbody>
+    </table>
+    <div class="w-lockbar w-mt12"><svg aria-hidden="true"><use href="#i-alert"/></svg>跳过的行不发，其余照常发；要改请重新上传，本页不能在线编辑。</div>
   </div>
 </div>
 <div class="w-center-row">
@@ -2429,7 +2466,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
     <span class="w-file-ico"><svg aria-hidden="true"><use href="#i-tpl"/></svg></span>
     <div>
       <div class="w-t14 w-fw6">停诊通知-11月5日.xlsx</div>
-      <div class="w-t12 w-muted w-mt8">原始 1,203 行 · 去重后 1,180 人 · 无效号码 23 行</div>
+      <div class="w-t12 w-muted w-mt8">读取 1,203 行 · 去重后 1,180 人 · 不可发 23 行</div>
     </div>
     <div class="w-mla w-tcenter"><div class="w-num-xl num">1,180</div><div class="w-t12 w-muted">将发送人数</div></div>
   </div>
@@ -2439,7 +2476,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
   <div class="w-card-bd">
     <div class="w-form">
       <div class="w-fr"><label for="bc-ev">事件</label><span class="w-selwrap w-selwrap-grow"><select class="w-sel w-full" id="bc-ev"><option>停诊通知 · BROADCAST_CLOSE</option><option>活动预告 · BROADCAST_PROMO</option><option>系统维护公告 · BROADCAST_MAINT</option></select></span></div>
-      <div class="w-fr"><label>受众</label><div class="w-ro">客户（事件里的本人）</div></div>
+      <div class="w-fr"><label>受众</label><div class="w-ro">名单里的收件人（受众类型决定发名单里的客户还是员工）</div></div>
       <div class="w-fr"><label>模板</label><div class="w-ro">短信 · BC01</div></div>
       <div class="w-fr"><label>类型</label><div class="w-ro">群发事件</div></div>
     </div>
@@ -2447,7 +2484,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
       <table class="w-mini w-box">
         <thead><tr><th>变量</th><th>取值</th><th>来源</th></tr></thead>
         <tbody>
-          <tr><td class="w-t-mono">{客户名}</td><td>名单列 B</td><td><span class="w-chip">名单列</span></td></tr>
+          <tr><td class="w-t-mono">{客户名}</td><td>名单行 · 客户名列</td><td><span class="w-chip">名单列</span></td></tr>
           <tr><td class="w-t-mono">{院区}</td><td>瑞辰中心院区</td><td><span class="w-chip">系统常量</span></td></tr>
           <tr><td class="w-t-mono">{停诊时段}</td><td>11 月 5 日 08:00–12:00</td><td><span class="w-chip">固定文案</span></td></tr>
         </tbody>
@@ -2474,7 +2511,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
       <div><dt>事件</dt><dd>停诊通知 · 群发事件</dd></div>
       <div><dt>受众与模板</dt><dd>客户 · 短信 BC01</dd></div>
     </dl>
-    <div class="w-bar w-bar-warn w-mt16"><svg aria-hidden="true"><use href="#i-alert"/></svg>点发布即逐人下发，生成一个批次；发布后不能撤回，也不能改内容。</div>
+    <div class="w-bar w-bar-warn w-mt16"><svg aria-hidden="true"><use href="#i-alert"/></svg>点发布即逐人下发，生成一个批次；开始投递后不能撤回、不能中途停止，也不能改内容。</div>
   </div>
 </div>
 <div class="w-center-row">
@@ -2508,7 +2545,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 
 <section class="rl-sec">
   <h4><span class="n">4</span>规则</h4>
-  <ul class="rl-list plain"><li>注册只有一条路：研发写处理器并登记，后台不新增</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">登记七项，缺一项不上线：码、类型、受众、模板、时点</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">含员工的还要定默认角色与可选通道，缺了不上线</li><li>码全局唯一，重复注册直接构建失败，上线后不改</li><li data-hl="[data-blk=&quot;事件层级&quot;]" role="button" tabindex="0">母事件按码前缀归组，没有状态，也没有配置</li><li data-hl="[data-blk=&quot;事件层级&quot;]" role="button" tabindex="0">一次注册只落一条子事件，一个码就是一条</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">受众再拆：客户一条、员工一条、双发就是两条</li><li data-hl="[data-blk=&quot;事件层级&quot;]" role="button" tabindex="0">事件码：契约标识，研发定，页面上改不了</li><li>类型：业务事件或群发事件，只有群发能被临时通知选</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">受众：客户、员工、双发；双发就是各来一条</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">默认模板：每个受众按通道各一份，这里只看不改</li><li>默认时点：立即，或事件后几小时；医院可覆盖</li><li data-hl=".w-switch" role="button" tabindex="0">状态：启用或停用，停用不删，随时能开回来</li><li>注册后运行时只三步：认码、拆受众、取谁的覆盖</li></ul>
+  <ul class="rl-list plain"><li>注册只有一条路：研发写处理器并登记，后台不新增</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">登记七项，缺一项不上线：码、类型、受众、模板、时点</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">含员工的还要定默认角色与可选通道，缺了不上线</li><li>码全局唯一，重复注册直接构建失败，上线后不改</li><li data-hl="[data-blk=&quot;事件层级&quot;]" role="button" tabindex="0">母事件按码前缀归组，没有状态，也没有配置</li><li data-hl="[data-blk=&quot;事件层级&quot;]" role="button" tabindex="0">一次注册只落一条子事件，一个码就是一条</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">受众再拆：客户一条、员工一条、双发就是两条</li><li data-hl="[data-blk=&quot;事件层级&quot;]" role="button" tabindex="0">事件码：契约标识，研发定，页面上改不了</li><li>类型：业务事件或群发事件，只有群发能被临时通知选</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">受众：客户、员工、双发；双发就是各来一条</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">默认模板：每个受众按通道各一份，这里只看不改</li><li>默认时点：立即，或事件后几小时；医院可覆盖</li><li data-hl=".w-switch" role="button" tabindex="0">状态：启用或停用，停用不删，随时能开回来</li><li>注册后运行时只三步：认码、拆受众、取谁的覆盖</li><li data-hl=".w-switch" role="button" tabindex="0">事件名称随注册走，页面上改不了；后台唯一能动的是启停</li><li data-hl="[data-blk=&quot;事件层级&quot;]" role="button" tabindex="0">停用后 HIS 再推这个码：受理但不生成任务，回 skipped，不让它重试</li><li>注册要过五项校验才允许上线</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">五项：码唯一、含员工必有角色与通道、每通道模板齐、时点合法、群发不绑定时</li><li>运行时只四步：认码、拆受众、取本院覆盖、成任务</li><li>所有「不发」都落一个原因码，界面只翻译不另起名词</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">十个码：事件停用、事件太旧、医院停用、无可用通道、缺变量、超长、员工没绑、业务已过、错过窗口、名单外</li></ul>
 </section>
 
 <section class="rl-sec">
@@ -2518,7 +2555,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 
 <section class="rl-sec">
   <h4><span class="n">6</span>验收场景</h4>
-  <ul class="rl-list plain rl-accept"><li>如果拿一个没注册的码来发，应该直接拒绝，不生成任务</li><li>如果停用一条子事件，再来事件不该生成任务</li><li>如果点母事件行，只该影响显示，不改任何状态</li><li>如果找模板编辑入口，页面上应该没有</li></ul>
+  <ul class="rl-list plain rl-accept"><li>如果拿一个没注册的码来发，应该直接拒绝，不生成任务</li><li>如果停用一条子事件，再来事件不该生成任务</li><li>如果点母事件行，只该影响显示，不改任何状态</li><li>如果找模板编辑入口，页面上应该没有</li><li>用一个已停用的事件码发过来，应该返回 skipped 且不生成任务，而不是报错让人重试</li></ul>
 </section>
 
 <section class="rl-sec rl-src">
@@ -2528,7 +2565,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
       <div>对应说明书 <b>§4.3 事件目录</b>；需求编号 M1、M2、M5</div>
       <div class="txt">### 4.3 事件目录
 
-只读为主，唯一可操作的是启停。
+只读为主，唯一可操作的是启停。事件名称、事件码、受众、模板、时点都要改注册、走发布，页面上改不了。
 
 | 列 | 内容 |
 |---|---|
@@ -2571,7 +2608,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 
 <section class="rl-sec">
   <h4><span class="n">2</span>谁在用、什么时候用</h4>
-  <dl class="rl-who"><dt>医院管理员</dt><dd>本院想换时点或关掉某条通知</dd><dt>医院管理员</dt><dd>改完一次同步到其它院部</dd></dl>
+  <dl class="rl-who"><dt>医院管理员</dt><dd>本院想换时点或关掉某条通知</dd><dt>医院管理员</dt><dd>改完一次同步到其它院部</dd><dt>集团管理员</dt><dd>替某院改，流水标「代配」</dd></dl>
 </section>
 
 <section class="rl-sec">
@@ -2581,7 +2618,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 
 <section class="rl-sec">
   <h4><span class="n">4</span>规则</h4>
-  <ul class="rl-list plain"><li data-hl=".w-bar-info" role="button" tabindex="0">入口只有一处：医院列表每行「通知配置」</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">改什么由受众定：客户两项，员工四项</li><li>时点只有两档：立即，或事件后几小时</li><li>没动过的项永远跟注册默认，逐项可以清回</li><li>动一项只覆盖这一项，不整条覆盖</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">打开配置先看开关，关掉就不再算时点与收件人</li><li data-hl="#btnSave" role="button" tabindex="0">保存即生效，只影响之后生成的任务</li><li>已生成的任务按当时的值走完，不追改</li><li data-hl="#btnSave" role="button" tabindex="0">每次保存记谁、何时、改了哪项、前后值</li><li>能进本院就能配本院，集团账号看全部院</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步院部写入选中的即覆盖，角色不校验</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">含指定个人时按目标院部逐人校验</li></ul>
+  <ul class="rl-list plain"><li data-hl=".w-bar-info" role="button" tabindex="0">入口只有一处：医院列表每行「通知配置」</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">改什么由受众定：客户两项，员工四项</li><li>时点只有两档：立即，或事件后几小时</li><li>没动过的项永远跟注册默认，逐项可以清回</li><li>动一项只覆盖这一项，不整条覆盖</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">打开配置先看开关，关掉就不再算时点与收件人</li><li data-hl="#btnSave" role="button" tabindex="0">保存即生效，只影响之后生成的任务</li><li>已生成的任务按当时的值走完，不追改</li><li data-hl="#btnSave" role="button" tabindex="0">每次保存记谁、何时、改了哪项、前后值</li><li>能进本院就能配本院，集团账号看全部院</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步院部写入选中的即覆盖，角色不校验</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">含指定个人时按目标院部逐人校验</li><li>覆盖是按项写的：只改时点就只写时点一行，其它项继续跟注册默认</li><li>覆盖值可以清空，清空即回默认、不留空行；清空本身也记一条流水</li><li data-hl="#btnSave" role="button" tabindex="0">保存只影响之后生成的任务；已生成的任务带着当时的快照走完，不回头改</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步院部只同步这次动过的项，不是整条复制；覆盖前说清覆盖几个院部几项，且不可撤销</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步时只有「指定个人」要校验权限，角色不用——角色到那边自会展开成那边的人</li><li>集团账号可以替医院改，流水记集团账号并标「代配」</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">免打扰是集团一条，客户侧 22:00–08:00 不发，顺延到 08:00</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">员工通知不受限；后台没有这个入口</li><li>默认值一律是开，新院接入当天就按注册默认发</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">员工渠道只能在该事件允许的集合里单选；客户通道链不给医院</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">模板不是医院配置项，页面只显示用的是哪个，改模板要改注册走发布</li></ul>
 </section>
 
 <section class="rl-sec">
@@ -2591,7 +2628,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 
 <section class="rl-sec">
   <h4><span class="n">6</span>验收场景</h4>
-  <ul class="rl-list plain rl-accept"><li>如果一项没改就保存，应该不写任何覆盖</li><li>如果改了时点，下一条新任务按新时点排</li><li>如果关掉客户通知，这家院不再生成客户任务</li><li>如果同步时有人没权限，只跳过名下那一项</li></ul>
+  <ul class="rl-list plain rl-accept"><li>如果一项没改就保存，应该不写任何覆盖</li><li>如果改了时点，下一条新任务按新时点排</li><li>如果关掉客户通知，这家院不再生成客户任务</li><li>如果同步时有人没权限，只跳过名下那一项</li><li>把一条客户通知的时点改成「事件后 24 小时」，其它项不动，重新进页面时其余项仍显示「与默认相同」</li></ul>
 </section>
 
 <section class="rl-sec rl-src">
@@ -2625,7 +2662,8 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 - <b>员工侧四项</b>：开不开、走哪个渠道、通知哪些员工、什么时候发。
 - <b>模板不是医院配置项</b>。模板与变量取值由事件注册定，医院不可改，页面只显示「用的是哪个模板」。
 - <b>客户通道链不给医院</b>。它是降级链定义，改了会破坏「订阅额度先耗尽」与「营销只走短信」。员工渠道可选，但只能在该事件允许的集合里选。
-- <b>免打扰是集团一条</b>，不是按事件配。它是一句合规约束，不是产品选项。</div>
+- <b>免打扰不给医院</b>。集团一条，时段与处理见 §3.7.2；医院侧不出现这个维度。
+- <b>默认值一律为开</b>。新医院接入即按注册默认发送；要不要「新院默认关」等灰度手段见 §6.2 Q8。</div>
       <div class="codes"><code>M3</code><code>M4</code><code>M6</code><code>M7</code><code>M8</code><code>M9</code></div>
     </div>
   </details>
@@ -2638,22 +2676,22 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 
 <section class="rl-sec">
   <h4><span class="n">1</span>这页是干什么的</h4>
-  <p class="lead">按医院列出发起过的通知，可看逐人明细与导出。</p>
+  <p class="lead">按医院列出发起过的批次，可看逐人明细、可导出；成功与失败分两列给。</p>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">2</span>谁在用、什么时候用</h4>
-  <dl class="rl-who"><dt>有权限的角色</dt><dd>停诊、活动、系统维护时群发</dd><dt>集团管理员</dt><dd>查某批发了几人、成功几人</dd></dl>
+  <dl class="rl-who"><dt>能进该院配置的账号</dt><dd>停诊、活动、系统维护时群发</dd><dt>集团管理员</dt><dd>查某批发了几人、成功几人</dd></dl>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">3</span>怎么操作</h4>
-  <ol class="rl-list"><li>打开临时通知，按医院与状态筛</li><li>点新建通知，进三步向导</li><li>草稿行点继续，从选事件接着走</li><li>点明细，打开抽屉看逐人状态</li><li>抽屉里点导出，拿这一批的明细表</li></ol>
+  <ol class="rl-list"><li>打开临时通知，按医院与状态筛（待发 / 发送中 / 已完成 / 已终止）</li><li>点新建通知，进三步向导</li><li>在列表看条数与成功 / 失败两列</li><li>点明细，打开抽屉看逐人状态与原因</li><li>抽屉里点导出，拿这一批的明细表</li><li>待发批次可整批终止；开始投递后不能停</li></ol>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">4</span>规则</h4>
-  <ul class="rl-list plain"><li>发送后不可撤回</li><li>草稿只有发起人与集团管理员能改</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">按批次号加收件人去重</li><li>任务、通道、回执与业务事件同一套</li></ul>
+  <ul class="rl-list plain"><li>批次只有四种状态：待发、发送中、已完成、已终止</li><li>成功 = 已送达 + 已受理，失败 = 终止，两者相加才等于条数</li><li data-hl="[data-blk=&quot;企微群&quot;]" role="button" tabindex="0">页面不出「成功率」：企微与群机器人没有回执，算进成功就是假承诺</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">一条批次里同一收件人只建一条任务；批次之间的重复不拦</li><li>投递开始后不能中途停，只能在还没开始时整批终止</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">明细逐人一行：任务号、收件人、通道、状态、失败原因、时间，可导出 csv</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">他院客户手机号按数据权限脱敏，本院不脱</li><li>任务与明细留 180 天，到期自动清理，不提供归档导出</li><li>与业务事件的区别：没有业务单号、不判乱序；通道、回执、降级走同一套</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">模板变量只能取名单列、系统常量、固定文案三种来源，发起时不可改</li></ul>
 </section>
 
 <section class="rl-sec">
@@ -2663,7 +2701,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 
 <section class="rl-sec">
   <h4><span class="n">6</span>验收场景</h4>
-  <ul class="rl-list plain rl-accept"><li>如果新建通知，当走到选事件，应该只看到群发事件</li><li>如果看某批明细，当按失败筛，应该只留失败的人</li><li>如果还是草稿，当别人打开这一行，应该改不了</li></ul>
+  <ul class="rl-list plain rl-accept"><li>一条批次里 1,180 人，成功 1,102、失败 78，两个数相加等于 1,180，页面上找不到「成功率」</li><li>投递已经开始，点终止应该被拒绝并提示不能中途停</li><li>导出明细的列与抽屉一致，且手机号是脱敏的</li><li>批次明细超过 180 天后查不到，也没有导出入口</li></ul>
 </section>
 
 <section class="rl-sec rl-src">
@@ -2688,12 +2726,49 @@ flowchart TD
 
 | 步 | 做法 |
 |---|---|
-| 1 上传名单 | 只支持表格（手机号 / 客户 ID / 员工），一次一份；上传后立刻去重并显示人数 |
+| 1 上传名单 | 表格一份（CSV / XLSX），列与校验规则见 §4.4.1；上传后立刻给出三个数：读取行数、去重后人数、不可发人数 |
 | 2 选事件 | 只列<b>群发事件</b>；选中后带出该事件的受众与默认模板，<b>模板不可改、变量不填</b>（取值已在注册时定死） |
 | 3 选时间 | 立即发，或指定时间发；点发布即生成批次 |
 | 结果 | 一个批次号，记录明细看逐人状态，可导出；复用同一套任务、通道、回执 |
 
-与事件的区别：没有业务单号、不判乱序，按「批次号 + 收件人」去重。</div>
+与业务事件的区别：没有业务单号、不判乱序；同一批次里同一收件人只建一条任务（键 = 批次号 + 收件人），批次之间的重复不做拦截。
+
+#### 4.4.1 名单怎么进
+
+| 项 | 口径 |
+|---|---|
+| 格式 | CSV / XLSX，一份一个 sheet；UTF-8 或 GBK（按 BOM 判，失败提示另存 UTF-8） |
+| 列头 | 第一行必须是列头；列名三选一或组合：`手机号` / `客户ID` / `员工` |
+| 行数 | 单批 ≤ 20000 行（含无效行）；超了提示拆分 [假设] |
+| 三个数 | <b>读取行数</b>、<b>去重后人数</b>、<b>不可发人数</b>。三个数分开显示，不合成一个「有效人数」 |
+| 去重 | 同一客户 ID = 同一人；同一手机号 = 同一人。两列都填但指向不同人 → 以客户 ID 为准，标「冲突行」需人工确认 |
+| 校验 | 号码非法、空行、查无此人、非本院客户/员工、已离职 → <b>跳过并列出行号与原因</b>，不整批拒 |
+| 预览 | 显示前 20 行与三个数；可重新上传覆盖，不可在线编辑 |
+| 留存 | 不保存原始文件；只存解析后的收件人与行号，随批次 180 天 |
+
+#### 4.4.2 批次与明细
+
+| 状态 | 含义 | 去哪 |
+|---|---|---|
+| 待发 | 已发布、未到时间 | 到点 → 发送中 |
+| 发送中 | 已开始建任务 | 全部任务终态 → 已完成 |
+| 已完成 | 所有任务都已终态（含部分失败） | 终态 |
+| 已终止 | 到点前被终止、事件停用、无可发行 | 终态 |
+
+列表列：批次号 / 事件 / 受众 / 去重后条数 / 成功 / 失败 / 状态 / 发起时间 / 操作。
+
+- 成功 = 已送达 + 已受理；失败 = 终止。两者相加才等于条数，界面不许出现「成功率」这种把无回执也算成成功的指标。
+- 明细抽屉：逐人一行（收件人脱敏、通道、状态、失败原因、时间），可导出 CSV，列与抽屉一致。
+- 批次不能中途停止，只能整批终止在未开始投递前（§2.6.3）。
+
+#### 4.4.3 时间与上限
+
+| 项 | 口径 |
+|---|---|
+| 立即发 | 点发布即建任务，5 分钟内开始投递 |
+| 指定时间 | ≥ 当前时间 + 10 分钟，≤ 30 天内 [假设] |
+| 单批上限 | 20000 行 [假设] |
+| 大批量 | 按通道限流排队，不阻塞实时事件（同 §5） |</div>
       <div class="codes"><code>M7</code><code>M11</code></div>
     </div>
   </details>
@@ -2711,27 +2786,27 @@ flowchart TD
 
 <section class="rl-sec">
   <h4><span class="n">2</span>谁在用、什么时候用</h4>
-  <dl class="rl-who"><dt>有权限的角色</dt><dd>一次性停诊或活动通知</dd><dt>集团管理员</dt><dd>给多家院同时发一条</dd></dl>
+  <dl class="rl-who"><dt>能进该院配置的账号</dt><dd>一次性停诊或活动通知</dd><dt>集团管理员</dt><dd>给多家院同时发一条</dd></dl>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">3</span>怎么操作</h4>
-  <ol class="rl-list"><li>点「下载名单模板」，拿到两列 csv：手机号、客户名</li><li>把名单表格拖进来，看原始行数、去重后人数、无效号码</li><li>下一步选群发事件，受众与模板只读带出</li><li>下一步选立即或指定时间，确认发布</li></ol>
+  <ol class="rl-list"><li>点「下载名单模板」，拿到三列 csv：手机号 / 客户编号 / 员工</li><li>把名单表格拖进来，读完给三个数并列出行号与原因</li><li>下一步选群发事件，模板与变量取值只读带出</li><li>下一步选立即或指定时间，确认发布</li></ol>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">4</span>规则</h4>
-  <ul class="rl-list plain"><li>只列群发事件，业务事件不出现</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">名单模板只有两列，多出来的列会被忽略</li><li>不填变量、不算费用，取值全部来自注册</li><li>发布后不可撤回，也不能改内容</li></ul>
+  <ul class="rl-list plain"><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">名单三列任填其一：手机号 / 客户编号 / 员工；一份一个表页，csv 或 xlsx</li><li>读完给三个数：读取行数、去重后人数、不可发；不合成一个「有效人数」</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">同一客户编号 或同一手机号视为同一人</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">两列都填但指向不同人，以客户编号 为准并标「冲突行」</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">坏行跳过并列出行号与原因，不整批拒：号码不对、整行空白、非本院客户、已离职</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">原始文件不留存，只存解析后的收件人与行号，随批次留 180 天</li><li>可以重新上传覆盖，不能在线编辑</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">选事件只列群发事件；选中后带出模板与变量取值，全部只读</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">群发的受众来自名单，不是「事件里的本人」——受众类型只决定发名单里的客户还是员工</li><li data-hl="[data-blk=&quot;导入名单&quot;]" role="button" tabindex="0">变量从哪来写清楚：名单列 / 系统常量 / 固定文案</li><li>指定时间至少 10 分钟后、最远 30 天；立即发 5 分钟内开始投递</li><li>单批上限 2 万行，超了提示拆分；大批量按通道限流排队，不阻塞实时事件</li><li>发布即生成批次：不能撤回，开始投递后不能停</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">模板缺变量时这条不发并记原因，绝不发半截文案</li></ul>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">5</span>状态与异常</h4>
-  <div class="rl-state" data-to="state:s1"><b>导入名单</b><span>上传区与下载模板入口　传表格后看到去重人数</span></div><div class="rl-state" data-to="state:s2"><b>选事件</b><span>只列群发事件，选中后带出模板　换事件看模板跟着变</span></div><div class="rl-state" data-to="state:s3"><b>选时间</b><span>立即或指定时间二选一，页脚确认发布　点确认生成批次</span></div>
+  <div class="rl-state" data-to="state:s1"><b>导入名单</b><span>拖拽区与下载模板，未选文件　上传表格或下载三列模板</span></div><div class="rl-state" data-to="state:s4"><b>导入校验</b><span>三个数与跳过的 23 行（行号、原值、原因）　查看全部跳过行、重新上传、进下一步</span></div><div class="rl-state" data-to="state:s2"><b>选事件</b><span>已导入名单 + 只列群发事件的选择器与只读模板　换事件、进下一步</span></div><div class="rl-state" data-to="state:s3"><b>选时间</b><span>立即 / 指定时间两档与发布提示　切档、确认发布</span></div>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">6</span>验收场景</h4>
-  <ul class="rl-list plain rl-accept"><li>如果新建通知，当打开选事件，应该看不到预约核销这类业务事件</li><li>如果走完整条流程，当找变量输入框，应该一个都没有</li><li>如果上传的名单有重复号码，当看到人数，应该是去重后的数</li></ul>
+  <ul class="rl-list plain rl-accept"><li>如果新建通知，当打开选事件，应该看不到预约核销这类业务事件</li><li>如果走完整条流程，当找变量输入框，应该一个都没有</li><li>如果上传的名单有重复号码，当看到人数，应该是去重后的数</li><li>名单里混了 23 行坏数据，其余照常发，界面能逐行说出为什么跳过</li><li>上传后重传一份，人数与跳过行跟着变，不残留上一份</li><li>指定时间选「5 分钟后」，应该被拦住并提示至少 10 分钟</li><li>群发选到业务事件（如核销）时列表里不出现它</li></ul>
 </section>
 
 <section class="rl-sec rl-src">
@@ -2756,12 +2831,49 @@ flowchart TD
 
 | 步 | 做法 |
 |---|---|
-| 1 上传名单 | 只支持表格（手机号 / 客户 ID / 员工），一次一份；上传后立刻去重并显示人数 |
+| 1 上传名单 | 表格一份（CSV / XLSX），列与校验规则见 §4.4.1；上传后立刻给出三个数：读取行数、去重后人数、不可发人数 |
 | 2 选事件 | 只列<b>群发事件</b>；选中后带出该事件的受众与默认模板，<b>模板不可改、变量不填</b>（取值已在注册时定死） |
 | 3 选时间 | 立即发，或指定时间发；点发布即生成批次 |
 | 结果 | 一个批次号，记录明细看逐人状态，可导出；复用同一套任务、通道、回执 |
 
-与事件的区别：没有业务单号、不判乱序，按「批次号 + 收件人」去重。</div>
+与业务事件的区别：没有业务单号、不判乱序；同一批次里同一收件人只建一条任务（键 = 批次号 + 收件人），批次之间的重复不做拦截。
+
+#### 4.4.1 名单怎么进
+
+| 项 | 口径 |
+|---|---|
+| 格式 | CSV / XLSX，一份一个 sheet；UTF-8 或 GBK（按 BOM 判，失败提示另存 UTF-8） |
+| 列头 | 第一行必须是列头；列名三选一或组合：`手机号` / `客户ID` / `员工` |
+| 行数 | 单批 ≤ 20000 行（含无效行）；超了提示拆分 [假设] |
+| 三个数 | <b>读取行数</b>、<b>去重后人数</b>、<b>不可发人数</b>。三个数分开显示，不合成一个「有效人数」 |
+| 去重 | 同一客户 ID = 同一人；同一手机号 = 同一人。两列都填但指向不同人 → 以客户 ID 为准，标「冲突行」需人工确认 |
+| 校验 | 号码非法、空行、查无此人、非本院客户/员工、已离职 → <b>跳过并列出行号与原因</b>，不整批拒 |
+| 预览 | 显示前 20 行与三个数；可重新上传覆盖，不可在线编辑 |
+| 留存 | 不保存原始文件；只存解析后的收件人与行号，随批次 180 天 |
+
+#### 4.4.2 批次与明细
+
+| 状态 | 含义 | 去哪 |
+|---|---|---|
+| 待发 | 已发布、未到时间 | 到点 → 发送中 |
+| 发送中 | 已开始建任务 | 全部任务终态 → 已完成 |
+| 已完成 | 所有任务都已终态（含部分失败） | 终态 |
+| 已终止 | 到点前被终止、事件停用、无可发行 | 终态 |
+
+列表列：批次号 / 事件 / 受众 / 去重后条数 / 成功 / 失败 / 状态 / 发起时间 / 操作。
+
+- 成功 = 已送达 + 已受理；失败 = 终止。两者相加才等于条数，界面不许出现「成功率」这种把无回执也算成成功的指标。
+- 明细抽屉：逐人一行（收件人脱敏、通道、状态、失败原因、时间），可导出 CSV，列与抽屉一致。
+- 批次不能中途停止，只能整批终止在未开始投递前（§2.6.3）。
+
+#### 4.4.3 时间与上限
+
+| 项 | 口径 |
+|---|---|
+| 立即发 | 点发布即建任务，5 分钟内开始投递 |
+| 指定时间 | ≥ 当前时间 + 10 分钟，≤ 30 天内 [假设] |
+| 单批上限 | 20000 行 [假设] |
+| 大批量 | 按通道限流排队，不阻塞实时事件（同 §5） |</div>
       <div class="codes"><code>M7</code><code>M10</code><code>M11</code></div>
     </div>
   </details>
