@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-build="05cc097f">
+<html lang="zh-CN" data-build="97923299">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -994,6 +994,9 @@ button { font-family: inherit; }
   line-height: 1.6;
 }
 .w-bar svg { width: 14px; height: 14px; flex: 0 0 auto; }
+/* 提示条的正文必须包成「一个」flex 项：直接放文本时，每个 <b> 会把文本切成一串
+   匿名 flex 项，窄下来就各自折成竖排（本次踩到：「入口：在」竖着写）。 */
+.w-bar-txt { min-width: 0; }
 .w-bar-info { background: var(--color-info-bg); color: var(--color-info); }
 .w-bar-warn { background: var(--color-warning-bg); color: var(--color-warning); }
 .w-bar-bad { background: var(--color-danger-bg); color: var(--color-danger); }
@@ -1369,6 +1372,33 @@ button { font-family: inherit; }
 .w-sync .w-chips { flex: 0 0 auto; flex-wrap: nowrap; }
 .w-sync-cnt { flex: 0 0 auto; font-size: var(--font-xs); color: var(--text-2); }
 .w-sync-help { margin-left: auto; font-size: var(--font-xs); color: var(--text-3); text-align: right; }
+
+/* ---------------------------------------------------------------- 医院级设置（P-02 页首）
+   通知总开关与免打扰是「院」的属性，不是事件的属性：所以它们不进事件面板，
+   而是压在左树与面板之上、整页通栏一条。放进事件面板 = 每条事件各配一遍，
+   同一个客户就会按两条不同的作息被叫醒。左缘一道品牌竖条，是「这不是事件配置」的视觉信号。 */
+.w-hset {
+  flex: 0 0 auto;
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--brand);
+  border-radius: var(--radius-md);
+}
+.w-hset-hd { display: flex; align-items: center; gap: var(--space-2); }
+.w-hset-hd h3 { flex: 0 0 auto; font-size: var(--font-base); font-weight: var(--font-weight-semibold); }
+.w-hset-hint { margin-left: auto; font-size: var(--font-xs); color: var(--text-3); }
+.w-hset-bd { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; }
+.w-hset-i { display: flex; align-items: center; gap: var(--space-2); min-width: 0; padding-right: var(--space-4); }
+.w-hset-i + .w-hset-i { padding-left: var(--space-4); border-left: 1px solid var(--border); }
+.w-hset-i:last-child { padding-right: 0; }
+.w-hset-lab { flex: 0 0 auto; font-size: var(--font-xs); color: var(--text-2); }
+.w-hset-i > em { flex: 0 0 auto; font-style: normal; font-size: var(--font-xs); color: var(--text-3); }
+.w-hset-when { display: inline-flex; align-items: center; gap: 4px; }
+.w-hset-when em { font-style: normal; font-size: var(--font-xs); color: var(--text-3); }
+.w-hset-when.is-off { opacity: .45; }
+.w-sel-hh { min-width: 78px; font-variant-numeric: tabular-nums; }
 
 /* 没有标签的行（下拉 + 右侧小件）不能套 .w-fr 的 88px 标签列，
    否则下拉被塞进 88px 里、压到后面的 chip 上 */
@@ -1900,7 +1930,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
   <div class="topbar-inner">
     <div class="brand">
       <div class="brand-mark"><span class="brand-dot"></span><h1 class="brand-name">消息中心 · 对照阅读版</h1></div>
-      <p class="brand-sub">瑞辰宠医 · 集团与医院配置台｜需求 v20｜设计引导 v4｜4 页 · 可切 18 态 · 流程图 19 节点</p>
+      <p class="brand-sub">瑞辰宠医 · 集团与医院配置台｜需求 v21｜设计引导 v4｜4 页 · 可切 18 态 · 流程图 19 节点</p>
     </div>
     <div class="deliver-meta">
       <span>版本 <b>v8</b></span><span>日期 <b>2026-11-04</b></span>
@@ -2062,7 +2092,23 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
         <div class="w-actions"><button class="w-btn w-btn-sec">取消</button><button class="w-btn w-btn-pri" id="btnSave">保存本院配置</button></div>
       </div>
       
-<div class="w-bar w-bar-info"><svg aria-hidden="true"><use href="#i-info"/></svg>入口：在<b>医院列表</b>每行的「通知配置」进这一院，进来就锁定本院，不用再选医院。左边是全部母事件与子事件，点母事件展收、点子事件换右边。改什么由受众决定：含客户只有开关与时点；含员工再加渠道与收件人（多个企微群时每群各自 @ 谁）。</div>
+<div class="w-bar w-bar-info"><svg aria-hidden="true"><use href="#i-info"/></svg><span class="w-bar-txt">入口：在<b>医院列表</b>每行的「通知配置」进这一院，进来就锁定本院，不用再选医院。页首两项是院级、换子事件不变；其下才是这一条事件的差异。改什么由受众决定：含客户只有开关与时点；含员工再加渠道与收件人。</span></div>
+<div class="w-hset" data-blk="医院级设置">
+  <div class="w-hset-hd"><h3>本院设置</h3><span class="w-tag-in">全院共用 · 不随事件走</span>
+    <span class="w-hset-hint">新院接入默认关，验收通过后由集团开启</span></div>
+  <div class="w-hset-bd">
+    <div class="w-hset-i"><span class="w-hset-lab">通知总开关</span>
+      <span class="w-chk is-on"><i></i>已开启</span>
+      <em>关掉本院不生成任务</em></div>
+    <div class="w-hset-i" data-dnd="1"><span class="w-hset-lab">免打扰</span>
+      <span class="w-chk is-on"><i></i>启用</span>
+      <span class="w-hset-when"><span class="w-selwrap"><select class="w-sel w-sel-hh" aria-label="免打扰开始"><option>00:00</option><option>01:00</option><option>02:00</option><option>03:00</option><option>04:00</option><option>05:00</option><option>06:00</option><option>07:00</option><option>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option><option>12:00</option><option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option selected>22:00</option><option>23:00</option></select></span><em>–</em><span class="w-selwrap"><select class="w-sel w-sel-hh" aria-label="免打扰结束"><option>00:00</option><option>01:00</option><option>02:00</option><option>03:00</option><option>04:00</option><option>05:00</option><option>06:00</option><option>07:00</option><option selected>08:00</option><option>09:00</option><option>10:00</option><option>11:00</option><option>12:00</option><option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option><option>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option>22:00</option><option>23:00</option></select></span></span>
+      <em>仅客户，命中顺延</em></div>
+    <div class="w-hset-i"><span class="w-hset-lab">可穿透</span>
+      <span class="w-chips"><span class="w-chip"><svg aria-hidden="true"><use href="#i-event"/></svg>停诊通知 ×</span><span class="w-chip"><svg aria-hidden="true"><use href="#i-event"/></svg>系统维护公告 ×</span><button class="w-link"><svg aria-hidden="true"><use href="#i-plus"/></svg>选事件</button></span>
+      <em>仅告知型</em></div>
+  </div>
+</div>
 <div class="w-2col is-stretch">
   <div class="w-card w-tree">
     <div class="w-tsearch w-flex"><input class="w-inp w-fld-grow" placeholder="搜索子事件或事件码"></div>
@@ -2603,7 +2649,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 
 <section class="rl-sec">
   <h4><span class="n">1</span>这页是干什么的</h4>
-  <p class="lead">本院在这条事件上的差异：改了就覆盖，没改跟注册默认。</p>
+  <p class="lead">本院在这条事件上的差异；页首两项是院的，不随事件走。</p>
 </section>
 
 <section class="rl-sec">
@@ -2613,29 +2659,29 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 
 <section class="rl-sec">
   <h4><span class="n">3</span>怎么操作</h4>
-  <ol class="rl-list"><li>在医院列表点这家的「通知配置」进院</li><li>左树点母事件展收，点子事件换右边</li><li>时点先选两档：立即，或事件后几小时</li><li>选「事件后」再填小时数，最少 1 最多 72</li><li>含员工时再选渠道、收件人；群要逐群勾 @ 谁</li><li>要铺到别院，页脚勾院部再点保存</li></ol>
+  <ol class="rl-list"><li>在医院列表点这家的「通知配置」进院</li><li>页首先看总开关与免打扰，这两项全院共用</li><li>左树点母事件展收，点子事件换右边</li><li>时点先选两档：立即，或事件后几小时</li><li>选「事件后」再填小时数，最少 1 最多 72</li><li>含员工时再选渠道、收件人；群要逐群勾 @ 谁</li><li>要铺到别院，页脚勾院部再点保存</li></ol>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">4</span>规则</h4>
-  <ul class="rl-list plain"><li data-hl=".w-bar-info" role="button" tabindex="0">入口只有一处：医院列表每行「通知配置」</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">改什么由受众定：客户两项，员工四项</li><li>时点只有两档：立即，或事件后几小时</li><li>没动过的项永远跟注册默认，逐项可以清回</li><li>动一项只覆盖这一项，不整条覆盖</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">打开配置先看开关，关掉就不再算时点与收件人</li><li data-hl="#btnSave" role="button" tabindex="0">保存即生效，只影响之后生成的任务</li><li>已生成的任务按当时的值走完，不追改</li><li data-hl="#btnSave" role="button" tabindex="0">每次保存记谁、何时、改了哪项、前后值</li><li>能进本院就能配本院，集团账号看全部院</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步院部写入选中的即覆盖，角色不校验</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">含指定个人时按目标院部逐人校验</li><li>覆盖是按项写的：只改时点就只写时点一行，其它项继续跟注册默认</li><li>覆盖值可以清空，清空即回默认、不留空行；清空本身也记一条流水</li><li data-hl="#btnSave" role="button" tabindex="0">保存只影响之后生成的任务；已生成的任务带着当时的快照走完，不回头改</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步院部只同步这次动过的项，不是整条复制；覆盖前说清覆盖几个院部几项，且不可撤销</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步时只有「指定个人」要校验权限，角色不用——角色到那边自会展开成那边的人</li><li>集团账号可以替医院改，流水记集团账号并标「代配」</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">免打扰是集团一条，客户侧 22:00–08:00 不发，顺延到 08:00</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">员工通知不受限；后台没有这个入口</li><li>默认值一律是开，新院接入当天就按注册默认发</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">员工渠道只能在该事件允许的集合里单选；客户通道链不给医院</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">模板不是医院配置项，页面只显示用的是哪个，改模板要改注册走发布</li></ul>
+  <ul class="rl-list plain"><li data-hl=".w-bar-info" role="button" tabindex="0">入口只有一处：医院列表每行「通知配置」</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">改什么由受众定：客户两项，员工四项</li><li>时点只有两档：立即，或事件后几小时</li><li>没动过的项永远跟注册默认，逐项可以清回</li><li>动一项只覆盖这一项，不整条覆盖</li><li data-hl="[data-blk=&quot;员工通知&quot;]" role="button" tabindex="0">打开配置先看开关，关掉就不再算时点与收件人</li><li data-hl="#btnSave" role="button" tabindex="0">保存即生效，只影响之后生成的任务</li><li>已生成的任务按当时的值走完，不追改</li><li data-hl="#btnSave" role="button" tabindex="0">每次保存记谁、何时、改了哪项、前后值</li><li>能进本院就能配本院，集团账号看全部院</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步院部写入选中的即覆盖，角色不校验</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">含指定个人时按目标院部逐人校验</li><li>覆盖是按项写的：只改时点就只写时点一行，其它项继续跟注册默认</li><li>覆盖值可以清空，清空即回默认、不留空行；清空本身也记一条流水</li><li data-hl="#btnSave" role="button" tabindex="0">保存只影响之后生成的任务；已生成的任务带着当时的快照走完，不回头改</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步院部只同步这次动过的项，不是整条复制；覆盖前说清覆盖几个院部几项，且不可撤销</li><li data-hl="[data-blk=&quot;同步院部&quot;]" role="button" tabindex="0">同步时只有「指定个人」要校验权限，角色不用——角色到那边自会展开成那边的人</li><li>集团账号可以替医院改，流水记集团账号并标「代配」</li><li>免打扰是全院一条，不按事件分开配</li><li>默认 22:00–08:00 生效，起止都取整点</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">它只约束客户通知，员工通知不受限</li><li>命中就顺延到时段结束那一刻再发</li><li>定时类落在夜里的同样顺延，不硬发</li><li>免打扰可以整个关掉，关掉后不再拦</li><li>能穿透的只有告知型群发通知</li><li>营销类不进候选，业务事件一律不穿透</li><li>通知总开关是院的闸，新院进来是关着的</li><li>总开关关着时本院一条任务都不生成</li><li data-hl="[data-blk=&quot;事件层级&quot;]" role="button" tabindex="0">总开关只有集团能开，医院侧只读并提示联系集团</li><li data-hl="[data-blk=&quot;事件层级&quot;]" role="button" tabindex="0">页首这两项换任何子事件都不变</li><li>事件项的默认值一律是开；院的闸默认是关的，两者不冲突</li><li data-hl="[data-blk=&quot;客户通知&quot;]" role="button" tabindex="0">员工渠道只能在该事件允许的集合里单选；客户通道链不给医院</li><li data-hl="[data-blk=&quot;模板&quot;]" role="button" tabindex="0">模板不是医院配置项，页面只显示用的是哪个，改模板要改注册走发布</li></ul>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">5</span>状态与异常</h4>
-  <div class="rl-state" data-to="tree:t3"><b>改约 · 双发 · 群</b><span>客户与员工两块，员工走群机器人　逐群勾 @ 谁</span></div><div class="rl-state" data-to="tree:t2"><b>预约确认 · 客户</b><span>只有客户一块，两个可改项　改开关或时点</span></div><div class="rl-state" data-to="tree:t6"><b>支付成功 · 员工 · 应用</b><span>只有员工一块，四个可改项　换渠道或收件人</span></div><div class="rl-state" data-to="tree:t5"><b>就诊提醒 · 24 小时后</b><span>时点选在事件后，小时数填 24　改成立即或别的时数</span></div><div class="rl-state" data-to="state:s4"><b>同步 · 权限不足</b><span>弹窗逐行列出人和原因　继续保存其余项</span></div>
+  <div class="rl-state" data-to="tree:t3"><b>改约 · 双发 · 群</b><span>页首是院级总开关与免打扰；客户与员工两块，员工走群机器人　关免打扰看起止置灰，或逐群勾 @ 谁</span></div><div class="rl-state" data-to="tree:t2"><b>预约确认 · 客户</b><span>只有客户一块，两个可改项　改开关或时点</span></div><div class="rl-state" data-to="tree:t6"><b>支付成功 · 员工 · 应用</b><span>只有员工一块，四个可改项　换渠道或收件人</span></div><div class="rl-state" data-to="tree:t5"><b>就诊提醒 · 24 小时后</b><span>时点选在事件后，小时数填 24　改成立即或别的时数</span></div><div class="rl-state" data-to="state:s4"><b>同步 · 权限不足</b><span>弹窗逐行列出人和原因　继续保存其余项</span></div>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">6</span>验收场景</h4>
-  <ul class="rl-list plain rl-accept"><li>如果一项没改就保存，应该不写任何覆盖</li><li>如果改了时点，下一条新任务按新时点排</li><li>如果关掉客户通知，这家院不再生成客户任务</li><li>如果同步时有人没权限，只跳过名下那一项</li><li>把一条客户通知的时点改成「事件后 24 小时」，其它项不动，重新进页面时其余项仍显示「与默认相同」</li></ul>
+  <ul class="rl-list plain rl-accept"><li>如果一项没改就保存，应该不写任何覆盖</li><li>如果改了时点，下一条新任务按新时点排</li><li>如果关掉客户通知，这家院不再生成客户任务</li><li>如果同步时有人没权限，只跳过名下那一项</li><li>把一条客户通知的时点改成「事件后 24 小时」，其它项不动，重新进页面时其余项仍显示「与默认相同」</li><li>如果总开关关着，HIS 推事件应该受理但不出任务，受理结果上写着本院总开关关闭</li><li>如果免打扰开着，22:00 生成的客户任务应该顺延到 08:00 才发</li><li>如果关掉免打扰，当晚的客户任务就照常发，不再顺延</li></ul>
 </section>
 
 <section class="rl-sec rl-src">
   <details>
     <summary>原文与编号（开发与查证用）</summary>
     <div class="body">
-      <div>对应说明书 <b>§3.4 医院覆盖什么</b>；需求编号 M3、M4、M6、M7、M8、M9</div>
+      <div>对应说明书 <b>§3.4 医院覆盖什么</b>；需求编号 M3、M4、M6、M7、M8、M9、M12</div>
       <div class="txt">### 3.4 医院覆盖什么
 
 <b>改什么，取决于这条事件含哪些受众。</b>
@@ -2662,9 +2708,9 @@ body[data-edit="1"] .node, body[data-edit="1"] .statepick, body[data-edit="1"] .
 - <b>员工侧四项</b>：开不开、走哪个渠道、通知哪些员工、什么时候发。
 - <b>模板不是医院配置项</b>。模板与变量取值由事件注册定，医院不可改，页面只显示「用的是哪个模板」。
 - <b>客户通道链不给医院</b>。它是降级链定义，改了会破坏「订阅额度先耗尽」与「营销只走短信」。员工渠道可选，但只能在该事件允许的集合里选。
-- <b>免打扰不给医院</b>。集团一条，时段与处理见 §3.7.2；医院侧不出现这个维度。
-- <b>默认值一律为开</b>。新医院接入即按注册默认发送；要不要「新院默认关」等灰度手段见 §6.2 Q8。</div>
-      <div class="codes"><code>M3</code><code>M4</code><code>M6</code><code>M7</code><code>M8</code><code>M9</code></div>
+- <b>免打扰与通知总开关是「院」的属性，不是事件的属性</b>。两者都不进事件面板：同一家医院所有客户通知共用一条时段、一个总闸，见 §3.7.2 / §3.7.3。放进事件里就会出现「同一客户 23:00 收到 A、因为 A 的免打扰关着」这种没人能解释的结果。
+- <b>事件项的默认值一律为开</b>，新医院接入后每条事件按注册默认发；但<b>院级总闸默认关</b>（§3.7.2），两者不冲突：总闸关着时事件再开也不发，这是接入期的保护，验收通过由集团打开。</div>
+      <div class="codes"><code>M3</code><code>M4</code><code>M6</code><code>M7</code><code>M8</code><code>M9</code><code>M12</code></div>
     </div>
   </details>
 </section>
@@ -3136,7 +3182,15 @@ flowchart TD
       return;
     }
     var chk = e.target.closest && e.target.closest(".w-chk");
-    if (chk) chk.classList.toggle("is-on");
+    if (chk) {
+      chk.classList.toggle("is-on");
+      /* 院级免打扰：关掉「启用」后起止必须置灰，否则看着像还在拦 */
+      var dnd = chk.closest("[data-dnd]");
+      if (dnd) {
+        var off = !chk.classList.contains("is-on");
+        $$(".w-hset-when", dnd).forEach(function (x) { x.classList.toggle("is-off", off); });
+      }
+    }
   });
 
   function syncStatebar(scr, set) {
