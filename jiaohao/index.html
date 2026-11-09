@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-build="deeed0e4">
+<html lang="zh-CN" data-build="3e1f335a">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1015,12 +1015,12 @@ body[data-edit="1"] [contenteditable="true"]:focus { outline: 2px solid var(--br
 }
 .queue-row {
   display: grid;
-  grid-template-columns: 136px minmax(0, 1fr) 168px 172px;
+  grid-template-columns: 136px minmax(0, 1fr) 236px 130px 120px;
   align-items: center;
   gap: 0;
   flex: 1 1 auto;
   min-height: var(--tv-row-h);
-  padding: 0 var(--sp-6);
+  padding: 0 32px;
   border-bottom: 1px solid var(--border-subtle);
   font-size: var(--tv-md);
   color: var(--text-primary);
@@ -1028,6 +1028,14 @@ body[data-edit="1"] [contenteditable="true"]:focus { outline: 2px solid var(--br
 .queue-row:last-child { border-bottom: 0; }
 .queue-row .q-no { font-weight: 600; padding-right: var(--sp-3); }
 .queue-row .q-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: var(--sp-4);
+}
+.queue-row .q-clinc {
+  font-size: var(--tv-sm);
+  color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2580,7 +2588,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 <article class="fl-card">
   <h3>全局业务流程图</h3>
   <div class="src">转绘自需求说明书 §2.4 / §3.1–3.4 / §4.1–4.3，未新编步骤</div>
-  <div class="fl-canvas"><svg class="fl-svg" viewBox="0 0 1838 806" role="img" aria-label="叫号系统全局业务泳道图"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker><marker id="arrow-back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="lane-bg" x="0" y="56.0" width="1838.0" height="96.0"/><text class="lane-name" x="14" y="109.0">客户</text><rect class="lane-bg alt" x="0" y="152.0" width="1838.0" height="144.0"/><text class="lane-name" x="14" y="229.0">门店员工</text><rect class="lane-bg" x="0" y="296.0" width="1838.0" height="144.0"/><text class="lane-name" x="14" y="373.0">后台管理员</text><rect class="lane-bg alt" x="0" y="440.0" width="1838.0" height="144.0"/><text class="lane-name" x="14" y="517.0">系统</text><rect class="lane-bg" x="0" y="584.0" width="1838.0" height="206.0"/><text class="lane-name" x="14" y="692.0">屏端设备</text><line class="grid-line" x1="92.0" y1="48" x2="92.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="338.0" y1="48" x2="338.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="584.0" y1="48" x2="584.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="830.0" y1="48" x2="830.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="1076.0" y1="48" x2="1076.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="1322.0" y1="48" x2="1322.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="1568.0" y1="48" x2="1568.0" y2="790.0" stroke-dasharray="3 4"/><text class="lane-name" x="102.0" y="34">① 登录</text><text class="lane-name" x="348.0" y="34">② 进配置</text><text class="lane-name" x="594.0" y="34">③ 建设备</text><text class="lane-name" x="840.0" y="34">④ 绑定上线</text><text class="lane-name" x="1086.0" y="34">⑤ 叫号</text><text class="lane-name" x="1332.0" y="34">⑥ 屏上</text><text class="lane-name" x="1578.0" y="34">⑦ 追溯与设置</text><path class="edge" d="M315.0 336.0 L361.0 336.0" marker-end="url(#arrow)"/><path class="edge" d="M561.0 336.0 L607.0 336.0" marker-end="url(#arrow)"/><path class="edge" d="M707.0 362.0 L707.0 398.0 L607.0 398.0" marker-end="url(#arrow)"/><path class="edge" d="M807.0 398.0 L830.0 398.0 L830.0 624.0 L853.0 624.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="792.0" y="494.0" width="76" height="15" rx="3"/><text class="edge-label" x="830.0" y="505.0" text-anchor="middle">现场抄码输码</text><path class="edge" d="M953.0 650.0 L953.0 480.0 L853.0 480.0" marker-end="url(#arrow)"/><path class="edge" d="M1053.0 480.0 L1199.0 480.0 L1199.0 686.0 L1345.0 686.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1149.0" y="566.0" width="54" height="15" rx="3"/><text class="edge-label" x="1176.0" y="577.0" text-anchor="middle">校验通过</text><path class="edge back" d="M953.0 506.0 L953.0 624.0 L853.0 624.0" marker-end="url(#arrow-back)"/><rect class="edge-label-bg" x="904.0" y="425.0" width="98" height="15" rx="3"/><text class="edge-label" x="953.0" y="436.0" text-anchor="middle">码无效 · 重输</text><path class="edge" d="M561.0 336.0 L707.0 336.0 L707.0 336.0 L853.0 336.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="646.0" y="319.0" width="76" height="15" rx="3"/><text class="edge-label" x="684.0" y="330.0" text-anchor="middle">配展示与语音</text><path class="edge" d="M1199.0 218.0 L1199.0 254.0 L1099.0 254.0" marker-end="url(#arrow)"/><path class="edge" d="M1199.0 280.0 L1199.0 480.0 L1099.0 480.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1161.0" y="350.0" width="76" height="15" rx="3"/><text class="edge-label" x="1199.0" y="361.0" text-anchor="middle">HIS 推送</text><path class="edge" d="M1199.0 506.0 L1199.0 542.0 L1099.0 542.0" marker-end="url(#arrow)"/><path class="edge" d="M1299.0 542.0 L1322.0 542.0 L1322.0 624.0 L1345.0 624.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1289.5" y="566.0" width="65" height="15" rx="3"/><text class="edge-label" x="1322.0" y="577.0" text-anchor="middle">有在线设备</text><path class="edge" d="M1299.0 542.0 L1445.0 542.0 L1445.0 336.0 L1591.0 336.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1351.0" y="422.0" width="142" height="15" rx="3"/><text class="edge-label" x="1422.0" y="433.0" text-anchor="middle">无在线设备 · 标未投递</text><path class="edge" d="M1445.0 650.0 L1445.0 686.0 L1345.0 686.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1412.5" y="638.0" width="65" height="15" rx="3"/><text class="edge-label" x="1445.0" y="649.0" text-anchor="middle">播完回原页</text><path class="edge" d="M1445.0 650.0 L1445.0 748.0 L1345.0 748.0" marker-end="url(#arrow)"/><path class="edge" d="M1545.0 686.0 L1568.0 686.0 L1568.0 96.0 L1591.0 96.0" marker-end="url(#arrow)"/><path class="edge" d="M1545.0 748.0 L1568.0 748.0 L1568.0 96.0 L1591.0 96.0" marker-end="url(#arrow)"/><path class="edge" d="M1691.0 372.0 L1691.0 360.0 L1199.0 360.0 L1199.0 454.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1396.0" y="422.0" width="98" height="15" rx="3"/><text class="edge-label" x="1445.0" y="433.0" text-anchor="middle">手填也走同一链路</text><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-08" aria-label="登录后台，→ P-08"><rect x="115.0" y="310.0" width="200" height="52" rx="8"/><text x="127.0" y="334.0">登录后台</text><text class="tag" x="127.0" y="350.0">→ P-08</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-09" aria-label="进叫号配置，→ P-09"><rect x="361.0" y="310.0" width="200" height="52" rx="8"/><text x="373.0" y="334.0">进叫号配置</text><text class="tag" x="373.0" y="350.0">→ P-09</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-10" aria-label="新增设备出码，→ P-10"><rect x="607.0" y="310.0" width="200" height="52" rx="8"/><text x="619.0" y="334.0">新增设备出码</text><text class="tag" x="619.0" y="350.0">→ P-10</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-11" aria-label="查看设备详情，→ P-11"><rect x="607.0" y="372.0" width="200" height="52" rx="8"/><text x="619.0" y="396.0">查看设备详情</text><text class="tag" x="619.0" y="412.0">→ P-11</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-12" aria-label="配展示与语音，→ P-12 · P-13"><rect x="853.0" y="310.0" width="200" height="52" rx="8"/><text x="865.0" y="334.0">配展示与语音</text><text class="tag" x="865.0" y="350.0">→ P-12 · P-13</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-14" aria-label="查叫号记录，→ P-14"><rect x="1591.0" y="310.0" width="200" height="52" rx="8"/><text x="1603.0" y="334.0">查叫号记录</text><text class="tag" x="1603.0" y="350.0">→ P-14</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-15" aria-label="模拟叫号，→ P-15"><rect x="1591.0" y="372.0" width="200" height="52" rx="8"/><text x="1603.0" y="396.0">模拟叫号</text><text class="tag" x="1603.0" y="412.0">→ P-15</text></g><g class="node" data-end="系统" role="button" tabindex="0" data-jump="P-01" aria-label="开单待就诊，→ P-01"><rect x="1099.0" y="166.0" width="200" height="52" rx="8"/><text x="1111.0" y="190.0">开单待就诊</text><text class="tag" x="1111.0" y="206.0">→ P-01</text></g><g class="node none" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="HIS 里点叫号，无页面（系统侧）"><rect x="1099.0" y="228.0" width="200" height="52" rx="8"/><text x="1111.0" y="252.0">HIS 里点叫号</text><text class="tag" x="1111.0" y="268.0">无页面（系统侧）</text></g><g class="node none" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="接收叫号事件，无页面（系统侧）"><rect x="1099.0" y="454.0" width="200" height="52" rx="8"/><text x="1111.0" y="478.0">接收叫号事件</text><text class="tag" x="1111.0" y="494.0">无页面（系统侧）</text></g><g class="node none judge" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="有无在线设备，判断 · 无页面（系统侧）"><rect x="1099.0" y="516.0" width="200" height="52" rx="8"/><text x="1111.0" y="540.0">有无在线设备</text><text class="tag" x="1111.0" y="556.0">判断 · 无页面（系统侧）</text></g><g class="node none judge" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="校验三元组，判断 · 无页面（系统侧）"><rect x="853.0" y="454.0" width="200" height="52" rx="8"/><text x="865.0" y="478.0">校验三元组</text><text class="tag" x="865.0" y="494.0">判断 · 无页面（系统侧）</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-06" aria-label="输码绑定设备，→ P-06"><rect x="853.0" y="598.0" width="200" height="52" rx="8"/><text x="865.0" y="622.0">输码绑定设备</text><text class="tag" x="865.0" y="638.0">→ P-06</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-05" aria-label="弹窗并播报，→ P-05"><rect x="1345.0" y="598.0" width="200" height="52" rx="8"/><text x="1357.0" y="622.0">弹窗并播报</text><text class="tag" x="1357.0" y="638.0">→ P-05</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-01" aria-label="综合屏排号，→ P-01 · P-02"><rect x="1345.0" y="660.0" width="200" height="52" rx="8"/><text x="1357.0" y="684.0">综合屏排号</text><text class="tag" x="1357.0" y="700.0">→ P-01 · P-02</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-03" aria-label="门口屏叫号，→ P-03 · P-04"><rect x="1345.0" y="722.0" width="200" height="52" rx="8"/><text x="1357.0" y="746.0">门口屏叫号</text><text class="tag" x="1357.0" y="762.0">→ P-03 · P-04</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-07" aria-label="长按进设置，→ P-07"><rect x="1591.0" y="598.0" width="200" height="52" rx="8"/><text x="1603.0" y="622.0">长按进设置</text><text class="tag" x="1603.0" y="638.0">→ P-07</text></g><g class="node none" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="看屏等叫号，无页面（系统侧）"><rect x="1591.0" y="70.0" width="200" height="52" rx="8"/><text x="1603.0" y="94.0">看屏等叫号</text><text class="tag" x="1603.0" y="110.0">无页面（系统侧）</text></g></svg></div>
+  <div class="fl-canvas"><svg class="fl-svg" viewBox="0 0 1838 806" role="img" aria-label="叫号系统全局业务泳道图"><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker><marker id="arrow-back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs><rect class="lane-bg" x="0" y="56.0" width="1838.0" height="96.0"/><text class="lane-name" x="14" y="109.0">客户</text><rect class="lane-bg alt" x="0" y="152.0" width="1838.0" height="144.0"/><text class="lane-name" x="14" y="229.0">门店员工</text><rect class="lane-bg" x="0" y="296.0" width="1838.0" height="144.0"/><text class="lane-name" x="14" y="373.0">后台管理员</text><rect class="lane-bg alt" x="0" y="440.0" width="1838.0" height="144.0"/><text class="lane-name" x="14" y="517.0">系统</text><rect class="lane-bg" x="0" y="584.0" width="1838.0" height="206.0"/><text class="lane-name" x="14" y="692.0">屏端设备</text><line class="grid-line" x1="92.0" y1="48" x2="92.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="338.0" y1="48" x2="338.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="584.0" y1="48" x2="584.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="830.0" y1="48" x2="830.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="1076.0" y1="48" x2="1076.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="1322.0" y1="48" x2="1322.0" y2="790.0" stroke-dasharray="3 4"/><line class="grid-line" x1="1568.0" y1="48" x2="1568.0" y2="790.0" stroke-dasharray="3 4"/><text class="lane-name" x="102.0" y="34">① 登录</text><text class="lane-name" x="348.0" y="34">② 进配置</text><text class="lane-name" x="594.0" y="34">③ 建设备</text><text class="lane-name" x="840.0" y="34">④ 绑定上线</text><text class="lane-name" x="1086.0" y="34">⑤ 叫号</text><text class="lane-name" x="1332.0" y="34">⑥ 屏上</text><text class="lane-name" x="1578.0" y="34">⑦ 追溯与设置</text><path class="edge" d="M315.0 336.0 L361.0 336.0" marker-end="url(#arrow)"/><path class="edge" d="M561.0 336.0 L607.0 336.0" marker-end="url(#arrow)"/><path class="edge" d="M707.0 362.0 L707.0 398.0 L607.0 398.0" marker-end="url(#arrow)"/><path class="edge" d="M807.0 398.0 L830.0 398.0 L830.0 624.0 L853.0 624.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="792.0" y="494.0" width="76" height="15" rx="3"/><text class="edge-label" x="830.0" y="505.0" text-anchor="middle">现场抄码输码</text><path class="edge" d="M953.0 650.0 L953.0 480.0 L853.0 480.0" marker-end="url(#arrow)"/><path class="edge" d="M1053.0 480.0 L1199.0 480.0 L1199.0 686.0 L1345.0 686.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1149.0" y="566.0" width="54" height="15" rx="3"/><text class="edge-label" x="1176.0" y="577.0" text-anchor="middle">校验通过</text><path class="edge back" d="M953.0 506.0 L953.0 624.0 L853.0 624.0" marker-end="url(#arrow-back)"/><rect class="edge-label-bg" x="904.0" y="425.0" width="98" height="15" rx="3"/><text class="edge-label" x="953.0" y="436.0" text-anchor="middle">码无效 · 重输</text><path class="edge" d="M561.0 336.0 L707.0 336.0 L707.0 336.0 L853.0 336.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="646.0" y="319.0" width="76" height="15" rx="3"/><text class="edge-label" x="684.0" y="330.0" text-anchor="middle">配展示与语音</text><path class="edge" d="M1199.0 218.0 L1199.0 254.0 L1099.0 254.0" marker-end="url(#arrow)"/><path class="edge" d="M1199.0 280.0 L1199.0 480.0 L1099.0 480.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1161.0" y="350.0" width="76" height="15" rx="3"/><text class="edge-label" x="1199.0" y="361.0" text-anchor="middle">HIS 推送</text><path class="edge" d="M1199.0 506.0 L1199.0 542.0 L1099.0 542.0" marker-end="url(#arrow)"/><path class="edge" d="M1299.0 542.0 L1322.0 542.0 L1322.0 624.0 L1345.0 624.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1289.5" y="566.0" width="65" height="15" rx="3"/><text class="edge-label" x="1322.0" y="577.0" text-anchor="middle">有在线设备</text><path class="edge" d="M1299.0 542.0 L1445.0 542.0 L1445.0 336.0 L1591.0 336.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1351.0" y="422.0" width="142" height="15" rx="3"/><text class="edge-label" x="1422.0" y="433.0" text-anchor="middle">无在线设备 · 标未播报</text><path class="edge" d="M1445.0 650.0 L1445.0 686.0 L1345.0 686.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1412.5" y="638.0" width="65" height="15" rx="3"/><text class="edge-label" x="1445.0" y="649.0" text-anchor="middle">播完回原页</text><path class="edge" d="M1445.0 650.0 L1445.0 748.0 L1345.0 748.0" marker-end="url(#arrow)"/><path class="edge" d="M1545.0 686.0 L1568.0 686.0 L1568.0 96.0 L1591.0 96.0" marker-end="url(#arrow)"/><path class="edge" d="M1545.0 748.0 L1568.0 748.0 L1568.0 96.0 L1591.0 96.0" marker-end="url(#arrow)"/><path class="edge" d="M1691.0 372.0 L1691.0 360.0 L1199.0 360.0 L1199.0 454.0" marker-end="url(#arrow)"/><rect class="edge-label-bg" x="1396.0" y="422.0" width="98" height="15" rx="3"/><text class="edge-label" x="1445.0" y="433.0" text-anchor="middle">手填也走同一链路</text><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-08" aria-label="登录后台，→ P-08"><rect x="115.0" y="310.0" width="200" height="52" rx="8"/><text x="127.0" y="334.0">登录后台</text><text class="tag" x="127.0" y="350.0">→ P-08</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-09" aria-label="进叫号配置，→ P-09"><rect x="361.0" y="310.0" width="200" height="52" rx="8"/><text x="373.0" y="334.0">进叫号配置</text><text class="tag" x="373.0" y="350.0">→ P-09</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-10" aria-label="新增设备出码，→ P-10"><rect x="607.0" y="310.0" width="200" height="52" rx="8"/><text x="619.0" y="334.0">新增设备出码</text><text class="tag" x="619.0" y="350.0">→ P-10</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-11" aria-label="查看设备详情，→ P-11"><rect x="607.0" y="372.0" width="200" height="52" rx="8"/><text x="619.0" y="396.0">查看设备详情</text><text class="tag" x="619.0" y="412.0">→ P-11</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-12" aria-label="配展示与语音，→ P-12 · P-13"><rect x="853.0" y="310.0" width="200" height="52" rx="8"/><text x="865.0" y="334.0">配展示与语音</text><text class="tag" x="865.0" y="350.0">→ P-12 · P-13</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-14" aria-label="查叫号记录，→ P-14"><rect x="1591.0" y="310.0" width="200" height="52" rx="8"/><text x="1603.0" y="334.0">查叫号记录</text><text class="tag" x="1603.0" y="350.0">→ P-14</text></g><g class="node" data-end="后台" role="button" tabindex="0" data-jump="P-15" aria-label="模拟叫号，→ P-15"><rect x="1591.0" y="372.0" width="200" height="52" rx="8"/><text x="1603.0" y="396.0">模拟叫号</text><text class="tag" x="1603.0" y="412.0">→ P-15</text></g><g class="node" data-end="系统" role="button" tabindex="0" data-jump="P-01" aria-label="开单待就诊，→ P-01"><rect x="1099.0" y="166.0" width="200" height="52" rx="8"/><text x="1111.0" y="190.0">开单待就诊</text><text class="tag" x="1111.0" y="206.0">→ P-01</text></g><g class="node none" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="HIS 里点叫号，无页面（系统侧）"><rect x="1099.0" y="228.0" width="200" height="52" rx="8"/><text x="1111.0" y="252.0">HIS 里点叫号</text><text class="tag" x="1111.0" y="268.0">无页面（系统侧）</text></g><g class="node none" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="接收叫号事件，无页面（系统侧）"><rect x="1099.0" y="454.0" width="200" height="52" rx="8"/><text x="1111.0" y="478.0">接收叫号事件</text><text class="tag" x="1111.0" y="494.0">无页面（系统侧）</text></g><g class="node none judge" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="有无在线设备，判断 · 无页面（系统侧）"><rect x="1099.0" y="516.0" width="200" height="52" rx="8"/><text x="1111.0" y="540.0">有无在线设备</text><text class="tag" x="1111.0" y="556.0">判断 · 无页面（系统侧）</text></g><g class="node none judge" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="校验三元组，判断 · 无页面（系统侧）"><rect x="853.0" y="454.0" width="200" height="52" rx="8"/><text x="865.0" y="478.0">校验三元组</text><text class="tag" x="865.0" y="494.0">判断 · 无页面（系统侧）</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-06" aria-label="输码绑定设备，→ P-06"><rect x="853.0" y="598.0" width="200" height="52" rx="8"/><text x="865.0" y="622.0">输码绑定设备</text><text class="tag" x="865.0" y="638.0">→ P-06</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-05" aria-label="弹窗并播报，→ P-05"><rect x="1345.0" y="598.0" width="200" height="52" rx="8"/><text x="1357.0" y="622.0">弹窗并播报</text><text class="tag" x="1357.0" y="638.0">→ P-05</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-01" aria-label="综合屏排号，→ P-01 · P-02"><rect x="1345.0" y="660.0" width="200" height="52" rx="8"/><text x="1357.0" y="684.0">综合屏排号</text><text class="tag" x="1357.0" y="700.0">→ P-01 · P-02</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-03" aria-label="门口屏叫号，→ P-03 · P-04"><rect x="1345.0" y="722.0" width="200" height="52" rx="8"/><text x="1357.0" y="746.0">门口屏叫号</text><text class="tag" x="1357.0" y="762.0">→ P-03 · P-04</text></g><g class="node" data-end="屏端" role="button" tabindex="0" data-jump="P-07" aria-label="长按进设置，→ P-07"><rect x="1591.0" y="598.0" width="200" height="52" rx="8"/><text x="1603.0" y="622.0">长按进设置</text><text class="tag" x="1603.0" y="638.0">→ P-07</text></g><g class="node none" data-end="系统" tabindex="-1" aria-disabled="true" aria-label="看屏等叫号，无页面（系统侧）"><rect x="1591.0" y="70.0" width="200" height="52" rx="8"/><text x="1603.0" y="94.0">看屏等叫号</text><text class="tag" x="1603.0" y="110.0">无页面（系统侧）</text></g></svg></div>
   <div class="fl-warn">本图有 5 个节点没有对应页面（系统侧 / HIS 侧动作，不可点跳）：HIS 里点叫号、接收叫号事件、有无在线设备、校验三元组、看屏等叫号。这不是漏画，是这些环节本就没有界面。</div>
 </article>
 
@@ -2653,11 +2661,11 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
               <span class="queue-page">1/3</span>
             </div>
             <ul class="queue-list">
-              <li class="queue-row"><span class="q-no">A012</span><span class="q-name">豆豆（刘*）</span><span class="q-doc">张敏</span><span class="q-item">复诊</span></li>
-              <li class="queue-row"><span class="q-no">A013</span><span class="q-name">团团（王**）</span><span class="q-doc">李静</span><span class="q-item">疫苗</span></li>
-              <li class="queue-row"><span class="q-no">A014</span><span class="q-name">旺仔（陈*）</span><span class="q-doc">周涛</span><span class="q-item">初诊</span></li>
-              <li class="queue-row"><span class="q-no">A015</span><span class="q-name">奶茶（赵**）</span><span class="q-doc">王琳</span><span class="q-item">体检</span></li>
-              <li class="queue-row"><span class="q-no">A016</span><span class="q-name">布丁（孙*）</span><span class="q-doc">赵阳</span><span class="q-item">拆线</span></li>
+              <li class="queue-row"><span class="q-no">A012</span><span class="q-name">豆豆（刘*）</span><span class="q-clinc">内科诊室</span><span class="q-doc">张敏</span><span class="q-item">复诊</span></li>
+              <li class="queue-row"><span class="q-no">A013</span><span class="q-name">团团（王**）</span><span class="q-clinc">内科诊室</span><span class="q-doc">李静</span><span class="q-item">疫苗</span></li>
+              <li class="queue-row"><span class="q-no">A014</span><span class="q-name">旺仔（陈*）</span><span class="q-clinc">外科诊室</span><span class="q-doc">周涛</span><span class="q-item">初诊</span></li>
+              <li class="queue-row"><span class="q-no">A015</span><span class="q-name">奶茶（赵**）</span><span class="q-clinc">皮肤科诊室</span><span class="q-doc">王琳</span><span class="q-item">体检</span></li>
+              <li class="queue-row"><span class="q-no">A016</span><span class="q-name">布丁（孙*）</span><span class="q-clinc">影像诊室</span><span class="q-doc">赵阳</span><span class="q-item">拆线</span></li>
             </ul>
             <div class="queue-empty hid" data-role="empty">当前暂无排队</div>
             <div class="queue-empty hid" data-role="loading">正在同步诊室信息…</div>
@@ -2849,16 +2857,16 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
               <span class="queue-page">1/2</span>
             </div>
             <ul class="queue-list">
-              <li class="queue-row"><span class="q-no">A012</span><span class="q-name">豆豆（刘*）</span><span class="q-doc">张敏</span><span class="q-item">复诊</span></li>
-              <li class="queue-row"><span class="q-no">A013</span><span class="q-name">团团（王**）</span><span class="q-doc">李静</span><span class="q-item">疫苗</span></li>
-              <li class="queue-row"><span class="q-no">A014</span><span class="q-name">旺仔（陈*）</span><span class="q-doc">周涛</span><span class="q-item">初诊</span></li>
-              <li class="queue-row"><span class="q-no">A015</span><span class="q-name">奶茶（赵**）</span><span class="q-doc">王琳</span><span class="q-item">体检</span></li>
-              <li class="queue-row"><span class="q-no">A016</span><span class="q-name">布丁（孙*）</span><span class="q-doc">赵阳</span><span class="q-item">拆线</span></li>
-              <li class="queue-row"><span class="q-no">A017</span><span class="q-name">可乐（周*）</span><span class="q-doc">张敏</span><span class="q-item">复诊</span></li>
-              <li class="queue-row"><span class="q-no">A018</span><span class="q-name">麦芽（吴**）</span><span class="q-doc">李静</span><span class="q-item">疫苗</span></li>
-              <li class="queue-row"><span class="q-no">A019</span><span class="q-name">花卷（郑*）</span><span class="q-doc">周涛</span><span class="q-item">初诊</span></li>
-              <li class="queue-row"><span class="q-no">A020</span><span class="q-name">年糕（冯**）</span><span class="q-doc">王琳</span><span class="q-item">体检</span></li>
-              <li class="queue-row"><span class="q-no">A021</span><span class="q-name">汤圆（蒋*）</span><span class="q-doc">赵阳</span><span class="q-item">拆线</span></li>
+              <li class="queue-row"><span class="q-no">A012</span><span class="q-name">豆豆（刘*）</span><span class="q-clinc">内科诊室</span><span class="q-doc">张敏</span><span class="q-item">复诊</span></li>
+              <li class="queue-row"><span class="q-no">A013</span><span class="q-name">团团（王**）</span><span class="q-clinc">内科诊室</span><span class="q-doc">李静</span><span class="q-item">疫苗</span></li>
+              <li class="queue-row"><span class="q-no">A014</span><span class="q-name">旺仔（陈*）</span><span class="q-clinc">外科诊室</span><span class="q-doc">周涛</span><span class="q-item">初诊</span></li>
+              <li class="queue-row"><span class="q-no">A015</span><span class="q-name">奶茶（赵**）</span><span class="q-clinc">皮肤科诊室</span><span class="q-doc">王琳</span><span class="q-item">体检</span></li>
+              <li class="queue-row"><span class="q-no">A016</span><span class="q-name">布丁（孙*）</span><span class="q-clinc">影像诊室</span><span class="q-doc">赵阳</span><span class="q-item">拆线</span></li>
+              <li class="queue-row"><span class="q-no">A017</span><span class="q-name">可乐（周*）</span><span class="q-clinc">内科诊室</span><span class="q-doc">张敏</span><span class="q-item">复诊</span></li>
+              <li class="queue-row"><span class="q-no">A018</span><span class="q-name">麦芽（吴**）</span><span class="q-clinc">外科诊室</span><span class="q-doc">李静</span><span class="q-item">疫苗</span></li>
+              <li class="queue-row"><span class="q-no">A019</span><span class="q-name">花卷（郑*）</span><span class="q-clinc">中医诊室</span><span class="q-doc">周涛</span><span class="q-item">初诊</span></li>
+              <li class="queue-row"><span class="q-no">A020</span><span class="q-name">年糕（冯**）</span><span class="q-clinc">皮肤科诊室</span><span class="q-doc">王琳</span><span class="q-item">体检</span></li>
+              <li class="queue-row"><span class="q-no">A021</span><span class="q-name">汤圆（蒋*）</span><span class="q-clinc">影像诊室</span><span class="q-doc">赵阳</span><span class="q-item">拆线</span></li>
             </ul>
             <div class="queue-empty hid" data-role="empty">当前暂无排队</div>
             <div class="queue-empty hid" data-role="loading">正在同步诊室信息…</div>
@@ -2910,7 +2918,9 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
     #p02 .queue-head { padding: var(--sp-2) var(--sp-4); }
     #p02 .queue-title { font-size: var(--tv-sm); }
     #p02 .queue-page { font-size: var(--tv-xs); min-width: 120px; }
-    #p02 .queue-row { grid-template-columns: 96px minmax(0, 1fr) 128px 128px; padding: 0 var(--sp-4); font-size: var(--tv-sm); }
+    #p02 .queue-row { grid-template-columns: 92px minmax(0, 1fr) 236px 120px 110px; padding: 0 var(--sp-4); font-size: var(--tv-sm); }
+    #p02 .queue-row .q-clinc { font-size: var(--tv-sm); }
+    #p02 .queue-row .q-no { padding-right: 16px; }
     #p02 .queue-row .q-doc { font-size: var(--tv-sm); }
     #p02 .queue-row .q-item { font-size: var(--tv-sm); }
     #p02 .tv-foot { flex-direction: column; align-items: flex-start; justify-content: center; gap: var(--sp-1); padding: var(--sp-3) var(--sp-4); }
@@ -3585,14 +3595,14 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">1</span>页面结构与元素</h4>
-  <ul class="rl-list"><li>1920×1080；四边安全区 5%，左右 96、上下 54。</li><li>内容区 1728×972；顶栏深墨 97、白字。</li><li>顶栏从左到右：Logo、院名、日期、时钟。</li><li>诊室区 5 卡等分、高 214、间距 16、圆角 12。</li><li>卡内诊室名 TV-4，名字 5 到 8 字降一档。</li><li>叫号中卡浅橙底、2px 橙描边、左 6px 橙条。</li><li>胶囊 40 高贴卡顶；昵称与脱敏名落卡底。</li><li>主体 998 / 706，区距 24：左队列、右海报。</li><li>海报 cover 铺满，圆角 12。</li><li>队列无表头，首行「排队中…」，右上页码 1/3。</li><li>四列：排队号、昵称（脱敏名）、医生、事项。</li><li>队列单页 5 行、行高 82；底栏深墨 78。</li><li>底栏左温馨提示，右版本号。</li><li>字号五档：TV-5 67、TV-4 54、TV-3 48。</li><li>TV-2 37、TV-1 32 为最小两档，不新增。</li></ul>
+  <ul class="rl-list"><li>1920×1080；四边安全区 5%，左右 96、上下 54。</li><li>内容区 1728×972；顶栏深墨 97、白字。</li><li>顶栏从左到右：Logo、院名、日期、时钟。</li><li>诊室区 5 卡等分、高 214、间距 16、圆角 12。</li><li>卡内诊室名 TV-4，名字 5 到 8 字降一档。</li><li>叫号中卡浅橙底、2px 橙描边、左 6px 橙条。</li><li>胶囊 40 高贴卡顶；昵称与脱敏名落卡底。</li><li>主体 998 / 706，区距 24：左队列、右海报。</li><li>海报 cover 铺满，圆角 12。</li><li>队列无表头，首行「排队中…」，右上页码 1/3。</li><li>五列：排队号、昵称（脱敏名）、诊室、医生、事项。</li><li>队列单页 5 行、行高 82；底栏深墨 78。</li><li>底栏左温馨提示，右版本号。</li><li>字号五档：TV-5 67、TV-4 54、TV-3 48。</li><li>TV-2 37、TV-1 32 为最小两档，不新增。</li></ul>
 </section>
 
 <div class="rl-grp"><b>功能与交互</b><span>能做什么、点什么、联动到哪</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">2</span>功能点</h4>
-  <ul class="rl-list"><li>按诊室卡展示当前叫号：诊室名、昵称、脱敏名。</li><li>按页展示待就诊列表，单页 5 行整页切换。</li><li>海报位轮播院级海报，无海报时铺默认底图。</li><li>断网时整屏切离线态，保留最后数据时间。</li><li>凭证失效时给「确认」入口，转回绑定页输码。</li><li>长按 OK 3 秒唤出设置提示条与进度条。</li></ul>
+  <ul class="rl-list"><li>按诊室卡展示当前叫号：诊室名、昵称、脱敏名。</li><li>按页展示待就诊列表，单页 5 行整页切换。</li><li>海报位轮播院级海报，无海报时铺默认底图。</li><li>断网时整屏切离线态，保留最后数据时间。</li><li>凭证失效时给「确认」入口，转回绑定页输码。</li><li>长按 OK 3 秒唤出设置提示条与进度条。</li><li>排队行第五列给诊室名，客户据此判断去哪间诊室。</li></ul>
 </section>
 
 <section class="rl-sec">
@@ -3604,12 +3614,12 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">4</span>数据来源与刷新</h4>
-  <ul class="rl-list"><li>诊室区与待就诊：HIS 推送后随 sync 下发。</li><li>sync 每 10 秒一次，带 config_version。</li><li>版本不变则不重画，避免无谓重排。</li><li>叫号走 calls/poll 长轮询，30 秒无事件回 204。</li><li>回 204 后立即重连，形成常驻通道。</li><li>日期与时钟读屏本地时间，每秒走一格。</li><li>脱敏在服务端完成，屏端不接触全名与手机号。</li></ul>
+  <ul class="rl-list"><li>诊室区与待就诊：HIS 推送后随 sync 下发。</li><li>sync 每 10 秒一次，带 config_version。</li><li>版本不变则不重画，避免无谓重排。</li><li>叫号走 calls/poll 长轮询，30 秒无事件回 204。</li><li>回 204 后立即重连，形成常驻通道。</li><li>日期与时钟读屏本地时间，每秒走一格。</li><li>脱敏在服务端完成，屏端不接触全名与手机号。</li><li>队列口径：本屏关联诊室集合内全部待就诊者的并集，按排队号排序。</li></ul>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">5</span>判定逻辑：条件 → 结果</h4>
-  <ul class="rl-judge"><li><b>该诊室最近一条事件为 PLAYED</b><i></i><span>卡片浅橙高亮并挂「叫号中」胶囊</span></li><li><b>该诊室无 PLAYED 事件</b><i></i><span>只显示诊室名，底色回页底</span></li><li><b>待就诊列表 0 条</b><i></i><span>队列换「当前暂无排队」，不留空行</span></li><li><b>海报 0 张或图加载失败</b><i></i><span>海报位铺默认底图，不黑屏</span></li><li><b>浮层正在播</b><i></i><span>翻页、轮播、列表刷新全部挂起</span></li><li><b>启用诊室数超 6 个</b><i></i><span>超范围，须另加屏或改挂门口屏</span></li><li><b>屏绑定内置大厅档</b><i></i><span>按全院版下发，排诊室卡与排队列表</span></li><li><b>取数返回 401 设备 token 无效</b><i></i><span>转凭证失效遮罩并给「确认」</span></li></ul>
+  <ul class="rl-judge"><li><b>该诊室最近一条事件为 PLAYED</b><i></i><span>卡片浅橙高亮并挂「叫号中」胶囊</span></li><li><b>该诊室无 PLAYED 事件</b><i></i><span>只显示诊室名，底色回页底</span></li><li><b>待就诊列表 0 条</b><i></i><span>队列换「当前暂无排队」，不留空行</span></li><li><b>海报 0 张或图加载失败</b><i></i><span>海报位铺默认底图，不黑屏</span></li><li><b>浮层正在播</b><i></i><span>翻页、轮播、列表刷新全部挂起</span></li><li><b>启用诊室数超 6 个</b><i></i><span>超范围，须另加屏或改挂门口屏</span></li><li><b>屏绑定大厅综合屏（关联诊室集合）</b><i></i><span>按按综合屏版下发，排诊室卡与排队列表</span></li><li><b>取数返回 401 设备 token 无效</b><i></i><span>转凭证失效遮罩并给「确认」</span></li></ul>
 </section>
 
 <div class="rl-grp"><b>规则</b><span>硬约束、数值口径、例外怎么收敛</span></div>
@@ -3652,7 +3662,9 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 **排队列表（R16）**
 
 - 无表头，顶部一行「排队中…」，右上页码 `x/y`
-- 列：排队号 | 宠物昵称（家长脱敏名） | 医生 | 事项
+- 列（v8 起五列）：排队号 | 宠物昵称（家长脱敏名） | **诊室** | 医生 | 事项
+- **诊室列必做**：客户靠它判断去哪间诊室；列宽 16:9 为 200、9:16 为 152，超宽省略号截断、不换行
+- 大厅综合屏的排队列表 = 该屏全部**关联诊室**的待就诊并集（不只本院全部诊室）
 - 每页行数 = 由可用高度算，不写死；单页 ≥5 行
 - 整页切换，非滚动；切换时不做动画（低配显示屏怕卡）
 
@@ -3681,14 +3693,14 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">1</span>页面结构与元素</h4>
-  <ul class="rl-list"><li>1080×1920；安全区左右 54、上下 96。</li><li>内容区 972×1728；顶栏深墨 156，两行。</li><li>上行院名 TV-3；下行日期 TV-1 与时钟 TV-1。</li><li>Logo 110×110，与两行文本块等高并居中对齐。</li><li>诊室区 449 高、2 列 × 3 行，卡高 139、间距 16。</li><li>每卡两行：诊室名 TV-4、当前叫号人 TV-2。</li><li>队列占余下高度，单页 10 行、行高 82。</li><li>队列四列宽 96 / 弹性 / 128 / 128。</li><li>无海报位，竖向面积全给诊室卡与队列。</li><li>底栏深墨 138 竖排：上温馨提示、下版本号。</li><li>字号四档：TV-4、TV-3、TV-2、TV-1，不新增。</li></ul>
+  <ul class="rl-list"><li>1080×1920；安全区左右 54、上下 96。</li><li>内容区 972×1728；顶栏深墨 156，两行。</li><li>上行院名 TV-3；下行日期 TV-1 与时钟 TV-1。</li><li>Logo 110×110，与两行文本块等高并居中对齐。</li><li>诊室区 449 高、2 列 × 3 行，卡高 139、间距 16。</li><li>每卡两行：诊室名 TV-4、当前叫号人 TV-2。</li><li>队列占余下高度，单页 10 行、行高 82。</li><li>队列五列宽 92 / 弹性 / 236 / 120 / 110，诊室列容 6 字。</li><li>无海报位，竖向面积全给诊室卡与队列。</li><li>底栏深墨 138 竖排：上温馨提示、下版本号。</li><li>字号四档：TV-4、TV-3、TV-2、TV-1，不新增。</li></ul>
 </section>
 
 <div class="rl-grp"><b>功能与交互</b><span>能做什么、点什么、联动到哪</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">2</span>功能点</h4>
-  <ul class="rl-list"><li>按 2 列 3 行展示诊室卡：诊室名与当前叫号人。</li><li>按页展示待就诊列表，单页 10 行整页切换。</li><li>断网时整屏切离线态，保留最后数据时间。</li><li>凭证失效时给「确认」入口，转回绑定页输码。</li><li>长按 OK 3 秒进设置页，返回键退出。</li></ul>
+  <ul class="rl-list"><li>按 2 列 3 行展示诊室卡：诊室名与当前叫号人。</li><li>按页展示待就诊列表，单页 10 行整页切换。</li><li>断网时整屏切离线态，保留最后数据时间。</li><li>凭证失效时给「确认」入口，转回绑定页输码。</li><li>长按 OK 3 秒进设置页，返回键退出。</li><li>排队行第五列给诊室名，客户据此判断去哪间诊室。</li></ul>
 </section>
 
 <section class="rl-sec">
@@ -3700,12 +3712,12 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">4</span>数据来源与刷新</h4>
-  <ul class="rl-list"><li>诊室与待就诊：HIS 推送后随 sync 下发。</li><li>sync 每 10 秒一次，带 config_version。</li><li>版本不变则不重画；叫号走 calls/poll 长轮询。</li><li>30 秒无事件回 204 后立即重连，形成常驻通道。</li><li>顶栏日期与时钟读屏本地时间，每秒走一格。</li></ul>
+  <ul class="rl-list"><li>诊室与待就诊：HIS 推送后随 sync 下发。</li><li>sync 每 10 秒一次，带 config_version。</li><li>版本不变则不重画；叫号走 calls/poll 长轮询。</li><li>30 秒无事件回 204 后立即重连，形成常驻通道。</li><li>顶栏日期与时钟读屏本地时间，每秒走一格。</li><li>队列口径：本屏关联诊室集合内全部待就诊者的并集，按排队号排序。</li></ul>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">5</span>判定逻辑：条件 → 结果</h4>
-  <ul class="rl-judge"><li><b>诊室数不超过 6 个</b><i></i><span>2 列 3 行排满，多出的诊室不上屏</span></li><li><b>诊室数不足 6 个</b><i></i><span>按实际数量排，未占格位留空</span></li><li><b>该诊室有 PLAYED 事件</b><i></i><span>卡片浅橙高亮并写叫号人</span></li><li><b>该诊室无 PLAYED 事件</b><i></i><span>卡片只留诊室名，颜色压低</span></li><li><b>队列条数超过一页</b><i></i><span>按翻页间隔整页轮转，页码跟着变</span></li><li><b>队列 0 条</b><i></i><span>队列换「当前暂无排队」</span></li><li><b>浮层正在播</b><i></i><span>翻页与列表刷新挂起</span></li><li><b>屏绑定内置大厅档</b><i></i><span>按全院版下发，2 列 3 行卡 + 队列</span></li><li><b>取数返回 401 设备 token 无效</b><i></i><span>转凭证失效遮罩并给「确认」</span></li></ul>
+  <ul class="rl-judge"><li><b>诊室数不超过 6 个</b><i></i><span>2 列 3 行排满，多出的诊室不上屏</span></li><li><b>诊室数不足 6 个</b><i></i><span>按实际数量排，未占格位留空</span></li><li><b>该诊室有 PLAYED 事件</b><i></i><span>卡片浅橙高亮并写叫号人</span></li><li><b>该诊室无 PLAYED 事件</b><i></i><span>卡片只留诊室名，颜色压低</span></li><li><b>队列条数超过一页</b><i></i><span>按翻页间隔整页轮转，页码跟着变</span></li><li><b>队列 0 条</b><i></i><span>队列换「当前暂无排队」</span></li><li><b>浮层正在播</b><i></i><span>翻页与列表刷新挂起</span></li><li><b>屏绑定大厅综合屏（关联诊室集合）</b><i></i><span>按按综合屏版下发，2 列 3 行卡 + 队列</span></li><li><b>取数返回 401 设备 token 无效</b><i></i><span>转凭证失效遮罩并给「确认」</span></li></ul>
 </section>
 
 <div class="rl-grp"><b>规则</b><span>硬约束、数值口径、例外怎么收敛</span></div>
@@ -3748,7 +3760,9 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 **排队列表（R16）**
 
 - 无表头，顶部一行「排队中…」，右上页码 `x/y`
-- 列：排队号 | 宠物昵称（家长脱敏名） | 医生 | 事项
+- 列（v8 起五列）：排队号 | 宠物昵称（家长脱敏名） | **诊室** | 医生 | 事项
+- **诊室列必做**：客户靠它判断去哪间诊室；列宽 16:9 为 200、9:16 为 152，超宽省略号截断、不换行
+- 大厅综合屏的排队列表 = 该屏全部**关联诊室**的待就诊并集（不只本院全部诊室）
 - 每页行数 = 由可用高度算，不写死；单页 ≥5 行
 - 整页切换，非滚动；切换时不做动画（低配显示屏怕卡）
 
@@ -3844,7 +3858,9 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 **排队列表（R16）**
 
 - 无表头，顶部一行「排队中…」，右上页码 `x/y`
-- 列：排队号 | 宠物昵称（家长脱敏名） | 医生 | 事项
+- 列（v8 起五列）：排队号 | 宠物昵称（家长脱敏名） | **诊室** | 医生 | 事项
+- **诊室列必做**：客户靠它判断去哪间诊室；列宽 16:9 为 200、9:16 为 152，超宽省略号截断、不换行
+- 大厅综合屏的排队列表 = 该屏全部**关联诊室**的待就诊并集（不只本院全部诊室）
 - 每页行数 = 由可用高度算，不写死；单页 ≥5 行
 - 整页切换，非滚动；切换时不做动画（低配显示屏怕卡）
 
@@ -3940,7 +3956,9 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 **排队列表（R16）**
 
 - 无表头，顶部一行「排队中…」，右上页码 `x/y`
-- 列：排队号 | 宠物昵称（家长脱敏名） | 医生 | 事项
+- 列（v8 起五列）：排队号 | 宠物昵称（家长脱敏名） | **诊室** | 医生 | 事项
+- **诊室列必做**：客户靠它判断去哪间诊室；列宽 16:9 为 200、9:16 为 152，超宽省略号截断、不换行
+- 大厅综合屏的排队列表 = 该屏全部**关联诊室**的待就诊并集（不只本院全部诊室）
 - 每页行数 = 由可用高度算，不写死；单页 ≥5 行
 - 整页切换，非滚动；切换时不做动画（低配显示屏怕卡）
 
@@ -4019,10 +4037,13 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 **端到端链路**
 
-1. HIS `POST /openapi/v1/call-notice` → 验签 → 校验必填（`event_id` / `hospital_id` / `room_id`）→ 幂等查重 → 落流水 `RECEIVED`
-2. 投递器找「该医院 + 该诊室（或全院）」的**在线**设备 → 写 `pushed_at`，状态 `PUSHED`；无在线设备 → `UNDELIVERED`，**不重试**（本期）
+1. HIS `POST /openapi/v1/call-notice` → 验签 → 校验必填（`event_id` / `hospital_id` / `room_id`）→ 幂等查重 → 落流水（过程态 `RECEIVED`，**对外仍算未播报**）
+2. 投递器找目标**在线**设备 → 写 `pushed_at`（过程态 `PUSHED`）；目标判定分两种：
+   - 科室诊室屏：`该医院 + 该诊室` 命中的屏
+   - 大厅综合屏：该屏的**关联诊室集合**包含本事件 `room_id` 即命中（可同时命中多块大厅屏，各播各的）
+   - 无在线设备 → `UNDELIVERED` → 对外**未播报**，**不重试**（本期）
 3. 屏端长轮询取到事件 → 入本地串行队列 → 逐条播放
-4. 屏端播完发 `ack` → 状态 `PLAYED`，写 `ack_at`
+4. 屏端播完发 `ack` → 过程态 `PLAYED` → **对外状态置「已播报」**，写 `ack_at`
 
 **弹窗串行（R24 / R59）**
 
@@ -4130,7 +4151,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
       <div>对应说明书 <b>§3.1 设备与绑定</b>；需求编号 R04、R05、R55、R53、R58</div>
       <div class="txt">### 3.1 设备与绑定（R01–R08 / R48 / R58）
 
-**职责**：把物理显示屏可靠地绑到一个展示位置（某诊室或全院），并保证解绑/换机/诊室被删三种异常都能收敛。
+**职责**：把物理显示屏可靠地绑到一个展示位置（某诊室，或一组关联诊室组成的大厅综合屏），并保证解绑/换机/诊室被删三种异常都能收敛。
 
 **核心规则**
 
@@ -4139,14 +4160,28 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 3. **实例 UUID**：App 首次启动生成，存私有目录（卸载重装会重建，视为新设备）。MAC 变化但 UUID 不变 → 判「疑似换网口」，允许**人工解绑重绑**，不自动信任。
 4. **诊室变更同步**（R48）：诊室数据只有两种变化，**没有「停用」这个概念**。① **改名**（`room_id` 不变）→ 按 id 覆盖 `room_name`，后台列表、屏端科室带、下拉选项同步用新名，绑定关系不动。② **删除**（HIS 不再返回该 `room_id`）→ 该诊室不再出现在本系统的诊室下拉与展示里；**绑定它的设备默认解绑**：`call_device.room_id` 置空、设备转「未绑定」、屏端回绑定页待重新输码，后台该行标「原诊室已删除」提示重新配置。历史叫号记录按当时诊室名留存，不回溯改名。
 5. **设备鉴权**：绑定成功下发 `device_token`（随机 32 字节）。此后每个请求带 `X-Device-Token` + `X-Timestamp` + `X-Sign`（HMAC-SHA256，密钥 = token）。服务端校验时间戳偏移 ≤300s，且同一签名 5 分钟内不得重放。
-6. **内置「大厅」档**（R63 / A9）：绑定目标恒分两组——「内置大厅」（本系统内置，可建多个：大厅-01、大厅-02…）与「HIS 诊室」（按 R41 拉取，已删除的不出现）。大厅**不在 HIS 诊室主数据内**，HIS 的诊室接口也不会返回它；选大厅即把设备绑到该大厅档，列表绑定列直接显示大厅名。大厅**不参与** HIS 诊室启停校验：不存在 `ROOM_DISABLED` 分支，HIS 把诊室全停也不影响已绑大厅的设备。
+6. **诊室类型**（R63，v8 取代原「内置大厅可建多个」）：新增设备先选**诊室类型**，二选一，保存后不可改。
+
+   | 类型 | 可选目标 | 数据来源 | 版式 | 投递范围 |
+   |---|---|---|---|---|
+   | **大厅综合屏** | 内置固定 4 档：`大厅综合屏 1` ~ `大厅综合屏 4` | 本系统内置常量，HIS 动不到，后台不提供新建/改名/删除 | 综合屏版（诊室卡区 + 排队列表 + 海报） | **关联诊室集合**内任一诊室有叫号即投 |
+   | **科室诊室** | HIS 诊室接口返回的该院诊室，**单选** | HIS 诊室主数据（下拉展开时拉取） | 门口屏版（只显示该诊室最近叫号） | 仅该诊室 |
+
+   **关联诊室**（只在大厅综合屏出现，必填）：多选，候选集＝R41 诊室列表接口返回值；**至少 1 个**，上限 20 个（超出提示拆屏）。语义＝这块大厅屏只负责这些诊室的候诊与叫号，**不是全院**：
+   - 待就诊列表 = 关联诊室集合内全部待就诊者的并集（按排队号排序，翻页不变）
+   - 叫号区 / 叫号弹窗 = 关联诊室集合内产生的叫号；集合外的诊室叫号不投到这块屏
+   - 关联诊室可后改（设备详情里编辑），改后 10 秒内重拉配置生效；进行中的弹窗不打断
+   - 关联诊室被 HIS 删除 → 自动移出集合、屏上静默收敛；集合被删空时屏转空态并提示「关联诊室已全部失效，请到后台重新选择」
+
+   四档大厅综合屏**不参与** HIS 诊室启停校验：不存在 `ROOM_DISABLED` 分支，HIS 把诊室全停也不影响已绑大厅综合屏的设备。同一档可挂 0~N 块设备（多块屏同范围）。
 
 **边界**
 
 - 设备只记两档**显示器比例**：`16:9（横）` / `9:16（竖）`，决定下发哪套布局模板。
-- **版式由绑定对象决定**，不是设备字段：绑 HIS 诊室＝单诊室版（只显示该诊室最近叫号）；绑内置大厅＝全院版（诊室卡区 + 排队列表）。后台与屏端配置里都不再有「综合屏 / 门口屏」这一档。
-- 绑定目标只有两类：**内置大厅档**（大厅-01、大厅-02…）/ **HIS 诊室**；两者在下拉里分组呈现，来源不同（内置 vs HIS）。
-- 同一绑定对象**允许多块屏**（大诊室双门、大厅多立柱），同内容。</div>
+- **版式由诊室类型决定**，不是设备字段：大厅综合屏＝综合屏版（诊室卡区 + 排队列表 + 海报）；科室诊室＝门口屏版（只显示该诊室最近叫号）。后台与屏端配置里都不再有「综合屏 / 门口屏」这一档。
+- 可选目标只有两类：**大厅综合屏 1~4**（内置常量）/ **HIS 诊室**（R41 拉取）；两者由「诊室类型」单选切换后分别呈现，**不是同一个下拉的两组**。
+- 同一
+……（节选，全文见需求说明书）</div>
       <div class="codes"><code>R04</code><code>R05</code><code>R55</code><code>R53</code><code>R58</code><a class="doc-anchor" href="#sec-3.1" data-anchor="sec-3.1">在需求文档里定位该节</a></div>
     </div>
   </details>
@@ -4212,10 +4247,13 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 **端到端链路**
 
-1. HIS `POST /openapi/v1/call-notice` → 验签 → 校验必填（`event_id` / `hospital_id` / `room_id`）→ 幂等查重 → 落流水 `RECEIVED`
-2. 投递器找「该医院 + 该诊室（或全院）」的**在线**设备 → 写 `pushed_at`，状态 `PUSHED`；无在线设备 → `UNDELIVERED`，**不重试**（本期）
+1. HIS `POST /openapi/v1/call-notice` → 验签 → 校验必填（`event_id` / `hospital_id` / `room_id`）→ 幂等查重 → 落流水（过程态 `RECEIVED`，**对外仍算未播报**）
+2. 投递器找目标**在线**设备 → 写 `pushed_at`（过程态 `PUSHED`）；目标判定分两种：
+   - 科室诊室屏：`该医院 + 该诊室` 命中的屏
+   - 大厅综合屏：该屏的**关联诊室集合**包含本事件 `room_id` 即命中（可同时命中多块大厅屏，各播各的）
+   - 无在线设备 → `UNDELIVERED` → 对外**未播报**，**不重试**（本期）
 3. 屏端长轮询取到事件 → 入本地串行队列 → 逐条播放
-4. 屏端播完发 `ack` → 状态 `PLAYED`，写 `ack_at`
+4. 屏端播完发 `ack` → 过程态 `PLAYED` → **对外状态置「已播报」**，写 `ack_at`
 
 **弹窗串行（R24 / R59）**
 
@@ -4448,7 +4486,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
               <div class="page-head">
                 <div class="t">
                   <h1>设备与绑定</h1>
-                  <div class="sub">共 10 台 · 在线 5 台 · 离线 2 台 · 未绑定 3 台 · 最近心跳 6 秒前</div>
+                  <div class="sub">共 7 台 · 在线 5 台 · 未绑定 2 台 · 最近心跳 6 秒前</div>
                 </div>
                 <div class="acts">
                   <button class="btn btn-primary" type="button">
@@ -4481,13 +4519,22 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
                   </select>
                 </div>
                 <div class="fld is-inline">
-                  <select class="select" aria-label="绑定诊室">
-                    <option>全部诊室</option>
-                    <optgroup label="内置大厅">
-                      <option>大厅-01</option>
-                      <option>大厅-02</option>
+                  <select class="select" aria-label="诊室类型">
+                    <option>全部诊室类型</option>
+                    <option>大厅综合屏</option>
+                    <option>科室诊室</option>
+                  </select>
+                </div>
+                <div class="fld is-inline">
+                  <select class="select" aria-label="绑定目标">
+                    <option>全部目标</option>
+                    <optgroup label="大厅综合屏（内置 4 档）">
+                      <option>大厅综合屏 1</option>
+                      <option>大厅综合屏 2</option>
+                      <option>大厅综合屏 3</option>
+                      <option>大厅综合屏 4</option>
                     </optgroup>
-                    <optgroup label="HIS 诊室">
+                    <optgroup label="HIS 诊室（含关联诊室）">
                       <option>内科诊室</option>
                       <option>外科诊室</option>
                       <option>皮肤科诊室</option>
@@ -4500,7 +4547,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
               </div>
 
               <div class="chips hid" data-role="chiprow">
-                <span class="chip">状态：离线 <svg class="ico x" aria-hidden="true"><use href="#i-close"/></svg></span>
+                <span class="chip">状态：未绑定 <svg class="ico x" aria-hidden="true"><use href="#i-close"/></svg></span>
                 <span class="chip">共 2 台</span>
               </div>
 
@@ -4509,106 +4556,79 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
                   <thead>
                     <tr>
                       <th>设备名称</th>
+                      <th>诊室类型</th>
                       <th>显示器比例</th>
-                      <th>绑定诊室</th>
+                      <th>绑定目标</th>
                       <th>状态</th>
                       <th>软件版本号</th>
                       <th>最近心跳</th>
                       <th class="ops">操作</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td class="cell-name">大厅-01</td>
+                  <tbody><tr>
+                      <td class="cell-name">大厅综合屏1-A</td>
+                      <td>大厅综合屏</td>
                       <td>16:9</td>
-                      <td>大厅-01</td>
+                      <td>大厅综合屏 1 · 关联 3 个</td>
                       <td><span class="badge badge-ok">在线</span></td>
                       <td class="num">v2.4.2</td>
                       <td class="num">6 秒前</td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button><button class="btn btn-sm" type="button">解绑</button></td>
-                    </tr>
-                    <tr>
+                    </tr><tr>
                       <td class="cell-name">内科诊室-01</td>
+                      <td>科室诊室</td>
                       <td>16:9</td>
                       <td>内科诊室</td>
                       <td><span class="badge badge-ok">在线</span></td>
                       <td class="num">v2.4.2</td>
                       <td class="num">12 秒前</td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button><button class="btn btn-sm" type="button">解绑</button></td>
-                    </tr>
-                    <tr class="row-hit">
-                      <td class="cell-name">外科诊室-01</td>
-                      <td>16:9</td>
-                      <td>外科诊室</td>
-                      <td><span class="badge badge-bad">离线</span></td>
-                      <td class="num">v2.3.8</td>
-                      <td class="num">2 小时前</td>
-                      <td class="ops"><button class="btn btn-sm" type="button">详情</button><button class="btn btn-sm" type="button">解绑</button></td>
-                    </tr>
-                    <tr>
-                      <td class="cell-name">大厅-03</td>
+                    </tr><tr>
+                      <td class="cell-name">大厅综合屏3-A</td>
+                      <td>大厅综合屏</td>
                       <td>9:16</td>
-                      <td>大厅-02</td>
+                      <td>大厅综合屏 3 · 关联 2 个</td>
                       <td><span class="badge badge-ok">在线</span></td>
                       <td class="num">v2.4.2</td>
                       <td class="num">9 秒前</td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button><button class="btn btn-sm" type="button">解绑</button></td>
-                    </tr>
-                    <tr>
+                    </tr><tr>
                       <td class="cell-name">皮肤科诊室-01</td>
+                      <td>科室诊室</td>
                       <td>16:9</td>
                       <td>皮肤科诊室</td>
                       <td><span class="badge badge-ok">在线</span></td>
                       <td class="num">v2.4.1</td>
                       <td class="num">5 秒前</td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button><button class="btn btn-sm" type="button">解绑</button></td>
-                    </tr>
-                    <tr class="row-off">
-                      <td class="cell-name">影像诊室-01 <span class="off-tag">原诊室已删除</span></td>
-                      <td>16:9</td>
-                      <td class="muted">未绑定</td>
-                      <td><span class="badge badge-idle">未绑定</span></td>
-                      <td class="num">v2.4.1</td>
-                      <td class="muted">—</td>
-                      <td class="ops"><button class="btn btn-sm" type="button">生成绑定码</button><button class="btn btn-sm" type="button">详情</button></td>
-                    </tr>
-                    <tr>
+                    </tr><tr>
                       <td class="cell-name">中医诊室-01</td>
+                      <td>科室诊室</td>
                       <td>16:9</td>
                       <td class="muted">未绑定</td>
                       <td><span class="badge badge-idle">未绑定</span></td>
                       <td class="num">v2.4.0</td>
                       <td class="muted">—</td>
                       <td class="ops"><button class="btn btn-sm" type="button">生成绑定码</button><button class="btn btn-sm" type="button">详情</button></td>
-                    </tr>
-                    <tr>
+                    </tr><tr>
                       <td class="cell-name">住院-01</td>
+                      <td>科室诊室</td>
                       <td>16:9</td>
                       <td>住院部</td>
                       <td><span class="badge badge-ok">在线</span></td>
                       <td class="num">v2.4.2</td>
                       <td class="num">18 秒前</td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button><button class="btn btn-sm" type="button">解绑</button></td>
-                    </tr>
-                    <tr>
+                    </tr><tr>
                       <td class="cell-name">外科诊室-02</td>
+                      <td>科室诊室</td>
                       <td>16:9</td>
                       <td class="muted">未绑定</td>
                       <td><span class="badge badge-idle">未绑定</span></td>
                       <td class="num">v2.3.9</td>
                       <td class="muted">—</td>
                       <td class="ops"><button class="btn btn-sm" type="button">生成绑定码</button><button class="btn btn-sm" type="button">详情</button></td>
-                    </tr>
-                    <tr class="row-hit">
-                      <td class="cell-name">大厅-02</td>
-                      <td>16:9</td>
-                      <td>大厅-02</td>
-                      <td><span class="badge badge-bad">离线</span></td>
-                      <td class="num">v2.3.9</td>
-                      <td class="num">1 天前</td>
-                      <td class="ops"><button class="btn btn-sm" type="button">详情</button><button class="btn btn-sm" type="button">解绑</button></td>
-                    </tr>
-                  </tbody>
+                    </tr></tbody>
                 </table>
 
                 <div class="skel-list hid" data-role="skeleton">
@@ -4650,7 +4670,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
                 </div>
 
                 <div class="pager">
-                  <span>共 10 台 · 在线 5 台</span>
+                  <span>共 7 台 · 在线 5 台</span>
                   <div class="nums">
                     <span class="pg is-on">1</span>
                     <span class="pg">2</span>
@@ -4671,7 +4691,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
               </button>
             </header>
             <div class="modal-body">
-              <p class="p10-p">大厅-01 将立即回到未绑定状态，屏幕显示「待绑定」，需要重新生成绑定码才能上线。</p>
+              <p class="p10-p">大厅综合屏 1 将立即回到未绑定状态，屏幕显示「待绑定」，需要重新生成绑定码才能上线。</p>
               <p class="p10-p muted">近 30 天的叫号记录不受影响。</p>
             </div>
             <footer class="modal-foot">
@@ -4741,7 +4761,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
     #p09 .adm[data-state="filtered"] .tbl tbody tr { display: none !important; }
     #p09 .adm[data-state="filtered"] .tbl tbody tr.row-hit { display: table-row !important; }
     #p09 .adm[data-state="filtered"] .pager span:first-child { font-size: 0; }
-    #p09 .adm[data-state="filtered"] .pager span:first-child::after { content: "共 2 台 · 在线 0 台"; font-size: var(--fs-sm); }
+    #p09 .adm[data-state="filtered"] .pager span:first-child::after { content: "共 2 台 · 未绑定 2 台"; font-size: var(--fs-sm); }
     #p09 .adm[data-state="noresult"] .tbl,
     #p09 .adm[data-state="noresult"] .pager { display: none !important; }
     #p09 .adm[data-state="noresult"] [data-role="empty-filter"] { display: grid !important; }
@@ -4769,6 +4789,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
     <h3>新增设备</h3>
     <div class="states">
       <button type="button" data-to="default" class="is-on">默认</button>
+      <button type="button" data-to="hall">大厅综合屏</button>
       <button type="button" data-to="invalid">校验错误</button>
       <button type="button" data-to="occupied">诊室占用</button>
       <button type="button" data-to="submitting">提交中</button>
@@ -4826,14 +4847,14 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
               <table class="tbl behind">
                 <thead>
-                  <tr><th>设备名称</th><th>显示器比例</th><th>绑定诊室</th><th>在线</th><th>最近心跳</th></tr>
+                  <tr><th>设备名称</th><th>诊室类型</th><th>显示器比例</th><th>绑定目标</th><th>在线</th><th>最近心跳</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>大厅-01</td><td>16:9</td><td>大厅</td><td><span class="badge badge-ok">在线</span></td><td class="num">6 秒前</td></tr>
-                  <tr><td>内科诊室-01</td><td>16:9</td><td>内科诊室</td><td><span class="badge badge-ok">在线</span></td><td class="num">12 秒前</td></tr>
-                  <tr><td>外科诊室-01</td><td>16:9</td><td>外科诊室</td><td><span class="badge badge-bad">离线</span></td><td class="num">2 小时前</td></tr>
-                  <tr><td>大厅-03</td><td>9:16</td><td>大厅</td><td><span class="badge badge-ok">在线</span></td><td class="num">9 秒前</td></tr>
-                  <tr><td>中医诊室-01</td><td>16:9</td><td class="muted">未绑定</td><td><span class="badge badge-idle">未绑定</span></td><td class="muted">—</td></tr>
+                  <tr><td>大厅综合屏1-A</td><td>大厅综合屏</td><td>16:9</td><td>大厅综合屏 1 · 关联 3 个</td><td><span class="badge badge-ok">在线</span></td><td class="num">6 秒前</td></tr>
+                  <tr><td>内科诊室-01</td><td>科室诊室</td><td>16:9</td><td>内科诊室</td><td><span class="badge badge-ok">在线</span></td><td class="num">12 秒前</td></tr>
+                  <tr><td>外科诊室-01</td><td>科室诊室</td><td>16:9</td><td>外科诊室</td><td><span class="badge badge-bad">离线</span></td><td class="num">2 小时前</td></tr>
+                  <tr><td>大厅综合屏3-A</td><td>大厅综合屏</td><td>9:16</td><td>大厅综合屏 3 · 关联 2 个</td><td><span class="badge badge-ok">在线</span></td><td class="num">9 秒前</td></tr>
+                  <tr><td>中医诊室-01</td><td>科室诊室</td><td>16:9</td><td class="muted">未绑定</td><td><span class="badge badge-idle">未绑定</span></td><td class="muted">—</td></tr>
                 </tbody>
               </table>
             </div>
@@ -4873,28 +4894,60 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
                     <button type="button" class="is-on" role="radio" aria-checked="true">16:9</button>
                     <button type="button" role="radio" aria-checked="false">9:16</button>
                   </div>
-                  <span class="help">横屏 1920×1080 / 竖屏 1080×1920；决定下发哪套布局模板，与绑定对象共同决定版式（绑诊室＝单诊室版，绑大厅＝全院版）。保存后不可改，换屏需解绑重建。</span>
+                  <span class="help">横屏 1920×1080 / 竖屏 1080×1920；决定下发哪套布局模板，与诊室类型共同决定版式（科室诊室＝门口屏版，大厅综合屏＝综合屏版）。保存后不可改，换屏需解绑重建。</span>
                 </div>
 
                 <div class="fld span2">
-                  <label for="p10-clinc">绑定诊室 <span class="req"></span></label>
+                  <label id="p10-type-k">诊室类型 <span class="req"></span></label>
+                  <div class="seg" id="p10-type" role="radiogroup" aria-labelledby="p10-type-k">
+                    <button type="button" class="is-on" role="radio" aria-checked="true" data-type="room">科室诊室</button>
+                    <button type="button" role="radio" aria-checked="false" data-type="hall">大厅综合屏</button>
+                  </div>
+                  <span class="help">科室诊室＝调 HIS 诊室接口选一个诊室，屏只显示该诊室；大厅综合屏＝内置 4 档槽位，屏显示所关联诊室的候诊与叫号。保存后不可改，换类型需解绑重建。</span>
+                </div>
+
+                <div class="fld span2" data-role="target-room">
+                  <label for="p10-clinc">选择诊室 <span class="req"></span></label>
                   <div class="clinc-row">
                     <select class="select" id="p10-clinc">
-                      <optgroup label="内置大厅（本系统维护，可建多个）">
-                        <option>大厅-01（2 台设备）</option>
-                        <option>大厅-02（空）</option>
-                      </optgroup>
-                      <optgroup label="HIS 诊室（本店门诊）">
-                        <option>内科诊室（1 台设备）</option>
-                        <option>外科诊室（1 台设备）</option>
-                        <option>皮肤科诊室（空）</option>
-                      </optgroup>
+                      <option>请选择诊室</option>
+                      <option>内科诊室（1 台设备）</option>
+                      <option>外科诊室（1 台设备）</option>
+                      <option>皮肤科诊室（空）</option>
+                      <option>影像诊室（空）</option>
+                      <option>中医诊室（空）</option>
                     </select>
                     <button class="btn btn-secondary" type="button">
-                      <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>新建大厅
+                      <svg class="ico" aria-hidden="true"><use href="#i-refresh"/></svg>刷新
                     </button>
                   </div>
-                  <span class="help" data-role="clinc-help">HIS 诊室组由服务端调用 HIS 诊室接口获取（展开下拉时刷新），只含未删除的诊室；内置大厅组由本系统维护，可建多个。一个位置可挂多块屏。</span>
+                  <span class="help" data-role="clinc-help">诊室清单由服务端调 HIS 诊室接口获取（展开下拉时刷新），只含未删除的诊室。一个诊室可挂多块屏。</span>
+                </div>
+
+                <div class="fld span2" data-role="target-hall">
+                  <label for="p10-hall">大厅综合屏槽位 <span class="req"></span></label>
+                  <div class="clinc-row">
+                    <select class="select" id="p10-hall">
+                      <option>大厅综合屏 1（已绑 2 台）</option>
+                      <option>大厅综合屏 2（未使用）</option>
+                      <option>大厅综合屏 3（未使用）</option>
+                      <option>大厅综合屏 4（未使用）</option>
+                    </select>
+                  </div>
+                  <span class="help">内置 4 档固定槽位，本系统维护、HIS 动不到；同一槽位可挂多块屏（同一范围）。不提供新建/改名/删除。</span>
+                </div>
+
+                <div class="fld span2" data-role="target-hall">
+                  <label>关联诊室 <span class="req"></span></label>
+                  <div class="rel-list" role="group" aria-label="关联诊室">
+                    <label class="rel-item is-on"><input type="checkbox" checked><span>内科诊室</span></label>
+                    <label class="rel-item is-on"><input type="checkbox" checked><span>外科诊室</span></label>
+                    <label class="rel-item is-on"><input type="checkbox" checked><span>皮肤科诊室</span></label>
+                    <label class="rel-item"><input type="checkbox"><span>影像诊室</span></label>
+                    <label class="rel-item"><input type="checkbox"><span>中医诊室</span></label>
+                    <label class="rel-item"><input type="checkbox"><span>住院部</span></label>
+                  </div>
+                  <span class="help" data-role="rel-help">必选，至少 1 个、最多 20 个。只有关联到的诊室，其待就诊与叫号才会出现在这块屏上；候选来自 HIS 诊室接口，已删除的不出现。</span>
                 </div>
 
                 <div class="fld span2">
@@ -4931,7 +4984,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
                 <h4 class="form-sec">保存后会发生什么</h4>
                 <ol class="p10-steps-list">
                   <li><b>1</b><span>设备以「未绑定」状态进台账，占 1 个设备名额</span></li>
-                  <li><b>2</b><span>屏端「设备绑定」页输码，校验通过即写入诊室与配置版本</span></li>
+                  <li><b>2</b><span>屏端「设备绑定」页输码，校验通过即写入诊室类型、目标与关联诊室集合</span></li>
                   <li><b>3</b><span>屏自动拉取全量配置并开始显示，后台状态转「在线」</span></li>
                 </ol>
               </div>
@@ -4959,6 +5012,17 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
     #p10 .seg button { height: 32px; min-width: 76px; padding: 0 var(--sp-4); font-size: var(--fs-base); }
     #p10 .clinc-row { display: flex; align-items: center; gap: var(--sp-3); }
     #p10 .clinc-row .select { flex: 1 1 auto; min-width: 0; }
+    /* 诊室类型：大厅综合屏形态 */
+    #p10 [data-role="target-hall"] { display: none; }
+    #p10 .adm[data-state="hall"] [data-role="target-hall"] { display: block !important; }
+    #p10 .adm[data-state="hall"] [data-role="target-room"] { display: none !important; }
+    #p10 .adm[data-state="hall"] #p10-type button[data-type="room"] { background: transparent; color: var(--text-secondary); font-weight: 400; box-shadow: none; }
+    #p10 .adm[data-state="hall"] #p10-type button[data-type="hall"] { background: var(--surface-card); color: var(--text-primary); font-weight: 600; box-shadow: var(--elev-1); }
+    /* 关联诊室多选 */
+    #p10 .rel-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-2) var(--sp-3); padding: var(--sp-3); border: 1px solid var(--border-base); border-radius: var(--r-sm); background: var(--surface-subtle); }
+    #p10 .rel-item { display: flex; align-items: center; gap: var(--sp-2); height: 32px; padding: 0 var(--sp-2); border-radius: 6px; font-size: var(--fs-sm); color: var(--text-secondary); cursor: pointer; }
+    #p10 .rel-item input { width: 16px; height: 16px; accent-color: var(--brand-600); flex: none; }
+    #p10 .rel-item.is-on { background: var(--brand-050); color: var(--brand-700); font-weight: 600; }
     #p10 .ta { height: auto; padding: var(--sp-2) var(--sp-3); line-height: 1.6; resize: none; font-family: inherit; }
     #p10 .p10-tip { margin-top: var(--sp-4); font-size: var(--fs-xs); line-height: var(--lh-base); color: var(--text-secondary); }
     #p10 .code-ready { margin-top: var(--sp-2); }
@@ -5039,7 +5103,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
               <div class="page-head">
                 <div class="t">
                   <h1>设备与绑定</h1>
-                  <div class="sub">共 10 台 · 在线 5 台</div>
+                  <div class="sub">共 7 台 · 在线 5 台</div>
                 </div>
               </div>
               <nav class="adm-tabs" aria-label="叫号配置">
@@ -5049,15 +5113,15 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
               </nav>
               <table class="tbl behind">
               <thead>
-                <tr><th>设备名称</th><th>显示器比例</th><th>绑定诊室</th><th>状态</th></tr>
+                <tr><th>设备名称</th><th>诊室类型</th><th>显示器比例</th><th>绑定目标</th><th>状态</th></tr>
               </thead>
               <tbody>
-                <tr><td>大厅-01</td><td>16:9</td><td>大厅-01</td><td><span class="badge badge-ok">在线</span></td></tr>
-                <tr><td>内科诊室-01</td><td>16:9</td><td>内科诊室</td><td><span class="badge badge-ok">在线</span></td></tr>
-                <tr><td>外科诊室-01</td><td>16:9</td><td>外科诊室</td><td><span class="badge badge-bad">离线</span></td></tr>
-                <tr><td>大厅-03</td><td>9:16</td><td>大厅-02</td><td><span class="badge badge-ok">在线</span></td></tr>
-                <tr><td>皮肤科诊室-01</td><td>9:16</td><td>皮肤科诊室</td><td><span class="badge badge-ok">在线</span></td></tr>
-                <tr><td>影像诊室-01 <span class="off-tag">原诊室已删除</span></td><td>16:9</td><td class="muted">未绑定</td><td><span class="badge badge-idle">未绑定</span></td></tr>
+                <tr><td>大厅综合屏1-A</td><td>大厅综合屏</td><td>16:9</td><td>大厅综合屏 1</td><td><span class="badge badge-ok">在线</span></td></tr>
+                <tr><td>内科诊室-01</td><td>科室诊室</td><td>16:9</td><td>内科诊室</td><td><span class="badge badge-ok">在线</span></td></tr>
+                <tr><td>外科诊室-01</td><td>科室诊室</td><td>16:9</td><td>外科诊室</td><td><span class="badge badge-bad">离线</span></td></tr>
+                <tr><td>大厅综合屏3-A</td><td>大厅综合屏</td><td>9:16</td><td>大厅综合屏 3</td><td><span class="badge badge-ok">在线</span></td></tr>
+                <tr><td>皮肤科诊室-01</td><td>科室诊室</td><td>9:16</td><td>皮肤科诊室</td><td><span class="badge badge-ok">在线</span></td></tr>
+                <tr><td>影像诊室-01 <span class="off-tag">原诊室已删除</span></td><td>科室诊室</td><td>16:9</td><td class="muted">未绑定</td><td><span class="badge badge-idle">未绑定</span></td></tr>
               </tbody>
               </table>
             </div>
@@ -5067,7 +5131,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
         <div class="drawer-layer">
           <aside class="drawer" role="dialog" aria-modal="true" aria-label="设备详情">
             <header class="drawer-head">
-              <h3>大厅-01</h3>
+              <h3>大厅综合屏1-A</h3>
               <span class="badge badge-ok">在线</span>
               <button class="x" type="button" aria-label="关闭">
                 <svg class="ico" aria-hidden="true"><use href="#i-close"/></svg>
@@ -5077,9 +5141,11 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
             <div class="drawer-body">
               <h4 class="form-sec">基本信息</h4>
               <dl class="kv-list">
-                <dt>设备名称</dt><dd>大厅-01</dd>
+                <dt>设备名称</dt><dd>大厅综合屏1-A</dd>
                 <dt>显示器比例</dt><dd>16:9</dd>
-                <dt>绑定诊室</dt><dd>大厅-01</dd>
+                <dt>诊室类型</dt><dd>大厅综合屏</dd>
+                <dt>综合屏槽位</dt><dd>大厅综合屏 1</dd>
+                <dt>关联诊室</dt><dd>内科诊室、外科诊室、皮肤科诊室（3 个）</dd>
                 <dt>MAC</dt><dd class="mono">3C:A9:2F:1D:80:4E</dd>
                 <dt>绑定时间</dt><dd class="mono">2026-10-28 09:12</dd>
                 <dt>备注</dt><dd class="muted">候诊大厅吊装</dd>
@@ -5269,11 +5335,6 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
                     <h3>节奏</h3>
                     <div class="form-grid">
                       <div class="fld">
-                        <label for="p12-pop">弹窗显示时长</label>
-                        <div class="unit-row"><input class="input" id="p12-pop" type="text" value="10"><span class="unit">秒</span></div>
-                        <span class="help">5–30</span>
-                      </div>
-                      <div class="fld">
                         <label for="p12-page">排队列表翻页间隔</label>
                         <div class="unit-row"><input class="input" id="p12-page" type="text" value="10"><span class="unit">秒</span></div>
                         <span class="help">5–60</span>
@@ -5286,6 +5347,11 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
                       <div class="fld">
                         <label>队列行数</label>
                         <div class="p12-ro">由屏高自动计算 · 综合屏 16:9 为 5 行</div>
+                      </div>
+                      <div class="fld span2">
+                        <label>弹窗显示时长</label>
+                        <div class="p12-ro p12-pop">跟随语音播报 · 由「播放次数 × 播放间隔」推导，当前 7 秒</div>
+                        <span class="help">不可单独配置。在「语音播报」里改次数或间隔，这里与屏上弹窗一起变；语音关闭时固定 6 秒。</span>
                       </div>
                     </div>
                   </div>
@@ -5691,7 +5757,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
               <div class="filter">
                 <div class="fld is-inline"><select class="select" aria-label="医院筛选"><option>全部医院</option><option>徐汇分院</option><option>浦东分院</option><option>静安分院</option></select></div>
                 <div class="fld is-inline"><select class="select" aria-label="诊室筛选"><option>全部诊室</option><option>内科诊室</option><option>外科诊室</option></select></div>
-                <div class="fld is-inline"><select class="select" aria-label="状态筛选"><option>全部状态</option><option>已接收</option><option>已投递</option><option>已播报</option><option>未投递</option><option>回执超时</option></select></div>
+                <div class="fld is-inline"><select class="select" aria-label="状态筛选"><option>全部状态</option><option>已播报</option><option>未播报</option></select></div>
                 <div class="fld is-inline"><input class="input" type="text" value="10-03 至 11-02" aria-label="时间范围"></div>
                 <div class="spacer"></div>
                 <button class="btn btn-primary" type="button">查询</button>
@@ -5700,7 +5766,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
               <div class="chips hid" data-role="chiprow">
                 <span class="chip">医院：浦东分院 <svg class="ico x" aria-hidden="true"><use href="#i-close"/></svg></span>
-                <span class="chip">状态：未投递 <svg class="ico x" aria-hidden="true"><use href="#i-close"/></svg></span>
+                <span class="chip">状态：未播报 <svg class="ico x" aria-hidden="true"><use href="#i-close"/></svg></span>
                 <span class="chip">诊室：内科诊室 <svg class="ico x" aria-hidden="true"><use href="#i-close"/></svg></span>
                 <span class="chip">共 3 条</span>
               </div>
@@ -5729,37 +5795,37 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
                   <tbody>
                     <tr>
                       <td class="num">11-02 14:03:21</td><td>徐汇分院</td><td>内科诊室</td><td>豆豆</td><td>刘*</td><td class="num">A012</td>
-                      <td>大厅-01</td><td><span class="badge badge-ok">已播报</span></td><td><span class="badge badge-idle">HIS</span></td>
+                      <td>大厅综合屏 1</td><td><span class="badge badge-ok">已播报</span></td><td><span class="badge badge-idle">HIS</span></td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button></td>
                     </tr>
                     <tr>
                       <td class="num">11-02 14:01:47</td><td>徐汇分院</td><td>外科诊室</td><td>团团</td><td>王**</td><td class="num">A013</td>
-                      <td>外科诊室-01</td><td><span class="badge badge-warn">未投递</span></td><td><span class="badge badge-idle">HIS</span></td>
+                      <td>外科诊室-01</td><td><span class="badge badge-warn">未播报</span></td><td><span class="badge badge-idle">HIS</span></td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button></td>
                     </tr>
                     <tr>
                       <td class="num">11-02 13:58:12</td><td>徐汇分院</td><td>皮肤科诊室</td><td>旺仔</td><td>陈*</td><td class="num">A014</td>
-                      <td>皮肤科诊室-01</td><td><span class="badge badge-info">已投递</span></td><td><span class="badge badge-idle">HIS</span></td>
+                      <td>皮肤科诊室-01</td><td><span class="badge badge-warn">未播报</span></td><td><span class="badge badge-idle">HIS</span></td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button></td>
                     </tr>
                     <tr>
                       <td class="num">11-02 13:55:36</td><td>徐汇分院</td><td>影像诊室</td><td>奶茶</td><td>赵**</td><td class="num">A015</td>
-                      <td>影像诊室-01</td><td><span class="badge badge-bad">回执超时</span></td><td><span class="badge badge-idle">HIS</span></td>
+                      <td>影像诊室-01</td><td><span class="badge badge-warn">未播报</span></td><td><span class="badge badge-idle">HIS</span></td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button></td>
                     </tr>
                     <tr>
                       <td class="num">11-02 13:52:09</td><td>浦东分院</td><td>中医诊室</td><td>布丁</td><td>孙*</td><td class="num">A016</td>
-                      <td><span class="muted">未投递</span></td><td><span class="badge badge-warn">未投递</span></td><td><span class="badge badge-idle">HIS</span></td>
+                      <td><span class="muted">无设备</span></td><td><span class="badge badge-warn">未播报</span></td><td><span class="badge badge-idle">HIS</span></td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button></td>
                     </tr>
                     <tr>
                       <td class="num">11-02 13:49:44</td><td>浦东分院</td><td>内科诊室</td><td>可乐</td><td>周*</td><td class="num">A017</td>
-                      <td>大厅-01</td><td><span class="badge badge-ok">已播报</span></td><td><span class="badge badge-idle">HIS</span></td>
+                      <td>大厅综合屏 1</td><td><span class="badge badge-ok">已播报</span></td><td><span class="badge badge-idle">HIS</span></td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button></td>
                     </tr>
                     <tr>
                       <td class="num">11-02 13:46:20</td><td>浦东分院</td><td>外科诊室</td><td>麦芽</td><td>吴**</td><td class="num">A018</td>
-                      <td>大厅-03</td><td><span class="badge badge-info">已接收</span></td><td><span class="badge badge-idle">HIS</span></td>
+                      <td>大厅综合屏 3</td><td><span class="badge badge-warn">未播报</span></td><td><span class="badge badge-idle">HIS</span></td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button></td>
                     </tr>
                     <tr>
@@ -5769,12 +5835,12 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
                     </tr>
                     <tr>
                       <td class="num">11-02 13:38:51</td><td>静安分院</td><td>内科诊室</td><td>年糕</td><td>冯**</td><td class="num">A020</td>
-                      <td>大厅-01</td><td><span class="badge badge-ok">已播报</span></td><td><span class="badge badge-idle">HIS</span></td>
+                      <td>大厅综合屏 1</td><td><span class="badge badge-ok">已播报</span></td><td><span class="badge badge-idle">HIS</span></td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button></td>
                     </tr>
                     <tr>
                       <td class="num">11-02 13:35:18</td><td>静安分院</td><td>外科诊室</td><td>汤圆</td><td>蒋*</td><td class="num">A021</td>
-                      <td><span class="muted">未投递</span></td><td><span class="badge badge-warn">未投递</span></td><td><span class="badge badge-info">模拟</span></td>
+                      <td><span class="muted">无设备</span></td><td><span class="badge badge-warn">未播报</span></td><td><span class="badge badge-info">模拟</span></td>
                       <td class="ops"><button class="btn btn-sm" type="button">详情</button></td>
                     </tr>
                   </tbody>
@@ -5915,9 +5981,9 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
               </thead>
               <tbody>
                 <tr><td class="num">11-02 14:03:21</td><td>内科诊室</td><td>豆豆</td><td>刘*</td><td class="num">A012</td><td><span class="badge badge-ok">已播报</span></td></tr>
-                <tr><td class="num">11-02 14:01:47</td><td>外科诊室</td><td>团团</td><td>王**</td><td class="num">A013</td><td><span class="badge badge-warn">未投递</span></td></tr>
-                <tr><td class="num">11-02 13:58:12</td><td>皮肤科诊室</td><td>旺仔</td><td>陈*</td><td class="num">A014</td><td><span class="badge badge-info">已投递</span></td></tr>
-                <tr><td class="num">11-02 13:55:36</td><td>影像诊室</td><td>奶茶</td><td>赵**</td><td class="num">A015</td><td><span class="badge badge-bad">回执超时</span></td></tr>
+                <tr><td class="num">11-02 14:01:47</td><td>外科诊室</td><td>团团</td><td>王**</td><td class="num">A013</td><td><span class="badge badge-warn">未播报</span></td></tr>
+                <tr><td class="num">11-02 13:58:12</td><td>皮肤科诊室</td><td>旺仔</td><td>陈*</td><td class="num">A014</td><td><span class="badge badge-warn">未播报</span></td></tr>
+                <tr><td class="num">11-02 13:55:36</td><td>影像诊室</td><td>奶茶</td><td>赵**</td><td class="num">A015</td><td><span class="badge badge-warn">未播报</span></td></tr>
                 <tr><td class="num">11-02 13:52:09</td><td>中医诊室</td><td>布丁</td><td>孙*</td><td class="num">A016</td><td><span class="badge badge-ok">已播报</span></td></tr>
               </tbody>
             </table>
@@ -5936,7 +6002,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
             <div class="modal-body">
               <div class="alert danger hid" data-role="warn-nodevice">
                 <svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>
-                该诊室当前没有在线设备，推送后流水会记为「未投递」
+                该诊室当前没有在线设备，推送后流水会记为「未播报」
               </div>
               <div class="alert danger hid" data-role="warn-ratelimit">
                 <svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>
@@ -6084,7 +6150,6 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 | Logo | png/jpg ≤1MB | 默认 | 院 |
 | 温馨提示 | 文本 ≤100 字 | — | 院 |
 | 海报 | ≤10 张，单张 ≤5MB | 空 | 院 |
-| 弹窗显示时长（原「弹窗时长」） | 5–30s | 10s | 院 |
 | 排队列表翻页间隔（原「翻页间隔」） | 5–60s | 10s | 院 |
 | 图片轮播间隔（原「轮播间隔」） | 5–60s | 10s | 院 |
 | 语音开关 | 开/关 | 开 | 院 |
@@ -6098,15 +6163,27 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 - 越界输入**后端拒**并返回范围，不靠前端拦
 - **无总部下发**（R36）：单院配单院，两个院互不影响
 
-**三个节奏参数的口径**（v1.5 改名，语义与数值都不变；`popup_duration` / `flip_interval` / `poster_interval` 字段名不动）
+**两个节奏参数的口径**（v8 起弹窗时长不再可配；`flip_interval` / `poster_interval` 字段名不动，`popup_duration` 字段删除）
 
 | 参数 | 管什么 | 默认 | 边界 | 判定标准 |
 |---|---|---|---|---|
-| 弹窗显示时长 | 一次叫号浮层在屏上**停留多久**（与语音取长者结束） | 10s | 5–30s | 改 8s 后单次弹窗持续 8s±0.3s；语音 12s 时以语音为准 |
 | 排队列表翻页间隔 | 排队列表**多久翻一页**（整页切换，非滚动） | 10s | 5–60s | 12 条、每页 6 条 → 每 10s 换页，页码在 1/2 与 2/2 间轮转 |
 | 图片轮播间隔 | 海报区**多久换一张** | 10s | 5–60s | 3 张海报 → 每 10s 换图，30s 走完一轮 |
 
-- 三者互不影响：改弹窗显示时长不改翻页节奏，改轮播间隔不动弹窗时长；改名只动界面文案与配置项 label，不改默认值与边界。
+- 两者互不影响：改翻页不改轮播，反之亦然；改名只动界面文案与配置项 label，不改默认值与边界。
+
+**弹窗时长＝派生值（v8，`变更单-20261109-01`）**
+
+弹窗显示时长不再是配置项，恒等于语音配置推导结果：
+
+```
+弹窗时长 = 播放次数 × 播放间隔        （例：2 次 × 3s = 6s）
+语音开关＝关时：弹窗时长 = 6s（兜底常量，只读）
+```
+
+- 语音与弹窗**同起同止**：最后一遍语音播完即收浮层，不再出现「语音播完屏上还挂着」或「弹窗先收语音还在念」。
+- 边界：次数 1–3、间隔 1–10s → 弹窗实际区间 **1–30s**，全部由语音侧决定；显示配置页只展示一行只读说明并给跳转链接。
+- 验收：设 3 次 × 4s → 单次弹窗持续 12s±0.3s 且语音末字落点与浮层收起同时发生（偏差 ≤0.3s）。
 
 **配置下发（R33）**：每次变更 `config.version += 1`；屏端轮询带 `?version=n`；版本不同则下发全量（不做增量 diff，配置体量小）。
 
@@ -6131,14 +6208,14 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">1</span>页面结构与元素</h4>
-  <ul class="rl-list"><li>后台画布 1440：侧栏 220、顶栏 56、内容内距 24。</li><li>页题 20/600，右侧放「新增设备」主按钮。</li><li>页题下一行汇总：共 N 台 · 在线 x · 离线 y · 未绑定 z · 最近心跳 T。</li><li>三档页签 44 高：设备与绑定 / 展示 / 语音播报，选中橙字 + 2px 底线。</li><li>表格 7 列，列宽 232/124/158/128/100/116/184（px）。</li><li>表头 44、行高 48，行与行之间 1px 分隔线。</li><li>操作列按状态给按钮：在线或离线给「详情」+「解绑」，未绑定给「生成绑定码」+「详情」。</li><li>两处弹窗：解绑确认、绑定码；遮罩深墨，弹窗头部含标题与关闭。</li></ul>
+  <ul class="rl-list"><li>后台画布 1440：侧栏 220、顶栏 56、内容内距 24。</li><li>页题 20/600，右侧放「新增设备」主按钮。</li><li>页题下一行汇总：共 N 台 · 在线 x · 离线 y · 未绑定 z · 最近心跳 T。</li><li>三档页签 44 高：设备与绑定 / 展示 / 语音播报，选中橙字 + 2px 底线。</li><li>表格 8 列：196/104/96/172/96/104/96/152，诊室类型走纯文本。</li><li>表头 44、行高 48，行与行之间 1px 分隔线。</li><li>操作列按状态给按钮：在线或离线给「详情」+「解绑」，未绑定给「生成绑定码」+「详情」。</li><li>两处弹窗：解绑确认、绑定码；遮罩深墨，弹窗头部含标题与关闭。</li></ul>
 </section>
 
 <div class="rl-grp"><b>功能与交互</b><span>能做什么、点什么、联动到哪</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">2</span>功能点</h4>
-  <ul class="rl-list"><li>按院列出全部显示屏与绑定关系，含状态、软件版本号、最近心跳。</li><li>按名称或诊室、状态、诊室三个条件筛选，可重置。</li><li>为未绑定设备生成 6 位绑定码，供屏端输入。</li><li>解绑设备：清空绑定关系，屏端回绑定页。</li><li>进入单台设备详情。</li></ul>
+  <ul class="rl-list"><li>按院列出全部显示屏与绑定关系，含状态、软件版本号、最近心跳。</li><li>按名称或诊室、状态、诊室类型、绑定目标四条件筛选，可重置。</li><li>为未绑定设备生成 6 位绑定码，供屏端输入。</li><li>解绑设备：清空绑定关系，屏端回绑定页。</li><li>进入单台设备详情。</li></ul>
 </section>
 
 <section class="rl-sec">
@@ -6179,7 +6256,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
       <div>对应说明书 <b>§3.1 设备与绑定</b>；需求编号 R01、R02、R03、R06、R07、R08、R31、R48、R52、R58</div>
       <div class="txt">### 3.1 设备与绑定（R01–R08 / R48 / R58）
 
-**职责**：把物理显示屏可靠地绑到一个展示位置（某诊室或全院），并保证解绑/换机/诊室被删三种异常都能收敛。
+**职责**：把物理显示屏可靠地绑到一个展示位置（某诊室，或一组关联诊室组成的大厅综合屏），并保证解绑/换机/诊室被删三种异常都能收敛。
 
 **核心规则**
 
@@ -6188,14 +6265,28 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 3. **实例 UUID**：App 首次启动生成，存私有目录（卸载重装会重建，视为新设备）。MAC 变化但 UUID 不变 → 判「疑似换网口」，允许**人工解绑重绑**，不自动信任。
 4. **诊室变更同步**（R48）：诊室数据只有两种变化，**没有「停用」这个概念**。① **改名**（`room_id` 不变）→ 按 id 覆盖 `room_name`，后台列表、屏端科室带、下拉选项同步用新名，绑定关系不动。② **删除**（HIS 不再返回该 `room_id`）→ 该诊室不再出现在本系统的诊室下拉与展示里；**绑定它的设备默认解绑**：`call_device.room_id` 置空、设备转「未绑定」、屏端回绑定页待重新输码，后台该行标「原诊室已删除」提示重新配置。历史叫号记录按当时诊室名留存，不回溯改名。
 5. **设备鉴权**：绑定成功下发 `device_token`（随机 32 字节）。此后每个请求带 `X-Device-Token` + `X-Timestamp` + `X-Sign`（HMAC-SHA256，密钥 = token）。服务端校验时间戳偏移 ≤300s，且同一签名 5 分钟内不得重放。
-6. **内置「大厅」档**（R63 / A9）：绑定目标恒分两组——「内置大厅」（本系统内置，可建多个：大厅-01、大厅-02…）与「HIS 诊室」（按 R41 拉取，已删除的不出现）。大厅**不在 HIS 诊室主数据内**，HIS 的诊室接口也不会返回它；选大厅即把设备绑到该大厅档，列表绑定列直接显示大厅名。大厅**不参与** HIS 诊室启停校验：不存在 `ROOM_DISABLED` 分支，HIS 把诊室全停也不影响已绑大厅的设备。
+6. **诊室类型**（R63，v8 取代原「内置大厅可建多个」）：新增设备先选**诊室类型**，二选一，保存后不可改。
+
+   | 类型 | 可选目标 | 数据来源 | 版式 | 投递范围 |
+   |---|---|---|---|---|
+   | **大厅综合屏** | 内置固定 4 档：`大厅综合屏 1` ~ `大厅综合屏 4` | 本系统内置常量，HIS 动不到，后台不提供新建/改名/删除 | 综合屏版（诊室卡区 + 排队列表 + 海报） | **关联诊室集合**内任一诊室有叫号即投 |
+   | **科室诊室** | HIS 诊室接口返回的该院诊室，**单选** | HIS 诊室主数据（下拉展开时拉取） | 门口屏版（只显示该诊室最近叫号） | 仅该诊室 |
+
+   **关联诊室**（只在大厅综合屏出现，必填）：多选，候选集＝R41 诊室列表接口返回值；**至少 1 个**，上限 20 个（超出提示拆屏）。语义＝这块大厅屏只负责这些诊室的候诊与叫号，**不是全院**：
+   - 待就诊列表 = 关联诊室集合内全部待就诊者的并集（按排队号排序，翻页不变）
+   - 叫号区 / 叫号弹窗 = 关联诊室集合内产生的叫号；集合外的诊室叫号不投到这块屏
+   - 关联诊室可后改（设备详情里编辑），改后 10 秒内重拉配置生效；进行中的弹窗不打断
+   - 关联诊室被 HIS 删除 → 自动移出集合、屏上静默收敛；集合被删空时屏转空态并提示「关联诊室已全部失效，请到后台重新选择」
+
+   四档大厅综合屏**不参与** HIS 诊室启停校验：不存在 `ROOM_DISABLED` 分支，HIS 把诊室全停也不影响已绑大厅综合屏的设备。同一档可挂 0~N 块设备（多块屏同范围）。
 
 **边界**
 
 - 设备只记两档**显示器比例**：`16:9（横）` / `9:16（竖）`，决定下发哪套布局模板。
-- **版式由绑定对象决定**，不是设备字段：绑 HIS 诊室＝单诊室版（只显示该诊室最近叫号）；绑内置大厅＝全院版（诊室卡区 + 排队列表）。后台与屏端配置里都不再有「综合屏 / 门口屏」这一档。
-- 绑定目标只有两类：**内置大厅档**（大厅-01、大厅-02…）/ **HIS 诊室**；两者在下拉里分组呈现，来源不同（内置 vs HIS）。
-- 同一绑定对象**允许多块屏**（大诊室双门、大厅多立柱），同内容。</div>
+- **版式由诊室类型决定**，不是设备字段：大厅综合屏＝综合屏版（诊室卡区 + 排队列表 + 海报）；科室诊室＝门口屏版（只显示该诊室最近叫号）。后台与屏端配置里都不再有「综合屏 / 门口屏」这一档。
+- 可选目标只有两类：**大厅综合屏 1~4**（内置常量）/ **HIS 诊室**（R41 拉取）；两者由「诊室类型」单选切换后分别呈现，**不是同一个下拉的两组**。
+- 同一
+……（节选，全文见需求说明书）</div>
       <div class="codes"><code>R01</code><code>R02</code><code>R03</code><code>R06</code><code>R07</code><code>R08</code><code>R31</code><code>R48</code><code>R52</code><code>R58</code><a class="doc-anchor" href="#sec-3.1" data-anchor="sec-3.1">在需求文档里定位该节</a></div>
     </div>
   </details>
@@ -6211,55 +6302,55 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">1</span>页面结构与元素</h4>
-  <ul class="rl-list"><li>抽屉 720 宽贴右，头部 72、底栏 72、中间滚动；遮罩深墨 45%。</li><li>表单两列栅格，字段均占满行、行距 24；控件高 40。</li><li>字段顺序：设备名称 → 显示器比例 → 绑定诊室 → 备注。</li><li>名称与备注为文本，比例为 16:9 / 9:16 二选一，诊室为分组下拉。</li><li>保存后表单整块换成 6 位绑定码卡：虚线框、圆角 12、码 28/600、字距 .16em。</li><li>底栏两按钮：取消（次要，左）、保存并生成绑定码（主色，右）。</li></ul>
+  <ul class="rl-list"><li>抽屉 720 宽贴右，头部 72、底栏 72、中间滚动；遮罩深墨 45%。</li><li>表单两列栅格，字段均占满行、行距 24；控件高 40。</li><li>字段顺序：名称 → 显示器比例 → 诊室类型 → 目标 → 备注。</li><li>比例为 16:9 / 9:16 二选一；类型分段二选一，切换即时换目标字段。</li><li>保存后表单整块换成 6 位绑定码卡：虚线框、圆角 12、码 28/600、字距 .16em。</li><li>底栏两按钮：取消（次要，左）、保存并生成绑定码（主色，右）。</li></ul>
 </section>
 
 <div class="rl-grp"><b>功能与交互</b><span>能做什么、点什么、联动到哪</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">2</span>功能点</h4>
-  <ul class="rl-list"><li>登记一台新显示屏：写名称、选显示器比例、选绑定位置、写备注。</li><li>保存即生成 6 位一次性绑定码，抽屉内展示并可一键复制。</li><li>就地新建内置大厅档，无需离开本页。</li><li>HIS 诊室接口返回为空时给空态与「重新获取」入口。</li></ul>
+  <ul class="rl-list"><li>登记一台新显示屏：写名称、选显示器比例、选绑定位置、写备注。</li><li>保存即生成 6 位一次性绑定码，抽屉内展示并可一键复制。</li><li>先把诊室类型定下来：科室诊室调 HIS 单选；大厅综合屏选内置槽位并勾关联诊室。</li><li>HIS 诊室接口返回为空时给空态与「重新获取」入口。</li></ul>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">3</span>交互与联动</h4>
-  <ul class="rl-list"><li>点「新增设备」滑出抽屉，焦点落名称输入框，背后列表变暗且不可点。</li><li>名称失焦即校验：空值或超 20 字标红，抽屉顶部同步出错误条。</li><li>选内置大厅按全院版下发；选 HIS 诊室按单诊室版下发。</li><li>点「新建大厅」当场新增一个大厅档并自动选中。</li><li>保存中转「生成中…」并禁点表单；成功后表单换码卡，按钮转「完成」。</li><li>ESC、点遮罩、点 × 均可关闭，焦点回「新增设备」按钮，本次不落库。</li></ul>
+  <ul class="rl-list"><li>点「新增设备」滑出抽屉，焦点落名称输入框，背后列表变暗且不可点。</li><li>名称失焦即校验：空值或超 20 字标红，抽屉顶部同步出错误条。</li><li>类型切到大厅综合屏：目标字段换成槽位下拉加关联诊室复选栅格；科室诊室只给单选下拉。</li><li>槽位固定 4 档、不可新建改名；关联诊室至少 1 个，0 个时保存按钮灰。</li><li>保存中转「生成中…」并禁点表单；成功后表单换码卡，按钮转「完成」。</li><li>ESC、点遮罩、点 × 均可关闭，焦点回「新增设备」按钮，本次不落库。</li></ul>
 </section>
 
 <div class="rl-grp"><b>数据与判定</b><span>数据从哪来、什么条件走什么结果</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">4</span>数据来源与刷新</h4>
-  <ul class="rl-list"><li>设备名称、备注、显示器比例：本系统自建字段，不来自 HIS。</li><li>HIS 诊室组：服务端调用 HIS 诊室接口获取，展开下拉时刷新；已删除的诊室不返回。</li><li>内置大厅组：本系统维护，可建多个，不参与 HIS 诊室校验。</li><li>绑定码：保存时由服务端生成 6 位，写库记生成时间与有效期。</li></ul>
+  <ul class="rl-list"><li>设备名称、备注、显示器比例：本系统自建字段，不来自 HIS。</li><li>HIS 诊室组：服务端调用 HIS 诊室接口获取，展开下拉时刷新；已删除的诊室不返回。</li><li>槽位 1~4 是本系统常量；诊室与关联诊室候选都来自 HIS 接口。</li><li>绑定码：保存时由服务端生成 6 位，写库记生成时间与有效期。</li></ul>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">5</span>判定逻辑：条件 → 结果</h4>
-  <ul class="rl-judge"><li><b>名称为空或超 20 字</b><i></i><span>名称栏标红，保存被拦</span></li><li><b>未选显示器比例</b><i></i><span>保存按钮置灰</span></li><li><b>选 HIS 诊室</b><i></i><span>按单诊室版下发，屏上只显示该诊室</span></li><li><b>选内置大厅</b><i></i><span>按全院版下发，屏上显示全院诊室卡与排队列表</span></li><li><b>同一位置已有 2 块屏</b><i></i><span>诊室栏转黄提示，不拦保存</span></li><li><b>HIS 诊室接口返回空</b><i></i><span>整块换空态，保存不可用</span></li></ul>
+  <ul class="rl-judge"><li><b>名称为空或超 20 字</b><i></i><span>名称栏标红，保存被拦</span></li><li><b>未选显示器比例</b><i></i><span>保存按钮置灰</span></li><li><b>选 HIS 诊室</b><i></i><span>按单诊室版下发，屏上只显示该诊室</span></li><li><b>选大厅综合屏</b><i></i><span>按综合屏版下发，屏上显示全院诊室卡与排队列表</span></li><li><b>同一位置已有 2 块屏</b><i></i><span>诊室栏转黄提示，不拦保存</span></li><li><b>HIS 诊室接口返回空</b><i></i><span>整块换空态，保存不可用</span></li></ul>
 </section>
 
 <div class="rl-grp"><b>规则</b><span>硬约束、数值口径、例外怎么收敛</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">6</span>业务规则</h4>
-  <h5 class="rl-h5">硬约束</h5><ul class="rl-list plain"><li>设备名称必填，≤20 字。</li><li>绑定位置必选，二选一：内置大厅或 HIS 诊室。</li><li>保存即生成 6 位一次性绑定码，一码只能用一次。</li><li>显示器比例保存后不可改，换屏需解绑重建。</li></ul><h5 class="rl-h5">数值口径</h5><ul class="rl-list plain"><li>绑定码 6 位，字符集排除 0、O、1、I；有效期 15 分钟。</li><li>名称 ≤20 字，备注 ≤50 字。</li></ul><h5 class="rl-h5">例外与收敛</h5><ul class="rl-list plain"><li>码在有效期内未被使用：可重新生成，旧码同时作废。</li><li>下拉打开期间诊室被 HIS 删除：提交校验失败，提示重选。</li><li>HIS 诊室接口超时：下拉只列内置大厅组，并给一行获取失败提示。</li></ul>
+  <h5 class="rl-h5">硬约束</h5><ul class="rl-list plain"><li>设备名称必填，≤20 字。</li><li>诊室类型必选且二选一：大厅综合屏（槽位 + 关联诊室）或科室诊室；保存后不可改。</li><li>保存即生成 6 位一次性绑定码，一码只能用一次。</li><li>显示器比例保存后不可改，换屏需解绑重建。</li></ul><h5 class="rl-h5">数值口径</h5><ul class="rl-list plain"><li>绑定码 6 位，字符集排除 0、O、1、I；有效期 15 分钟。</li><li>名称 ≤20 字，备注 ≤50 字。</li></ul><h5 class="rl-h5">例外与收敛</h5><ul class="rl-list plain"><li>码在有效期内未被使用：可重新生成，旧码同时作废。</li><li>下拉打开期间诊室被 HIS 删除：提交校验失败，提示重选。</li><li>HIS 接口超时：科室诊室下拉置空并报获取失败；槽位仍可选，关联诊室勾不了。</li></ul>
 </section>
 
 <div class="rl-grp"><b>状态</b><span>每个状态看到什么、能操作什么</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">7</span>状态与可操作</h4>
-  <div class="rl-state" data-to="default"><b>默认</b><span>右侧抽屉，四个字段可编辑　填完保存并生成绑定码，或取消</span></div><div class="rl-state" data-to="invalid"><b>校验错误</b><span>名称栏标红，顶部一条错误说明　改短名称后再保存</span></div><div class="rl-state" data-to="occupied"><b>诊室占用</b><span>诊室栏转黄，提示已有 2 块屏　照旧保存，或换一个位置</span></div><div class="rl-state" data-to="submitting"><b>提交中</b><span>保存按钮转「生成中…」并禁点　等结果，不重复提交</span></div><div class="rl-state" data-to="success"><b>出码成功</b><span>表单换 6 位码卡与复制按钮　复制码去屏端绑定页输入</span></div><div class="rl-state" data-to="noclinc"><b>无可选诊室</b><span>空态说明诊室由 HIS 接口获取且为空　点「重新获取」再试</span></div><div class="rl-state" data-to="noauth"><b>无权限</b><span>抽屉顶部只读提示，保存不可见　联系总部补授权</span></div>
+  <div class="rl-state" data-to="default"><b>默认</b><span>右侧抽屉，诊室类型默认选科室诊室，五个字段可编辑　填完保存并生成绑定码，或取消</span></div><div class="rl-state" data-to="hall"><b>大厅综合屏</b><span>诊室类型切到大厅综合屏：目标换成槽位下拉 1~4，下面多出关联诊室复选栅格（已勾 3 个）　选槽位、勾选关联诊室后保存，或切回科室诊室</span></div><div class="rl-state" data-to="invalid"><b>校验错误</b><span>名称栏标红，顶部一条错误说明　改短名称后再保存</span></div><div class="rl-state" data-to="occupied"><b>诊室占用</b><span>诊室栏转黄，提示已有 2 块屏　照旧保存，或换一个位置</span></div><div class="rl-state" data-to="submitting"><b>提交中</b><span>保存按钮转「生成中…」并禁点　等结果，不重复提交</span></div><div class="rl-state" data-to="success"><b>出码成功</b><span>表单换 6 位码卡与复制按钮　复制码去屏端绑定页输入</span></div><div class="rl-state" data-to="noclinc"><b>无可选诊室</b><span>空态说明诊室由 HIS 接口获取且为空　点「重新获取」再试</span></div><div class="rl-state" data-to="noauth"><b>无权限</b><span>抽屉顶部只读提示，保存不可见　联系总部补授权</span></div>
 </section>
 
 <section class="rl-sec rl-src">
   <details>
     <summary>原文与需求编号（查证用）</summary>
     <div class="body">
-      <div>对应说明书 <b>§3.1 设备与绑定</b>；需求编号 R01、R02、R03、R58</div>
+      <div>对应说明书 <b>§3.1 设备与绑定</b>；需求编号 R01、R02、R03、R58、R63</div>
       <div class="txt">### 3.1 设备与绑定（R01–R08 / R48 / R58）
 
-**职责**：把物理显示屏可靠地绑到一个展示位置（某诊室或全院），并保证解绑/换机/诊室被删三种异常都能收敛。
+**职责**：把物理显示屏可靠地绑到一个展示位置（某诊室，或一组关联诊室组成的大厅综合屏），并保证解绑/换机/诊室被删三种异常都能收敛。
 
 **核心规则**
 
@@ -6268,15 +6359,29 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 3. **实例 UUID**：App 首次启动生成，存私有目录（卸载重装会重建，视为新设备）。MAC 变化但 UUID 不变 → 判「疑似换网口」，允许**人工解绑重绑**，不自动信任。
 4. **诊室变更同步**（R48）：诊室数据只有两种变化，**没有「停用」这个概念**。① **改名**（`room_id` 不变）→ 按 id 覆盖 `room_name`，后台列表、屏端科室带、下拉选项同步用新名，绑定关系不动。② **删除**（HIS 不再返回该 `room_id`）→ 该诊室不再出现在本系统的诊室下拉与展示里；**绑定它的设备默认解绑**：`call_device.room_id` 置空、设备转「未绑定」、屏端回绑定页待重新输码，后台该行标「原诊室已删除」提示重新配置。历史叫号记录按当时诊室名留存，不回溯改名。
 5. **设备鉴权**：绑定成功下发 `device_token`（随机 32 字节）。此后每个请求带 `X-Device-Token` + `X-Timestamp` + `X-Sign`（HMAC-SHA256，密钥 = token）。服务端校验时间戳偏移 ≤300s，且同一签名 5 分钟内不得重放。
-6. **内置「大厅」档**（R63 / A9）：绑定目标恒分两组——「内置大厅」（本系统内置，可建多个：大厅-01、大厅-02…）与「HIS 诊室」（按 R41 拉取，已删除的不出现）。大厅**不在 HIS 诊室主数据内**，HIS 的诊室接口也不会返回它；选大厅即把设备绑到该大厅档，列表绑定列直接显示大厅名。大厅**不参与** HIS 诊室启停校验：不存在 `ROOM_DISABLED` 分支，HIS 把诊室全停也不影响已绑大厅的设备。
+6. **诊室类型**（R63，v8 取代原「内置大厅可建多个」）：新增设备先选**诊室类型**，二选一，保存后不可改。
+
+   | 类型 | 可选目标 | 数据来源 | 版式 | 投递范围 |
+   |---|---|---|---|---|
+   | **大厅综合屏** | 内置固定 4 档：`大厅综合屏 1` ~ `大厅综合屏 4` | 本系统内置常量，HIS 动不到，后台不提供新建/改名/删除 | 综合屏版（诊室卡区 + 排队列表 + 海报） | **关联诊室集合**内任一诊室有叫号即投 |
+   | **科室诊室** | HIS 诊室接口返回的该院诊室，**单选** | HIS 诊室主数据（下拉展开时拉取） | 门口屏版（只显示该诊室最近叫号） | 仅该诊室 |
+
+   **关联诊室**（只在大厅综合屏出现，必填）：多选，候选集＝R41 诊室列表接口返回值；**至少 1 个**，上限 20 个（超出提示拆屏）。语义＝这块大厅屏只负责这些诊室的候诊与叫号，**不是全院**：
+   - 待就诊列表 = 关联诊室集合内全部待就诊者的并集（按排队号排序，翻页不变）
+   - 叫号区 / 叫号弹窗 = 关联诊室集合内产生的叫号；集合外的诊室叫号不投到这块屏
+   - 关联诊室可后改（设备详情里编辑），改后 10 秒内重拉配置生效；进行中的弹窗不打断
+   - 关联诊室被 HIS 删除 → 自动移出集合、屏上静默收敛；集合被删空时屏转空态并提示「关联诊室已全部失效，请到后台重新选择」
+
+   四档大厅综合屏**不参与** HIS 诊室启停校验：不存在 `ROOM_DISABLED` 分支，HIS 把诊室全停也不影响已绑大厅综合屏的设备。同一档可挂 0~N 块设备（多块屏同范围）。
 
 **边界**
 
 - 设备只记两档**显示器比例**：`16:9（横）` / `9:16（竖）`，决定下发哪套布局模板。
-- **版式由绑定对象决定**，不是设备字段：绑 HIS 诊室＝单诊室版（只显示该诊室最近叫号）；绑内置大厅＝全院版（诊室卡区 + 排队列表）。后台与屏端配置里都不再有「综合屏 / 门口屏」这一档。
-- 绑定目标只有两类：**内置大厅档**（大厅-01、大厅-02…）/ **HIS 诊室**；两者在下拉里分组呈现，来源不同（内置 vs HIS）。
-- 同一绑定对象**允许多块屏**（大诊室双门、大厅多立柱），同内容。</div>
-      <div class="codes"><code>R01</code><code>R02</code><code>R03</code><code>R58</code><a class="doc-anchor" href="#sec-3.1" data-anchor="sec-3.1">在需求文档里定位该节</a></div>
+- **版式由诊室类型决定**，不是设备字段：大厅综合屏＝综合屏版（诊室卡区 + 排队列表 + 海报）；科室诊室＝门口屏版（只显示该诊室最近叫号）。后台与屏端配置里都不再有「综合屏 / 门口屏」这一档。
+- 可选目标只有两类：**大厅综合屏 1~4**（内置常量）/ **HIS 诊室**（R41 拉取）；两者由「诊室类型」单选切换后分别呈现，**不是同一个下拉的两组**。
+- 同一
+……（节选，全文见需求说明书）</div>
+      <div class="codes"><code>R01</code><code>R02</code><code>R03</code><code>R58</code><code>R63</code><a class="doc-anchor" href="#sec-3.1" data-anchor="sec-3.1">在需求文档里定位该节</a></div>
     </div>
   </details>
 </section>
@@ -6291,7 +6396,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">1</span>页面结构与元素</h4>
-  <ul class="rl-list"><li>抽屉 720 宽贴右：头部 72（标题 + 状态徽标 + 关闭）、底栏 72、中间滚动。</li><li>三组内容：基本信息（两列键值）、绑定（6 位码卡）、运行（四项键值）。</li><li>基本信息字段：设备名称、显示器比例、绑定诊室、MAC、绑定时间、备注。</li><li>运行字段：最后心跳、配置版本、软件版本号、实例 UUID 末 8 位。</li><li>底栏两按钮：重新生成绑定码（次要）、解绑（危险色，右）。</li></ul>
+  <ul class="rl-list"><li>抽屉 720 宽贴右：头部 72（标题 + 状态徽标 + 关闭）、底栏 72、中间滚动。</li><li>三组内容：基本信息（两列键值）、绑定（6 位码卡）、运行（四项键值）。</li><li>基本信息字段：设备名称、显示器比例、诊室类型、综合屏槽位与关联诊室、MAC、绑定时间、备注。</li><li>运行字段：最后心跳、配置版本、软件版本号、实例 UUID 末 8 位。</li><li>底栏两按钮：重新生成绑定码（次要）、解绑（危险色，右）。</li></ul>
 </section>
 
 <div class="rl-grp"><b>功能与交互</b><span>能做什么、点什么、联动到哪</span></div>
@@ -6339,7 +6444,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
       <div>对应说明书 <b>§3.1 设备与绑定</b>；需求编号 R01、R03、R06、R07、R48、R52</div>
       <div class="txt">### 3.1 设备与绑定（R01–R08 / R48 / R58）
 
-**职责**：把物理显示屏可靠地绑到一个展示位置（某诊室或全院），并保证解绑/换机/诊室被删三种异常都能收敛。
+**职责**：把物理显示屏可靠地绑到一个展示位置（某诊室，或一组关联诊室组成的大厅综合屏），并保证解绑/换机/诊室被删三种异常都能收敛。
 
 **核心规则**
 
@@ -6348,14 +6453,28 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 3. **实例 UUID**：App 首次启动生成，存私有目录（卸载重装会重建，视为新设备）。MAC 变化但 UUID 不变 → 判「疑似换网口」，允许**人工解绑重绑**，不自动信任。
 4. **诊室变更同步**（R48）：诊室数据只有两种变化，**没有「停用」这个概念**。① **改名**（`room_id` 不变）→ 按 id 覆盖 `room_name`，后台列表、屏端科室带、下拉选项同步用新名，绑定关系不动。② **删除**（HIS 不再返回该 `room_id`）→ 该诊室不再出现在本系统的诊室下拉与展示里；**绑定它的设备默认解绑**：`call_device.room_id` 置空、设备转「未绑定」、屏端回绑定页待重新输码，后台该行标「原诊室已删除」提示重新配置。历史叫号记录按当时诊室名留存，不回溯改名。
 5. **设备鉴权**：绑定成功下发 `device_token`（随机 32 字节）。此后每个请求带 `X-Device-Token` + `X-Timestamp` + `X-Sign`（HMAC-SHA256，密钥 = token）。服务端校验时间戳偏移 ≤300s，且同一签名 5 分钟内不得重放。
-6. **内置「大厅」档**（R63 / A9）：绑定目标恒分两组——「内置大厅」（本系统内置，可建多个：大厅-01、大厅-02…）与「HIS 诊室」（按 R41 拉取，已删除的不出现）。大厅**不在 HIS 诊室主数据内**，HIS 的诊室接口也不会返回它；选大厅即把设备绑到该大厅档，列表绑定列直接显示大厅名。大厅**不参与** HIS 诊室启停校验：不存在 `ROOM_DISABLED` 分支，HIS 把诊室全停也不影响已绑大厅的设备。
+6. **诊室类型**（R63，v8 取代原「内置大厅可建多个」）：新增设备先选**诊室类型**，二选一，保存后不可改。
+
+   | 类型 | 可选目标 | 数据来源 | 版式 | 投递范围 |
+   |---|---|---|---|---|
+   | **大厅综合屏** | 内置固定 4 档：`大厅综合屏 1` ~ `大厅综合屏 4` | 本系统内置常量，HIS 动不到，后台不提供新建/改名/删除 | 综合屏版（诊室卡区 + 排队列表 + 海报） | **关联诊室集合**内任一诊室有叫号即投 |
+   | **科室诊室** | HIS 诊室接口返回的该院诊室，**单选** | HIS 诊室主数据（下拉展开时拉取） | 门口屏版（只显示该诊室最近叫号） | 仅该诊室 |
+
+   **关联诊室**（只在大厅综合屏出现，必填）：多选，候选集＝R41 诊室列表接口返回值；**至少 1 个**，上限 20 个（超出提示拆屏）。语义＝这块大厅屏只负责这些诊室的候诊与叫号，**不是全院**：
+   - 待就诊列表 = 关联诊室集合内全部待就诊者的并集（按排队号排序，翻页不变）
+   - 叫号区 / 叫号弹窗 = 关联诊室集合内产生的叫号；集合外的诊室叫号不投到这块屏
+   - 关联诊室可后改（设备详情里编辑），改后 10 秒内重拉配置生效；进行中的弹窗不打断
+   - 关联诊室被 HIS 删除 → 自动移出集合、屏上静默收敛；集合被删空时屏转空态并提示「关联诊室已全部失效，请到后台重新选择」
+
+   四档大厅综合屏**不参与** HIS 诊室启停校验：不存在 `ROOM_DISABLED` 分支，HIS 把诊室全停也不影响已绑大厅综合屏的设备。同一档可挂 0~N 块设备（多块屏同范围）。
 
 **边界**
 
 - 设备只记两档**显示器比例**：`16:9（横）` / `9:16（竖）`，决定下发哪套布局模板。
-- **版式由绑定对象决定**，不是设备字段：绑 HIS 诊室＝单诊室版（只显示该诊室最近叫号）；绑内置大厅＝全院版（诊室卡区 + 排队列表）。后台与屏端配置里都不再有「综合屏 / 门口屏」这一档。
-- 绑定目标只有两类：**内置大厅档**（大厅-01、大厅-02…）/ **HIS 诊室**；两者在下拉里分组呈现，来源不同（内置 vs HIS）。
-- 同一绑定对象**允许多块屏**（大诊室双门、大厅多立柱），同内容。</div>
+- **版式由诊室类型决定**，不是设备字段：大厅综合屏＝综合屏版（诊室卡区 + 排队列表 + 海报）；科室诊室＝门口屏版（只显示该诊室最近叫号）。后台与屏端配置里都不再有「综合屏 / 门口屏」这一档。
+- 可选目标只有两类：**大厅综合屏 1~4**（内置常量）/ **HIS 诊室**（R41 拉取）；两者由「诊室类型」单选切换后分别呈现，**不是同一个下拉的两组**。
+- 同一
+……（节选，全文见需求说明书）</div>
       <div class="codes"><code>R01</code><code>R03</code><code>R06</code><code>R07</code><code>R48</code><code>R52</code><a class="doc-anchor" href="#sec-3.1" data-anchor="sec-3.1">在需求文档里定位该节</a></div>
     </div>
   </details>
@@ -6371,14 +6490,14 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">1</span>页面结构与元素</h4>
-  <ul class="rl-list"><li>左表单列 700 宽，右预览列自适应，两列间距 24。</li><li>页头面包屑：叫号配置 / 展示；右侧院切换与头像。</li><li>副行写 10 秒内自动生效与当前配置 v7。</li><li>页头右侧两按钮：预览全屏（次要）、保存（主色）。</li><li>页签三项：设备与绑定 / 展示 / 语音播报，当前项高亮。</li><li>文字卡三字段：医院名称、Logo、温馨提示。</li><li>医院名称为单行输入，下附「最多 20 字」说明。</li><li>Logo 行为 48×48 缩略图＋更换、恢复默认两按钮。</li><li>温馨提示为 2 行文本域，下附「最多 100 字」说明。</li><li>节奏卡前三项为 88 宽数字框＋单位「秒」，下方标范围。</li><li>第四项队列行数为只读文本，标注按屏高自动计算。</li><li>右列上为屏上效果预览，16:9，480×270。</li><li>预览自上而下四行：24 / 52 / 1fr / 19。</li><li>右列下为海报卡，标题旁计数「3 / 10 张」。</li><li>缩略图 16:9 三列、圆角 8，图下附海报名。</li><li>上传位为整宽 36 高虚线按钮，图标 16。</li><li>上传位下附一行说明：单张 ≤5MB，最多 10 张。</li><li>顶部两条告警条：只读提示与字数错误条，默认隐藏。</li></ul>
+  <ul class="rl-list"><li>左表单列 700 宽，右预览列自适应，两列间距 24。</li><li>页头面包屑：叫号配置 / 展示；右侧院切换与头像。</li><li>副行写 10 秒内自动生效与当前配置 v7。</li><li>页头右侧两按钮：预览全屏（次要）、保存（主色）。</li><li>页签三项：设备与绑定 / 展示 / 语音播报，当前项高亮。</li><li>文字卡三字段：医院名称、Logo、温馨提示。</li><li>医院名称为单行输入，下附「最多 20 字」说明。</li><li>Logo 行为 48×48 缩略图＋更换、恢复默认两按钮。</li><li>温馨提示为 2 行文本域，下附「最多 100 字」说明。</li><li>节奏卡前两项为 88 宽数字框＋单位「秒」，下方标范围。</li><li>第三项队列行数为只读；第四项弹窗显示时长同样只读，写明跟随语音配置。</li><li>右列上为屏上效果预览，16:9，480×270。</li><li>预览自上而下四行：24 / 52 / 1fr / 19。</li><li>右列下为海报卡，标题旁计数「3 / 10 张」。</li><li>缩略图 16:9 三列、圆角 8，图下附海报名。</li><li>上传位为整宽 36 高虚线按钮，图标 16。</li><li>上传位下附一行说明：单张 ≤5MB，最多 10 张。</li><li>顶部两条告警条：只读提示与字数错误条，默认隐藏。</li></ul>
 </section>
 
 <div class="rl-grp"><b>功能与交互</b><span>能做什么、点什么、联动到哪</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">2</span>功能点</h4>
-  <ul class="rl-list"><li>改医院名称、Logo、温馨提示，右侧预览同步重画。</li><li>上传更换 Logo，或一键回系统默认 Logo。</li><li>设三个节奏：弹窗显示时长、翻页间隔、轮播间隔。</li><li>上传与删除海报，管理本院海报池。</li><li>点预览全屏，按 16:9 放大看屏上效果。</li><li>保存并升配置版本，驱动屏端整包换新。</li></ul>
+  <ul class="rl-list"><li>改医院名称、Logo、温馨提示，右侧预览同步重画。</li><li>上传更换 Logo，或一键回系统默认 Logo。</li><li>设两个节奏：翻页间隔、轮播间隔；弹窗时长只读，跟随语音次数乘间隔。</li><li>上传与删除海报，管理本院海报池。</li><li>点预览全屏，按 16:9 放大看屏上效果。</li><li>保存并升配置版本，驱动屏端整包换新。</li></ul>
 </section>
 
 <section class="rl-sec">
@@ -6390,19 +6509,19 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">4</span>数据来源与刷新</h4>
-  <ul class="rl-list"><li>院名、Logo、提示语、海报、三个节奏：本院配置字段。</li><li>以上字段存在本系统本院配置记录，不取自 HIS。</li><li>配置版本号由本系统自增，每次保存 +1，当前 v7。</li><li>屏端取配置走 sync 接口，请求带 config_version。</li><li>版本与屏端相同则 config 返回 null，不做增量 diff。</li><li>海报池存本院，单诊室版与全院版屏共用同一池。</li><li>预览用内存当前值渲染，不发请求、不等保存。</li></ul>
+  <ul class="rl-list"><li>院名、Logo、提示语、海报、两个可配间隔：本院配置字段；弹窗时长是派生值，不落配置。</li><li>以上字段存在本系统本院配置记录，不取自 HIS。</li><li>配置版本号由本系统自增，每次保存 +1，当前 v7。</li><li>屏端取配置走 sync 接口，请求带 config_version。</li><li>版本与屏端相同则 config 返回 null，不做增量 diff。</li><li>海报池存本院，门口屏版与综合屏版共用同一海报池。</li><li>预览用内存当前值渲染，不发请求、不等保存。</li></ul>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">5</span>判定逻辑：条件 → 结果</h4>
-  <ul class="rl-judge"><li><b>院名超 20 字或提示语超 100 字</b><i></i><span>标红并拦住保存，后端同样拒</span></li><li><b>Logo 非 png/jpg 或超 1MB</b><i></i><span>上传失败并提示格式与上限</span></li><li><b>海报已 10 张或单张超 5MB</b><i></i><span>拒绝新增，上传位隐藏或报错</span></li><li><b>三个节奏任一越界</b><i></i><span>后端拒绝并返回允许范围</span></li><li><b>保存成功</b><i></i><span>config.version +1，屏端下轮整包取回</span></li><li><b>屏端版本与配置一致</b><i></i><span>sync 的 config 返回 null，不重画</span></li><li><b>点恢复默认</b><i></i><span>只回该字段默认值，其他配置不动</span></li></ul>
+  <ul class="rl-judge"><li><b>院名超 20 字或提示语超 100 字</b><i></i><span>标红并拦住保存，后端同样拒</span></li><li><b>Logo 非 png/jpg 或超 1MB</b><i></i><span>上传失败并提示格式与上限</span></li><li><b>海报已 10 张或单张超 5MB</b><i></i><span>拒绝新增，上传位隐藏或报错</span></li><li><b>两个间隔任一越界</b><i></i><span>后端拒绝并返回允许范围</span></li><li><b>保存成功</b><i></i><span>config.version +1，屏端下轮整包取回</span></li><li><b>屏端版本与配置一致</b><i></i><span>sync 的 config 返回 null，不重画</span></li><li><b>点恢复默认</b><i></i><span>只回该字段默认值，其他配置不动</span></li></ul>
 </section>
 
 <div class="rl-grp"><b>规则</b><span>硬约束、数值口径、例外怎么收敛</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">6</span>业务规则</h4>
-  <h5 class="rl-h5">硬约束</h5><ul class="rl-list plain"><li>一个院一条配置，无总部下发，两院互不影响。</li><li>医院名必填且 ≤20 字，温馨提示 ≤100 字。</li><li>Logo 限 png/jpg 且 ≤1MB。</li><li>海报单张 ≤5MB、总数 ≤10 张。</li><li>三个节奏互不影响，不设统一节奏总开关。</li><li>越界由后端拒并返回范围，前端标红只作提示。</li><li>保存即 version +1，屏端下一轮 sync 整包换新。</li></ul><h5 class="rl-h5">数值口径</h5><ul class="rl-list plain"><li>弹窗显示时长 5–30 秒，默认 10 秒。</li><li>排队列表翻页间隔 5–60 秒，默认 10 秒。</li><li>图片轮播间隔 5–60 秒，默认 10 秒。</li><li>配置版本每次保存 +1，页面当前 v7，保存后 v8。</li><li>心跳间隔 30 秒固定不可配，不出现在本页。</li><li>预览 480×270 等于 1920 的 25%，字号等比落真机。</li><li>Logo 顶栏按 48 高显示，缩略图圆角 8。</li></ul><h5 class="rl-h5">例外与收敛</h5><ul class="rl-list plain"><li>海报全删：屏端回默认底图，不黑屏。</li><li>两处同时改同一院：后保存的版本更高，屏端取最新。</li><li>上传中断：保留原 Logo，保存维持禁点等重传。</li><li>弹窗正在播时保存：播完当前这条再生效。</li><li>账号无该院编辑权限：整页只读，保存与上传不可点。</li></ul>
+  <h5 class="rl-h5">硬约束</h5><ul class="rl-list plain"><li>一个院一条配置，无总部下发，两院互不影响。</li><li>医院名必填且 ≤20 字，温馨提示 ≤100 字。</li><li>Logo 限 png/jpg 且 ≤1MB。</li><li>海报单张 ≤5MB、总数 ≤10 张。</li><li>两个间隔互不影响，不设统一节奏总开关；弹窗时长不自立，跟语音走。</li><li>越界由后端拒并返回范围，前端标红只作提示。</li><li>保存即 version +1，屏端下一轮 sync 整包换新。</li></ul><h5 class="rl-h5">数值口径</h5><ul class="rl-list plain"><li>弹窗时长＝播放次数×播放间隔（1–30 秒），语音关闭时固定 6 秒，本页不可配。</li><li>排队列表翻页间隔 5–60 秒，默认 10 秒。</li><li>图片轮播间隔 5–60 秒，默认 10 秒。</li><li>配置版本每次保存 +1，页面当前 v7，保存后 v8。</li><li>心跳间隔 30 秒固定不可配，不出现在本页。</li><li>预览 480×270 等于 1920 的 25%，字号等比落真机。</li><li>Logo 顶栏按 48 高显示，缩略图圆角 8。</li></ul><h5 class="rl-h5">例外与收敛</h5><ul class="rl-list plain"><li>海报全删：屏端回默认底图，不黑屏。</li><li>两处同时改同一院：后保存的版本更高，屏端取最新。</li><li>上传中断：保留原 Logo，保存维持禁点等重传。</li><li>弹窗正在播时保存：播完当前这条再生效。</li><li>账号无该院编辑权限：整页只读，保存与上传不可点。</li></ul>
 </section>
 
 <div class="rl-grp"><b>状态</b><span>每个状态看到什么、能操作什么</span></div>
@@ -6427,7 +6546,6 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 | Logo | png/jpg ≤1MB | 默认 | 院 |
 | 温馨提示 | 文本 ≤100 字 | — | 院 |
 | 海报 | ≤10 张，单张 ≤5MB | 空 | 院 |
-| 弹窗显示时长（原「弹窗时长」） | 5–30s | 10s | 院 |
 | 排队列表翻页间隔（原「翻页间隔」） | 5–60s | 10s | 院 |
 | 图片轮播间隔（原「轮播间隔」） | 5–60s | 10s | 院 |
 | 语音开关 | 开/关 | 开 | 院 |
@@ -6441,15 +6559,27 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 - 越界输入**后端拒**并返回范围，不靠前端拦
 - **无总部下发**（R36）：单院配单院，两个院互不影响
 
-**三个节奏参数的口径**（v1.5 改名，语义与数值都不变；`popup_duration` / `flip_interval` / `poster_interval` 字段名不动）
+**两个节奏参数的口径**（v8 起弹窗时长不再可配；`flip_interval` / `poster_interval` 字段名不动，`popup_duration` 字段删除）
 
 | 参数 | 管什么 | 默认 | 边界 | 判定标准 |
 |---|---|---|---|---|
-| 弹窗显示时长 | 一次叫号浮层在屏上**停留多久**（与语音取长者结束） | 10s | 5–30s | 改 8s 后单次弹窗持续 8s±0.3s；语音 12s 时以语音为准 |
 | 排队列表翻页间隔 | 排队列表**多久翻一页**（整页切换，非滚动） | 10s | 5–60s | 12 条、每页 6 条 → 每 10s 换页，页码在 1/2 与 2/2 间轮转 |
 | 图片轮播间隔 | 海报区**多久换一张** | 10s | 5–60s | 3 张海报 → 每 10s 换图，30s 走完一轮 |
 
-- 三者互不影响：改弹窗显示时长不改翻页节奏，改轮播间隔不动弹窗时长；改名只动界面文案与配置项 label，不改默认值与边界。
+- 两者互不影响：改翻页不改轮播，反之亦然；改名只动界面文案与配置项 label，不改默认值与边界。
+
+**弹窗时长＝派生值（v8，`变更单-20261109-01`）**
+
+弹窗显示时长不再是配置项，恒等于语音配置推导结果：
+
+```
+弹窗时长 = 播放次数 × 播放间隔        （例：2 次 × 3s = 6s）
+语音开关＝关时：弹窗时长 = 6s（兜底常量，只读）
+```
+
+- 语音与弹窗**同起同止**：最后一遍语音播完即收浮层，不再出现「语音播完屏上还挂着」或「弹窗先收语音还在念」。
+- 边界：次数 1–3、间隔 1–10s → 弹窗实际区间 **1–30s**，全部由语音侧决定；显示配置页只展示一行只读说明并给跳转链接。
+- 验收：设 3 次 × 4s → 单次弹窗持续 12s±0.3s 且语音末字落点与浮层收起同时发生（偏差 ≤0.3s）。
 
 **配置下发（R33）**：每次变更 `config.version += 1`；屏端轮询带 `?version=n`；版本不同则下发全量（不做增量 diff，配置体量小）。
 
@@ -6530,7 +6660,6 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 | Logo | png/jpg ≤1MB | 默认 | 院 |
 | 温馨提示 | 文本 ≤100 字 | — | 院 |
 | 海报 | ≤10 张，单张 ≤5MB | 空 | 院 |
-| 弹窗显示时长（原「弹窗时长」） | 5–30s | 10s | 院 |
 | 排队列表翻页间隔（原「翻页间隔」） | 5–60s | 10s | 院 |
 | 图片轮播间隔（原「轮播间隔」） | 5–60s | 10s | 院 |
 | 语音开关 | 开/关 | 开 | 院 |
@@ -6544,15 +6673,27 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 - 越界输入**后端拒**并返回范围，不靠前端拦
 - **无总部下发**（R36）：单院配单院，两个院互不影响
 
-**三个节奏参数的口径**（v1.5 改名，语义与数值都不变；`popup_duration` / `flip_interval` / `poster_interval` 字段名不动）
+**两个节奏参数的口径**（v8 起弹窗时长不再可配；`flip_interval` / `poster_interval` 字段名不动，`popup_duration` 字段删除）
 
 | 参数 | 管什么 | 默认 | 边界 | 判定标准 |
 |---|---|---|---|---|
-| 弹窗显示时长 | 一次叫号浮层在屏上**停留多久**（与语音取长者结束） | 10s | 5–30s | 改 8s 后单次弹窗持续 8s±0.3s；语音 12s 时以语音为准 |
 | 排队列表翻页间隔 | 排队列表**多久翻一页**（整页切换，非滚动） | 10s | 5–60s | 12 条、每页 6 条 → 每 10s 换页，页码在 1/2 与 2/2 间轮转 |
 | 图片轮播间隔 | 海报区**多久换一张** | 10s | 5–60s | 3 张海报 → 每 10s 换图，30s 走完一轮 |
 
-- 三者互不影响：改弹窗显示时长不改翻页节奏，改轮播间隔不动弹窗时长；改名只动界面文案与配置项 label，不改默认值与边界。
+- 两者互不影响：改翻页不改轮播，反之亦然；改名只动界面文案与配置项 label，不改默认值与边界。
+
+**弹窗时长＝派生值（v8，`变更单-20261109-01`）**
+
+弹窗显示时长不再是配置项，恒等于语音配置推导结果：
+
+```
+弹窗时长 = 播放次数 × 播放间隔        （例：2 次 × 3s = 6s）
+语音开关＝关时：弹窗时长 = 6s（兜底常量，只读）
+```
+
+- 语音与弹窗**同起同止**：最后一遍语音播完即收浮层，不再出现「语音播完屏上还挂着」或「弹窗先收语音还在念」。
+- 边界：次数 1–3、间隔 1–10s → 弹窗实际区间 **1–30s**，全部由语音侧决定；显示配置页只展示一行只读说明并给跳转链接。
+- 验收：设 3 次 × 4s → 单次弹窗持续 12s±0.3s 且语音末字落点与浮层收起同时发生（偏差 ≤0.3s）。
 
 **配置下发（R33）**：每次变更 `config.version += 1`；屏端轮询带 `?version=n`；版本不同则下发全量（不做增量 diff，配置体量小）。
 
@@ -6577,7 +6718,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">1</span>页面结构与元素</h4>
-  <ul class="rl-list"><li>1440 设计宽；页题为标题 + 30 天说明 + 模拟叫号。</li><li>筛选控件高 32：医院 150、诊室 140、状态 130。</li><li>时间范围输入 220 宽，与三个下拉同排。</li><li>筛选区右侧留白撑开，查询（主色）与重置（文字）右对齐。</li><li>表头 44 吸顶、行高 48、行底 1px 分隔线、无斑马纹。</li><li>十列定宽，首列叫号时间 156、医院 140、诊室 118。</li><li>续：宠物昵称 104、家长 80、排队号 88、目标设备 180。</li><li>状态 116、来源 84、操作 106，右对齐。</li><li>叫号时间列可排序，默认倒序；时间与排队号用等宽数字。</li><li>状态徽标五色：已接收与已投递蓝、已播报绿、未投递琥珀、超时红。</li><li>来源列用中性徽标分 HIS 与模拟；操作列放 24 高详情按钮。</li><li>筛选命中时出条件行：带 12px 叉的 chip 与共 N 条计数。</li><li>底部条：共 N 条、页码、每页条数下拉（20/50/100）。</li><li>点行或详情开右侧详情抽屉，未投递行同样能开。</li></ul>
+  <ul class="rl-list"><li>1440 设计宽；页题为标题 + 30 天说明 + 模拟叫号。</li><li>筛选控件高 32：医院 150、诊室 140、状态 130。</li><li>时间范围输入 220 宽，与三个下拉同排。</li><li>筛选区右侧留白撑开，查询（主色）与重置（文字）右对齐。</li><li>表头 44 吸顶、行高 48、行底 1px 分隔线、无斑马纹。</li><li>十列定宽，首列叫号时间 156、医院 140、诊室 118。</li><li>续：宠物昵称 104、家长 80、排队号 88、目标设备 180。</li><li>状态 116、来源 84、操作 106，右对齐。</li><li>叫号时间列可排序，默认倒序；时间与排队号用等宽数字。</li><li>状态徽标两色：已播报绿、未播报琥珀；筛选只有全部状态、已播报、未播报三项。</li><li>来源列用中性徽标分 HIS 与模拟；操作列放 24 高详情按钮。</li><li>筛选命中时出条件行：带 12px 叉的 chip 与共 N 条计数。</li><li>底部条：共 N 条、页码、每页条数下拉（20/50/100）。</li><li>点行或详情开右侧详情抽屉，未播报行同样能开。</li></ul>
 </section>
 
 <div class="rl-grp"><b>功能与交互</b><span>能做什么、点什么、联动到哪</span></div>
@@ -6596,19 +6737,19 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">4</span>数据来源与刷新</h4>
-  <ul class="rl-list"><li>流水读本系统 call_event 表，HIS 与模拟同表。</li><li>字段按事件契约取：事件 ID、医院、诊室名、昵称、排队号。</li><li>家长与手机号取服务端已脱敏值，页面不碰明文。</li><li>医院下拉只列账号授权院，未授权的院不返回。</li><li>打开页面取一次；改条件后按查询再取，不自动轮询。</li><li>时间范围默认最近 30 天，超期记录不返回。</li><li>完成、过号、取消回调只落库，不改状态列。</li><li>目标设备名取投递命中的设备，未命中记未投递。</li></ul>
+  <ul class="rl-list"><li>流水读本系统 call_event 表，HIS 与模拟同表。</li><li>字段按事件契约取：事件 ID、医院、诊室名、昵称、排队号。</li><li>家长与手机号取服务端已脱敏值，页面不碰明文。</li><li>医院下拉只列账号授权院，未授权的院不返回。</li><li>打开页面取一次；改条件后按查询再取，不自动轮询。</li><li>时间范围默认最近 30 天，超期记录不返回。</li><li>完成、过号、取消回调只落库，不改状态列。</li><li>目标设备名取投递命中的设备，未命中写「无设备」；对外状态只落已播报或未播报。</li></ul>
 </section>
 
 <section class="rl-sec">
   <h4><span class="n">5</span>判定逻辑：条件 → 结果</h4>
-  <ul class="rl-judge"><li><b>HIS 推事件并通过必填与幂等校验</b><i></i><span>落一条已接收流水</span></li><li><b>找到该诊室或全院的在线显示屏</b><i></i><span>转已投递，写投递时间</span></li><li><b>屏端播完回 ack</b><i></i><span>转已播报，写回执时间</span></li><li><b>该诊室没有在线显示屏</b><i></i><span>转未投递，本期不重试</span></li><li><b>已投递但 30 秒无回执</b><i></i><span>转回执超时，只记不补推</span></li><li><b>同 event_id 重复推送</b><i></i><span>只留一条流水，按成功返回</span></li><li><b>医院筛选选单个院</b><i></i><span>医院列恒定该院，不再逐行变化</span></li><li><b>家长或手机号字段取数失败</b><i></i><span>该格显示破折号，顶部出细条</span></li></ul>
+  <ul class="rl-judge"><li><b>HIS 推事件并通过必填与幂等校验</b><i></i><span>落一条流水，对外记未播报</span></li><li><b>找到命中的在线屏（科室诊室按诊室、大厅综合屏按关联诊室集合）</b><i></i><span>写投递时间，对外仍是未播报</span></li><li><b>屏端播完回 ack</b><i></i><span>转已播报，写回执时间</span></li><li><b>该诊室没有在线显示屏</b><i></i><span>记未播报，本期不重试</span></li><li><b>投到设备后 30 秒无回执</b><i></i><span>记未播报，失败原因写回执超时，不补推</span></li><li><b>同 event_id 重复推送</b><i></i><span>只留一条流水，按成功返回</span></li><li><b>医院筛选选单个院</b><i></i><span>医院列恒定该院，不再逐行变化</span></li><li><b>家长或手机号字段取数失败</b><i></i><span>该格显示破折号，顶部出细条</span></li></ul>
 </section>
 
 <div class="rl-grp"><b>规则</b><span>硬约束、数值口径、例外怎么收敛</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">6</span>业务规则</h4>
-  <h5 class="rl-h5">硬约束</h5><ul class="rl-list plain"><li>本页只读：无补推、无重播、无删除。</li><li>流水只保留 30 天，更早的查不到。</li><li>跨院取数，医院只是筛选条件，顶栏不放院选择器。</li><li>状态只用这五档徽标，不加第二套编码。</li></ul><h5 class="rl-h5">数值口径</h5><ul class="rl-list plain"><li>流水保留 30 天；回执超时判定 30 秒，逾期不补推。</li><li>分页 20/50/100 行/页，默认 20。</li><li>筛选控件高 32、时间范围 220 宽、行内详情按钮高 24。</li><li>表头 44、行高 48；十列合计与内容区同宽不横向滚动。</li></ul><h5 class="rl-h5">例外与收敛</h5><ul class="rl-list plain"><li>诊室被 HIS 删除：老记录按当时诊室名照旧显示。</li><li>诊室改名：room_id 不变，旧行不回溯改名。</li><li>无授权院：下拉不出现，不设无权限空态。</li><li>请求超时 50401：整块换失败态并给重试，筛选保留。</li><li>部分字段失败：只该格显示破折号，不整表报错。</li></ul>
+  <h5 class="rl-h5">硬约束</h5><ul class="rl-list plain"><li>本页只读：无补推、无重播、无删除。</li><li>流水只保留 30 天，更早的查不到。</li><li>跨院取数，医院只是筛选条件，顶栏不放院选择器。</li><li>状态只用已播报、未播报两档徽标；过程态只进日志不进列表。</li></ul><h5 class="rl-h5">数值口径</h5><ul class="rl-list plain"><li>流水保留 30 天；回执超时判定 30 秒，逾期不补推。</li><li>分页 20/50/100 行/页，默认 20。</li><li>筛选控件高 32、时间范围 220 宽、行内详情按钮高 24。</li><li>表头 44、行高 48；十列合计与内容区同宽不横向滚动。</li></ul><h5 class="rl-h5">例外与收敛</h5><ul class="rl-list plain"><li>诊室被 HIS 删除：老记录按当时诊室名照旧显示。</li><li>诊室改名：room_id 不变，旧行不回溯改名。</li><li>无授权院：下拉不出现，不设无权限空态。</li><li>请求超时 50401：整块换失败态并给重试，筛选保留。</li><li>部分字段失败：只该格显示破折号，不整表报错。</li></ul>
 </section>
 
 <div class="rl-grp"><b>状态</b><span>每个状态看到什么、能操作什么</span></div>
@@ -6627,10 +6768,13 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 **端到端链路**
 
-1. HIS `POST /openapi/v1/call-notice` → 验签 → 校验必填（`event_id` / `hospital_id` / `room_id`）→ 幂等查重 → 落流水 `RECEIVED`
-2. 投递器找「该医院 + 该诊室（或全院）」的**在线**设备 → 写 `pushed_at`，状态 `PUSHED`；无在线设备 → `UNDELIVERED`，**不重试**（本期）
+1. HIS `POST /openapi/v1/call-notice` → 验签 → 校验必填（`event_id` / `hospital_id` / `room_id`）→ 幂等查重 → 落流水（过程态 `RECEIVED`，**对外仍算未播报**）
+2. 投递器找目标**在线**设备 → 写 `pushed_at`（过程态 `PUSHED`）；目标判定分两种：
+   - 科室诊室屏：`该医院 + 该诊室` 命中的屏
+   - 大厅综合屏：该屏的**关联诊室集合**包含本事件 `room_id` 即命中（可同时命中多块大厅屏，各播各的）
+   - 无在线设备 → `UNDELIVERED` → 对外**未播报**，**不重试**（本期）
 3. 屏端长轮询取到事件 → 入本地串行队列 → 逐条播放
-4. 屏端播完发 `ack` → 状态 `PLAYED`，写 `ack_at`
+4. 屏端播完发 `ack` → 过程态 `PLAYED` → **对外状态置「已播报」**，写 `ack_at`
 
 **弹窗串行（R24 / R59）**
 
@@ -6697,7 +6841,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">2</span>功能点</h4>
-  <ul class="rl-list"><li>手填诊室与宠物昵称，推一条模拟叫号给显示屏。</li><li>选填家长姓名、手机号、排队号，用来造脱敏边界。</li><li>无在线设备时照发，流水记未投递。</li><li>推送成功关弹窗并回到流水页最新一行。</li><li>限流命中时禁用按钮，等窗口过去再提交。</li><li>有已填内容关闭时二次确认，避免误丢。</li></ul>
+  <ul class="rl-list"><li>手填诊室与宠物昵称，推一条模拟叫号给显示屏。</li><li>选填家长姓名、手机号、排队号，用来造脱敏边界。</li><li>无在线设备时照发，流水记未播报。</li><li>推送成功关弹窗并回到流水页最新一行。</li><li>限流命中时禁用按钮，等窗口过去再提交。</li><li>有已填内容关闭时二次确认，避免误丢。</li></ul>
 </section>
 
 <section class="rl-sec">
@@ -6714,14 +6858,14 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 <section class="rl-sec">
   <h4><span class="n">5</span>判定逻辑：条件 → 结果</h4>
-  <ul class="rl-judge"><li><b>诊室未选或宠物昵称为空</b><i></i><span>该字段标红，提交被拦</span></li><li><b>手机号非 11 位</b><i></i><span>手机号栏标红，提交被拦</span></li><li><b>该诊室无在线显示屏</b><i></i><span>出警告条，主按钮改仍然推送</span></li><li><b>在无在线设备态点仍然推送</b><i></i><span>照发，流水记未投递</span></li><li><b>推送后 30 秒无回执</b><i></i><span>流水转回执超时，提示可能离线</span></li><li><b>命中限流 42901</b><i></i><span>出警告条，主按钮禁用 1 分钟</span></li><li><b>网络异常</b><i></i><span>出行内警告，表单内容保留</span></li></ul>
+  <ul class="rl-judge"><li><b>诊室未选或宠物昵称为空</b><i></i><span>该字段标红，提交被拦</span></li><li><b>手机号非 11 位</b><i></i><span>手机号栏标红，提交被拦</span></li><li><b>该诊室无在线显示屏</b><i></i><span>出警告条，主按钮改仍然推送</span></li><li><b>在无在线设备态点仍然推送</b><i></i><span>照发，流水记未播报</span></li><li><b>推送后 30 秒无回执</b><i></i><span>流水转未播报，提示可能离线</span></li><li><b>命中限流 42901</b><i></i><span>出警告条，主按钮禁用 1 分钟</span></li><li><b>网络异常</b><i></i><span>出行内警告，表单内容保留</span></li></ul>
 </section>
 
 <div class="rl-grp"><b>规则</b><span>硬约束、数值口径、例外怎么收敛</span></div>
 
 <section class="rl-sec">
   <h4><span class="n">6</span>业务规则</h4>
-  <h5 class="rl-h5">硬约束</h5><ul class="rl-list plain"><li>必填只有诊室与宠物昵称，其余三项选填。</li><li>模拟流水不回推 HIS，不改 HIS 侧数据。</li><li>来源固定记 manual，页面显示为模拟徽标。</li><li>与真实叫号共用同一条投递链路，不另设通道。</li></ul><h5 class="rl-h5">数值口径</h5><ul class="rl-list plain"><li>弹窗 480 宽、最大高 640、头部 56，输入高 40。</li><li>手机号 11 位；宠物昵称 ≤32 字，排队号 ≤16 字。</li><li>推送后屏上 3 秒内弹出；30 秒无回执记回执超时。</li><li>限流命中后按钮禁用 1 分钟，期内不再提交。</li></ul><h5 class="rl-h5">例外与收敛</h5><ul class="rl-list plain"><li>无在线设备不强拦，只警告并允许仍然推送。</li><li>重复点提交被提交中态拦住，不发第二条。</li><li>无该院操作权限时弹窗不打开，入口按钮禁用。</li><li>超时未回执：只提示可能离线，不自动补推。</li></ul>
+  <h5 class="rl-h5">硬约束</h5><ul class="rl-list plain"><li>必填只有诊室与宠物昵称，其余三项选填。</li><li>模拟流水不回推 HIS，不改 HIS 侧数据。</li><li>来源固定记 manual，页面显示为模拟徽标。</li><li>与真实叫号共用同一条投递链路，不另设通道。</li></ul><h5 class="rl-h5">数值口径</h5><ul class="rl-list plain"><li>弹窗 480 宽、最大高 640、头部 56，输入高 40。</li><li>手机号 11 位；宠物昵称 ≤32 字，排队号 ≤16 字。</li><li>推送后屏上 3 秒内弹出；30 秒无回执记未播报，原因标回执超时。</li><li>限流命中后按钮禁用 1 分钟，期内不再提交。</li></ul><h5 class="rl-h5">例外与收敛</h5><ul class="rl-list plain"><li>无在线设备不强拦，只警告并允许仍然推送。</li><li>重复点提交被提交中态拦住，不发第二条。</li><li>无该院操作权限时弹窗不打开，入口按钮禁用。</li><li>超时未回执：只提示可能离线，不自动补推。</li></ul>
 </section>
 
 <div class="rl-grp"><b>状态</b><span>每个状态看到什么、能操作什么</span></div>
@@ -6740,10 +6884,13 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
 
 **端到端链路**
 
-1. HIS `POST /openapi/v1/call-notice` → 验签 → 校验必填（`event_id` / `hospital_id` / `room_id`）→ 幂等查重 → 落流水 `RECEIVED`
-2. 投递器找「该医院 + 该诊室（或全院）」的**在线**设备 → 写 `pushed_at`，状态 `PUSHED`；无在线设备 → `UNDELIVERED`，**不重试**（本期）
+1. HIS `POST /openapi/v1/call-notice` → 验签 → 校验必填（`event_id` / `hospital_id` / `room_id`）→ 幂等查重 → 落流水（过程态 `RECEIVED`，**对外仍算未播报**）
+2. 投递器找目标**在线**设备 → 写 `pushed_at`（过程态 `PUSHED`）；目标判定分两种：
+   - 科室诊室屏：`该医院 + 该诊室` 命中的屏
+   - 大厅综合屏：该屏的**关联诊室集合**包含本事件 `room_id` 即命中（可同时命中多块大厅屏，各播各的）
+   - 无在线设备 → `UNDELIVERED` → 对外**未播报**，**不重试**（本期）
 3. 屏端长轮询取到事件 → 入本地串行队列 → 逐条播放
-4. 屏端播完发 `ack` → 状态 `PLAYED`，写 `ack_at`
+4. 屏端播完发 `ack` → 过程态 `PLAYED` → **对外状态置「已播报」**，写 `ack_at`
 
 **弹窗串行（R24 / R59）**
 
@@ -6805,7 +6952,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
       <tbody>
         <tr><td class="num">一</td><td><b>叫号通知</b></td><td><span class="api-tag in">我方接收</span></td><td>HIS 调我方</td><td>HIS 叫一个号，把这条叫号告诉你方，屏端弹窗播报</td></tr>
         <tr><td class="num">二</td><td><b>候诊通知</b></td><td><span class="api-tag in">我方接收</span></td><td>HIS 调我方</td><td>HIS 把某诊室当前的候诊名单整体告诉你方，屏端排队列表照此显示</td></tr>
-        <tr><td class="num">三</td><td><b>诊室列表</b></td><td><span class="api-tag out">HIS 提供</span></td><td>我方调 HIS</td><td>我方新增设备时取诊室清单，把设备绑到某个诊室上</td></tr>
+        <tr><td class="num">三</td><td><b>诊室列表</b></td><td><span class="api-tag out">HIS 提供</span></td><td>我方调 HIS</td><td>两处用：① 科室诊室屏单选一个诊室 ② 大厅综合屏勾选关联诊室（多选候选集）</td></tr>
       </tbody>
     </table>
 
@@ -6813,7 +6960,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
     <div class="api-chain">
       <span class="step"><b>① 取诊室</b>我方调「诊室列表」，拿到诊室编码与名称</span>
       <span class="arrow">→</span>
-      <span class="step"><b>② 绑设备</b>新增设备时选中一个诊室，设备就绑在这个诊室编码上</span>
+      <span class="step"><b>② 绑设备</b>科室诊室选一个诊室编码；大厅综合屏选内置槽位 1~4 并勾选一组关联诊室编码</span>
       <span class="arrow">→</span>
       <span class="step"><b>③ 收推送</b>HIS 叫号或推候诊时带着同一个诊室编码，我方按编码找到绑定的屏</span>
     </div>
@@ -6937,9 +7084,9 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
     <h3>推过来会发生什么</h3>
     <table class="api-table">
       <tbody>
-        <tr><th style="width:130px">屏端</th><td>绑了该诊室的屏弹叫号窗、播语音、对应诊室卡转「叫号中」；绑了全院大厅的屏按全院版显示</td></tr>
-        <tr><th>后台</th><td>叫号记录新增一条，状态从「已接收」→「已投递」→「已播报」，来源标 HIS</td></tr>
-        <tr><th>没设备绑定</th><td>记录照落，状态停在「未投递」，后台可见；屏上什么也不会发生</td></tr>
+        <tr><th style="width:130px">屏端</th><td>科室诊室屏：只有绑了该诊室的屏弹叫号窗、播语音、对应诊室卡转「叫号中」；大厅综合屏：该屏<b>关联诊室集合</b>里含这个诊室才弹，可同时命中多块大厅屏，各播各的</td></tr>
+        <tr><th>后台</th><td>叫号记录新增一条，来源标 HIS；对外只有两态——屏端回执到了置<b>已播报</b>，没到一直是<b>未播报</b>（「已接收／已投递／回执超时」只是内部过程日志，不进列表）</td></tr>
+        <tr><th>没有可投设备</th><td>记录照落，状态为「未播报」（详情给失败原因「无在线设备」），后台可见；屏上什么也不会发生</td></tr>
         <tr><th>多台设备绑同一诊室</th><td>全部推送，不做择一</td></tr>
       </tbody>
     </table>
@@ -7056,7 +7203,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
       <tbody>
         <tr><td class="num">2001</td><td>必填字段缺失</td><td>整份拒收，保留上一份名单</td></tr>
         <tr><td class="num">2002</td><td>医院未登记</td><td>拒收</td></tr>
-        <tr><td class="num">2003</td><td>诊室未绑定设备</td><td>收下但不展示，等绑定后生效</td></tr>
+        <tr><td class="num">2003</td><td>诊室没有任何屏可用</td><td>收下但不展示（记未播报），等该诊室被科室诊室屏绑上、或被加进某块大厅综合屏的关联诊室后生效</td></tr>
         <tr><td class="num">2007</td><td>快照编号过旧</td><td>丢弃旧名单，返回成功；不算错误</td></tr>
       </tbody>
     </table>
@@ -7072,7 +7219,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
       <span class="api-kv">方法 <b>GET</b></span>
       <span class="api-kv">地址后缀 <b><code>/his/v1/rooms</code></b></span>
     </div>
-    <p class="api-lead">我方在新增设备、打开诊室下拉时调本接口，取这家医院的诊室清单。选中哪个诊室，设备就绑在那个<b>诊室编码</b>上——之后 HIS 推叫号和候诊时，靠这个编码找到屏。</p>
+    <p class="api-lead">我方在新增设备、打开诊室下拉、编辑关联诊室时调本接口，取这家医院的诊室清单。科室诊室屏绑一个<b>诊室编码</b>；大厅综合屏绑一组<b>关联诊室编码</b>（1–20 个）——之后 HIS 推叫号和候诊时，靠这些编码找到该投给哪些屏。</p>
 
     <h3>请求参数</h3>
     <table class="api-table">
@@ -7113,7 +7260,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
       <tbody>
         <tr><th style="width:190px">展开诊室下拉时</th><td>调一次，取最新</td></tr>
         <tr><th>进入设备列表时</th><td>调一次，用于显示绑定诊室名与判断诊室是否还在</td></tr>
-        <tr><th>新增设备提交前</th><td>调一次，校验选中的诊室编码是否还存在</td></tr>
+        <tr><th>新增设备提交前</th><td>调一次，校验选中的诊室编码（大厅综合屏则校验整组关联诊室编码）是否还存在</td></tr>
         <tr><th><b>不做定时轮询</b></th><td>不按固定间隔反复调。诊室增删改不频繁，按需取即可</td></tr>
       </tbody>
     </table>
@@ -7192,7 +7339,7 @@ body[data-edit="1"] .node, body[data-edit="1"] .states button { cursor: default;
       <div class="sw"><i class="c-info"></i><div><b>信息</b><span>#1B5FB0 / #EAF2FD</span></div></div>
     </div>
     <p class="sub" style="margin-top:var(--sp-3)">
-      屏端只用品牌色与中性色：叫号高亮＝浅橙底 + 橙描边，永不引入红；后台用语义色表达在线 / 离线 / 未投递 / 回执超时。
+      屏端只用品牌色与中性色：叫号高亮＝浅橙底 + 橙描边，永不引入红；后台用语义色表达在线 / 离线 / 已播报 / 未播报。
     </p>
   </article>
 
