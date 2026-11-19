@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>瑞辰宠医 · 用户资料与宠物新增 · 交付件</title>
+<style>
+
+/* ===== tokens（内联自 02-ui-guide/tokens.css，单文件离线要求） ===== */
+:root{
+  --c-brand-500:#FF7F41; --c-brand-600:#FF6034; --c-brand-100:#FFE5D8; --c-brand-050:#FFF4EA;
+  --c-orange-700:#F95731; --c-orange-800:#C24A12; --c-orange-900:#9A3B0F;
+  --c-ink-900:#231815; --c-ink-600:#6B6560; --c-ink-400:#736C67; --c-ink-200:#B5AFAA;
+  --c-white:#FFFFFF; --c-gray-050:#F5F5F5; --c-gray-100:#F8F8F8;
+  --c-line-200:#F2F2F2; --c-line-300:#E5E5E5; --c-green-500:#27B971; --c-red-500:#D93A34;
+  --color-primary:var(--c-brand-500); --color-primary-text:var(--c-orange-800);
+  --color-danger:var(--c-red-500); --color-success:var(--c-green-500);
+  --text-primary:var(--c-ink-900); --text-secondary:var(--c-ink-600); --text-tertiary:var(--c-ink-400);
+  --text-on-primary:var(--c-white);
+  --mp-bg:var(--c-gray-050); --bg-nav:var(--c-gray-100); --surface:var(--c-white);
+  --surface-tint:var(--c-brand-050); --border-line:var(--c-line-200); --border-field:var(--c-line-300);
+  --border-brand:var(--c-brand-100);
+  --color-accent:#D99A3E; --color-gold:#B99A6B;
+  --color-accent-line:#E8C79A;
+  --fs-t1:18px; --fs-t2:16px; --fs-t3:14px; --fs-t4:12px; --fs-t5:11px; --fs-t6:10px;
+  --lh-t1:26px; --lh-t2:24px; --lh-t3:22px; --lh-t4:18px; --lh-t5:16px;
+  --fw-body:500; --fw-bold:600;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-6:24px;
+  --radius-card:8px; --radius-tag:4px; --radius-sheet:12px; --radius-pill:999px;
+  --elev-ring:0 0 0 1px var(--border-line); --elev-bar:0 -2px 5px rgba(0,0,0,.04);
+  --focus-ring:0 0 0 3px rgba(255,127,65,.18);
+  --motion-fast:150ms; --motion-base:240ms; --motion-ease:cubic-bezier(.2,0,0,1);
+  --btn-bg:linear-gradient(270deg,#FF7F41 0%,#FF6034 100%);
+  --row-h:52px; --navbar-h:44px; --statusbar-h:44px; --capsule-w:87px; --capsule-h:32px;
+  --safe-bottom:34px; --actionbar-h:60px;
+  --shell-bg:#EDEBE8; --shell-ink:#231815; --shell-ink-2:#5C5651;
+}
+@media (prefers-reduced-motion: reduce){ :root{ --motion-fast:0ms; --motion-base:0ms; } }
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--shell-bg); color:var(--shell-ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  font-weight:var(--fw-body); -webkit-font-smoothing:antialiased;
+}
+[hidden]{ display:none !important; }
+
+/* ===== 外壳 ===== */
+.shell-head{ max-width:1240px; margin:0 auto; padding:var(--space-6) var(--space-6) var(--space-2); }
+.shell-head h1{ margin:0; font-size:var(--fs-t1); line-height:var(--lh-t1); font-weight:var(--fw-bold); letter-spacing:.2px; }
+.shell-sub{ margin:var(--space-1) 0 0; font-size:var(--fs-t4); line-height:var(--lh-t4); color:var(--shell-ink-2); }
+.boards{ display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:var(--space-6); max-width:1240px; margin:0 auto; padding:var(--space-4) var(--space-6) var(--space-6); }
+.board{ width:375px; flex:0 0 375px; }
+.demo-head{ display:flex; align-items:baseline; gap:var(--space-2); margin:0 0 var(--space-2); }
+.demo-no{ font-size:var(--fs-t4); font-weight:var(--fw-bold); color:var(--c-orange-900); letter-spacing:.6px; }
+.demo-head h3{ margin:0; font-size:var(--fs-t3); line-height:var(--lh-t3); font-weight:var(--fw-bold); color:var(--shell-ink); }
+
+/* ===== 手机壳 ===== */
+.sh-phone{ width:375px; height:812px; border-radius:var(--radius-sheet); background:var(--mp-bg); overflow:hidden; box-shadow:0 1px 0 rgba(0,0,0,.06), 0 12px 28px rgba(0,0,0,.08); position:relative; }
+.mp{ width:100%; height:100%; display:flex; flex-direction:column; background:var(--mp-bg); position:relative; overflow:hidden; }
+
+/* 状态栏 */
+.mp-status{ height:var(--statusbar-h); flex:0 0 var(--statusbar-h); display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-6) 0 var(--space-4); background:var(--bg-nav); }
+.sb-time{ font-size:var(--fs-t3); font-weight:var(--fw-bold); letter-spacing:.2px; color:var(--text-primary); }
+.sb-right{ display:flex; align-items:center; gap:var(--space-1); color:var(--text-primary); }
+.sb-right .ic{ width:16px; height:16px; }
+.sb-batt{ display:flex; align-items:center; gap:2px; font-size:var(--fs-t4); color:var(--text-secondary); }
+
+/* 导航栏 */
+.mp-nav{ height:var(--navbar-h); flex:0 0 var(--navbar-h); display:flex; align-items:center; position:relative; background:var(--bg-nav); }
+.nav-back{ width:44px; height:44px; border:0; background:transparent; display:flex; align-items:center; justify-content:center; color:var(--text-primary); cursor:pointer; padding:0; }
+.nav-back .ic{ width:20px; height:20px; }
+.nav-title{ position:absolute; left:50%; transform:translateX(-50%); margin:0; font-size:var(--fs-t2); line-height:var(--lh-t2); font-weight:var(--fw-bold); color:var(--text-primary); white-space:nowrap; }
+.capsule{ position:absolute; right:var(--space-3); top:6px; width:var(--capsule-w); height:var(--capsule-h); border-radius:var(--radius-pill); background:rgba(255,255,255,.72); box-shadow:var(--elev-ring); display:flex; align-items:center; justify-content:space-around; }
+.capsule .dot{ width:4px; height:4px; border-radius:50%; background:var(--text-primary); }
+.capsule .split{ width:1px; height:16px; background:var(--border-field); }
+.capsule .ring{ width:14px; height:14px; border-radius:50%; border:1.5px solid var(--text-primary); position:relative; }
+.capsule .ring::after{ content:""; position:absolute; inset:3px; border-radius:50%; background:var(--text-primary); }
+
+/* 滚动内容 */
+.mp-scr{ flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; padding:var(--space-3) 0 var(--space-6); }
+.mp-scr::-webkit-scrollbar{ width:0; height:0; }
+.mp-scr{ scrollbar-width:none; }
+
+/* 提示条 */
+.tip{ margin:0 var(--space-3) var(--space-3); padding:var(--space-2) var(--space-3); background:var(--surface-tint); border-radius:var(--radius-card); box-shadow:0 0 0 1px var(--border-brand); display:flex; align-items:center; gap:var(--space-2); }
+.tip .ic{ width:16px; height:16px; color:var(--color-primary-text); flex:0 0 16px; }
+.tip-text{ font-size:var(--fs-t4); line-height:var(--lh-t4); color:var(--color-primary-text); min-width:0; }
+.tip-act{ margin-left:auto; border:0; background:transparent; color:var(--color-primary-text); font-size:var(--fs-t4); font-weight:var(--fw-bold); padding:var(--space-1); cursor:pointer; flex:0 0 auto; }
+
+/* 头部（添加萌宠） */
+.head-block{ padding:var(--space-2) var(--space-4) var(--space-2); }
+.head-title{ margin:0; font-size:var(--fs-t1); line-height:var(--lh-t1); font-weight:var(--fw-bold); color:var(--text-primary); }
+.head-sub{ margin:var(--space-1) 0 0; font-size:var(--fs-t4); line-height:var(--lh-t4); color:var(--text-secondary); }
+
+/* 种类卡 */
+.species{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-2); padding:0 var(--space-3) var(--space-2); }
+.sp-card{ position:relative; border:0; background:transparent; border-radius:var(--radius-card); padding:0; display:flex; flex-direction:column; align-items:center; gap:var(--space-1); cursor:pointer; }
+.sp-card .sp-art{ width:100%; height:110px; border-radius:var(--radius-card); object-fit:cover; display:block; box-shadow:0 0 0 1px rgba(0,0,0,.04); transition:box-shadow var(--motion-fast) var(--motion-ease); }
+.sp-name{ font-size:var(--fs-t4); line-height:var(--lh-t4); color:var(--text-secondary); }
+.sp-card[aria-pressed="true"] .sp-art{ box-shadow:0 0 0 1.5px var(--color-primary); }
+.sp-card[aria-pressed="true"] .sp-name{ color:var(--color-primary-text); font-weight:var(--fw-bold); }
+.sp-card .sp-name{ font-size:var(--fs-t4); line-height:var(--lh-t4); color:var(--text-secondary); }
+.sp-badge{ position:absolute; top:var(--space-1); right:var(--space-1); background:var(--color-primary); color:var(--text-on-primary); font-size:var(--fs-t4); line-height:1.3; font-weight:var(--fw-bold); padding:0 var(--space-1); border-radius:var(--radius-tag); }
+.sp-lock{ opacity:.45; cursor:not-allowed; }
+.sp-lock-note{ margin:0 var(--space-3) var(--space-2); font-size:var(--fs-t4); line-height:var(--lh-t4); color:var(--text-secondary); }
+
+/* 表单卡 */
+.card{ margin:0 var(--space-3); background:var(--surface); border-radius:var(--radius-card); overflow:hidden; }
+.row{ min-height:var(--row-h); display:flex; align-items:center; gap:var(--space-2); padding:0 var(--space-3); position:relative; }
+.row + .row::before{ content:""; position:absolute; left:var(--space-3); right:0; top:0; height:1px; background:var(--border-line); }
+.row-k{ flex:0 0 auto; font-size:var(--fs-t3); line-height:var(--lh-t3); color:var(--text-primary); }
+.row-k .req{ color:var(--color-danger); margin-left:2px; }
+.row-main{ margin-left:auto; display:flex; align-items:center; gap:var(--space-1); min-width:0; }
+.row-v{ font-size:var(--fs-t3); line-height:var(--lh-t3); color:var(--text-primary); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.row-v.is-empty{ color:var(--text-tertiary); }
+.row-v.is-locked{ color:var(--text-tertiary); }
+.row .ic{ width:16px; height:16px; color:var(--c-ink-200); flex:0 0 16px; }
+.row.is-link{ cursor:pointer; }
+.row.is-link:active{ background:var(--c-gray-050); }
+.row.is-static{ cursor:default; }
+.row.is-static .row-v{ color:var(--text-primary); }
+.row.is-locked{ cursor:default; }
+.row.is-locked .row-v{ color:var(--text-tertiary); }
+.row-input{ border:0; outline:0; background:transparent; text-align:right; font-size:var(--fs-t3); line-height:var(--lh-t3); color:var(--text-primary); font-weight:var(--fw-body); width:100%; min-width:0; font-family:inherit; padding:0; min-height:32px; }
+.row-input::placeholder{ color:var(--text-tertiary); }
+.row-input:focus{ box-shadow:none; }
+.row-edit{ margin-left:auto; flex:1 1 auto; display:flex; justify-content:flex-end; }
+.row-loc{ border:0; background:transparent; color:var(--color-primary-text); font-size:var(--fs-t4); line-height:var(--lh-t4); font-weight:var(--fw-bold); padding:var(--space-1); cursor:pointer; }
+.avatar-box{ width:40px; height:40px; border-radius:50%; background:var(--c-line-200); display:flex; align-items:center; justify-content:center; overflow:hidden; color:var(--c-ink-200); }
+.avatar-box .ic{ width:22px; height:22px; color:var(--c-ink-200); }
+.avatar-box.is-wx{ background:var(--btn-bg); color:var(--text-on-primary); font-size:var(--fs-t3); font-weight:var(--fw-bold); }
+.avatar-box img{ width:100%; height:100%; object-fit:cover; }
+.pills{ display:flex; gap:var(--space-2); margin-left:auto; }
+.pill{ min-width:56px; height:32px; border:0; border-radius:var(--radius-pill); background:var(--c-gray-050); color:var(--text-secondary); font-size:var(--fs-t3); font-family:inherit; font-weight:var(--fw-body); cursor:pointer; transition:background-color var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease); }
+.pill[aria-pressed="true"]{ background:var(--color-primary); color:var(--text-on-primary); font-weight:var(--fw-bold); }
+.pill:active{ transform:scale(.98); }
+.row-err{ display:block; font-size:var(--fs-t5); line-height:var(--lh-t5); color:var(--color-danger); margin-top:2px; text-align:right; }
+.row.has-err + .row::before{ background:var(--border-line); }
+.row.has-err{ box-shadow:inset 0 -1px 0 var(--color-danger); }
+.row-col{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; align-items:flex-end; gap:0; }
+
+/* 跳过 */
+.skip-wrap{ padding:var(--space-3) var(--space-3) 0; text-align:center; }
+.skip{ border:0; background:transparent; color:var(--text-secondary); font-size:var(--fs-t4); line-height:var(--lh-t4); padding:var(--space-2); cursor:pointer; }
+
+/* 吸底 */
+.mp-actionbar{ flex:0 0 94px; height:94px; background:var(--surface); box-shadow:var(--elev-bar); padding:var(--space-1) var(--space-3) 0; display:flex; flex-direction:column; }
+.btn-primary{ height:44px; width:100%; border:0; border-radius:var(--radius-card); background:var(--btn-bg); color:var(--text-on-primary); font-size:var(--fs-t2); line-height:var(--lh-t2); font-weight:var(--fw-bold); font-family:inherit; cursor:pointer; }
+.btn-primary:active{ filter:brightness(.96); }
+.btn-primary[disabled]{ opacity:.6; cursor:default; }
+.home-ind{ margin:var(--space-3) auto 0; width:134px; height:5px; border-radius:var(--radius-pill); background:var(--c-ink-900); opacity:.85; }
+
+/* 弹层 */
+.mask{ position:absolute; inset:0; background:rgba(0,0,0,.4); z-index:40; opacity:0; transition:opacity var(--motion-base) var(--motion-ease); }
+.mask.is-on{ opacity:1; }
+.sheet{ position:absolute; left:0; right:0; bottom:0; z-index:50; background:var(--surface); border-radius:var(--radius-sheet) var(--radius-sheet) 0 0; padding:var(--space-3) var(--space-3) var(--space-4); transform:translateY(100%); transition:transform var(--motion-base) var(--motion-ease); max-height:70%; display:flex; flex-direction:column; }
+.sheet.is-on{ transform:translateY(0); }
+.sheet-head{ display:flex; align-items:center; justify-content:space-between; padding:0 var(--space-1) var(--space-2); }
+.sheet-title{ font-size:var(--fs-t2); line-height:var(--lh-t2); font-weight:var(--fw-bold); color:var(--text-primary); }
+.sheet-cancel{ border:0; background:transparent; color:var(--text-secondary); font-size:var(--fs-t3); padding:var(--space-1); cursor:pointer; }
+.sheet-body{ overflow-y:auto; min-height:0; }
+.opt{ display:flex; align-items:center; justify-content:space-between; min-height:48px; padding:0 var(--space-2); font-size:var(--fs-t3); color:var(--text-primary); border:0; background:transparent; width:100%; text-align:left; font-family:inherit; cursor:pointer; border-radius:var(--radius-card); }
+.opt:active{ background:var(--c-gray-050); }
+.opt .ic{ width:16px; height:16px; color:var(--color-primary); }
+.opt-sep{ height:1px; background:var(--border-line); margin:var(--space-1) var(--space-2); }
+.cols{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-2); height:196px; }
+.col{ overflow-y:auto; background:var(--c-gray-050); border-radius:var(--radius-card); }
+.col::-webkit-scrollbar{ width:0; }
+.col-item{ display:block; width:100%; border:0; background:transparent; min-height:36px; font-size:var(--fs-t3); color:var(--text-secondary); font-family:inherit; cursor:pointer; }
+.col-item[aria-pressed="true"]{ background:var(--surface); color:var(--color-primary-text); font-weight:var(--fw-bold); border-radius:var(--radius-tag); }
+.sheet-foot{ padding-top:var(--space-3); }
+.toast{ position:absolute; left:50%; bottom:120px; transform:translateX(-50%) translateY(6px); z-index:60; background:rgba(0,0,0,.78); color:var(--c-white); font-size:var(--fs-t4); line-height:var(--lh-t4); padding:var(--space-2) var(--space-3); border-radius:var(--radius-card); max-width:80%; text-align:center; opacity:0; transition:opacity var(--motion-fast) var(--motion-ease), transform var(--motion-fast) var(--motion-ease); pointer-events:none; }
+.toast.is-on{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* 说明块 */
+.note{ width:375px; margin-top:var(--space-3); background:var(--surface); border-radius:var(--radius-card); padding:var(--space-3) var(--space-4); box-shadow:0 0 0 1px rgba(0,0,0,.05); }
+.note dl{ margin:0; display:grid; grid-template-columns:36px 1fr; gap:var(--space-1) var(--space-2); }
+.note dt{ font-size:var(--fs-t4); line-height:var(--lh-t4); font-weight:var(--fw-bold); color:var(--text-secondary); }
+.note dd{ margin:0; font-size:var(--fs-t4); line-height:var(--lh-t4); color:var(--text-secondary); }
+.note dd b{ color:var(--text-primary); font-weight:var(--fw-bold); }
+.ic{ width:16px; height:16px; flex:0 0 16px; display:inline-block; vertical-align:middle; }
+
+/* —— 交互态（流程3 追加） —— */
+.avatar-box.is-set{ background:var(--btn-bg); border:0; }
+.av-txt{ font-size:var(--fs-t3); font-weight:var(--fw-bold); color:var(--text-on-primary); }
+.row-input[readonly]{ color:var(--text-tertiary); }
+.list-col{ height:auto; max-height:216px; background:var(--c-gray-050); border-radius:var(--radius-card); padding:var(--space-1) 0; }
+.list-item{ min-height:44px; }
+.sheet-body .list-item[aria-pressed="true"]{ background:var(--surface); }
+.mp[data-state="locked"] .sp-card{ cursor:default; }
+.mp[data-state="locked"] .sp-card[aria-pressed="false"]{ filter:grayscale(.9); opacity:.5; }
+.mp[data-state="locked"] .sp-card[aria-pressed="true"]{ filter:grayscale(.2); }
+.sp-badge--lock{ background:var(--surface); color:var(--text-tertiary); box-shadow:0 0 0 1px var(--border-field); }
+
+/* ===== 流程4 外壳：顶栏 / 页签 / 流程图 / 对照版 / 右栏 / 素材 =====
+   只写外壳，画板样式沿用流程3 内联部分；不设 max-width 居中，只留内距。 */
+.sh-app{ background:var(--c-gray-050); color:var(--c-ink-900); min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; }
+.sh-pad{ padding-left:var(--pad); padding-right:var(--pad); }
+:root{ --pad:28px; --top-h:56px; --tab-h:44px; --c-white:#FFFFFF; --c-gold-500:#E18120; }
+
+/* 顶栏 */
+.sh-top{ position:sticky; top:0; z-index:60; background:var(--c-white); border-bottom:1px solid var(--c-line-200); }
+.sh-top-in{ display:flex; align-items:center; gap:16px; height:var(--top-h); }
+.sh-logo{ width:24px; height:24px; border-radius:6px; background:var(--btn-bg); flex:0 0 auto; }
+.sh-title{ font-size:15px; font-weight:600; letter-spacing:.2px; }
+.sh-meta{ margin-left:auto; display:flex; align-items:center; gap:14px; font-size:12px; color:var(--c-ink-600); }
+.sh-meta b{ font-weight:600; color:var(--c-ink-900); }
+
+/* 页签 */
+.sh-tabs{ position:sticky; top:var(--top-h); z-index:55; background:var(--c-white); border-bottom:1px solid var(--c-line-200); }
+.sh-tabs-in{ display:flex; gap:4px; height:var(--tab-h); align-items:stretch; }
+.sh-tab{ appearance:none; border:0; background:none; padding:0 14px; font:inherit; font-size:14px;
+  color:var(--c-ink-600); cursor:pointer; border-bottom:2px solid transparent; display:flex; align-items:center; gap:6px; }
+.sh-tab:hover{ color:var(--c-ink-900); }
+.sh-tab.is-on{ color:var(--c-orange-800); border-bottom-color:var(--c-brand-500); font-weight:600; }
+.sh-tab:focus-visible{ outline:2px solid var(--c-brand-500); outline-offset:-2px; }
+.sh-tab .cnt{ font-size:11px; color:var(--c-ink-400); font-weight:400; }
+
+/* 面板 */
+html{ scroll-padding-top:calc(var(--top-h) + var(--tab-h) + 16px); }
+.sh-panel section{ scroll-margin-top:calc(var(--top-h) + var(--tab-h) + 14px); }
+.sh-panel{ display:none; padding:20px 0 64px; }
+.sh-panel.is-on{ display:block; }
+
+/* ===== 通用卡片 ===== */
+.fl-card{ background:var(--c-white); border:1px solid var(--c-line-200); border-radius:var(--radius-sheet); padding:16px; }
+.fl-card + .fl-card{ margin-top:16px; }
+.fl-h{ font-size:15px; font-weight:600; margin:0 0 4px; }
+.fl-sub{ font-size:12px; color:var(--c-ink-600); margin:0 0 12px; line-height:1.7; }
+.fl-lead{ display:flex; flex-wrap:wrap; gap:8px 24px; font-size:12px; color:var(--c-ink-600); }
+.fl-leg{ display:inline-flex; align-items:center; gap:6px; }
+.fl-dot{ width:8px; height:8px; border-radius:2px; background:var(--c-brand-500); }
+.fl-dot--empty{ background:var(--c-white); border:1.5px solid var(--c-ink-400); border-radius:50%; }
+.fl-dot--fail{ background:var(--c-red-500); }
+.fl-scroll{ overflow-x:auto; }
+.fl-svg{ display:block; min-width:1180px; }
+.fl-node{ cursor:pointer; }
+.fl-node:focus-visible{ outline:2px solid var(--c-brand-600); outline-offset:2px; }
+.fl-node .nd-box{ transition:fill .15s ease; }
+.fl-node:hover .nd-box{ fill:var(--c-brand-050); }
+.fl-mods{ display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; margin-top:16px; }
+.fl-step{ display:flex; gap:8px; font-size:12px; color:var(--c-ink-600); line-height:1.7; margin:0; padding:0; list-style:none; }
+.fl-step li{ display:flex; gap:8px; }
+.fl-num{ flex:0 0 auto; width:16px; height:16px; border-radius:50%; background:var(--c-brand-050);
+  color:var(--c-orange-800); font-size:10px; font-weight:600; display:flex; align-items:center; justify-content:center; margin-top:2px; }
+.fl-sts{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.fl-st{ font-size:11px; padding:2px 8px; border-radius:var(--radius-tag); background:var(--c-gray-050);
+  border:1px solid var(--c-line-300); color:var(--c-ink-600); }
+
+/* ===== 对照版 ===== */
+.dl-grid{ display:grid; grid-template-columns:minmax(0,1fr) 440px; gap:24px; align-items:start; }
+@media (max-width:1200px){ .dl-grid{ grid-template-columns:minmax(0,1fr); } }
+.dl-stage{ min-width:0; }
+.dl-chips{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; position:sticky; top:calc(var(--top-h) + var(--tab-h)); z-index:20;
+  background:var(--c-gray-050); padding:6px 0 10px; }
+.dl-chip{ appearance:none; font:inherit; font-size:12px; padding:5px 10px; border-radius:var(--radius-tag);
+  border:1px solid var(--c-line-300); background:var(--c-white); color:var(--c-ink-600); cursor:pointer; }
+.dl-chip.is-on{ border-color:var(--c-brand-500); color:var(--c-orange-800); background:var(--c-brand-050); font-weight:600; }
+.dl-chip:focus-visible{ outline:2px solid var(--c-brand-500); outline-offset:1px; }
+.dl-chip b{ font-weight:600; }
+.dl-view{ display:inline-flex; gap:2px; margin-left:auto; border:1px solid var(--c-line-300); border-radius:var(--radius-tag); overflow:hidden; }
+.dl-view button{ appearance:none; border:0; background:var(--c-white); font:inherit; font-size:11px; padding:5px 9px; color:var(--c-ink-600); cursor:pointer; }
+.dl-view button.is-on{ background:var(--c-gray-050); color:var(--c-ink-900); font-weight:600; }
+
+.dl-pagewrap{ display:none; }
+.dl-pagewrap.is-on{ display:block; }
+.dl-pagewrap .sh-phone-wrap{ margin:0 auto; }
+.dl-pagehead{ display:flex; align-items:baseline; gap:10px; margin:0 0 10px; }
+.dl-pagehead .no{ font-size:11px; font-weight:600; color:var(--c-orange-800); background:var(--c-brand-050);
+  padding:2px 7px; border-radius:var(--radius-tag); }
+.dl-pagehead h3{ font-size:16px; margin:0; font-weight:600; }
+.dl-statebar{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px; }
+.dl-stbtn{ appearance:none; font:inherit; font-size:12px; padding:4px 10px; border-radius:999px;
+  border:1px solid var(--c-line-300); background:var(--c-white); color:var(--c-ink-600); cursor:pointer; }
+.dl-stbtn.is-on{ border-color:var(--c-brand-500); background:var(--c-brand-050); color:var(--c-orange-800); font-weight:600; }
+.dl-stbtn:focus-visible{ outline:2px solid var(--c-brand-500); outline-offset:1px; }
+.sh-phone-wrap{ display:flex; justify-content:center; padding:8px 0 4px; }
+.sh-phone-wrap .sh-phone{ flex:0 0 auto; }
+.dl-pagewrap[data-end="mp"] .mp{ height:812px; overflow-y:auto; }
+.dl-hl{ outline:2px solid var(--c-brand-600) !important; outline-offset:-2px; border-radius:6px; }
+
+/* 右栏 */
+.dl-doc{ position:sticky; top:calc(var(--top-h) + var(--tab-h) + 12px);
+  max-height:calc(100vh - var(--top-h) - var(--tab-h) - 24px); overflow-y:auto;
+  background:var(--c-white); border:1px solid var(--c-line-200); border-radius:var(--radius-sheet); }
+@media (max-width:1200px){ .dl-doc{ position:static; max-height:none; } }
+.dl-docset{ display:none; padding:18px; }
+.dl-docset.is-on{ display:block; }
+.dl-dochead{ border-bottom:1px solid var(--c-line-200); padding-bottom:12px; margin-bottom:4px; }
+.dl-dochead .no{ font-size:11px; color:var(--c-orange-800); font-weight:600; }
+.dl-dochead h4{ font-size:15px; margin:2px 0 6px; }
+.dl-dochead p{ font-size:12px; color:var(--c-ink-600); line-height:1.7; margin:0; }
+.dl-sec{ border-bottom:1px solid var(--c-line-200); padding:14px 0; }
+.dl-sec:last-child{ border-bottom:0; }
+.dl-sec > h5{ font-size:12px; font-weight:600; color:var(--c-ink-400); letter-spacing:.4px; margin:0 0 8px; }
+.dl-li{ font-size:13px; line-height:1.75; margin:0 0 6px; padding-left:14px; position:relative; color:var(--c-ink-900); }
+.dl-li::before{ content:""; position:absolute; left:3px; top:9px; width:4px; height:4px; border-radius:50%;
+  background:var(--c-ink-400); }
+.dl-li code{ font-size:12px; background:var(--c-gray-050); border:1px solid var(--c-line-200); border-radius:3px; padding:1px 4px; }
+.dl-grp{ margin:0 0 12px; }
+.dl-grp-h{ font-size:12px; font-weight:600; margin:0 0 6px; color:var(--c-ink-900); }
+.dl-grp-h span{ font-weight:400; color:var(--c-ink-400); }
+.dl-chain{ font-size:12px; color:var(--c-ink-600); line-height:1.7; background:var(--c-gray-050);
+  border-left:2px solid var(--c-brand-500); padding:8px 10px; border-radius:0 4px 4px 0; margin:0 0 10px; }
+.dl-ftb{ width:100%; border-collapse:collapse; font-size:12px; }
+.dl-ftb th{ text-align:left; font-weight:600; color:var(--c-ink-400); padding:4px 6px; border-bottom:1px solid var(--c-line-200); white-space:nowrap; }
+.dl-ftb td{ padding:5px 6px; border-bottom:1px solid var(--c-line-200); vertical-align:top; line-height:1.6; }
+.dl-ftb tr:last-child td{ border-bottom:0; }
+.dl-ftb code{ font-size:11px; color:var(--c-orange-800); }
+.dl-judge{ display:flex; flex-direction:column; gap:6px; }
+.dl-rule{ display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:12px; line-height:1.6;
+  border:1px solid var(--c-line-200); border-radius:4px; padding:6px 8px; cursor:pointer; background:var(--c-white); }
+.dl-rule:hover{ border-color:var(--c-brand-100); background:var(--c-brand-050); }
+.dl-rule .c{ color:var(--c-ink-600); }
+.dl-rule .r{ color:var(--c-ink-900); font-weight:500; }
+.dl-rule[data-hl]{ cursor:pointer; }
+.dl-st-row{ display:flex; gap:8px; font-size:12px; line-height:1.65; padding:6px 8px; border-radius:4px;
+  border:1px solid var(--c-line-200); margin-bottom:6px; cursor:pointer; background:var(--c-white); }
+.dl-st-row:hover{ border-color:var(--c-brand-100); background:var(--c-brand-050); }
+.dl-st-row.is-on{ border-color:var(--c-brand-500); background:var(--c-brand-050); }
+.dl-st-row .stn{ flex:0 0 96px; font-weight:600; color:var(--c-orange-800); }
+.dl-st-row .std{ color:var(--c-ink-600); }
+.dl-st-row .std b{ color:var(--c-ink-900); font-weight:500; }
+details.dl-src{ margin-top:14px; font-size:12px; color:var(--c-ink-600); }
+details.dl-src summary{ cursor:pointer; font-weight:600; color:var(--c-ink-900); }
+details.dl-src p{ line-height:1.8; margin:8px 0 0; }
+
+/* 素材与规范 */
+.as-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:16px; }
+.as-item{ background:var(--c-white); border:1px solid var(--c-line-200); border-radius:var(--radius-card); padding:10px; text-align:center; }
+.as-item img{ width:117px; height:110px; object-fit:cover; border-radius:6px; display:block; margin:0 auto 8px; }
+.as-item .nm{ font-size:12px; font-weight:600; }
+.as-item .sz{ font-size:11px; color:var(--c-ink-400); }
+.tk-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; margin-top:12px; }
+.tk-row{ display:flex; align-items:center; gap:10px; font-size:12px; border-bottom:1px solid var(--c-line-200); padding:6px 0; }
+.tk-sw{ width:22px; height:22px; border-radius:4px; border:1px solid var(--c-line-300); flex:0 0 auto; }
+.tk-nm{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--c-ink-600); }
+.tk-v{ margin-left:auto; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--c-ink-900); }
+.tk-scale{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-top:8px; }
+.tk-scale span{ color:var(--c-ink-600); }
+
+/* ===== 流程图 SVG：颜色只能走 CSS 类（SVG 属性/style 内联 var 会被丢弃） ===== */
+.fl-lane-a{ fill:var(--c-gray-050); }
+.fl-lane-b{ fill:var(--c-white); }
+.fl-lane-line{ stroke:var(--c-line-300); stroke-width:1; }
+.fl-lane-tx{ fill:var(--c-ink-400); font-weight:600; }
+.fl-edge{ fill:none; stroke:var(--c-ink-400); stroke-width:1.2; }
+.fl-edge-tx{ fill:var(--c-ink-600); stroke:var(--c-white); stroke-width:3; paint-order:stroke; }
+.fl-nd{ fill:var(--c-white); stroke:var(--c-brand-500); stroke-width:1.2; }
+.fl-nd--empty{ stroke:var(--c-line-300); stroke-dasharray:4 3; }
+.fl-nd-tx{ fill:var(--c-ink-900); }
+.fl-ar{ fill:var(--c-ink-400); }
+
+/* ===== 流程图（四张独立小图，单行规整布局） ===== */
+.fl-intro{ padding:4px 2px 12px; }
+.fl-title{ font-size:20px; font-weight:700; color:var(--c-ink-900); margin:0 0 6px; }
+.fl-lead{ font-size:14px; color:var(--c-ink-600); margin:0 0 10px; line-height:1.6; }
+.fl-legend{ display:flex; flex-wrap:wrap; gap:16px; font-size:12px; color:var(--c-ink-600); }
+.fl-legend span{ display:inline-flex; align-items:center; gap:6px; }
+.lg-dot{ width:9px; height:9px; border-radius:50%; background:var(--c-brand-500); }
+.lg-dot--empty{ background:var(--c-white); border:1.5px solid var(--c-ink-400); }
+.lg-line{ width:18px; height:0; border-top:1.2px solid var(--c-ink-400); }
+.lg-bar{ width:3px; height:12px; background:var(--c-brand-500); border-radius:1.5px; }
+.fd-grid{ display:grid; grid-template-columns:1fr; gap:16px; }
+.fd-card{ background:var(--c-white); border:1px solid var(--c-line-200); border-radius:var(--radius-sheet); padding:16px 16px 6px; overflow-x:auto; }
+.fd-head{ display:flex; align-items:baseline; gap:8px; margin-bottom:4px; }
+.fd-h{ font-size:15px; font-weight:700; color:var(--c-ink-900); margin:0; }
+.fd-tag{ font-size:11px; color:var(--c-ink-600); border:1px solid var(--c-line-300); border-radius:var(--radius-tag); padding:1px 6px; }
+.fd-sub{ font-size:12px; color:var(--c-ink-600); margin:0 0 6px; line-height:1.6; }
+.fd-svg{ display:block; }
+.fd-ar{ fill:var(--c-ink-400); }
+.fd-edge{ fill:none; stroke:var(--c-ink-400); stroke-width:1.2; stroke-linejoin:round; }
+.fd-edge-tx{ fill:var(--c-ink-600); stroke:var(--c-white); stroke-width:3; paint-order:stroke; font-size:11px; }
+.fd-box{ fill:var(--c-white); stroke:var(--c-brand-100); stroke-width:1.5; }
+.fd-node:hover .fd-box{ stroke:var(--c-brand-500); }
+.fd-node:focus-visible .fd-box{ stroke:var(--c-brand-500); stroke-width:2; outline:none; }
+.fd-node--empty .fd-box{ stroke:var(--c-line-300); stroke-dasharray:4 3; }
+.fd-tx{ fill:var(--c-ink-900); font-size:12px; font-weight:600; }
+.fd-bar--owner{ fill:var(--c-brand-500); }
+.fd-bar--page{ fill:var(--c-ink-600); }
+.fd-bar--sys{ fill:var(--c-ink-200); }
+.fl-foot{ font-size:12px; color:var(--c-ink-400); margin:14px 2px 0; }
+.fd-svg{ margin:0 auto; }
+
+/* 右栏需求说明统一排版：一个字号、不加粗、不斜体 */
+.dl-doc,.dl-doc *{ font-size:13px !important; font-weight:400 !important; font-style:normal !important; }
+.dl-doc .dl-dochead{ border-bottom:1px solid var(--c-line-200); padding-bottom:10px; }
+.dl-doc .dl-dochead .no{ color:var(--c-orange-800); }
+.dl-doc .dl-dochead h4{ margin:2px 0 4px; }
+.dl-doc .dl-dochead p{ color:var(--c-ink-600); margin:0; }
+.dl-doc .dl-sec{ border-top:1px solid var(--c-line-200); padding-top:12px; margin-top:14px; }
+.dl-doc .dl-sec:first-of-type{ border-top:0; margin-top:12px; padding-top:0; }
+.dl-doc .dl-sec > h5{ color:var(--c-ink-400); margin:0 0 8px; }
+.dl-doc .dl-li{ margin:0 0 5px; }
+.dl-doc .dl-chain{ background:var(--c-gray-050); border-radius:4px; padding:8px 10px; color:var(--c-ink-600); margin:0 0 10px; }
+.dl-doc .dl-ftb{ margin:10px 0 4px; }
+.dl-doc .dl-ftb th{ color:var(--c-ink-400); }
+.dl-doc .dl-ftb code{ color:var(--c-ink-600); }
+.dl-doc .dl-ft-name,.dl-doc .dl-cond{ color:var(--c-ink-900); }
+.dl-doc .dl-ftb-cat{ color:var(--c-ink-900); }
+.dl-doc .dl-ftb-join{ color:var(--c-ink-400); }
+.dl-doc .dl-rule-group{ margin:0 0 8px; }
+.dl-doc .dl-rtone{ color:var(--c-orange-800); }
+.dl-doc .dl-st-row{ align-items:flex-start; }
+.dl-doc .dl-st-row .stn{ color:var(--c-orange-800); }
+.dl-doc .dl-lab{ color:var(--c-ink-400); margin-right:4px; }
+.dl-doc details.dl-src{ color:var(--c-ink-600); }
+.dl-doc details.dl-src summary{ color:var(--c-ink-900); }
+.dl-doc .dl-exh{ color:var(--c-ink-400); }
+.dl-doc code{ background:var(--c-gray-050); border:1px solid var(--c-line-200); border-radius:3px; padding:0 3px; }
+.sh-meta .mt{ color:var(--c-ink-900); }
+.dl-chip-no{ color:var(--c-orange-800); }
+.as-nm{ color:var(--c-ink-900); }
+.as-sz{ color:var(--c-ink-400); }
+.dl-doc .dl-li{ list-style:none; padding-left:0; }
+.dl-doc .dl-li::before{ content:none; }
+.dl-doc .dl-li > li{ position:relative; padding-left:14px; }
+.dl-doc .dl-li > li::before{ content:""; position:absolute; left:3px; top:.8em; width:4px; height:4px;
+  border-radius:50%; background:var(--c-ink-200); }
+/* 字段取值：一行一个字段，字段名 + 表.字段 在上，取值与判断在下 */
+.dl-doc .dl-ftb{ display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px; margin:12px 0 6px; }
+.dl-doc .dl-ftb-cat{ color:var(--c-ink-900); }
+.dl-doc .dl-ftb-tbl{ color:var(--c-ink-600); }
+.dl-doc .dl-ftb-join{ flex:1 0 100%; color:var(--c-ink-400); }
+.dl-doc .dl-ft{ list-style:none; margin:0 0 10px; padding:0; }
+.dl-doc .dl-fitem{ position:relative; padding:0 0 8px 0; margin:0; }
+.dl-doc .dl-fitem::before{ content:none !important; }
+.dl-doc .dl-f1{ display:block; }
+.dl-doc .dl-fname{ color:var(--c-ink-900); }
+.dl-doc .dl-src{ color:var(--c-ink-600); word-break:break-word; }
+.dl-doc .dl-f2{ display:block; color:var(--c-ink-600); }
+.dl-doc .dl-f1{ display:flex; flex-wrap:wrap; gap:0 6px; }
+.dl-doc .dl-st-row{ display:block; padding:8px 10px; }
+.dl-doc .dl-st-row .stn{ display:block; margin:0 0 2px; }
+.dl-doc .dl-st-row p{ display:block; margin:0; }
+.dl-doc .dl-lab{ margin-right:6px; }
+
+</style><link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-back" viewBox="0 0 16 16"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-chev" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-lock" viewBox="0 0 16 16"><rect x="3.6" y="7" width="8.8" height="6.4" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5.8 7V5.4a2.2 2.2 0 0 1 4.4 0V7" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+<symbol id="i-tip" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.6v4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.3" r=".9" fill="currentColor"/></symbol>
+<symbol id="i-check" viewBox="0 0 16 16"><path d="M3.4 8.6 6.6 11.6 12.6 4.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-pin" viewBox="0 0 16 16"><path d="M8 14s4.6-4.3 4.6-7.4A4.6 4.6 0 0 0 3.4 6.6C3.4 9.7 8 14 8 14Z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="6.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+<symbol id="i-cam" viewBox="0 0 16 16"><rect x="2.2" y="5" width="11.6" height="8.2" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="9.1" r="2.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6 5 6.9 3.4h2.2L10 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+<symbol id="i-signal" viewBox="0 0 16 16"><path d="M2 11.4h1.6V13H2zM5.4 9.2h1.6V13H5.4zM8.8 6.8h1.6V13H8.8zM12.2 4.2h1.6V13h-1.6z" fill="currentColor"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 16 16"><path d="M2.4 6.2a8.6 8.6 0 0 1 11.2 0M4.6 8.6a5.4 5.4 0 0 1 6.8 0M6.8 11a2.2 2.2 0 0 1 2.4 0" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="12.9" r=".9" fill="currentColor"/></symbol>
+<symbol id="i-batt" viewBox="0 0 24 16"><rect x="1" y="2.4" width="19" height="11.2" rx="3" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".55"/><rect x="3" y="4.4" width="13" height="7.2" rx="1.8" fill="currentColor"/><path d="M21.6 6.4v3.2c.9-.3 1.2-.9 1.2-1.6s-.3-1.3-1.2-1.6Z" fill="currentColor" opacity=".55"/></symbol>
+</defs></svg>
+<div class="sh-app"><header class="sh-top"><div class="sh-top-in sh-pad"><span class="sh-logo"></span><span class="sh-title">瑞辰宠医 · 用户资料与宠物新增</span><div class="sh-meta"><span>v1.1</span><span>2026-11-19</span><span><span class="mt">3</span> 页 / <span class="mt">8</span> 态</span><span>单文件离线</span></div></div></header><nav class="sh-tabs"><div class="sh-tabs-in sh-pad"><button class="sh-tab is-on" data-panel="p-flow">业务流程图</button><button class="sh-tab" data-panel="p-end-mp">小程序<span class="cnt">3 页</span></button><button class="sh-tab" data-panel="p-assets">素材与规范</button></div></nav><main><section class="sh-panel is-on" id="p-flow"><div class="sh-pad"><div class="fl-intro"><h2 class="fl-title">用户资料与宠物新增</h2><p class="fl-lead">注册后补资料、加第一只宠物、再改它——三段都在小程序里完成；只有「保存」写库，「跳过」什么都不写。</p><div class="fl-legend"><span><i class="lg-dot"></i>可点节点 · 落到对应页</span><span><i class="lg-dot lg-dot--empty"></i>无页面（系统动作）</span><span><i class="lg-line"></i>判断 · 边上的字是条件</span><span><i class="lg-bar"></i>左侧色条：宠主 / 小程序 / 系统</span></div></div><div class="fd-grid"><div class="fd-card"><div class="fd-head"><h3 class="fd-h">全局主流程</h3><span class="fd-tag">总览</span></div><p class="fd-sub">六个环节，全部在小程序内完成；点节点跳到对应页与右栏文档。</p><svg class="fd-svg" viewBox="0 0 1096 144" width="1096" height="144" role="img" aria-label="全局主流程">
+<defs><marker id="ar-d0" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path class="fd-ar" d="M0 0 8 4 0 8z"/></marker></defs>
+<path class="fd-edge" d="M176 80 H208" marker-end="url(#ar-d0)"/>
+<path class="fd-edge" d="M354 80 H386" marker-end="url(#ar-d0)"/>
+<path class="fd-edge" d="M532 80 H564" marker-end="url(#ar-d0)"/>
+<path class="fd-edge" d="M710 80 H742" marker-end="url(#ar-d0)"/>
+<path class="fd-edge" d="M888 80 H920" marker-end="url(#ar-d0)"/>
+<g class="fd-node fd-node--empty" data-page="" data-end="mp" role="button" tabindex="0" aria-label="注册完成">
+<rect class="fd-box" x="30" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--sys" x="42" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="107" y="84" text-anchor="middle">注册完成</text>
+</g>
+<g class="fd-node" data-page="mp-profile" data-end="mp" role="button" tabindex="0" aria-label="完善个人资料">
+<rect class="fd-box" x="208" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="220" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="285" y="84" text-anchor="middle">完善个人资料</text>
+</g>
+<g class="fd-node" data-page="mp-profile" data-end="mp" role="button" tabindex="0" aria-label="保存或跳过">
+<rect class="fd-box" x="386" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--page" x="398" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="463" y="84" text-anchor="middle">保存或跳过</text>
+</g>
+<g class="fd-node" data-page="mp-pet-add" data-end="mp" role="button" tabindex="0" aria-label="添加萌宠">
+<rect class="fd-box" x="564" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="576" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="641" y="84" text-anchor="middle">添加萌宠</text>
+</g>
+<g class="fd-node" data-page="mp-pet-add" data-end="mp" role="button" tabindex="0" aria-label="保存宠物资料">
+<rect class="fd-box" x="742" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--page" x="754" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="819" y="84" text-anchor="middle">保存宠物资料</text>
+</g>
+<g class="fd-node" data-page="mp-pet-edit" data-end="mp" role="button" tabindex="0" aria-label="编辑宠物资料">
+<rect class="fd-box" x="920" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="932" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="997" y="84" text-anchor="middle">编辑宠物资料</text>
+</g>
+<text class="fd-edge-tx" x="548" y="71" text-anchor="middle">进首页</text>
+<text class="fd-edge-tx" x="904" y="71" text-anchor="middle">已保存</text>
+</svg></div><div class="fd-card"><div class="fd-head"><h3 class="fd-h">资料完善链</h3><span class="fd-tag">分链</span></div><p class="fd-sub">两条出口：保存（姓名必填）与跳过（不写库，只换提示条）。</p><svg class="fd-svg" viewBox="0 0 1096 194" width="1096" height="194" role="img" aria-label="资料完善链">
+<defs><marker id="ar-d1" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path class="fd-ar" d="M0 0 8 4 0 8z"/></marker></defs>
+<path class="fd-edge" d="M176 80 H208" marker-end="url(#ar-d1)"/>
+<path class="fd-edge" d="M354 80 H386" marker-end="url(#ar-d1)"/>
+<path class="fd-edge" d="M532 80 H564" marker-end="url(#ar-d1)"/>
+<path class="fd-edge" d="M710 80 H742" marker-end="url(#ar-d1)"/>
+<path class="fd-edge" d="M815 108 V142 H459 V108" marker-end="url(#ar-d1)"/>
+<path class="fd-edge" d="M637 52 V26 H993 V52" marker-end="url(#ar-d1)"/>
+<path class="fd-edge" d="M459 108 V174 H993 V108" marker-end="url(#ar-d1)"/>
+<g class="fd-node fd-node--empty" data-page="" data-end="mp" role="button" tabindex="0" aria-label="注册完成">
+<rect class="fd-box" x="30" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--sys" x="42" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="107" y="84" text-anchor="middle">注册完成</text>
+</g>
+<g class="fd-node" data-page="mp-profile" data-end="mp" role="button" tabindex="0" aria-label="打开个人资料">
+<rect class="fd-box" x="208" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="220" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="285" y="84" text-anchor="middle">打开个人资料</text>
+</g>
+<g class="fd-node" data-page="mp-profile" data-end="mp" role="button" tabindex="0" aria-label="填写可选项">
+<rect class="fd-box" x="386" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="398" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="463" y="84" text-anchor="middle">填写可选项</text>
+</g>
+<g class="fd-node" data-page="mp-profile" data-end="mp" role="button" tabindex="0" aria-label="点保存校验姓名">
+<rect class="fd-box" x="564" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--page" x="576" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="641" y="84" text-anchor="middle">点保存校验姓名</text>
+</g>
+<g class="fd-node" data-page="mp-profile" data-end="mp" role="button" tabindex="0" aria-label="姓名未填·标红">
+<rect class="fd-box" x="742" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--page" x="754" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="819" y="84" text-anchor="middle">姓名未填·标红</text>
+</g>
+<g class="fd-node" data-page="mp-profile" data-end="mp" role="button" tabindex="0" aria-label="进首页">
+<rect class="fd-box" x="920" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="932" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="997" y="84" text-anchor="middle">进首页</text>
+</g>
+<text class="fd-edge-tx" x="548" y="71" text-anchor="middle">点保存</text>
+<text class="fd-edge-tx" x="726" y="71" text-anchor="middle">姓名为空</text>
+<text class="fd-edge-tx" x="637" y="159" text-anchor="middle">补填后重试</text>
+<text class="fd-edge-tx" x="815" y="19" text-anchor="middle">姓名有值</text>
+<text class="fd-edge-tx" x="726" y="191" text-anchor="middle">点跳过</text>
+</svg></div><div class="fd-card"><div class="fd-head"><h3 class="fd-h">宠物添加链</h3><span class="fd-tag">分链</span></div><p class="fd-sub">五必填四选填；保存时一次校验，缺项行标红并滚到第一处。</p><svg class="fd-svg" viewBox="0 0 1096 194" width="1096" height="194" role="img" aria-label="宠物添加链">
+<defs><marker id="ar-d2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path class="fd-ar" d="M0 0 8 4 0 8z"/></marker></defs>
+<path class="fd-edge" d="M176 80 H208" marker-end="url(#ar-d2)"/>
+<path class="fd-edge" d="M354 80 H386" marker-end="url(#ar-d2)"/>
+<path class="fd-edge" d="M532 80 H564" marker-end="url(#ar-d2)"/>
+<path class="fd-edge" d="M710 80 H742" marker-end="url(#ar-d2)"/>
+<path class="fd-edge" d="M815 108 V142 H459 V108" marker-end="url(#ar-d2)"/>
+<path class="fd-edge" d="M637 52 V26 H993 V52" marker-end="url(#ar-d2)"/>
+<g class="fd-node" data-page="mp-pet-add" data-end="mp" role="button" tabindex="0" aria-label="打开添加萌宠">
+<rect class="fd-box" x="30" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="42" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="107" y="84" text-anchor="middle">打开添加萌宠</text>
+</g>
+<g class="fd-node" data-page="mp-pet-add" data-end="mp" role="button" tabindex="0" aria-label="选宠物种类">
+<rect class="fd-box" x="208" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="220" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="285" y="84" text-anchor="middle">选宠物种类</text>
+</g>
+<g class="fd-node" data-page="mp-pet-add" data-end="mp" role="button" tabindex="0" aria-label="填九项字段">
+<rect class="fd-box" x="386" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="398" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="463" y="84" text-anchor="middle">填九项字段</text>
+</g>
+<g class="fd-node" data-page="mp-pet-add" data-end="mp" role="button" tabindex="0" aria-label="点保存校验必填">
+<rect class="fd-box" x="564" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--page" x="576" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="641" y="84" text-anchor="middle">点保存校验必填</text>
+</g>
+<g class="fd-node" data-page="mp-pet-add" data-end="mp" role="button" tabindex="0" aria-label="缺项·行标红">
+<rect class="fd-box" x="742" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--page" x="754" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="819" y="84" text-anchor="middle">缺项·行标红</text>
+</g>
+<g class="fd-node" data-page="mp-pet-add" data-end="mp" role="button" tabindex="0" aria-label="添加成功">
+<rect class="fd-box" x="920" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--page" x="932" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="997" y="84" text-anchor="middle">添加成功</text>
+</g>
+<text class="fd-edge-tx" x="548" y="71" text-anchor="middle">点保存</text>
+<text class="fd-edge-tx" x="726" y="71" text-anchor="middle">有缺项</text>
+<text class="fd-edge-tx" x="637" y="159" text-anchor="middle">补填</text>
+<text class="fd-edge-tx" x="815" y="19" text-anchor="middle">字段齐</text>
+</svg></div><div class="fd-card"><div class="fd-head"><h3 class="fd-h">宠物档案状态机</h3><span class="fd-tag">状态机</span></div><p class="fd-sub">种类/品种/绝育/毛色保存后锁死；昵称、生日、性别、体重、头像可改。</p><svg class="fd-svg" viewBox="0 0 562 144" width="562" height="144" role="img" aria-label="宠物档案状态机">
+<defs><marker id="ar-d3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path class="fd-ar" d="M0 0 8 4 0 8z"/></marker></defs>
+<path class="fd-edge" d="M176 80 H208" marker-end="url(#ar-d3)"/>
+<path class="fd-edge" d="M354 80 H386" marker-end="url(#ar-d3)"/>
+<path class="fd-edge" d="M459 52 V26 H281 V52" marker-end="url(#ar-d3)"/>
+<g class="fd-node" data-page="mp-pet-add" data-end="mp" role="button" tabindex="0" aria-label="新增（可改全部）">
+<rect class="fd-box" x="30" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="42" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="107" y="84" text-anchor="middle">新增（可改全部）</text>
+</g>
+<g class="fd-node" data-page="mp-pet-edit" data-end="mp" role="button" tabindex="0" aria-label="已保存（锁 4 项）">
+<rect class="fd-box" x="208" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--page" x="220" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="285" y="84" text-anchor="middle"><tspan x="285" dy="-8">已保存</tspan><tspan x="285" dy="17">（锁 4 项）</tspan></text>
+</g>
+<g class="fd-node" data-page="mp-pet-edit" data-end="mp" role="button" tabindex="0" aria-label="编辑（只提交可改项）">
+<rect class="fd-box" x="386" y="52" width="146" height="56" rx="8"/>
+<rect class="fd-bar fd-bar--owner" x="398" y="64" width="3" height="32" rx="1.5"/>
+<text class="fd-tx" x="463" y="84" text-anchor="middle"><tspan x="463" dy="-8">编辑</tspan><tspan x="463" dy="17">（只提交可改项）</tspan></text>
+</g>
+<text class="fd-edge-tx" x="192" y="71" text-anchor="middle">保存</text>
+<text class="fd-edge-tx" x="370" y="71" text-anchor="middle">点编辑</text>
+<text class="fd-edge-tx" x="370" y="19" text-anchor="middle">保存</text>
+</svg></div></div><p class="fl-foot">共 21 个节点（含 2 个无页面的系统动作）；点节点会同时切到「小程序」页签、换到那一页并滚到对应文档段。</p></div></section><section class="sh-panel" id="p-end-mp"><div class="sh-pad"><div class="dl-grid"><div class="dl-stage"><div class="dl-chips"><button class="dl-chip is-on" data-page="mp-profile"><span class="dl-chip-no">P-01</span> 个人资料</button><button class="dl-chip" data-page="mp-pet-add"><span class="dl-chip-no">P-02</span> 添加萌宠</button><button class="dl-chip" data-page="mp-pet-edit"><span class="dl-chip-no">P-03</span> 编辑宠物</button><span class="dl-view"><button class="is-on" data-view="one">单页</button><button data-view="all">总览</button></span></div><div class="dl-pagewrap is-on" data-page="mp-profile" data-end="mp"><div class="dl-pagehead"><span class="no">P-01</span><h3>个人资料</h3></div><div class="dl-statebar"><button class="dl-stbtn is-on" data-st="new">初始（新用户）</button><button class="dl-stbtn" data-st="nameEmpty">姓名未填</button><button class="dl-stbtn" data-st="nameLocked">姓名已锁定</button><button class="dl-stbtn" data-st="skip">已跳过</button></div><div class="sh-phone-wrap"><div class="sh-phone">
+    <div class="mp" id="mp1" data-state="new">
+      <div class="mp-status">
+        <span class="sb-time">6:08</span>
+        <div class="sb-right">
+          <svg class="ic"><use href="#i-signal"/></svg>
+          <svg class="ic"><use href="#i-wifi"/></svg>
+          <span class="sb-batt">67</span>
+          <svg class="ic" viewBox="0 0 24 16"><use href="#i-batt"/></svg>
+        </div>
+      </div>
+      <div class="mp-nav">
+        <button class="nav-back" aria-label="返回"><svg class="ic"><use href="#i-back"/></svg></button>
+        <h2 class="nav-title">个人资料</h2>
+        <div class="capsule"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="split"></span><span class="ring"></span></div>
+      </div>
+      <div class="mp-scr">
+        <div class="tip" id="tip1">
+          <svg class="ic"><use href="#i-tip"/></svg>
+          <span class="tip-text" id="tipText">完善资料，让我们更好地服务你和毛孩子</span>
+          <button class="tip-act" id="skipTip">跳过</button>
+        </div>
+        <div class="card">
+          <div class="row is-link" data-open="avatar">
+            <span class="row-k">头像</span>
+            <div class="row-main">
+              <div class="avatar-box" id="av1"><svg class="ic"><use href="#i-cam"/></svg></div>
+              <svg class="ic"><use href="#i-chev"/></svg>
+            </div>
+          </div>
+          <div class="row is-static">
+            <span class="row-k">绑定手机号</span>
+            <div class="row-main"><span class="row-v">18735265041</span></div>
+          </div>
+          <div class="row is-link" id="rowName" data-open="none">
+            <span class="row-k">姓名<span class="req">*</span></span>
+            <div class="row-main">
+              <div class="row-col"><input class="row-input" id="nameInput" maxlength="20" placeholder="请输入真实姓名" aria-label="姓名"></div>
+              <svg class="ic" id="nameChev"><use href="#i-chev"/></svg>
+            </div>
+          </div>
+          <div class="row">
+            <span class="row-k">性别</span>
+            <div class="pills">
+              <button class="pill" data-pick="sex" data-v="1" aria-pressed="false">男</button>
+              <button class="pill" data-pick="sex" data-v="0" aria-pressed="false">女</button>
+            </div>
+          </div>
+          <div class="row is-link" data-open="date" data-target="birth">
+            <span class="row-k">生日</span>
+            <div class="row-main"><span class="row-v is-empty" id="v-birth">请选择</span><svg class="ic"><use href="#i-chev"/></svg></div>
+          </div>
+          <div class="row is-link" data-open="region">
+            <span class="row-k">所在地</span>
+            <div class="row-main"><span class="row-v is-empty" id="v-region">请选择</span><svg class="ic"><use href="#i-chev"/></svg></div>
+          </div>
+          <div class="row">
+            <span class="row-k">详细地址</span>
+            <div class="row-edit"><input class="row-input" id="addrInput" maxlength="100" placeholder="请输入详细地址" aria-label="详细地址"></div>
+            <button class="row-loc" id="locBtn">定位</button>
+          </div>
+          <div class="row is-link" data-open="date" data-target="firstpet">
+            <span class="row-k">初次养宠时间</span>
+            <div class="row-main"><span class="row-v is-empty" id="v-firstpet">请选择</span><svg class="ic"><use href="#i-chev"/></svg></div>
+          </div>
+        </div>
+        <div class="skip-wrap" id="skipWrap"><button class="skip" id="skipBtn">跳过，以后再说</button></div>
+      </div>
+      <div class="mp-actionbar">
+        <button class="btn-primary" id="save1">保存</button>
+        <span class="home-ind"></span>
+      </div>
+      <div class="mask" id="mask1" hidden></div>
+      <div class="sheet" id="sheet1" hidden>
+        <div class="sheet-head"><span class="sheet-title" id="sheetTitle1">选择</span><button class="sheet-cancel" data-close="1">取消</button></div>
+        <div class="sheet-body" id="sheetBody1"></div>
+        <div class="sheet-foot" id="sheetFoot1" hidden></div>
+      </div>
+      <div class="toast" id="toast1" hidden></div>
+    </div>
+  </div></div></div><div class="dl-pagewrap" data-page="mp-pet-add" data-end="mp"><div class="dl-pagehead"><span class="no">P-02</span><h3>添加萌宠</h3></div><div class="dl-statebar"><button class="dl-stbtn is-on" data-st="default">初始</button><button class="dl-stbtn" data-st="error">缺项标红</button><button class="dl-stbtn" data-st="saved">已保存</button></div><div class="sh-phone-wrap"><div class="sh-phone">
+    <div class="mp" id="mp2" data-state="default">
+      <div class="mp-status">
+        <span class="sb-time">6:08</span>
+        <div class="sb-right">
+          <svg class="ic"><use href="#i-signal"/></svg>
+          <svg class="ic"><use href="#i-wifi"/></svg>
+          <span class="sb-batt">67</span>
+          <svg class="ic" viewBox="0 0 24 16"><use href="#i-batt"/></svg>
+        </div>
+      </div>
+      <div class="mp-nav">
+        <button class="nav-back" aria-label="返回"><svg class="ic"><use href="#i-back"/></svg></button>
+        <h2 class="nav-title">添加萌宠</h2>
+        <div class="capsule"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="split"></span><span class="ring"></span></div>
+      </div>
+      <div class="mp-scr">
+        <div class="head-block">
+          <p class="head-title">完善信息</p>
+          <p class="head-sub">帮助你科学照顾喂养萌宠</p>
+        </div>
+        <div class="species" id="species2">
+          <button class="sp-card" data-sp="1" aria-pressed="false">
+            <img class="sp-art" src="data:image/jpeg;base64,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" alt="猫" width="117" height="110">
+            <span class="sp-name">猫</span>
+            <span class="sp-badge" hidden>已选</span>
+          </button>
+          <button class="sp-card" data-sp="2" aria-pressed="false">
+            <img class="sp-art" src="data:image/jpeg;base64,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" alt="狗" width="117" height="110">
+            <span class="sp-name">狗</span>
+            <span class="sp-badge" hidden>已选</span>
+          </button>
+          <button class="sp-card" data-sp="3" aria-pressed="false">
+            <img class="sp-art" src="data:image/jpeg;base64,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" alt="异宠" width="117" height="110">
+            <span class="sp-name">异宠</span>
+            <span class="sp-badge" hidden>已选</span>
+          </button>
+        </div>
+        <div class="card">
+          <div class="row is-link" data-open="breed" id="rowBreed2">
+            <span class="row-k">宠物品种<span class="req">*</span></span>
+            <div class="row-main"><span class="row-v is-empty" id="v-breed2">请选择</span><svg class="ic"><use href="#i-chev"/></svg></div>
+          </div>
+          <div class="row" id="rowNick2">
+            <span class="row-k">宠物昵称<span class="req">*</span></span>
+            <div class="row-edit"><input class="row-input" id="nick2" maxlength="20" placeholder="请输入萌宠昵称" aria-label="宠物昵称"></div>
+          </div>
+          <div class="row" id="rowWeight2">
+            <span class="row-k">宠物体重(kg)</span>
+            <div class="row-edit"><input class="row-input" id="weight2" inputmode="decimal" placeholder="请输入萌宠体重" aria-label="宠物体重"></div>
+          </div>
+          <div class="row is-link" data-open="petavatar">
+            <span class="row-k">宠物头像</span>
+            <div class="row-main"><div class="avatar-box" id="av2"><svg class="ic"><use href="#i-cam"/></svg></div><svg class="ic"><use href="#i-chev"/></svg></div>
+          </div>
+          <div class="row is-link" data-open="date" data-target="pbirth" id="rowBirth2">
+            <span class="row-k">宠物生日<span class="req">*</span></span>
+            <div class="row-main"><span class="row-v is-empty" id="v-pbirth">选择日期</span><svg class="ic"><use href="#i-chev"/></svg></div>
+          </div>
+          <div class="row" id="rowSex2">
+            <span class="row-k">宠物性别<span class="req">*</span></span>
+            <div class="pills">
+              <button class="pill" data-pick="psex" data-v="0" aria-pressed="false">弟弟</button>
+              <button class="pill" data-pick="psex" data-v="1" aria-pressed="false">妹妹</button>
+            </div>
+          </div>
+          <div class="row" id="rowNeuter2">
+            <span class="row-k">绝育情况<span class="req">*</span></span>
+            <div class="pills">
+              <button class="pill" data-pick="neut" data-v="1" aria-pressed="false">是</button>
+              <button class="pill" data-pick="neut" data-v="0" aria-pressed="false">否</button>
+            </div>
+          </div>
+          <div class="row is-link" data-open="color">
+            <span class="row-k">宠物毛色</span>
+            <div class="row-main"><span class="row-v is-empty" id="v-color2">请选择</span><svg class="ic"><use href="#i-chev"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="mp-actionbar">
+        <button class="btn-primary" id="save2">保存</button>
+        <span class="home-ind"></span>
+      </div>
+      <div class="mask" id="mask2" hidden></div>
+      <div class="sheet" id="sheet2" hidden>
+        <div class="sheet-head"><span class="sheet-title" id="sheetTitle2">选择</span><button class="sheet-cancel" data-close="2">取消</button></div>
+        <div class="sheet-body" id="sheetBody2"></div>
+        <div class="sheet-foot" id="sheetFoot2" hidden></div>
+      </div>
+      <div class="toast" id="toast2" hidden></div>
+    </div>
+  </div></div></div><div class="dl-pagewrap" data-page="mp-pet-edit" data-end="mp"><div class="dl-pagehead"><span class="no">P-03</span><h3>编辑宠物</h3></div><div class="dl-statebar"><button class="dl-stbtn is-on" data-st="locked">锁定态</button></div><div class="sh-phone-wrap"><div class="sh-phone">
+    <div class="mp" id="mp3" data-state="locked">
+      <div class="mp-status">
+        <span class="sb-time">6:08</span>
+        <div class="sb-right">
+          <svg class="ic"><use href="#i-signal"/></svg>
+          <svg class="ic"><use href="#i-wifi"/></svg>
+          <span class="sb-batt">67</span>
+          <svg class="ic" viewBox="0 0 24 16"><use href="#i-batt"/></svg>
+        </div>
+      </div>
+      <div class="mp-nav">
+        <button class="nav-back" aria-label="返回"><svg class="ic"><use href="#i-back"/></svg></button>
+        <h2 class="nav-title">编辑宠物</h2>
+        <div class="capsule"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="split"></span><span class="ring"></span></div>
+      </div>
+      <div class="mp-scr">
+        <p class="sp-lock-note">种类、品种、绝育、毛色保存后不可修改</p>
+        <div class="species">
+          <button class="sp-card sp-lock" aria-pressed="true" aria-disabled="true">
+            <img class="sp-art" src="data:image/jpeg;base64,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" alt="猫" width="117" height="110">
+            <span class="sp-name">猫</span>
+            <span class="sp-badge sp-badge--lock">不可改</span>
+          </button>
+          <button class="sp-card sp-lock" aria-pressed="false" aria-disabled="true">
+            <img class="sp-art" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCADWAOoDASIAAhEBAxEB/8QAHAABAAIDAQEBAAAAAAAAAAAAAAQFAQMGAgcI/8QAOhAAAQMDAgMHAwIEBAcAAAAAAQACAwQFERIhBjFBBxMUUVJhkSIycUKhCBVygTQ1YvEWIyQzQ7HB/8QAGgEBAAIDAQAAAAAAAAAAAAAAAAQFAQIDBv/EACcRAAICAQQBBAIDAQAAAAAAAAABAgMRBBIhMQUTIkFRFGEVIzKh/9oADAMBAAIRAxEAPwD9UosOcGDJUZ1b6W/KAlIoHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fUPhPFy+ofCAnooHi5fMfCz42TyCAxVSl0mAdh5dVpQ/cfysZwgMotIrITI6MvAeOhPNaprnTwS928nV7ICWiiT3SCnIDg7JGVJjkbKwPbnBGd0B6RP7pzQBFpqallKzXITg+S101fFVuLWatkBKRYWUAREQBERAEREAREQBERAEREAREQBERAEREA5jKwEHJYPIoCru1HG1viAdL89Oqr6INkqBJK7Zm5z1U2qoaipe90smGNyQAVEtkTZagxu+3ScoDPdS3Oqc5jcAdVI/lta3bvj5cyo8Dql05gp5Mb7dF7FRVRVjYZZcuDgD5IDV3k8VSI3SvyHAHfmuiDg1mpxwMLnarP8wcf9YV7U05qKcRhxbnqEBU3WsNQ9sUe4H7rVT0tfENUbS0nyKsHUcFup3ygapANiVHt9TVVFTl0p09QgMaLr5u+VrmluNO3VI9wGcK91AYGQSoF63pgPJyA12WolmfJ3jy7AHNWypeH865fwFdIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAwOSx5rI5LHPOUBUV9yyXQQh2c4Jwo9m/xZ/pKuJKWGOOR4aGk5KqLPvWnA6FAZtoxdDk/qKxVDN529QXt1sq2TOkjxknY5WyC3T+JE0zg3fPmgIlX/mLv6gujH2N/C5ys/wAxdg/rC6Jv2j8ICmvNVrlELf081Kt0dPTQ5fIzW7c5PL2WmptEs8z5GvaA453WsWKUneZvwgNNVN3FeJI3am5zsdlNu7xJRscP1YKi1FlkjaCwhxPNbKwPjtkccn3tP7IDVaKhtOJXOO5wAPNTRc5AcuicG+4UWw0zZqhz3cmb7roXsilboc1pCqpyttk5Vywl/wBJcYxisSRFgnbUM1NWwDdV9RSyUEpmZvH1UynqGzxhwO676XVbn6dnEkc7atvuj0bURFOOAREQBFjK8ulaz7iAsOSXLMpN9HtFGFwgJxqwpIOVpC2E+IvJmUJR7QREXQ1CIiAIiIDA5LAXocgiArK6kq55XGJ4DCMblZtlsfSuMj3DVy2VkiAxhQ7jDUTNYIH6cc91NRAUkFomdNrld1z+VdgYREAREQGisjkmhLYjh/RU1RQVYYXTEFo/1LoFX3qUNo3M56iAuOpnsqlL9HSqO6aQszRHSahzec5UzvDnmo1BhlDFk42XmWsbGcZyquFsaqk5PBMnHdJ4LFr2yNLHjIPmqiR3gak6DqYVolq5XuyXEDoAtL5C477qt1HkYyada5Xydq6Gk0+i6FbDgHvBusiupz/5QqEuTUui81b9I0/Bh9nRNnjkJ0Paf7rzLUMhGXuAXPh5HIr13xc4F+XDqCuv83Jx4XJj8BfZZvrZZtqZpOTzC8m21sztTiBnnkqTQ1tOWBsYDSOhUozk813hV+RHfZPJo36bxFYKart0tM3W4gjrhTbZIX0zckkgkZK317u8oJfMBQ7N/h3f1LGmpVGqUYdNGLZb6sssAiIr7BBCIiwAiIgA5BEHIIgCIiAIiIAiIgCIiAKrvv8A2Ix5uVoqq7SNkc2Pnp3KgeTmoUPPySNMv7EaGVTxTtiGMAc1pdvuUzpWt8uF4+VkprllvGCXKPeCSAAT7LebdU6C/unYUelrIYamN0x+gHdX0/EVA2M6JCT0ACmaTT1Ti5WSwcrrJxaUVk51xwSDsR0XnWvM0pklfIdtRytZfhQmlngkrlG0vTWD1VjaLfT1sJfIdRB5Z5KLdaL+XzgNOY3DI3XZ6aar9T4Oati5bPk0CTSctOCrShufeHupefRypO8z0WWv3TT3yqlmLMzqUuzqat4bb5T7KPZAfCZPUqumuBlt/cE/WT+ytrWzRRR9MjKv9JartQpL4RX3wdde1/ZLRCivGV4REWAEREAHIIg5BEAREQBERAEREAREQGqrmEEDpAASNgD5qke/US48ypl0my9sQOzeahCN7wdLS78LyflbpXW7I9ItNLXthl/JrJVFxBxJb7Cxpr6gRa86QeZV7Ix0Zw4AHyyuW4u4IoeKmxmubOHxA6XxuIxlQKqluXqdEt5x7Snh7QbNWS6I6vBzgahgLo6GrbUgFrg4HcEHmvl1f2MVMMhktt01DnolGF9E4K4ZrrdRRUr3mokBJ1Dl+FLuoq2r0Xl/RiE5J+9HQvH0lRJZtLdyuiHDdU+PeSNpPQqgvVpq6Bh7xh0+oclwlpLorMom1d0HwmQo+IJLXK6Vkoa0bnJ2Wv8A4xhvlTgVUMj2jBa07r5Z2rXue2UEbGPc0SvIJG2RhfP+EOIqh98pTGXF3eAAZU7T6KVlDlu4OVl0YWJY5P1DG/IWxrt1FpyS0Z681IBVO+Cdg3h24XWU2nuI9PLSuN1LpLDUGWkEZ3LDzVz4a1RtcX8lf5CGYZ+izREXqCmCIiAIiIAOQRByCIAiIgCIiAIiIAsEgAk9FleZN2O/CxLoIi0lv8bO+eRp7snZeuIqptotp7hjWuOwICt6SIRQNaOWFA4itZutC6Jpw8btKgV6VVwbS5ZLqtTsip9HzV1RLM4vke4uzzJVlab5NRzsZKTNE44IduoVVbaqjcWyROG/MDIUm1WWqr52gRODQQSXDCr4xal0els9J1vOMHemz2+uYJHwNyRnZVHG1yPB/ClXcLbSsMkTRp2+3PUroaZncQsYf0gBKmOmrIJKeojbLFI0texwyHA9FbV11rnHJ5aUpN4zwfjXiLtY4hmq3SS3arDic4ZKQB+AF1XZj21XCrutPZLxOa6jqnCLVIcuYT1zzK7DjD+Gnh29Vzp7dXz20yOy6PGto/HkrHgH+HHh7g+5Q3SorJ7jVQnVHqGlgPnjqujw+Angj9ovZeL/AE5pS2TRkviewZLSVxXB/Yi7h+6tr6ybv+7dljAwjB91+mxG1wwcEe6iXCantlI+d7GkDphV0tI4xahLCJcL98lmOWcJG0s2IIPutmpa6+9zVsh+ljG52ACjwVDi8ajsdvwqKzSYfteS7jXLblom52Vxw7KRUyR9CM/hVlTSS0wYXt+l4yHDkrHh5v8A1T3eTVtooyhqIpkPUNOtnRBZXnK9L2R54IiIAiIgA5BEHIIgCIiAIiIAiIgGV5du0gLDngFY7weywwWkJ1RNI8sI48/ZRaSoG7CfcKQXZC0ybI0SQxyHLo2k+4WWRtjGGNDfwslMrk485N1J4xk4jtfu11s3Bk9XaZnxTtkYHPaMkNJ3XzSz9qHE9n0ioqmVrMfbK3H7hfeLpbae8W+ehqoxJDOwsc09QV+fOJeGpbJcJKKUHEZ+g+pvRcbnJLKLvxMKbcwmuS9g7abi+q1VdrgMQ6RvOf3Vs7t2o4QHustf3Q3cQ9pwF8oig1yPP9lecM8NTcQXSKhiaQ15+t2Ng3quMLZNlpd4vTRi5vg/Q1iu0F9tVNcqbV3NQwPaHcxnzXm+0bq+gkjacHGfhbrbQQ2uggoqdobHCwMaB5BSdlK7WGeUU9k90T5XLE6F2mRuk+69U8L55WxxglzjthfR6m0UVUQZYGOPPOEprTR0rtcUDGu88KH+Hh5yW/8ALR2Yxyazb2y2ZsEjcubH181UcOMIknJBGPpXSzSBlO/kMAqpssGikMhBDnuLt1tKlPUQa+EVqtfpyz8k8BZRFa4wQQiIgCIiADkEQcgiAIiIAiIgC0yP0nmvb34UOeTW7AXK2aism8I5eDLpiTsF5zjcuWuR4YwYO6hPmceZK8/qfJST2xJ9emT7LEVTWOGHHIVhTV8cow52CPNcwZTz3UepuJpojJqIx5LjT5Ke9ZOtmkWODszUR5xqXsEOGzl8Gd2rVUFzlYcSQMfjH6l3fDfaNQXNrQ2YNk6sccFekKncs4R9B5DmuY4x4Ng4oh1sc2KrYPoeeR9irenusM4GHKW17HD7gtWs8Heq2Vct0XyfHqPseu0chjllp2tLt3g52X0bhThGj4YptMQD5iPrkI3KvgemU6FaRqjHpEm/yF1y2yfBggAbIskgLXJURRNyXBdMEI2AoQquovkEB3c0fkrZR3WOvZqhcHDlkdCmGMG6sPeN7gDd33HyC9ABrQ1owAMBeGt0k75JO5K9reFaT3fJiT4wERF1NAiIgCIiADkEQcgiAIiIAnREKAjTPxlRBsC73UipGWke6iSO/wCSQFU+Sm4xJemjyRJ5SXk55KHJOGAklb5ORVXXatGQvKTfyXVUUzVU3ZrNlokppbzQzsicWZaQD7qC2nfU1Iac46rp7ZCIKbDQAMrFc2pZJF8YqG1H5+4gstXbat8crXNmG5J/Wq2nq5InhzHPikb5FfoHifhmj4hpi2QaJmj6JBzH5XxbiHhiptNS6OZh2P0SDkV6zRa6N8Unwzyeq0k6pbl0Wll7RrtbS1srhPG31HB+V29r7YKWQBsxfE7qOYXxg627PG/sstOOQVi0Ro3SXZ+h6XtStkgBNXH+CVLPaRbSNquH5X5wErh5rPiHjzWDf8j9H6CrO0+2xRk+MYfZu5K5O8drrZGltGxzz5u2XyczOJ3Xl0uOeSiMO9vo6O78Z3G46n1FS5kfpacL7L2UVrKnhuk0uy4NIPnzX57o6OouFQyKON73uP0MA5L7Z2cW6fhxzaepk3mIJb0YVwsvhW0m+zrp652Zkj6mPNZWGnLQsqYjZhERZMBERAEREAHIIg5BEAREQBY6rKFARp2qA9pAcxWsjctVdVRkOyAoGup3waJFE8MqpRgkKJO0OGFYVDN8+ygyDC8fODi8Mu6nnkgwxhr3EDB5ZVvTfTCAq1nMqxhP0Bczeb5NVUXaNsqkuFFT3SHw9TGHsPn0V7UDUFXSQfVtsukJuD3IwoqS2s+YcS9n9Zb2OrKVhnpM/cObfyuMfAYztnHLC/S9he0S9zKGuY7Yh24Kh8Q9k1jvmqaBjqKodvqj+0n3C9ZoNT6taz2ef1uj2S9vR+cS3Cxg88L6pV9hF4jkIgq6WWP9JJLSoTeyero5iysq4NvQSVJuuhVHdMiV6ac3hI+caC7k0nPsrWy8J196mDYIDpOxkds0L6dbeBbTSOa57DO4evl8LpYYY4GBkbGtaOQAVTd5eOMVrksqPFtvM+ik4X4OouH42v2mqcbyEf8ApWU8pZXB3p3U0Kvrdqoe6pZ3Ssnuk+S4hTGuO2K4PoVJJ31LFJn7mgrcoVmObdD+P/qmr2tDzBP9HnrP9MIiLqaBERAEREAHIIg5BEAREQBERAYPJanx6vNblhayWezKZU1EGMgNwAqueBzOi6aVjXHJGSoklHrByAVU6zxyt5j2TadTsOSfmN/IKwp3ZYFvulq0wGVg3bz91Xwy6MEnZeb1GnnTLbMs4WKxZRKfuor27qSSHAEdVoeFxO0RSyGGoY8dCCu2p3h7GuHLouFGzl11rmDqOPlyxzV34ez3OJC18crJNqXiKF7/ACGy4GukdNUPe45ycrsbzUBtE5ud3bLk5YhqJzla+XtzYoo10EMJsjxt81tAxsmlegFTliZaNlW1Q11n4U+WVsMTnE/7qPZ6aS4VjdQySd10qg5zUUazkoptna2mMxW+AO56VMXljA1oaBgNGF6Xuao7YqJ5qbzJsIiLoahERAEREAHl5IiIAiIgCIiALCIhlGDhYxlEWDJ4qI2ugkaRkFpXAyVMjXuaCMAoi875xLdEs/Hvsm2+d8rHNdjZbnhEVCWRoOxyry2zkQhvkiKx8c8WMjav/B4uUzpCxp+0DOPdVjhsiKNrW3dLJvp17EeMLxLM2EZcCfwiKMjuildcTXT6S3DRyC7bhqhZFSCfbU/9giK38PFO/kh69tQ4LzAH+6Ii9WUYREQBERAEREB//9k=" alt="狗" width="117" height="110">
+            <span class="sp-name">狗</span>
+          </button>
+          <button class="sp-card sp-lock" aria-pressed="false" aria-disabled="true">
+            <img class="sp-art" src="data:image/jpeg;base64,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" alt="异宠" width="117" height="110">
+            <span class="sp-name">异宠</span>
+          </button>
+        </div>
+        <div class="card">
+          <div class="row is-locked">
+            <span class="row-k">宠物品种</span>
+            <div class="row-main"><span class="row-v">英国短毛猫</span><svg class="ic"><use href="#i-lock"/></svg></div>
+          </div>
+          <div class="row">
+            <span class="row-k">宠物昵称</span>
+            <div class="row-edit"><input class="row-input" id="nick3" value="奶糖" maxlength="20" aria-label="宠物昵称"></div>
+          </div>
+          <div class="row">
+            <span class="row-k">宠物体重(kg)</span>
+            <div class="row-edit"><input class="row-input" id="weight3" value="4.2" inputmode="decimal" aria-label="宠物体重"></div>
+          </div>
+          <div class="row is-link" data-open="petavatar">
+            <span class="row-k">宠物头像</span>
+            <div class="row-main"><div class="avatar-box" id="av3"><svg class="ic"><use href="#i-cam"/></svg></div><svg class="ic"><use href="#i-chev"/></svg></div>
+          </div>
+          <div class="row is-link" data-open="date" data-target="pbirth3">
+            <span class="row-k">宠物生日</span>
+            <div class="row-main"><span class="row-v" id="v-pbirth3">2023-04-18</span><svg class="ic"><use href="#i-chev"/></svg></div>
+          </div>
+          <div class="row">
+            <span class="row-k">宠物性别</span>
+            <div class="pills">
+              <button class="pill" data-pick="psex3" data-v="0" aria-pressed="true">弟弟</button>
+              <button class="pill" data-pick="psex3" data-v="1" aria-pressed="false">妹妹</button>
+            </div>
+          </div>
+          <div class="row is-locked">
+            <span class="row-k">绝育情况</span>
+            <div class="row-main"><span class="row-v">已绝育</span><svg class="ic"><use href="#i-lock"/></svg></div>
+          </div>
+          <div class="row is-locked">
+            <span class="row-k">宠物毛色</span>
+            <div class="row-main"><span class="row-v">蓝白</span><svg class="ic"><use href="#i-lock"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="mp-actionbar">
+        <button class="btn-primary" id="save3">保存</button>
+        <span class="home-ind"></span>
+      </div>
+      <div class="mask" id="mask3" hidden></div>
+      <div class="sheet" id="sheet3" hidden>
+        <div class="sheet-head"><span class="sheet-title" id="sheetTitle3">选择</span><button class="sheet-cancel" data-close="3">取消</button></div>
+        <div class="sheet-body" id="sheetBody3"></div>
+        <div class="sheet-foot" id="sheetFoot3" hidden></div>
+      </div>
+      <div class="toast" id="toast3" hidden></div>
+    </div>
+  </div></div></div></div><aside class="dl-doc"><div class="dl-docset" data-page="mp-profile">
+<div class="dl-dochead"><span class="no">P-01 · 小程序</span><h4>个人资料</h4><p>新用户注册后补齐资料。八项里只有姓名必填，其余可空着保存，也可以直接跳过。</p></div>
+<div class="dl-sec"><h5>1 · 功能点</h5><ul class="dl-li"><li>展示八项：头像、手机号（只读）、姓名、性别、生日、所在地、详细地址、初次养宠时间。</li><li>姓名保存后锁定：再进入只读，右侧显示锁图标。</li><li>头像三种来源：微信头像、相册、拍照。</li><li>所在地三级联动，详细地址定位带出后手补门牌。</li><li>跳过不写库，提示条换文案后进首页。</li></ul></div>
+<div class="dl-sec"><h5>2 · 交互与联动</h5><ul class="dl-li"><li data-hl="#av1">点头像行弹三个选项，选中即回填；遮罩、取消、ESC 都能关。</li><li>点手机号行无响应：无箭头、无按下态。</li><li data-hl="#rowName">姓名为空时是输入框，保存成功后转只读，箭头换成锁。</li><li>性别单选，点已选的一侧不取消。</li><li>生日与初次养宠时间弹三列日期，未来日期置灰。</li><li data-hl="#rowName">姓名空着点保存：行描红 + 红字提示 + toast，焦点回输入框，不发请求。</li><li data-hl="#skipBtn">点跳过：提示条换文案 + toast，不跳转、不写库。</li></ul></div>
+<div class="dl-sec"><h5>3 · 数据来源与刷新</h5><ul class="dl-li"><li>进页面取 <code>GET /v1/users/me</code>，八项一次带回，模板直出。</li><li>头像 <code>POST /v1/upload</code> 拿 url 只做预览，保存时一起提交。</li><li>地区树 <code>GET /v1/address</code> 首次点开时拉取，页面内缓存。</li><li>定位用 <code>wx.getLocation</code> + 逆地理，成功回填省市区；失败只 toast。</li><li>保存 <code>PUT /v1/users/me</code>，只提交改动过的键，不回读。</li></ul></div>
+<div class="dl-sec"><h5>4 · 字段取值逻辑</h5><p class="dl-chain">取数链路：进页面 <code>GET /v1/users/me</code> → 读 rc_users 单行。门店档案本页不涉及。</p><div class="dl-ftb"><span class="dl-ftb-cat">客户主档</span><code class="dl-ftb-tbl">rc_users</code><span class="dl-ftb-join">按登录态 uid 取单行</span></div><ul class="dl-ft"><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">姓名</span><code class="dl-src">rc_users.real_name</code></span><span class="dl-f2">接口出参 real_name；空可改，有值只读</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">性别</span><code class="dl-src">rc_users.sex</code></span><span class="dl-f2">tinyint：0 女 / 1 男；空则不预选</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">生日</span><code class="dl-src">rc_users.birthdate</code></span><span class="dl-f2">date，按 YYYY-MM-DD 展示；默认 1990-01-01 视为未填</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">所在地</span><code class="dl-src">rc_users.province_id / rc_users.city_id / rc_users.district_id</code></span><span class="dl-f2">三列 id 拼成省·市·区；任一为空即未选</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">详细地址</span><code class="dl-src">rc_users.street</code></span><span class="dl-f2">varchar，定位回填后可改；可空，超 100 字截断</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">初次养宠时间</span><code class="dl-src">rc_users.first_pet_adoption_date</code></span><span class="dl-f2">date；等于注册当天默认值视为未填</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">头像</span><code class="dl-src">rc_users.avatar</code></span><span class="dl-f2">upload 返回的 url；空则显示相机占位</span></li></ul><div class="dl-ftb"><span class="dl-ftb-cat">只读身份</span><code class="dl-ftb-tbl">rc_users</code><span class="dl-ftb-join">同上单行，不给入口</span></div><ul class="dl-ft"><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">绑定手机号</span><code class="dl-src">rc_users.phone_number</code></span><span class="dl-f2">注册时微信授权写入；只读，换号走另一页</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">微信身份</span><code class="dl-src">rc_users.unionid</code></span><span class="dl-f2">不展示、不提交；只用于判重与推送</span></li></ul></div>
+<div class="dl-sec"><h5>5 · 判定逻辑</h5><ul class="dl-li"><li data-hl="#rowName"><span class="dl-cond">姓名留空点保存</span><span>→ 行描红 + 红字 + toast，停在原页，不发请求</span></li><li data-hl="#rowName"><span class="dl-cond">姓名有值点保存</span><span>→ 提交改动；成功转只读，提示条与跳过隐藏</span></li><li data-hl="#nameChev"><span class="dl-cond">姓名已锁再进入</span><span>→ 只读，点该行无响应</span></li><li><span class="dl-cond">其余七项全空点保存</span><span>→ 允许通过，只写姓名</span></li><li><span class="dl-cond">点跳过</span><span>→ 不发写请求，只换提示条并放行</span></li><li><span class="dl-cond">生日选到未来</span><span>→ 该日不可点</span></li></ul></div>
+<div class="dl-sec"><h5>6 · 业务规则</h5><div class="dl-rule-group"><span class="dl-rtone is-hard">硬约束</span><ul class="dl-li"><li>姓名必填且保存后不可改：前端只读，后端见到已有 real_name 即丢弃该字段。</li><li>手机号本页不可改：无入口无箭头，换号是另一条链路。</li><li>跳过不写库：不留半条记录，下次进入仍是空表单。</li></ul></div><div class="dl-rule-group"><span class="dl-rtone is-num">数值口径</span><ul class="dl-li"><li>姓名 2–20 字；生日不晚于今天；详细地址不超过 100 字；日期统一 YYYY-MM-DD。</li></ul></div><div class="dl-rule-group"><span class="dl-rtone is-exc">例外与收敛</span><ul class="dl-li"><li>老用户已有姓名：直接进只读态，不出现「请填写姓名」。</li><li>定位失败或无权限：地址留空可手填，不影响保存。</li><li>保存失败：已填内容全保留，toast 提示重试。</li></ul></div><details class="dl-src"><summary>需求原文（节选）</summary><p><span class="dl-exh">§2.2 字段表（节选）</span> 姓名必填、未填可填填过即锁；性别/生日/所在地/详细地址/初次养宠时间/头像非必填；手机号只读。</p><p><span class="dl-exh">§2.3 规则（节选）</span> 非必填项可不填保存；姓名保存后不可改；跳过不校验不写库；只更新提交过的键；失败保留已填内容。</p></details></div>
+<div class="dl-sec"><h5>7 · 状态与可操作</h5><div class="dl-st-row" data-to="new"><span class="stn">初始（新用户）</span><p><span class="dl-lab">看到</span>提示条 + 八行空表单 + 跳过与保存</p><p><span class="dl-lab">能做</span>任意填、可跳过、可保存</p></div><div class="dl-st-row" data-to="nameEmpty"><span class="stn">姓名未填</span><p><span class="dl-lab">看到</span>姓名行描红 + 红字 + toast</p><p><span class="dl-lab">能做</span>补填后重新保存</p></div><div class="dl-st-row" data-to="nameLocked"><span class="stn">姓名已锁定</span><p><span class="dl-lab">看到</span>姓名只读带锁，提示条与跳过消失</p><p><span class="dl-lab">能做</span>只能改其余七项</p></div><div class="dl-st-row" data-to="skip"><span class="stn">已跳过</span><p><span class="dl-lab">看到</span>提示条换文案，跳过按钮隐藏</p><p><span class="dl-lab">能做</span>回首页；下次进入仍是空表单</p></div></div>
+</div><div class="dl-docset" data-page="mp-pet-add">
+<div class="dl-dochead"><span class="no">P-02 · 小程序</span><h4>添加萌宠</h4><p>新增一只宠物。五必填（品种、昵称、生日、性别、绝育）加种类，四项选填，保存即写入宠物档案。</p></div>
+<div class="dl-sec"><h5>1 · 功能点</h5><ul class="dl-li"><li>选种类：猫 / 狗 / 异宠 三张卡单选，切换即刷新品种。</li><li>选品种：弹层按当前种类列品种。</li><li>填昵称、体重、生日、性别、绝育、毛色、头像。</li><li>保存时一次校验全部必填，缺项逐行标红并汇总提示。</li></ul></div>
+<div class="dl-sec"><h5>2 · 交互与联动</h5><ul class="dl-li"><li data-hl="#species2">点种类卡：橙描边 + 「已选」角标，切换会把已选品种清回未选。</li><li data-hl="#v-breed2">点品种行弹列表，选中回填文本并去掉灰态。</li><li>昵称行内输入 1–20 字，输入即清掉该行报错。</li><li data-hl="#weight2">体重失焦即校验格式，不等保存。</li><li>生日弹日期，不允许未来。</li><li>性别弟弟 / 妹妹单选；绝育是 / 否单选，初始都不选中。</li><li data-hl="#save2">缺项点保存：缺的行描红 + toast 列出缺项，停在原页。</li><li data-hl="#save2">保存成功：toast 提示，停留本页可继续新增。</li></ul></div>
+<div class="dl-sec"><h5>3 · 数据来源与刷新</h5><ul class="dl-li"><li>品种字典 <code>GET /v1/pet-breeds?category=</code>，按种类过滤，同种类不重复请求。</li><li>毛色字典 <code>GET /v1/pet-coat-colors</code> 全量拉一次，页面内缓存。</li><li>头像 <code>POST /v1/upload</code> 返回 url 只做预览。</li><li>保存 <code>POST /v1/pets</code> 一次提交全部已填字段，成功后本地插入列表。</li></ul></div>
+<div class="dl-sec"><h5>4 · 字段取值逻辑</h5><p class="dl-chain">取数链路：本页只写 rc_user_pets 主档，user_id 取登录态；字典表只读不写。</p><div class="dl-ftb"><span class="dl-ftb-cat">宠物主档</span><code class="dl-ftb-tbl">rc_user_pets</code><span class="dl-ftb-join">user_id = 登录用户 id，新增插一行</span></div><ul class="dl-ft"><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">种类</span><code class="dl-src">rc_user_pets.category</code></span><span class="dl-f2">tinyint：1 猫 / 2 狗 / 3 异宠；必须选中，保存后不可改</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">品种</span><code class="dl-src">rc_user_pets.breed_id / rc_user_pets.breed_name</code></span><span class="dl-f2">id 存字典主键，name 冗余快照；必填；字典没有时可只存 name</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">昵称</span><code class="dl-src">rc_user_pets.nickname</code></span><span class="dl-f2">varchar(255)，页面限 20 字；trim 后为空即拦</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">生日</span><code class="dl-src">rc_user_pets.birthdate</code></span><span class="dl-f2">varchar(15)，本次统一写 YYYY-MM-DD；必填，不晚于今天</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">性别</span><code class="dl-src">rc_user_pets.sex</code></span><span class="dl-f2">tinyint：0 弟弟 / 1 妹妹；必选，只两值</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">绝育情况</span><code class="dl-src">rc_user_pets.is_neutered</code></span><span class="dl-f2">tinyint：0 未绝育 / 1 已绝育；必选且无默认，保存后不可改</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">毛色</span><code class="dl-src">rc_user_pets.coat_color_id</code></span><span class="dl-f2">读 rc_pet_coat_colors 主键；选填，保存后不可改</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">体重</span><code class="dl-src">rc_user_pets.weight</code></span><span class="dl-f2">decimal(8,2)，单位 kg；选填，填了要 0.1–99.9</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">头像</span><code class="dl-src">rc_user_pets.avatar</code></span><span class="dl-f2">upload 返回的 url；选填，空则列表显默认剪影</span></li></ul><div class="dl-ftb"><span class="dl-ftb-cat">字典（只读）</span><code class="dl-ftb-tbl">rc_pet_breeds / rc_pet_coat_colors</code><span class="dl-ftb-join">品种按 pid 归到种类；毛色独立表</span></div><ul class="dl-ft"><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">品种列表</span><code class="dl-src">rc_pet_breeds.name</code></span><span class="dl-f2">按 category 过滤，母库 921 条；异宠下是通用六项，不细分</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">毛色列表</span><code class="dl-src">rc_pet_coat_colors.name</code></span><span class="dl-f2">全量拉取；不许用户自造，缺的由后台维护</span></li></ul></div>
+<div class="dl-sec"><h5>5 · 判定逻辑</h5><ul class="dl-li"><li data-hl="#v-breed2"><span class="dl-cond">没选种类点品种行</span><span>→ 品种行灰态不可点</span></li><li data-hl="#species2"><span class="dl-cond">切换种类且已选品种</span><span>→ 品种清空并标红，提醒重选</span></li><li data-hl="#save2"><span class="dl-cond">绝育未选点保存</span><span>→ 绝育行描红并计入缺项</span></li><li data-hl="#weight2"><span class="dl-cond">体重填 4.25 或 120 或 abc</span><span>→ 体重行描红 + 格式提示，不提交</span></li><li data-hl="#save2"><span class="dl-cond">缺 N 项点保存</span><span>→ 逐行描红 + toast 列出缺项，停在原页</span></li><li data-hl="#save2"><span class="dl-cond">必填齐、体重留空</span><span>→ 允许保存</span></li></ul></div>
+<div class="dl-sec"><h5>6 · 业务规则</h5><div class="dl-rule-group"><span class="dl-rtone is-hard">硬约束</span><ul class="dl-li"><li>种类、品种、绝育、毛色保存后不可改：前端锁，后端 PUT 白名单直接丢弃这四列。</li><li>绝育必须显式选，不给默认值：母库该列默认 1，不预选也不兜底。</li><li>性别只有弟弟 / 妹妹两值，不引第三种。</li></ul></div><div class="dl-rule-group"><span class="dl-rtone is-num">数值口径</span><ul class="dl-li"><li>体重 0.1–99.9 kg 最多一位小数；昵称 1–20 字；生日精确到日且不晚于今天。</li></ul></div><div class="dl-rule-group"><span class="dl-rtone is-exc">例外与收敛</span><ul class="dl-li"><li>品种字典没有的品类：只写品种名文本，不阻断保存。</li><li>异宠品种是通用六项，不做物种细分。</li><li>上传失败：头像留空，其余照常保存。</li></ul></div><details class="dl-src"><summary>需求原文（节选）</summary><p><span class="dl-exh">§3.2 字段表（节选）</span> 必填：种类、品种、昵称、生日、性别、绝育；选填：毛色、体重、头像。种类三 tab 含异宠。</p><p><span class="dl-exh">§3.4 校验（节选）</span> 缺项逐行标红加汇总提示；体重 0.1–99.9 一位小数；生日不晚于今天。</p></details></div>
+<div class="dl-sec"><h5>7 · 状态与可操作</h5><div class="dl-st-row" data-to="default"><span class="stn">初始</span><p><span class="dl-lab">看到</span>三张种类卡 + 八行表单，绝育两项都不选中</p><p><span class="dl-lab">能做</span>自由填写、切种类、保存</p></div><div class="dl-st-row" data-to="error"><span class="stn">缺项标红</span><p><span class="dl-lab">看到</span>缺的行描红 + toast 汇总</p><p><span class="dl-lab">能做</span>补填后重存，已填内容不丢</p></div><div class="dl-st-row" data-to="saved"><span class="stn">已保存</span><p><span class="dl-lab">看到</span>toast 提示，表单保持刚才的值</p><p><span class="dl-lab">能做</span>可继续新增；改它要走编辑页</p></div></div>
+</div><div class="dl-docset" data-page="mp-pet-edit">
+<div class="dl-dochead"><span class="no">P-03 · 小程序</span><h4>编辑宠物</h4><p>已保存宠物的编辑页。种类、品种、绝育、毛色四项锁死，只放开昵称、生日、性别、体重、头像。</p></div>
+<div class="dl-sec"><h5>1 · 功能点</h5><ul class="dl-li"><li>展示全部字段：四项锁定值置灰带锁，五项可改。</li><li>可改五项：昵称、生日、性别、体重、头像。</li><li>保存只提交可改字段，锁定四项不进请求体。</li></ul></div>
+<div class="dl-sec"><h5>2 · 交互与联动</h5><ul class="dl-li"><li data-hl="#species2">点种类卡无响应：降饱和 + 「不可改」角标。</li><li data-hl="#v-breed2">点品种、绝育、毛色行无响应，行尾显示锁图标。</li><li data-hl="#nick3">昵称、体重、生日、性别与新增页规则一致。</li><li data-hl="#save3">点保存 toast 提示只提交可改字段，停留本页。</li></ul></div>
+<div class="dl-sec"><h5>3 · 数据来源与刷新</h5><ul class="dl-li"><li>进页面取一次详情，带回全部字段，锁定四项只用于展示。</li><li>保存 <code>PUT /v1/pets/{id}</code>，请求体只带五个可改键。</li><li>头像 <code>POST /v1/upload</code>，替换后随保存提交。</li></ul></div>
+<div class="dl-sec"><h5>4 · 字段取值逻辑</h5><p class="dl-chain">取数链路：一条记录来自 rc_user_pets 单行（id + 登录 uid）；锁定四项读出只展示，请求体剔除。</p><div class="dl-ftb"><span class="dl-ftb-cat">锁定展示（不提交）</span><code class="dl-ftb-tbl">rc_user_pets</code><span class="dl-ftb-join">按 id + user_id 单行</span></div><ul class="dl-ft"><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">种类</span><code class="dl-src">rc_user_pets.category</code></span><span class="dl-f2">1 猫 / 2 狗 / 3 异宠，映射到卡片选中态；只读，后端丢弃</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">品种</span><code class="dl-src">rc_user_pets.breed_name</code></span><span class="dl-f2">读冗余快照，字典改名不影响展示；只读，id 与 name 都丢弃</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">绝育情况</span><code class="dl-src">rc_user_pets.is_neutered</code></span><span class="dl-f2">0 未绝育 / 1 已绝育，渲染成文字；只读，不可回退</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">毛色</span><code class="dl-src">rc_user_pets.coat_color_id</code></span><span class="dl-f2">查字典取名展示；只读，后端丢弃</span></li></ul><div class="dl-ftb"><span class="dl-ftb-cat">可改（提交这五个键）</span><code class="dl-ftb-tbl">rc_user_pets</code><span class="dl-ftb-join">同上单行</span></div><ul class="dl-ft"><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">昵称</span><code class="dl-src">rc_user_pets.nickname</code></span><span class="dl-f2">行内输入 1–20 字；空则拦</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">生日</span><code class="dl-src">rc_user_pets.birthdate</code></span><span class="dl-f2">YYYY-MM-DD，不晚于今天；非法日期拦在本页</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">性别</span><code class="dl-src">rc_user_pets.sex</code></span><span class="dl-f2">0 弟弟 / 1 妹妹；单选，不可取消</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">体重</span><code class="dl-src">rc_user_pets.weight</code></span><span class="dl-f2">decimal(8,2)，kg；可空；填了 0.1–99.9</span></li><li class="dl-fitem"><span class="dl-f1"><span class="dl-fname">头像</span><code class="dl-src">rc_user_pets.avatar</code></span><span class="dl-f2">upload 返回的 url；可空</span></li></ul></div>
+<div class="dl-sec"><h5>5 · 判定逻辑</h5><ul class="dl-li"><li data-hl="#v-breed2"><span class="dl-cond">点锁定四行</span><span>→ 无反应，不弹提示</span></li><li><span class="dl-cond">昵称改空点保存</span><span>→ 昵称行描红 + toast，不提交</span></li><li data-hl="#weight3"><span class="dl-cond">体重格式非法</span><span>→ 体重行描红 + 格式提示，不提交</span></li><li><span class="dl-cond">只改体重点保存</span><span>→ 请求体只带 weight 一个键</span></li><li data-hl="#save3"><span class="dl-cond">什么都没改点保存</span><span>→ 允许，toast 提示，不产生脏写</span></li></ul></div>
+<div class="dl-sec"><h5>6 · 业务规则</h5><div class="dl-rule-group"><span class="dl-rtone is-hard">硬约束</span><ul class="dl-li"><li>种类、品种、绝育、毛色保存后不可改：前端只读，后端白名单剔除，不靠隐藏当边界。</li><li>本页不放删除入口：删除要满足无进行中预约。</li><li>改品种与绝育只走后台管理端，C 端无入口。</li></ul></div><div class="dl-rule-group"><span class="dl-rtone is-num">数值口径</span><ul class="dl-li"><li>昵称 1–20 字；生日不晚于今天；体重 0.1–99.9 kg 最多一位小数。</li></ul></div><div class="dl-rule-group"><span class="dl-rtone is-exc">例外与收敛</span><ul class="dl-li"><li>历史生日只有年月：按当月 01 日展示，不改则原值保留。</li><li>落库品种名与现字典不一致：以快照展示，不强行纠正。</li><li>体重为空的老档案：显示未记录，不显示 0.00。</li></ul></div><details class="dl-src"><summary>需求原文（节选）</summary><p><span class="dl-exh">§3.3 不可改的落地（节选）</span> 三层：前端只读（灰化加锁）/ 后端白名单丢弃 category、breed_id、breed_name、is_neutered、coat_color_id / 要改走后台。</p></details></div>
+<div class="dl-sec"><h5>7 · 状态与可操作</h5><div class="dl-st-row" data-to="locked"><span class="stn">锁定态</span><p><span class="dl-lab">看到</span>种类卡灰化保留选中色 + 「不可改」角标；品种、绝育、毛色置灰带锁；其余五项正常</p><p><span class="dl-lab">能做</span>改五项后保存；四项不可操作</p></div></div>
+</div></aside></div></div></section><section class="sh-panel" id="p-assets"><div class="sh-pad"><div class="fl-card"><h3 class="fl-h">切图与素材</h3><p class="fl-sub">三张种类卡来自原真机设计图整卡裁切（含浅底与 3D 插画），已 base64 内联，交付件不依赖任何外部文件。</p><div class="as-grid"><figure class="as-card"><img src="data:image/jpeg;base64,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" width="156" height="143" alt="猫 种类卡"><figcaption><span class="as-nm">猫</span><span class="as-sz">种类卡 · 原设计整卡裁切</span></figcaption></figure><figure class="as-card"><img src="data:image/jpeg;base64,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" width="156" height="143" alt="狗 种类卡"><figcaption><span class="as-nm">狗</span><span class="as-sz">种类卡 · 原设计整卡裁切</span></figcaption></figure><figure class="as-card"><img src="data:image/jpeg;base64,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" width="156" height="143" alt="异宠 种类卡"><figcaption><span class="as-nm">异宠</span><span class="as-sz">种类卡 · 原设计整卡裁切</span></figcaption></figure></div></div><div class="fl-card"><h3 class="fl-h">设计规范（tokens）</h3><p class="fl-sub">唯一事实源是 <code>02-ui-guide/tokens.css</code>，下表为交付件内联后的实际取值；主橙 #FF7F41 与母库 121 处一致，按钮用渐变 270deg #FF7F41→#FF6034。</p><div class="tk-grid"><div class="tk-row"><i class="tk-sw" style="background:var(--c-brand-500)"></i><span class="tk-nm">--c-brand-500</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-brand-600)"></i><span class="tk-nm">--c-brand-600</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-brand-100)"></i><span class="tk-nm">--c-brand-100</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-brand-050)"></i><span class="tk-nm">--c-brand-050</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-orange-700)"></i><span class="tk-nm">--c-orange-700</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-orange-800)"></i><span class="tk-nm">--c-orange-800</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-ink-900)"></i><span class="tk-nm">--c-ink-900</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-ink-600)"></i><span class="tk-nm">--c-ink-600</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-ink-400)"></i><span class="tk-nm">--c-ink-400</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-white)"></i><span class="tk-nm">--c-white</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-gray-050)"></i><span class="tk-nm">--c-gray-050</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-gray-100)"></i><span class="tk-nm">--c-gray-100</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-line-200)"></i><span class="tk-nm">--c-line-200</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-line-300)"></i><span class="tk-nm">--c-line-300</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-green-500)"></i><span class="tk-nm">--c-green-500</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-gold-500)"></i><span class="tk-nm">--c-gold-500</span></div><div class="tk-row"><i class="tk-sw" style="background:var(--c-red-500)"></i><span class="tk-nm">--c-red-500</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--fs-t1</span><span class="tk-v">18px</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--fs-t2</span><span class="tk-v">16px</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--fs-t3</span><span class="tk-v">14px</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--fs-t4</span><span class="tk-v">12px</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--fs-t5</span><span class="tk-v">11px</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--fs-t6</span><span class="tk-v">10px</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--radius-card</span><span class="tk-v">8px</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--radius-tag</span><span class="tk-v">4px</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--radius-sheet</span><span class="tk-v">12px</span></div><div class="tk-row"><i class="tk-sw tk-sw--none"></i><span class="tk-nm">--radius-pill</span><span class="tk-v">999px</span></div></div><div class="tk-demo"><span style="font-size:18px">18 页标题</span><span style="font-size:16px">16 区块</span><span style="font-size:14px">14 正文</span><span style="font-size:12px">12 辅助</span></div></div></div></section></main></div>
+<script>
+
+(function(){
+'use strict';
+var q=function(s,r){ return (r||document).querySelector(s); };
+var qa=function(s,r){ return [].slice.call((r||document).querySelectorAll(s)); };
+var BREEDS={1:['中华田园猫','英国短毛猫','美国短毛猫','布偶猫','暹罗猫','橘猫'],
+            2:['泰迪','柯基','柴犬','金毛','比熊','中华田园犬'],
+            3:['兔子','龙猫','仓鼠','乌龟','鹦鹉','其他']};
+var COLORS=['白色','黑色','灰色','橘色','棕白相间','花色','其他'];
+var REGIONS=[
+  {p:'北京市',cs:[{c:'北京市',ds:['朝阳区','海淀区','东城区','西城区']}]},
+  {p:'上海市',cs:[{c:'上海市',ds:['浦东新区','徐汇区','静安区']}]},
+  {p:'广东省',cs:[{c:'广州市',ds:['天河区','越秀区','番禺区']},{c:'深圳市',ds:['南山区','福田区','宝安区']}]},
+  {p:'浙江省',cs:[{c:'杭州市',ds:['西湖区','滨江区','余杭区']}]}
+];
+var YEARS=(function(){var a=[];for(var y=2026;y>=1990;y--)a.push(y);return a;})();
+var MONTHS=(function(){var a=[];for(var m=1;m<=12;m++)a.push(m);return a;})();
+function dim(y,m){ return new Date(y,m,0).getDate(); }
+function pad(n){ return n<10?'0'+n:''+n; }
+function mpOf(el){ return el.closest ? el.closest('.mp') : null; }
+
+function toast(mp,msg){
+  var t=q('.toast',mp); if(!t) return;
+  t.textContent=msg; t.hidden=false;
+  requestAnimationFrame(function(){ t.classList.add('is-on'); });
+  clearTimeout(t._t);
+  t._t=setTimeout(function(){ t.classList.remove('is-on'); setTimeout(function(){ t.hidden=true; },220); },1700);
+}
+function openSheet(mp,title,html,onOk){
+  q('.sheet-title',mp).textContent=title;
+  q('.sheet-body',mp).innerHTML=html;
+  var foot=q('.sheet-foot',mp);
+  if(onOk){
+    foot.hidden=false;
+    foot.innerHTML='<button type="button" class="btn-primary" data-ok>确定</button>';
+    q('[data-ok]',foot).onclick=function(){ if(onOk()!==false) closeSheet(mp); };
+  } else { foot.hidden=true; foot.innerHTML=''; }
+  var m=q('.mask',mp), sh=q('.sheet',mp);
+  m.hidden=false; sh.hidden=false;
+  requestAnimationFrame(function(){ m.classList.add('is-on'); sh.classList.add('is-on'); });
+}
+function closeSheet(mp){
+  var m=q('.mask',mp), sh=q('.sheet',mp);
+  m.classList.remove('is-on'); sh.classList.remove('is-on');
+  setTimeout(function(){ m.hidden=true; sh.hidden=true; },220);
+}
+function markRow(row,bad){ if(row) row.classList.toggle('has-err', !!bad); }
+function setVal(mp,id,text){
+  var el=q('#'+id,mp); if(!el) return;
+  el.textContent=text; el.classList.remove('is-empty');
+}
+
+/* ---------- 选择器 ---------- */
+function listSheet(mp,title,items,onPick){
+  var html='<div class="col list-col">'+items.map(function(v,i){
+    return '<button type="button" class="col-item list-item" data-i="'+i+'" aria-pressed="false">'+v+'</button>';
+  }).join('')+'</div>';
+  openSheet(mp,title,html,null);
+  q('.sheet-body',mp).onclick=function(e){
+    var b=e.target.closest('[data-i]'); if(!b) return;
+    onPick(items[+b.dataset.i]); closeSheet(mp);
+  };
+}
+
+function dateSheet(mp,targetId){
+  var st={y:1998,m:1,d:1};
+  var cur=q('#'+targetId,mp);
+  var mm=cur && cur.textContent.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if(mm){ st.y=+mm[1]; st.m=+mm[2]; st.d=+mm[3]; }
+  function colHTML(name,arr){
+    return '<div class="col" data-col="'+name+'">'+arr.map(function(v){
+      var lab = name==='y' ? v+' 年' : (pad(v)+' 日');
+      if(name==='m') lab = pad(v)+' 月';
+      return '<button type="button" class="col-item" data-v="'+v+'" aria-pressed="'+(v===st[name])+'">'+lab+'</button>';
+    }).join('')+'</div>';
+  }
+  function render(){
+    var days=(function(){var a=[];for(var d=1;d<=dim(st.y,st.m);d++)a.push(d);return a;})();
+    q('.sheet-body',mp).innerHTML='<div class="cols">'+colHTML('y',YEARS)+colHTML('m',MONTHS)+colHTML('d',days)+'</div>';
+    q('.sheet-body',mp).onclick=function(e){
+      var b=e.target.closest('.col-item'); if(!b) return;
+      var col=b.parentElement.dataset.col;
+      st[col]=+b.dataset.v;
+      if(st.d>dim(st.y,st.m)) st.d=dim(st.y,st.m);
+      render();
+    };
+  }
+  openSheet(mp,'选择日期', '', function(){
+    setVal(mp,targetId, st.y+'-'+pad(st.m)+'-'+pad(st.d));
+  });
+  render();
+}
+
+function regionSheet(mp){
+  var st={p:0,c:0,d:0};
+  function render(){
+    var prov=REGIONS.map(function(r,i){ return '<button type="button" class="col-item" data-k="p" data-v="'+i+'" aria-pressed="'+(i===st.p)+'">'+r.p+'</button>'; }).join('');
+    var city=REGIONS[st.p].cs.map(function(c,i){ return '<button type="button" class="col-item" data-k="c" data-v="'+i+'" aria-pressed="'+(i===st.c)+'">'+c.c+'</button>'; }).join('');
+    var ds=REGIONS[st.p].cs[st.c].ds.map(function(d,i){ return '<button type="button" class="col-item" data-k="d" data-v="'+i+'" aria-pressed="'+(i===st.d)+'">'+d+'</button>'; }).join('');
+    q('.sheet-body',mp).innerHTML='<div class="cols"><div class="col">'+prov+'</div><div class="col">'+city+'</div><div class="col">'+ds+'</div></div>';
+    q('.sheet-body',mp).onclick=function(e){
+      var b=e.target.closest('.col-item'); if(!b) return;
+      var k=b.dataset.k, v=+b.dataset.v;
+      if(k==='p'){ st.p=v; st.c=0; st.d=0; }
+      if(k==='c'){ st.c=v; st.d=0; }
+      if(k==='d'){ st.d=v; }
+      render();
+    };
+  }
+  openSheet(mp,'选择所在地','',function(){
+    var r=REGIONS[st.p], c=r.cs[st.c];
+    setVal(mp,'v-region', r.p+'·'+c.c+'·'+c.ds[st.d]);
+  });
+  render();
+}
+
+function avatarSheet(mp,boxId){
+  listSheet(mp,'更换头像',['使用微信头像','从相册选择','拍照'],function(v){
+    var box=q('#'+boxId,mp); if(!box) return;
+    if(v!=='拍照'){ box.classList.add('is-set'); box.innerHTML='<span class="av-txt">樊</span>'; toast(mp,'已使用微信头像'); }
+    else { box.classList.add('is-set'); box.innerHTML='<span class="av-txt">新</span>'; toast(mp,'已拍照（演示）'); }
+  });
+}
+
+/* ---------- 全局事件 ---------- */
+document.addEventListener('click', function(e){
+  var close=e.target.closest('[data-close]');
+  if(close){ var m1=mpOf(close); if(m1) closeSheet(m1); return; }
+  var pick=e.target.closest('[data-pick]');
+  if(pick){
+    var mp=mpOf(pick), grp=pick.dataset.pick;
+    qa('[data-pick="'+grp+'"]',mp).forEach(function(b){ b.setAttribute('aria-pressed', String(b===pick)); });
+    return;
+  }
+  var open=e.target.closest('[data-open]');
+  if(!open) return;
+  var m2=mpOf(open); if(!m2) return;
+  var kind=open.dataset.open, tgt=open.dataset.target;
+  var map={birth:'v-birth', firstpet:'v-firstpet', pbirth:'v-pbirth', pbirth3:'v-pbirth3'};
+  if(kind==='none'){
+    if(m2.id==='mp1' && !m2._nameSaved){ q('#nameInput',m2).focus(); }
+    return;
+  }
+  if(kind==='locked') return;
+  if(kind==='avatar' || kind==='petavatar'){ avatarSheet(m2, kind==='avatar'?'av1':'av2'); return; }
+  if(kind==='date'){ dateSheet(m2, map[tgt]||'v-birth'); return; }
+  if(kind==='region'){ regionSheet(m2); return; }
+  if(kind==='breed'){
+    var sp=m2._sp;
+    if(!sp){ toast(m2,'请先选择种类'); return; }
+    listSheet(m2,'选择品种',BREEDS[sp],function(v){
+      setVal(m2,'v-breed2',v); markRow(q('#rowBreed2',m2),false);
+    });
+    return;
+  }
+  if(kind==='color'){
+    listSheet(m2,'选择毛色',COLORS,function(v){ setVal(m2,'v-color2',v); });
+    return;
+  }
+});
+
+/* ---------- P-01 个人资料 ---------- */
+(function(){
+  var mp=q('#mp1'); if(!mp) return;
+  var nameInput=q('#nameInput',mp), rowName=q('#rowName',mp), addrInput=q('#addrInput',mp);
+
+  nameInput.addEventListener('input', function(){ markRow(rowName,false); });
+
+  q('#locBtn',mp).onclick=function(){
+    setVal(mp,'v-region','北京市·北京市·朝阳区');
+    addrInput.value='建国路 88 号 SOHO 现代城 A 座 1201';
+    toast(mp,'已按当前位置带出省市区，请补充门牌号');
+  };
+
+  var tipText=q('#tipText',mp);
+  function skip(){
+    tipText.textContent='已跳过，可在「我的 - 个人资料」随时完善';
+    q('#skipWrap',mp).hidden=true;
+    toast(mp,'已跳过，资料可随时完善');
+  }
+  q('#skipTip',mp).onclick=skip;
+  q('#skipBtn',mp).onclick=skip;
+
+  q('#save1',mp).onclick=function(){
+    var v=nameInput.value.trim();
+    if(!v){ markRow(rowName,true); toast(mp,'请先填写姓名'); nameInput.focus(); return; }
+    markRow(rowName,false);
+    if(!mp._nameSaved){
+      mp._nameSaved=true;
+      nameInput.readOnly=true;
+      rowName.dataset.open='locked';
+      rowName.classList.remove('is-link');
+      var chev=q('#nameChev',mp);
+      if(chev && chev.querySelector('use')) chev.querySelector('use').setAttribute('href','#i-lock');
+      q('#tip1',mp).hidden=true;
+      q('#skipWrap',mp).hidden=true;
+      mp.dataset.state='nameLocked';
+    }
+    toast(mp,'保存成功');
+  };
+})();
+
+/* ---------- P-02 添加萌宠 ---------- */
+(function(){
+  var mp=q('#mp2'); if(!mp) return;
+  var sp=q('#species2',mp);
+  sp.addEventListener('click', function(e){
+    var b=e.target.closest('[data-sp]'); if(!b) return;
+    mp._sp=+b.dataset.sp;
+    qa('[data-sp]',sp).forEach(function(c){
+      var on = c===b;
+      c.setAttribute('aria-pressed', String(on));
+      var badge=q('.sp-badge',c); if(badge) badge.hidden=!on;
+    });
+    setVal(mp,'v-breed2','请选择');
+    q('#v-breed2',mp).classList.add('is-empty');
+    markRow(q('#rowBreed2',mp),false);
+  });
+
+  var w=q('#weight2',mp);
+  w.addEventListener('input', function(){ markRow(q('#rowWeight2',mp),false); });
+
+  q('#save2',mp).onclick=function(){
+    var miss=[];
+    var breedEmpty=q('#v-breed2',mp).classList.contains('is-empty');
+    markRow(q('#rowBreed2',mp),breedEmpty);
+    if(breedEmpty) miss.push('品种');
+
+    var nick=q('#nick2',mp), nickBad=!nick.value.trim();
+    markRow(q('#rowNick2',mp),nickBad);
+    if(nickBad) miss.push('昵称');
+
+    var birthBad=q('#v-pbirth',mp).classList.contains('is-empty');
+    markRow(q('#rowBirth2',mp),birthBad);
+    if(birthBad) miss.push('生日');
+
+    var sexOn=q('[data-pick="psex"][aria-pressed="true"]',mp);
+    markRow(q('#rowSex2',mp),!sexOn);
+    if(!sexOn) miss.push('性别');
+
+    var neutOn=q('[data-pick="neut"][aria-pressed="true"]',mp);
+    markRow(q('#rowNeuter2',mp),!neutOn);
+    if(!neutOn) miss.push('绝育情况');
+
+    var wv=w.value.trim(), wBad=false;
+    if(wv!==''){ wBad = !(/^\d{1,2}(\.\d)?$/.test(wv)) || +wv<=0 || +wv>=100; }
+    markRow(q('#rowWeight2',mp),wBad);
+    if(wBad){ toast(mp,'体重填 0.1–99.9，最多 1 位小数'); return; }
+
+    if(miss.length){ toast(mp,'还有 '+miss.length+' 项未填写：'+miss.join('、')); return; }
+    toast(mp,'保存成功');
+  };
+})();
+
+/* ---------- P-03 编辑宠物（锁定态） ---------- */
+(function(){
+  var mp=q('#mp3'); if(!mp) return;
+  q('#save3',mp).onclick=function(){ toast(mp,'已保存（只提交可改字段）'); };
+})();
+})();
+
+</script>
+<script>
+/* 流程4 交互：页签 / 页面 × 状态双向联动 / 规则高亮 / 流程图点跳 / 深链 */
+(function () {
+  'use strict';
+
+  var q = function (s, r) { return (r || document).querySelector(s); };
+  var qa = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
+
+  var TABS = {};                 // 从 DOM 现取，不写死
+  qa('.sh-tab[data-panel]').forEach(function (b) { TABS[b.dataset.panel] = 1; });
+  var DEND = 'p-end-mp';         // 本件唯一的端
+  var CUR = { panel: '', page: '', state: '' };
+
+  /* ---------- 状态复位与应用（复用流程3 页内逻辑，不重写业务） ---------- */
+  function mp1Reset() {
+    var mp = q('#mp1'); if (!mp) return;
+    mp._nameSaved = false; mp.dataset.state = 'new';
+    var ni = q('#nameInput', mp); ni.value = ''; ni.readOnly = false;
+    var rn = q('#rowName', mp); rn.dataset.open = 'none'; rn.classList.remove('has-err');
+    if (!rn.classList.contains('is-link')) rn.classList.add('is-link');
+    var ch = q('#nameChev', mp);
+    if (ch && ch.querySelector('use')) ch.querySelector('use').setAttribute('href', '#i-chev');
+    q('#tip1', mp).hidden = false;
+    q('#tipText', mp).textContent = '完善资料，让我们更好地服务你和毛孩子';
+    q('#skipWrap', mp).hidden = false;
+    q('#toast1', mp).hidden = true;
+  }
+  function mp2Reset() {
+    var mp = q('#mp2'); if (!mp) return;
+    mp.dataset.state = 'default';
+    [['v-breed2'], ['v-pbirth'], ['v-color2']].forEach(function (a) {
+      var el = q('#' + a[0], mp); if (!el) return;
+      el.textContent = '请选择'; el.classList.add('is-empty');
+    });
+    var n = q('#nick2', mp); if (n) n.value = '';
+    var w = q('#weight2', mp); if (w) w.value = '';
+    qa('.row', mp).forEach(function (r) { r.classList.remove('has-err'); });
+    qa('[data-pick]', mp).forEach(function (p) { p.setAttribute('aria-pressed', 'false'); });
+    qa('.sp-badge', mp).forEach(function (b) { b.hidden = true; });
+    qa('[data-sp]', mp).forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+    mp._sp = 0;
+    q('#toast2', mp).hidden = true;
+  }
+  function applyState(page, st) {
+    if (page === 'mp-profile') {
+      mp1Reset();
+      var mp1 = q('#mp1');
+      if (st === 'nameEmpty') { q('#save1', mp1).click(); }
+      else if (st === 'nameLocked') {
+        q('#nameInput', mp1).value = '樊雨';
+        q('#save1', mp1).click();
+      } else if (st === 'skip') { q('#skipBtn', mp1).click(); }
+    } else if (page === 'mp-pet-add') {
+      mp2Reset();
+      var mp2 = q('#mp2');
+      if (st === 'error') { q('#save2', mp2).click(); }
+      else if (st === 'saved') {
+        var b = q('#v-breed2', mp2); b.textContent = '英国短毛猫'; b.classList.remove('is-empty');
+        q('#nick2', mp2).value = '奶糖';
+        q('#weight2', mp2).value = '4.2';
+        var pb = q('#v-pbirth', mp2); pb.textContent = '2023-04-18'; pb.classList.remove('is-empty');
+        var cl = q('#v-color2', mp2); cl.textContent = '蓝白'; cl.classList.remove('is-empty');
+        q('[data-pick="psex"][data-v="0"]', mp2).setAttribute('aria-pressed', 'true');
+        q('[data-pick="neut"][data-v="1"]', mp2).setAttribute('aria-pressed', 'true');
+        q('#save2', mp2).click();
+      }
+    }
+  }
+
+  /* ---------- 页面 / 状态 / 文档 三处同步 ---------- */
+  function selectPage(pid, st, quiet) {
+    var wrap = q('.dl-pagewrap[data-page="' + pid + '"]');
+    if (!wrap) return;
+    qa('.dl-pagewrap').forEach(function (w) { w.classList.toggle('is-on', w === wrap); });
+    qa('.dl-chip[data-page]').forEach(function (c) { c.classList.toggle('is-on', c.dataset.page === pid); });
+    qa('.dl-docset').forEach(function (d) { d.classList.toggle('is-on', d.dataset.page === pid); });
+    CUR.page = pid;
+    var states = qa('.dl-stbtn', wrap).map(function (b) { return b.dataset.st; });
+    var target = st && states.indexOf(st) >= 0 ? st : states[0];
+    setState(pid, target, quiet);
+    if (!quiet) {
+      var doc = q('.dl-doc');
+      if (doc) doc.scrollTop = 0;
+    }
+    writeHash();
+  }
+  function setState(pid, st, quiet) {
+    var wrap = q('.dl-pagewrap[data-page="' + pid + '"]');
+    if (!wrap) return;
+    CUR.state = st;
+    qa('.dl-stbtn', wrap).forEach(function (b) { b.classList.toggle('is-on', b.dataset.st === st); });
+    applyState(pid, st);
+    var docset = q('.dl-docset[data-page="' + pid + '"]');
+    if (docset) {
+      qa('.dl-st-row', docset).forEach(function (r) {
+        var on = r.dataset.to === st;
+        r.classList.toggle('is-on', on);
+        if (on && !quiet) r.scrollIntoView({ block: 'nearest' });
+      });
+    }
+    writeHash();
+  }
+
+  /* ---------- 深链 ---------- */
+  function writeHash() {
+    if (!CUR.panel) return;
+    var h = '#' + CUR.panel;
+    if (CUR.panel === DEND && CUR.page) {
+      h += '/' + CUR.page;
+      var first = q('.dl-pagewrap[data-page="' + CUR.page + '"] .dl-stbtn');
+      if (CUR.state && first && CUR.state !== first.dataset.st) h += '/' + CUR.state;
+    }
+    if (location.hash !== h) history.replaceState(null, '', h);
+  }
+  function readHash() {
+    var raw = (location.hash || '').replace(/^#/, '');
+    if (!raw) return { panel: 'p-flow' };
+    var p = raw.split('/');
+    return { panel: p[0], page: p[1] || '', state: p[2] || '' };
+  }
+
+  function showTab(id, quiet) {
+    if (!TABS[id]) id = 'p-flow';
+    qa('.sh-panel').forEach(function (p) { p.classList.toggle('is-on', p.id === id); });
+    qa('.sh-tab[data-panel]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.panel === id); });
+    CUR.panel = id;
+    if (id === DEND) {
+      var pid = CUR.page || q('.dl-chip[data-page]').dataset.page;
+      selectPage(pid, CUR.state, true);
+    }
+    if (!quiet) window.scrollTo({ top: 0 });
+    writeHash();
+  }
+
+  /* ---------- 事件 ---------- */
+  document.addEventListener('click', function (e) {
+    var tab = e.target.closest('.sh-tab');
+    if (tab) { CUR.page = ''; CUR.state = ''; showTab(tab.dataset.panel); return; }
+
+    var chip = e.target.closest('.dl-chip');
+    if (chip) { selectPage(chip.dataset.page); return; }
+
+    var stb = e.target.closest('.dl-stbtn');
+    if (stb) { setState(stb.closest('.dl-pagewrap').dataset.page, stb.dataset.st); return; }
+
+    var strow = e.target.closest('.dl-st-row');
+    if (strow) { setState(strow.closest('.dl-docset').dataset.page, strow.dataset.to); return; }
+
+    var rule = e.target.closest('.dl-rule[data-hl]');
+    if (rule) {
+      var host = q('.dl-pagewrap[data-page="' + rule.closest('.dl-docset').dataset.page + '"]');
+      var el = host && host.querySelector(rule.dataset.hl);
+      if (el) {
+        el.classList.add('dl-hl');
+        el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        setTimeout(function () { el.classList.remove('dl-hl'); }, 1200);
+      }
+      return;
+    }
+
+    var node = e.target.closest('.fl-node');
+    if (node) {
+      var page = node.dataset.page;
+      if (!page) return;
+      CUR.page = page; CUR.state = '';
+      showTab(DEND);
+      return;
+    }
+
+    var vw = e.target.closest('.dl-view button');
+    if (vw) {
+      var stage = vw.closest('.dl-stage');
+      var all = vw.dataset.view === 'all';
+      qa('.dl-pagewrap', stage).forEach(function (w) {
+        w.style.display = all ? 'block' : '';
+        w.classList.toggle('is-on', all || w.dataset.page === CUR.page);
+      });
+      qa('.dl-view button', stage).forEach(function (b) { b.classList.toggle('is-on', b === vw); });
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if ((e.key === 'Enter' || e.key === ' ') && t.matches && t.matches('.fl-node,[data-to],.dl-chip')) {
+      e.preventDefault(); t.click();
+    }
+    if (e.key === 'Escape') {
+      var open = q('.sheet:not([hidden])');
+      if (open) { var c = q('.sheet-cancel', open); if (c) c.click(); }
+    }
+  });
+
+  window.addEventListener('hashchange', function () {
+    var r = readHash();
+    CUR.page = r.page; CUR.state = r.state;
+    showTab(r.panel, true);
+    if (r.panel === DEND && r.page) selectPage(r.page, r.state, true);
+  });
+
+  /* ---------- 启动 ---------- */
+  var r0 = readHash();
+  if (r0.panel === DEND) { CUR.page = r0.page; CUR.state = r0.state; }
+  showTab(r0.panel, true);
+  if (r0.panel === DEND) selectPage(r0.page || 'mp-profile', r0.state, true);
+  else { CUR.page = 'mp-profile'; selectPage('mp-profile', '', true); CUR.panel = r0.panel; writeHash(); }
+})();
+
+</script>
+
+<!-- ============ OpenGate 访问门禁 (自动注入, 请勿手改) ============ -->
+<div id="ov-gate" style="position:fixed;inset:0;z-index:2147483647;background:
+  radial-gradient(1200px 600px at 20% 0%, #1e2a44, #0d1117 60%);display:flex;
+  align-items:center;justify-content:center;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;">
+  <div style="width:340px;max-width:88vw;background:#161b22;border:1px solid #30363d;
+    border-radius:14px;padding:28px 26px;color:#e6edf3;box-shadow:0 18px 60px rgba(0,0,0,.55)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span id="ov-title" style="font-size:16px;font-weight:600">访问保护</span>
+    </div>
+    <p style="font-size:13px;color:#8b949e;margin:0 0 18px">此内容受密码保护, 请输入访问密码后查看。</p>
+    <form id="ov-gate-form">
+      <input type="password" id="ov-pw" placeholder="访问密码" autocomplete="off"
+        style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #30363d;
+        background:#0d1117;color:#e6edf3;border-radius:8px;font-size:14px;outline:none">
+      <div id="ov-err" style="display:none;color:#f85149;font-size:12px;margin-top:8px">密码不正确, 请重试。若确认密码无误, 请强制刷新 (Ctrl+Shift+R) —— 你当前打开的可能是缓存的旧版页面。
+        <div id="ov-errinfo" style="margin-top:4px;color:#8b949e;font-size:11px"></div></div>
+      <button type="submit" id="ov-submit" style="margin-top:12px;width:100%;padding:10px;
+        background:#238636;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">
+        进 入</button>
+    </form>
+    <div id="ov-lockrow" style="display:none;margin-top:14px;text-align:center">
+      <button id="ov-lock" style="background:none;border:none;color:#8b949e;font-size:12px;cursor:pointer">
+        锁定并关闭当前访问
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const GATE = {"salt": "75f8a809a1dd179960162802050b0a42", "hash": "73e7542fbb6f6b256f90b6e43dd16d6e384a46bef6164f72e32b5c5360a70467", "algo": "sha256-salt-pipe"};
+  const TITLE = "瑞辰宠医 · 小程序资料与宠物新增";
+  const KEY = "ov_unlocked";
+  const gate = document.getElementById("ov-gate");
+  document.getElementById("ov-title").textContent = TITLE + " · 访问保护";
+  function bufToHex(b){return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+  function showUnlocked(){gate.style.display="none";const lr=document.getElementById("ov-lockrow");if(lr)lr.style.display="block";}
+  async function check(pw){
+    try{
+      if(!window.crypto||!crypto.subtle){return false;}
+      const out=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(GATE.salt+"|"+pw));
+      return bufToHex(out)===GATE.hash;
+    }catch(err){return false;}
+  }
+  if(sessionStorage.getItem(KEY)){showUnlocked();return;}
+  document.getElementById("ov-gate-form").addEventListener("submit",async e=>{
+    e.preventDefault();
+    const pw=document.getElementById("ov-pw").value.trim();
+    const btn=document.getElementById("ov-submit");btn.disabled=true;btn.textContent="验证中…";
+    const ok=await check(pw);
+    if(ok){sessionStorage.setItem(KEY,"1");showUnlocked();document.dispatchEvent(new Event("ov-unlocked"));}
+    else{
+      btn.disabled=false;btn.textContent="进 入";
+      const er=document.getElementById("ov-err");er.style.display="block";
+      const ei=document.getElementById("ov-errinfo");if(ei)ei.textContent="本页校验基线 "+GATE.hash.slice(0,12)+"… (页面版本若与最新不符, 强刷即可)";
+      document.getElementById("ov-pw").select();
+    }
+  });
+  const lb=document.getElementById("ov-lock");
+  if(lb)lb.onclick=function(){sessionStorage.removeItem(KEY);location.href="/";location.reload();};
+})();
+</script>
+<!-- ============ /OpenGate -->
+
+</body></html>
