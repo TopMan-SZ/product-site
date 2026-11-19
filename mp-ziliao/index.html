@@ -1290,7 +1290,7 @@ document.addEventListener('click', function(e){
     var strow = e.target.closest('.dl-st-row');
     if (strow) { setState(strow.closest('.dl-docset').dataset.page, strow.dataset.to); return; }
 
-    var rule = e.target.closest('.dl-rule[data-hl]');
+    var rule = e.target.closest('[data-hl]');
     if (rule) {
       var host = q('.dl-pagewrap[data-page="' + rule.closest('.dl-docset').dataset.page + '"]');
       var el = host && host.querySelector(rule.dataset.hl);
@@ -1302,7 +1302,7 @@ document.addEventListener('click', function(e){
       return;
     }
 
-    var node = e.target.closest('.fl-node');
+    var node = e.target.closest('.fd-node');
     if (node) {
       var page = node.dataset.page;
       if (!page) return;
